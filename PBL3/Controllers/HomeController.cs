@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PBL3.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,8 @@ namespace PBL3.Controllers
     {
         public ActionResult Index()
         {
+            ShopOnlineDbContext context = new ShopOnlineDbContext();
+            context.Database.EnsureCreated();
             return View();
         }
 

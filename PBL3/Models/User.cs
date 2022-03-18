@@ -28,5 +28,7 @@ namespace PBL3.Models
         public DateTime UpdatedAt { get; set; }
 
         public Role Role { get; set; }
+        public List<Order> Orders { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }

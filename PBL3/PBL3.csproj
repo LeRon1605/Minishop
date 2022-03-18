@@ -233,11 +233,21 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\CartProduct.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductDetail.cs" />
+    <Compile Include="Models\ProductOrder.cs" />
+    <Compile Include="Models\ProductVoucher.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\ShopOnlineDbContext.cs" />
+    <Compile Include="Models\State.cs" />
+    <Compile Include="Models\StateOrder.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Voucher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
