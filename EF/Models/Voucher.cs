@@ -5,8 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace PBL3.Models
-{
+namespace EF.Models
+{     
     public class Voucher
     {
         [Key]
