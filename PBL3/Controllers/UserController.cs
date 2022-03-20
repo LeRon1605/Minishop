@@ -37,12 +37,12 @@ namespace PBL3.Controllers
                 if (user != null)
                 {
                     Session["USER"] = user;
-                    TempData["Message"] = "Đăng nhập thành công";
+                    // TempData["Message"] = "Đăng nhập thành công";
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    TempData["Message"] = "Sai thông tin";
+                    TempData["Message"] = "Tài khoản hoặc mật khẩu không đúng";
                     return View("Login");
                 }
             }
@@ -50,6 +50,11 @@ namespace PBL3.Controllers
             {
                 return RedirectToAction("Index", "Home"); 
             }  
+        }
+        public ActionResult Logout()
+        {
+            Session["USER"] = null;
+            return RedirectToAction("Index", "Home");
         }
         [HttpGet]
         public ActionResult Register()
@@ -160,11 +165,6 @@ namespace PBL3.Controllers
                 TempData["Message"] = "Mã không đúng";
                 return RedirectToAction("ActivateAccount");
             }
-        }
-
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            base.OnActionExecuting(filterContext);
         }
     }
 }

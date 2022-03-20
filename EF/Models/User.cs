@@ -23,18 +23,26 @@ namespace EF.Models
         public string Address { get; set; }
         [DisplayName("Giới tính")]
         [Required(ErrorMessage = "Giới tính không được để trống")]
+        [RegularExpression("Nam|Nữ", ErrorMessage = "Invalid Status")]
         public string Gender { get; set; }
+        [DisplayName("Ngày sinh")]
+        [Required(ErrorMessage = "Ngày sinh không được để trống")]
         public DateTime Birth { get; set; }
 
         [DataType(DataType.PhoneNumber)]
         [Phone]
+        [DisplayName("Số điện thoại")]
+        [Required(ErrorMessage = "Số điện thoại không được để trống")]
         public string Phone { get; set; }
 
+        [DisplayName("Địa chỉ Email")]
         [DataType(DataType.EmailAddress)]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Địa chỉ Email không hợp lệ")]
+        [Required(ErrorMessage = "Email không được để trống")]
         public string Email { get; set; }
 
-        
+        [Required(ErrorMessage = "Email không được để trống")]
+        [StringLength(32, MinimumLength = 8, ErrorMessage = "Mật khẩu có độ dài từ 8 - 32")]
         public string Password { get; set; }
         public bool isActivated { get; set; }
         public DateTime CreatedAt { get; set; }
