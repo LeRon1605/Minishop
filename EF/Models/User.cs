@@ -27,7 +27,7 @@ namespace EF.Models
         public string Gender { get; set; }
         [DisplayName("Ngày sinh")]
         [Required(ErrorMessage = "Ngày sinh không được để trống")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        // [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Birth { get; set; }
 
         [DataType(DataType.PhoneNumber)]
