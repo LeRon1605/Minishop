@@ -110,34 +110,9 @@ namespace PBL3.Controllers
                     ActivateAccountModel data = Session["ActivateAccount"] as ActivateAccountModel;
                     if (data == null)
                     {
-                        string key = new Random().Next(1000, 9999).ToString();
-                        Session["ActivateAccount"] = new ActivateAccountModel
-                        {
-                            AccountID = user.ID,
-                            Key = key,
-                            Date = DateTime.Now
-                        };
-                        await Mail.SendMail(user.Email, "Kích hoạt tài khoản", Mail.GetMailContent(new string[] { key }));
+                        await SendActiveKey(user.ID, user.Email);
                     }
-                    else
-                    {
-                        if (data.Date.AddMinutes(3) > DateTime.Now)
-                        {
-                            TempData["Message"] = "Mỗi lần gửi cách nhau 3 phút";
-                        }
-                        else
-                        {
-                            string key = new Random().Next(1000, 9999).ToString();
-                            Session["ActivateAccount"] = new ActivateAccountModel
-                            {
-                                AccountID = user.ID,
-                                Key = key,
-                                Date = DateTime.Now
-                            };
-                            await Mail.SendMail(user.Email, "Kích hoạt tài khoản", Mail.GetMailContent(new string[] { key }));
-                        }
-                    }
-                    return View();
+                    return View((ActivateAccountModel)Session["ActivateAccount"]);
                 }
             }
         }
@@ -150,7 +125,7 @@ namespace PBL3.Controllers
             {
                 if (DateTime.Now < data.Date.AddMinutes(3))
                 {
-                    await new UserDAO().Activate(data.AccountID);
+                    await new UserDAO().Activate(data.userID);
                     TempData["Message"] = "Kích hoạt thành công";
                     return RedirectToAction("Index", "Home");
                 }
@@ -165,6 +140,61 @@ namespace PBL3.Controllers
                 TempData["Message"] = "Mã không đúng";
                 return RedirectToAction("ActivateAccount");
             }
+        }
+        public async Task<ActionResult> SendActiveKey(int userID, string userEmail)
+        {
+            ActivateAccountModel data = Session["ActivateAccount"] as ActivateAccountModel;
+            if (data == null)
+            {
+                string key = new Random().Next(1000, 9999).ToString();
+                Session["ActivateAccount"] = new ActivateAccountModel
+                {
+                    userID = userID,
+                    Key = key,
+                    userEmail = userEmail,
+                    Date = DateTime.Now
+                };
+                await Mail.SendMail(userEmail, "Kích hoạt tài khoản", Mail.GetMailContent(new string[] { key }));
+                return new JsonResult { 
+                    Data = new
+                    {
+                        message = "Gửi thành công"
+                    }
+                };
+            }
+            else
+            {
+                if (data.Date.AddMinutes(3) > DateTime.Now)
+                {
+                    return new JsonResult
+                    {
+                        Data = new
+                        {
+                            message = "Mỗi lần gửi cách nhau 3 phút"
+                        }
+                    };
+                }
+                else
+                {
+                    string key = new Random().Next(1000, 9999).ToString();
+                    Session["ActivateAccount"] = new ActivateAccountModel
+                    {
+                        userID = userID,
+                        Key = key,
+                        userEmail = userEmail,
+                        Date = DateTime.Now
+                    };
+                    await Mail.SendMail(userEmail, "Kích hoạt tài khoản", Mail.GetMailContent(new string[] { key }));
+                    return new JsonResult
+                    {
+                        Data = new
+                        {
+                            message = "Gửi thành công"
+                        }
+                    };
+                }
+            }
+
         }
     }
 }

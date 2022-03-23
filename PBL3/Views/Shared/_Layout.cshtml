@@ -1,100 +1,71 @@
-﻿<!DOCTYPE html>
-<html>
+﻿<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
-
-    <link rel="stylesheet" href="/public/css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="/public/css/animate.css">
-
-    <link rel="stylesheet" href="/public/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="/public/css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="/public/css/magnific-popup.css">
-
-    <link rel="stylesheet" href="/public/css/aos.css">
-
-    <link rel="stylesheet" href="/public/css/ionicons.min.css">
-
-    <link rel="stylesheet" href="/public/css/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="/public/css/jquery.timepicker.css">
-
-
-    <link rel="stylesheet" href="/public/css/flaticon.css">
-    <link rel="stylesheet" href="/public/css/icomoon.css">
-    <link rel="stylesheet" href="/public/css/style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello, world!</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/bootstrap.css"/>
 </head>
-<body class="goto-here">
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-        <div class="container d-flex">
-            @Html.ActionLink("Minishop", "Index", "Home", null, new { @class = "navbar-brand" });
-            <div class="input-group justify-content-center">
-                <input type="text" class="border-0 rounded-left p-2" placeholder="Type something" aria-label="Username" aria-describedby="addon-wrapping">
-                <button class="btn btn-success rounded-0">Search</button>
-            </div>
-            <div class="collapse navbar-collapse" id="ftco-nav">
-                <ul class="navbar-nav ml-auto d-flex justify-content-center align-items-center">
-                    <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalog</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown04">
-                            <a class="dropdown-item" href="shop.html">Shop</a>
-                            <a class="dropdown-item" href="product-single.html">Single Product</a>
-                            <a class="dropdown-item" href="cart.html">Cart</a>
-                            <a class="dropdown-item" href="checkout.html">Checkout</a>
-                        </div>
-                    </li>
-                    <li class="nav-item d-flex align-items-center justify-content-center">
-                        <a class="nav-link">
-                            <span class="icon-shopping_cart"></span>
-                        </a>
-                        @if (Session["User"] == null)
-                        {
-                            @Html.ActionLink("Login", "Login", "User", null, new { @class = "rounded-0 nav-link" });
-                            <span>|</span>
-                            @Html.ActionLink("Register", "Register", "User", null, new { @class = "rounded-0 nav-link" });
-                        }
-                    </li>
-                    @if (Session["User"] != null)
-                    {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://avatars.mds.yandex.net/i?id=84dbd50839c3d640ebfc0de20994c30d-4473719-images-taas-consumers&n=27&h=480&w=480" class="img-fluid rounded-circle" style="width:40%;">
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                                <li>
-                                    @Html.ActionLink("Tài khoản", "Index", "User", null, new { @class = "dropdown-item" });
-                                </li>
-                                <li>
-                                    @Html.ActionLink("Đăng xuất", "Logout", "User", null, new { @class = "dropdown-item" });
-                                </li>
-                            </ul>
-                        </li>
-                    }
-                </ul>
-            </div>
+<body>
+    <header class="container-fluid p-3 d-flex justify-content-around align-items-center bg-light">
+        <div class="navbar-brand">
+            @Html.ActionLink("Minishop", "Index", new { controller = "Home" }, new { @class = "text-decoration-none" })
         </div>
-    </nav>
-    
+        <div class="d-flex">
+            <input type="" name="" class="rounded-start rounded-0 form-control">
+            <button class="btn btn-primary rounded-0">Search</button>
+        </div>
+        <div class="navbar-nav p-1 d-sm-none d-flex">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#">Category</a></li>
+                    <li><a class="dropdown-item" href="#">Cart</a></li>
+
+                    <li><a class="dropdown-item" href="#">Login</a></li>
+                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                </ul>
+            </li>
+        </div>
+        <div class="d-none d-sm-flex">
+            <a href="" class="p-2 text-decoration-none">Home</a>
+            <a href="" class="p-2 text-decoration-none">Category</a>
+            <a href="" class="p-2 text-decoration-none">Cart</a>
+            @if (Session["User"] == null)
+            {
+                @Html.ActionLink("Đăng nhập", "Login", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
+                @Html.ActionLink("Đăng kí", "Register", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
+            }
+            else
+            {
+                @Html.ActionLink("User name", "Register", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
+                @Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
+            }
+        </div>
+    </header>
+
     @RenderBody()
 
-    <script src="/public/js/jquery.min.js"></script>
-    <script src="/public/js/jquery-migrate-3.0.1.min.js"></script>
-    <script src="/public/js/popper.min.js"></script>
-    <script src="/public/js/bootstrap.min.js"></script>
-    <script src="/public/js/jquery.easing.1.3.js"></script>
-    <script src="/public/js/jquery.waypoints.min.js"></script>
-    <script src="/public/js/jquery.stellar.min.js"></script>
-    <script src="/public/js/owl.carousel.min.js"></script>
-    <script src="/public/js/jquery.magnific-popup.min.js"></script>
-    <script src="/public/js/aos.js"></script>
-    <script src="/public/js/jquery.animateNumber.min.js"></script>
-    <script src="/public/js/bootstrap-datepicker.js"></script>
-    <script src="/public/js/scrollax.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-    <script src="/public/js/google-map.js"></script>
-    <script src="/public/js/main.js"></script>
+    <footer class="ftco-footer ftco-bg-dark ftco-section bg-light">
+        <div class="container">
+            <hr>
+            <div class="d-flex justify-content-around">
+                <a href="" class="text-decoration-none">Test</a>
+                <a href="" class="text-decoration-none">Test</a>
+                <a href="" class="text-decoration-none">Test</a>
+                <a href="" class="text-decoration-none">Test</a>
+                <a href="" class="text-decoration-none">Test</a>
+                <a href="" class="text-decoration-none">Test</a>
+            </div>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstap")
     @RenderSection("scripts", required: false)
 </body>
 </html>

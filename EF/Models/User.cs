@@ -14,7 +14,7 @@ namespace EF.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-        [DisplayName("Tên người dùng")]
+        [DisplayName("Họ và tên")]
         [StringLength(50, MinimumLength = 10, ErrorMessage = "Tên người dùng phải có độ dài từ 10 - 50")]
         [Required(ErrorMessage = "Tên người dùng không được để trống")]
         public string Name { get; set; }
@@ -27,6 +27,7 @@ namespace EF.Models
         public string Gender { get; set; }
         [DisplayName("Ngày sinh")]
         [Required(ErrorMessage = "Ngày sinh không được để trống")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Birth { get; set; }
 
         [DataType(DataType.PhoneNumber)]
@@ -42,6 +43,7 @@ namespace EF.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Email không được để trống")]
+        [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "Mật khẩu chỉ chứa kí tự")]
         [StringLength(32, MinimumLength = 8, ErrorMessage = "Mật khẩu có độ dài từ 8 - 32")]
         public string Password { get; set; }
         public bool isActivated { get; set; }
