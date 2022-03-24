@@ -59,7 +59,8 @@ namespace PBL3.Controllers
         [HttpGet]
         public ActionResult Register()
         {
-            return View();
+            if (Session["USER"] == null) return View();
+            else return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         public async Task<ActionResult> Register(User user)
@@ -158,7 +159,8 @@ namespace PBL3.Controllers
                 return new JsonResult { 
                     Data = new
                     {
-                        message = "Gửi thành công"
+                        message = "Gửi thành công",
+                        success = true
                     }
                 };
             }
@@ -170,7 +172,8 @@ namespace PBL3.Controllers
                     {
                         Data = new
                         {
-                            message = "Mỗi lần gửi cách nhau 3 phút"
+                            message = "Mỗi lần gửi cách nhau 3 phút",
+                            success = false
                         }
                     };
                 }
@@ -189,7 +192,8 @@ namespace PBL3.Controllers
                     {
                         Data = new
                         {
-                            message = "Gửi thành công"
+                            message = "Gửi thành công",
+                            success = true
                         }
                     };
                 }

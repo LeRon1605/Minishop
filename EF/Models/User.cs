@@ -27,7 +27,6 @@ namespace EF.Models
         public string Gender { get; set; }
         [DisplayName("Ngày sinh")]
         [Required(ErrorMessage = "Ngày sinh không được để trống")]
-        // [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Birth { get; set; }
 
         [DataType(DataType.PhoneNumber)]
@@ -43,7 +42,7 @@ namespace EF.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Email không được để trống")]
-        [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "Mật khẩu chỉ chứa kí tự")]
+        [RegularExpression("^[a-zA-Z1-9]*$", ErrorMessage = "Mật khẩu không chứa kí tự đặc biệt")]
         [StringLength(32, MinimumLength = 8, ErrorMessage = "Mật khẩu có độ dài từ 8 - 32")]
         public string Password { get; set; }
         public bool isActivated { get; set; }

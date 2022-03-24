@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿@using EF.Models;
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -14,7 +15,7 @@
             @Html.ActionLink("Minishop", "Index", new { controller = "Home" }, new { @class = "text-decoration-none" })
         </div>
         <div class="d-flex">
-            <input type="" name="" class="rounded-start rounded-0 form-control">
+            <input type="text" name="" class="rounded-start rounded-0 form-control">
             <button class="btn btn-primary rounded-0">Search</button>
         </div>
         <div class="navbar-nav p-1 d-sm-none d-flex">
@@ -32,7 +33,7 @@
             </li>
         </div>
         <div class="d-none d-sm-flex">
-            <a href="" class="p-2 text-decoration-none">Home</a>
+            @Html.ActionLink("Trang chủ", "Index", "Home", new { @class = "p-2 text-decoration-none" })
             <a href="" class="p-2 text-decoration-none">Category</a>
             <a href="" class="p-2 text-decoration-none">Cart</a>
             @if (Session["User"] == null)
@@ -42,7 +43,8 @@
             }
             else
             {
-                @Html.ActionLink("User name", "Register", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
+                User user = Session["USER"] as User;
+                @Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
                 @Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
             }
         </div>

@@ -3,36 +3,41 @@
 @{
     ViewBag.Title = "ActivateAccount";
 }
-<p id="notification"></p>
-@using (Html.BeginForm("ActivateAccount", "User", FormMethod.Post))
-{
-@Html.AntiForgeryToken()
-
-<div class="form-horizontal">
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.Key, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <input name="Key" class="form-control"/>
-            @Html.ValidationMessageFor(model => model.Key, "", new { @class = "text-danger" })
+<section class="bg-light d-flex align-items-center p-4">
+    <div class="container pt-5 p-5 rounded bg-white shadow">
+        <div class="row d-flex align-items-center">
+            <div class="col-7 d-none d-sm-block">
+                <img src="https://t4.ftcdn.net/jpg/03/31/93/85/360_F_331938599_nmkc39B7E74s1G5P01b0YCJ6x0MNMqJz.jpg" class="img-fluid" alt="...">
+            </div>
+            <div class="col-sm-5 p-5 border-start border-secondary">
+                <h3>Xác nhận tài khoản</h3>
+                <p>Kiểm tra email của bạn để lấy mã xác nhận</p>
+                <div id="notification">
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-danger col-sm-12 col-md-10 p-2" role="alert">
+                            @TempData["Message"]
+                        </div>
+                    }
+                </div>
+                @using (Html.BeginForm("ActivateAccount", "User", FormMethod.Post))
+                {
+                    <div class="mb-3 col-sm-12 col-md-10">
+                        <input type="text" class="form-control" size="4" name="Key" maxlength="4" placeholder="Nhập mã xác nhận" pattern="\d*">
+                        @Html.ValidationMessageFor(model => model.Key, "", new { @class = "text-danger" })
+                    </div>
+                    <button type="submit" class="btn btn-primary col-sm-12 col-md-10">Xác nhận</button>
+                }
+                <p class="mt-3">Bạn chưa nhận được mã? <a href="" class="text-decoration-none" id="btnActive">Gửi lại mã</a></p>
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Xác nhận" class="btn btn-default" />
-        </div>
-    </div>
-</div>
-}
-<button class="btn btn-primary" id="btnActive">
-    Gửi lại mã
-</button>
-
+</section>
 @section scripts
 {
     <script>
-        $("#btnActive").click(function () {
+        $("#btnActive").click(function (e) {
+            e.preventDefault();
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("SendActiveKey")',
@@ -40,10 +45,19 @@
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    document.querySelector("#notification").innerText = data.message;
+                    const notification = document.querySelector("#notification");
+                    if (data.success) {                     
+                        notification.innerHTML = `<div class="alert alert-success col-sm-12 col-md-10 p-2" role="alert">`
+                                + data.message +
+                            `</div>`;
+                    } else {
+                        notification.innerHTML = `<div class="alert alert-danger col-sm-12 col-md-10 p-2" role="alert">`
+                                + data.message +
+                            `</div>`;
+                    }
                 },
                 error: function () {
-                    alert("Error while inserting data");
+                    
                 }
             });
             return false;
