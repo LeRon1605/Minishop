@@ -1,0 +1,53 @@
+﻿@using EF.Models;
+@{
+    ViewBag.Title = "Product";
+    List<Product> products = ViewBag.products;
+}
+
+<table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Tên sản phẩm</th>
+            <th scope="col">Loại sản phẩm</th>
+            <th scope="col">Điểm rating</th>
+            <th scope="col">Giá</th>
+            <th scope="col">Hàng tồn kho</th>
+            <th scope="col">Số lượng đã bán</th>
+            <th scope="col">Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < products.Count; i++)
+            {
+                <tr>
+                    <th scope="row">@i</th>
+                    <td>@products[i].Name</td>
+                    <td>@products[i].Category.Name</td>
+                    <td>0</td>
+                    <td>@products[i].Price</td>
+                    <td>@products[i].Stock</td>
+                    <td>0</td>
+                    <td>
+                        <button class="btn btn-primary">Chi tiết</button>
+                        <button class="btn btn-success">Chỉnh sửa</button>
+                        <button class="btn btn-danger">Xóa</button>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>mdo</td>
+                <td>mdo</td>
+                <td>mdo</td>
+                <td>mdo</td>
+                <td>
+                    <button class="btn btn-primary">Chi tiết</button>
+                    <button class="btn btn-success">Chỉnh sửa</button>
+                    <button class="btn btn-danger">Xóa</button>
+                </td>
+            </tr>
+        </tbody>
+      </table>

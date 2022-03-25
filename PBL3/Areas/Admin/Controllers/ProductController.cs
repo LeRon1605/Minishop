@@ -14,6 +14,12 @@ namespace PBL3.Areas.Admin.Controllers
         // GET: Admin/Product
         public ActionResult Index()
         {
+            List<Product> products = new ProductDAO().findAll();
+            foreach (Product product in products)
+            {
+                product.Category = new CategoryDAO().find(product.CategoryID);
+            }
+            ViewBag.products = products;
             return View();
         }
 
