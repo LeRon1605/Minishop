@@ -38,7 +38,7 @@ namespace EF.DAO
 
         public bool Update(Product entity)
         {
-            Product product = context.Products.Find();
+            Product product = context.Products.Find(entity.ID);
             if (product != null)
             {
                 product.Name = entity.Name;
