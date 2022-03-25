@@ -30,5 +30,20 @@ namespace PBL3.Areas.Admin.Controllers
             }
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Update(int id)
+        {
+            Category category = new CategoryDAO().find(id);
+            return View(category);
+        }
+        public ActionResult Update(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                new CategoryDAO().Update(category);
+            }
+            return RedirectToAction("Update");
+        }
     }
 }
