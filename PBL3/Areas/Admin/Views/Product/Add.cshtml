@@ -1,116 +1,108 @@
-﻿@using EF.Models;
-@model PBL3.Areas.Admin.Models.ProductModel
-
-@{
-    ViewBag.Title = "Add";
-}
-
-<h2>Add</h2>
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-success" role="alert">
-        @TempData["Message"]
-    </div>
-}
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
+﻿<form action="/Admin/Product/Add" method="post">
+    <input name="__RequestVerificationToken" type="hidden" value="a8kf4-8neMiwt-0-u12sRKz8ng8Ru6NPq6_08_CvoxeP8R4o4SZGjvtPFSQ9qDrpgdHrOqvBc66elkZ4Wo1L2Ustnc_1iojdGEPZ-ntH9WY1" />    <div class="form-horizontal">
         <h4>ProductModel</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Product.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Product.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Product.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Product.Price, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Product.Price, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Product.Price, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        <div class="main_Product d-flex" class="row">
+            <div class="_Product col-6">
+                <div class="form-group ">
+                    <div class="col-md-10 p-2">
+                        <label class="control-label" for="Product_Name" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size: 20px;">Name Product</label>
+                        <input class="form-control" id="Product_Name" name="Product.Name" type="text" value="" />
+                        <span class="field-validation-valid text-danger" data-valmsg-for="Product.Name" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Product.Stock, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Product.Stock, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Product.Stock, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <div class="form-group">
+                    <div class="col-md-10 p-2">
+                        <label class="control-label pl-2" for="Product_Category" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size: 20px;">Category</label>
+                        <select class="form-select" aria-label="size 3 select example" name="Product.category">
+                        </select>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <div class="col-md-10">
-                @Html.LabelFor(model => model.Product.CategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
-                <select class="form-select" aria-label="size 3 select example" name="Product.categoryID">
-                    @foreach (Category category in ViewBag.categories)
-                    {
-                        <option value="@category.ID">@category.Name</option>
-                    }
-                </select>
-            </div>
-        </div>
+                <div class="form-group">
+                    <div class="col-md-10 p-2">
+                        <label class="control-label" for="Product_Price" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size: 20px;">Price</label>
+                        <input class="form-control text-box single-line" data-val="true" data-val-number="The field Price must be a number." data-val-required="The Price field is required." id="Product_Price" name="Product.Price" type="number" value="" />
+                        <span class="field-validation-valid text-danger" data-valmsg-for="Product.Price" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Detail.Mass, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Detail.Mass, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Detail.Mass, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="col-md-10 p-2">
+                        <label class="control-label" for="Product_Stock" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size: 20px;">Stock</label>
+                        <input class="form-control text-box single-line" data-val="true" data-val-number="The field Stock must be a number." data-val-required="The Stock field is required." id="Product_Stock" name="Product.Stock" type="number" value="0    " />
+                        <span class="field-validation-valid text-danger" data-valmsg-for="Product.Stock" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Detail.Power, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Detail.Power, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Detail.Power, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            <div class="detail_Product col-6">
+                <div class="form-group-detail row p-2">
+                    <label class="control-label col-2 pt-1" for="Detail_Mass" style="font-family:Georgia, 'Times New Roman', Times, serif;">Mass</label>
+                    <div class="col-8 ml-2">
+                        <input class="form-control text-box single-line" data-val="true" data-val-number="The field Mass must be a number." data-val-required="The Mass field is required." id="Detail_Mass" name="Detail.Mass" type="number" value="" />
+                        <span class="field-validation-valid text-danger" data-valmsg-for="Detail.Mass" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+                <div class="row p-2 d-flex ">
+                    <div class="form-group-detail d-flex col-5">
+                        <label class="control-label col-6 pt-1" for="Detail_Power" style="font-family:Georgia, 'Times New Roman', Times, serif;">Power</label>
+                        <div class="col-6">
+                            <input class="form-control text-box single-line" data-val="true" data-val-number="The field Power must be a number." data-val-required="The Power field is required." id="Detail_Power" name="Detail.Power" type="number" value="0" />
+                            <span class="field-validation-valid text-danger" data-valmsg-for="Detail.Power" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Detail.Size, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Detail.Size, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Detail.Size, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="form-group-detail d-flex col-5">
+                        <label class="control-label col-6 pt-1" for="Detail_Size" style="font-family:Georgia, 'Times New Roman', Times, serif;">Size</label>
+                        <div class="col-6">
+                            <input class="form-control text-box single-line" data-val="true" data-val-number="The field Size must be a number." data-val-required="The Size field is required." id="Detail_Size" name="Detail.Size" type="number" value="0" />
+                            <span class="field-validation-valid text-danger" data-valmsg-for="Detail.Size" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Detail.Producer, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Detail.Producer, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Detail.Producer, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <div class="form-group-detail p-2">
+                    <label class="control-label col-md-2" for="Detail_Producer" style="font-family:Georgia, 'Times New Roman', Times, serif;">Producer</label>
+                    <div class="col-10">
+                        <input class="form-control text-box single-line" id="Detail_Producer" name="Detail.Producer" type="text" value="" />
+                        <span class="field-validation-valid text-danger" data-valmsg-for="Detail.Producer" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Detail.MaintenanceTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Detail.MaintenanceTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Detail.MaintenanceTime, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <div class="form-group-detail p-2">
+                    <label class="control-label col-md-2" for="Detail_MaintenanceTime" style="font-family:Georgia, 'Times New Roman', Times, serif;">MaintenanceTime</label>
+                    <div class="col-10">
+                        <input class="form-control text-box single-line" data-val="true" data-val-number="The field MaintenanceTime must be a number." data-val-required="The MaintenanceTime field is required." id="Detail_MaintenanceTime" name="Detail.MaintenanceTime" type="number" value="" />
+                        <span class="field-validation-valid text-danger" data-valmsg-for="Detail.MaintenanceTime" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Detail.Image, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Detail.Image, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Detail.Image, "", new { @class = "text-danger" })
+                <div class="form-group-detail p-2">
+                    <div class="col-10">
+                        <div class="input-group mb-3">
+                            <label class="control-label col-10" for="Detail_Image" style="font-family:Georgia, 'Times New Roman', Times, serif; ">Image</label>
+                            <div class="custom-file ">
+                                <input type="file" class="custom-file-input text-box" id="inputGroupFile01">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+        <div class="row d-flex p-2">
+            <div class="form-group col-2">
+                <div class="">
+                    <input type="submit" value="Add Product" class="btn btn-default" style="background-color: rgb(48, 141, 247); border-style: solid; " />
+                </div>
+            </div>
+            <div class="form-group col-2">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save Product" class="btn btn-default" style="background-color: rgb(48, 141, 247); border-style: solid; " />
+                </div>
             </div>
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+</form>
