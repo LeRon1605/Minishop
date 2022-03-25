@@ -51,7 +51,6 @@ namespace PBL3.Helper
         public static string GetMailContent(string[] content)
         {
             StringBuilder html = new StringBuilder("<p>Bạn cần xác nhận tài khoản của mình</p>\n");
-            html.Append("<p>Bạn cần xác nhận tài khoản của mình</p>");
             html.Append($"<p>Mở Ứng dụng và nhập mã xác nhận: <b>{content[0]}</b></p>" + "\n");
             return html.ToString();
         }
