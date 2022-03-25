@@ -10,8 +10,12 @@ namespace EF.Models
     {
         [Key]
         public int ID { get; set; }
+        [Display(Name ="Trạng thái")]
         public string Name { get; set; }
+        [Display(Name="Mô tả")]
         public string Description { get; set; }
         public List<StateOrder> StateOrder { get; set; }
+
+        
     }
 }

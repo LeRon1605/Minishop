@@ -41,7 +41,11 @@ namespace EF.DAO
             Product product = context.Products.Find();
             if (product != null)
             {
-                product = entity;
+                product.Name = entity.Name;
+                product.Price = entity.Price;
+                product.Stock = entity.Stock;
+                product.CategoryID = entity.CategoryID;
+                product.Detail = entity.Detail;
                 context.SaveChanges();
                 return true;
             }
