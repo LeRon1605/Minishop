@@ -20,15 +20,22 @@
         </div>
         <div class="navbar-nav p-1 d-sm-none d-flex">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#">Category</a></li>
-                    <li><a class="dropdown-item" href="#">Cart</a></li>
-
-                    <li><a class="dropdown-item" href="#">Login</a></li>
-                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                    <li><a class="dropdown-item"">Category</a></li>
+                    @if (Session["User"] == null)
+                    {
+                        <li>@Html.ActionLink("Đăng nhập", "Login", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                        <li>@Html.ActionLink("Đăng kí", "Register", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                    }
+                    else
+                    {
+                        User user = Session["USER"] as User;
+                        <li>@Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                        <li>@Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                    }
                 </ul>
             </li>
         </div>
@@ -43,6 +50,7 @@
             }
             else
             {
+
                 User user = Session["USER"] as User;
                 @Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
                 @Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
@@ -67,7 +75,7 @@
     </footer>
 
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstap")
+    <script src="~/Scripts/bootstrap.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

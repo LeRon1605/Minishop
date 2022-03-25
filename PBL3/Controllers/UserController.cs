@@ -37,8 +37,9 @@ namespace PBL3.Controllers
                 if (user != null)
                 {
                     Session["USER"] = user;
-                    // TempData["Message"] = "Đăng nhập thành công";
-                    return RedirectToAction("Index", "Home");
+                    Role role = new RoleDAO().find(user.RoleID);
+                    if (role.Name == "ADMIN") return RedirectToAction("Index", "Home", new { area = "Admin" });
+                    else return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -127,7 +128,7 @@ namespace PBL3.Controllers
                 if (DateTime.Now < data.Date.AddMinutes(3))
                 {
                     await new UserDAO().Activate(data.userID);
-                    TempData["Message"] = "Kích hoạt thành công";
+                    // TempData["Message"] = "Kích hoạt thành công";
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -166,13 +167,13 @@ namespace PBL3.Controllers
             }
             else
             {
-                if (data.Date.AddMinutes(3) > DateTime.Now)
+                if (data.Date.AddSeconds(15) > DateTime.Now)
                 {
                     return new JsonResult
                     {
                         Data = new
                         {
-                            message = "Mỗi lần gửi cách nhau 3 phút",
+                            message = "Mỗi lần gửi cách nhau 15 giây",
                             success = false
                         }
                     };

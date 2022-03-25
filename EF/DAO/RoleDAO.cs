@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EF.DAO
 {
-    class RoleDAO
+    public class RoleDAO
     {
         private ShopOnlineDbContext context;
         public RoleDAO()

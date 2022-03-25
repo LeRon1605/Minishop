@@ -1,6 +1,7 @@
 ﻿using EF.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,6 +42,11 @@ namespace EF.DAO
                 await context.SaveChangesAsync();
                 return true;
             }
+        }
+
+        public async Task<Role> GetUserRole(User user)
+        {
+            return await context.Roles.FindAsync(user.RoleID);
         }
 
         public async Task Activate(int id)

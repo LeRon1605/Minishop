@@ -1,40 +1,130 @@
-﻿<!DOCTYPE html>
+﻿@using EF.Models;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="~/public/css/sidebars.css" />
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
-            </div>
+    <div class="row m-0">
+        <div class="flex-shrink-0 p-3 bg-light col-2">
+            <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+                <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap" /></svg>
+                <span class="fs-5 fw-semibold">Collapsible</span>
+            </a>
+            <ul class="list-unstyled ps-0">
+                <li class="mb-1">
+                    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                        Homes
+                    </button>
+                    <div class="collapse show" id="home-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded">Overview</a></li>
+                            <li><a href="#" class="link-dark rounded">Updates</a></li>
+                            <li><a href="#" class="link-dark rounded">Reports</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="mb-1">
+                    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                        Dashboard
+                    </button>
+                    <div class="collapse" id="dashboard-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded">Overview</a></li>
+                            <li><a href="#" class="link-dark rounded">Weekly</a></li>
+                            <li><a href="#" class="link-dark rounded">Monthly</a></li>
+                            <li><a href="#" class="link-dark rounded">Annually</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="mb-1">
+                    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+                        Orders
+                    </button>
+                    <div class="collapse" id="orders-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded">New</a></li>
+                            <li><a href="#" class="link-dark rounded">Processed</a></li>
+                            <li><a href="#" class="link-dark rounded">Shipped</a></li>
+                            <li><a href="#" class="link-dark rounded">Returned</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="border-top my-3"></li>
+                <li class="mb-1">
+                    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+                        Account
+                    </button>
+                    <div class="collapse" id="account-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded">New...</a></li>
+                            <li><a href="#" class="link-dark rounded">Profile</a></li>
+                            <li><a href="#" class="link-dark rounded">Settings</a></li>
+                            <li><a href="#" class="link-dark rounded">Sign out</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-10 overflow-auto p-0" style="height: 100vh;">
+            <header class="container-fluid p-3 d-flex justify-content-around align-items-center bg-light">
+                <div class="navbar-brand">
+                    @Html.ActionLink("Minishop", "Index", new { controller = "Home" }, new { @class = "text-decoration-none" })
+                </div>
+                <div class="d-flex">
+                    <input type="text" name="" class="rounded-start rounded-0 form-control">
+                    <button class="btn btn-primary rounded-0">Search</button>
+                </div>
+                <div class="navbar-nav p-1 d-sm-none d-flex">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" ">Category</a></li>
+                            @if (Session["User"] == null)
+                            {
+                                <li>@Html.ActionLink("Đăng nhập", "Login", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                                <li>@Html.ActionLink("Đăng kí", "Register", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                            }
+                            else
+                            {
+                                User user = Session["USER"] as User;
+                                <li>@Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                                <li>@Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                            }
+                        </ul>
+                    </li>
+                </div>
+                <div class="d-none d-sm-flex">
+                    @Html.ActionLink("Trang chủ", "Index", "Home", new { @class = "p-2 text-decoration-none" })
+                    <a href="" class="p-2 text-decoration-none">Category</a>
+                    <a href="" class="p-2 text-decoration-none">Cart</a>
+                    @if (Session["User"] == null)
+                    {
+                        @Html.ActionLink("Đăng nhập", "Login", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
+                        @Html.ActionLink("Đăng kí", "Register", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
+                    }
+                    else
+                    {
+                        User user = Session["USER"] as User;
+                        @Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
+                        @Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
+                    }
+                </div>
+            </header>
+            @RenderBody()
         </div>
     </div>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
-
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/public/js/sidebars.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

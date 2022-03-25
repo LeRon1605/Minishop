@@ -21,19 +21,18 @@
                 {
                     <div class="mb-3">
                         @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "form-label" })
-                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập gmail của bạn", @type = "text" } })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                     </div>
                     <div class="mb-3">
                         @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "form-label" })
-                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", type = "password" } })
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", type = "password", @placeholder = "Nhập mật khẩu của bạn" } })
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                    <button type="submit" class="btn btn-primary col-12">Đăng nhập</button>
+                    <p class="mt-3">Bạn chưa có tài khoản?
+                        @Html.ActionLink("Đăng kí", "Register", "User", new { @class = "text-decoration-none" })
+                    </p>
                 }
             </div>
         </div>
