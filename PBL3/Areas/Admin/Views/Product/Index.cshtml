@@ -1,17 +1,28 @@
 ﻿@using EF.Models;
+@model Product
 @{
     ViewBag.Title = "Product";
     List<Product> products = ViewBag.products;
+    List<Category> categories = ViewBag.categories;
 }
 
-<link rel="stylesheet" href="~/public/css/table.css"/>
+<link rel="stylesheet" href="~/public/css/table.css" />
+<link rel="stylesheet" href="~/public/css/Add_Product.css" />
 <script>
-    $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip();
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
     });
 </script>
-<h3 class="mt-3">Danh sách sản phẩm</h3>
-<div class="table-responsive shadow">
+<center>
+    <h1 class="mt-5">Quản lí sản phẩm</h1>
+</center>
+<div class="d-flex align-items-center justify-content-between m-0 p-0">
+    <p class="m-0">Danh sách sản phẩm</p>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+        Thêm sản phẩm
+    </button>
+</div>
+<div class="table-responsive mt-2 shadow">
     <div class="table-wrapper">
         <div class="table-filter">
             <div class="row">
@@ -60,31 +71,31 @@
                 </tr>
             </thead>
             <tbody>
-                @for(int i = 0;i < products.Count;i++)
+                @for (int i = 0; i < products.Count; i++)
                 {
-                <tr>
-                    <td>@(i + 1)</td>
-                    <td>@products[i].Name</td>
-                    <td>@products[i].Category.Name</td>
-                    <td>@products[i].Price</td>
-                    <td>@products[i].Stock</td>
-                    <td>0</td>
-                    <td class="d-flex">
-                        <a href="#" class="btn btn-outline-success rounded m-0" title="Xem chi tiết sản phẩm" data-toggle="tooltip">
-                            <img src="~/public/icon/eye.svg" alt="My Happy SVG" />
-                        </a>
-                        <a href="#" class="btn btn-outline-primary rounded" title="Chỉnh sửa sản phẩm" data-toggle="tooltip">
-                            <img src="~/public/icon/pencil.svg" alt="My Happy SVG" />
-                        </a>
-                        @using (Html.BeginForm("Delete", "Product", new { area = "Admin" }, FormMethod.Post))
-                        {
-                            <input name="id" value="@products[i].ID" class="d-none"/>
-                            <button type="submit" class="btn btn-outline-danger rounded" title="Xóa sản phẩm" data-toggle="tooltip">
-                                <img src="~/public/icon/trash.svg" alt="My Happy SVG" />
-                            </button>
-                        }
+                    <tr>
+                        <td>@(i + 1)</td>
+                        <td>@products[i].Name</td>
+                        <td>@products[i].Category.Name</td>
+                        <td>@products[i].Price</td>
+                        <td>@products[i].Stock</td>
+                        <td>0</td>
+                        <td class="d-flex">
+                            <a href="#" class="btn btn-outline-success rounded m-0" title="Xem chi tiết sản phẩm" data-toggle="tooltip">
+                                <img src="~/public/icon/eye.svg" alt="My Happy SVG" />
+                            </a>
+                            <a href="#" class="btn btn-outline-primary rounded" title="Chỉnh sửa sản phẩm" data-toggle="tooltip">
+                                <img src="~/public/icon/pencil.svg" alt="My Happy SVG" />
+                            </a>
+                            @using (Html.BeginForm("Delete", "Product", new { area = "Admin" }, FormMethod.Post))
+                            {
+                                <input name="id" value="@products[i].ID" class="d-none" />
+                                <button type="submit" class="btn btn-outline-danger rounded" title="Xóa sản phẩm" data-toggle="tooltip">
+                                    <img src="~/public/icon/trash.svg" alt="My Happy SVG" />
+                                </button>
+                            }
                         </td>
-                </tr>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -101,6 +112,112 @@
                 <li class="page-item"><a href="#" class="page-link">7</a></li>
                 <li class="page-item"><a href="#" class="page-link">Next</a></li>
             </ul>
+        </div>
+    </div>
+</div>
+
+<div class="modal fadeInDown" id="addProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="p-3 bg-white rounded">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4 d-flex flex-column justify-content-start align-items-center">
+                                    <img src="https://static2.yan.vn/YanNews/2167221/202102/facebook-cap-nhat-avatar-doi-voi-tai-khoan-khong-su-dung-anh-dai-dien-e4abd14d.jpg"
+                                         alt="" class="img-fluid rounded img-thumbnail" id="image">
+                                    <label class="custom-file-upload mt-3">
+                                        <input type="file" id="inputImage" name="image" value="/upload/user/Default.png">
+                                        Choose File
+                                    </label>
+                                    <div id="picture-err" class="form-text d-none" style="text-align: center;color: red">
+                                        Ảnh không
+                                        hợp
+                                        lệ
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label" })
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên sản phẩm" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="title" class="form-label">Loại sản phẩm</label>
+                                        <select class="form-select" name="CategoryID">
+                                            <option selected>--Chọn loại sản phẩm--</option>
+                                            @foreach (Category category in categories)
+                                            {
+                                                <option value="@category.ID">@category.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "form-label" })
+                                        <div class="input-group mb-3">
+                                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập giá sản phẩm" } })
+                                            <span class="input-group-text">VNĐ</span>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="">
+                                        <label class="form-label">Mô tả sản phẩm</label>
+                                        <textarea class="form-control" placeholder="Leave a comment here"
+                                                  style="height: 31.7vh"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Kích thước</label>
+                                <input type="text" class="form-control" id="title" placeholder="Nhập tiêu đề " name="title"
+                                       value="">
+                            </div>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Cân nặng</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                                           placeholder="Nhập giá sản phẩm">
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Công suất</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                                           placeholder="Nhập giá sản phẩm">
+                                    <span class="input-group-text">W</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Ngày sản xuất</label>
+                                <input type="date" class="form-control" id="title" placeholder="Nhập tiêu đề " name="title"
+                                       value="">
+                            </div>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Nhà sản xuất</label>
+                                <input type="text" class="form-control" id="title" placeholder="Nhập tiêu đề " name="title"
+                                       value="">
+                            </div>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Số lượng hàng hóa</label>
+                                <input type="number" min="1" class="form-control" id="title" placeholder="Nhập tiêu đề "
+                                       name="title" value="1">
+                            </div>
+                            <div class="mb-3">
+                                <button class="btn btn-primary col-12 mt-3" id="submit-btn" type="submit">Thêm sản phẩm</button>
+                                <button type="button" class="btn btn-danger col-12 mt-3" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

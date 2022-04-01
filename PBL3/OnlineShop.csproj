@@ -550,6 +550,7 @@
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="public\css\Add_Product.css" />
     <Content Include="public\css\sidebars.css" />
     <Content Include="public\css\table.css" />
     <Content Include="public\icon\eye.svg" />

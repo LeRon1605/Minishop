@@ -20,29 +20,37 @@ namespace PBL3.Areas.Admin.Controllers
                 product.Category = new CategoryDAO().find(product.CategoryID);
             }
             ViewBag.products = products;
+            ViewBag.categories = new CategoryDAO().findAll();
             return View();
         }
 
-        [HttpGet]
-        public ActionResult Add()
-        {
-            List<Category> categories = new CategoryDAO().findAll();
-            ViewBag.categories = categories;
-            return View();
-        }
         [HttpPost]
-        public ActionResult Add(ProductModel model)
+        public ActionResult Add(Product product)
         {
             if (ModelState.IsValid)
             {
-                Product product = model.Product;
-                product.Detail = model.Detail;
-
-                TempData["Message"] = "Thêm thành công";
                 new ProductDAO().Add(product);
-            }    
-
-            return RedirectToAction("Add");
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        status = true,
+                        message = "Thêm thành công"
+                    }
+                };
+            }
+            else
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        status = false,
+                        message = "Thêm thất bại",
+                        detail = "Dữ liệu không hợp lệ"
+                    }
+                };
+            }
         }
     }
 }

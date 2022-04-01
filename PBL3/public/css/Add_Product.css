@@ -1,0 +1,58 @@
+﻿.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.sample-toolbar {
+    border: solid 1px #ddd;
+    background: #f4f4f4;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+    .sample-toolbar a > span {
+        cursor: pointer;
+    }
+
+#writer {
+    background-color: white;
+    min-height: 50vh;
+    padding: 1rem
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -100%, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.fadeInDown {
+    animation-name: fadeInDown;
+    animation-duration: .5s;
+}
