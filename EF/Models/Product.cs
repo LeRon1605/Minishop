@@ -21,6 +21,18 @@ namespace EF.Models
         [Display(Name = "Hàng trong kho")]
         [Range(0,int.MaxValue)]
         public int Stock { get; set; }
+
+        [Display(Name = "Khối lượng")]
+        [Range(0, int.MaxValue)]
+        public int Mass { get; set; }
+
+        [Display(Name = "Công suất")]
+        [Range(0, int.MaxValue)]
+        public int Power { get; set; }
+        
+        [Display(Name = "Ngày sản xuất")]
+        public DateTime producerDate { get; set; }
+
         public int CategoryID { get; set; }
         [ForeignKey("CategoryID")]
         public Category Category { get; set; }

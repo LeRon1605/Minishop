@@ -5,9 +5,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    <link rel="stylesheet" href="~/public/css/sidebars.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    @RenderSection("Styles", false)
 </head>
 <body>
     <header class="container-fluid p-3 d-flex justify-content-around align-items-center bg-white shadow">
@@ -50,7 +50,6 @@
             }
             else
             {
-
                 User user = Session["USER"] as User;
                 @Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
                 @Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
@@ -76,7 +75,6 @@
     </footer>
 
     @Scripts.Render("~/bundles/jquery")
-    <script src="~/public/js/sidebars.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
