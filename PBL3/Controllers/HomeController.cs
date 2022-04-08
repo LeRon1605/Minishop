@@ -11,8 +11,8 @@ namespace PBL3.Controllers
     {
         public ActionResult Index()
         {
-             // ShopOnlineDbContext context = new ShopOnlineDbContext();
-             // context.Database.EnsureCreated();
+            // ShopOnlineDbContext context = new ShopOnlineDbContext();
+            // context.Database.EnsureCreated();
             return View();
         }
 

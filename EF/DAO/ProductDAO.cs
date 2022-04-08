@@ -45,7 +45,7 @@ namespace EF.DAO
                 product.Price = entity.Price;
                 product.Stock = entity.Stock;
                 product.CategoryID = entity.CategoryID;
-                product.Detail = entity.Detail;
+                // product.Detail = entity.Detail;
                 context.SaveChanges();
                 return true;
             }

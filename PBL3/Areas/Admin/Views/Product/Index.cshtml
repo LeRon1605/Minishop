@@ -15,6 +15,14 @@
 <center>
     <h1 class="mt-5">Quản lí sản phẩm</h1>
 </center>
+<div id="notification">
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-danger col-sm-12 col-md-10 p-2" role="alert">
+            @TempData["Message"]
+        </div>
+    }
+</div>
 <div class="d-flex">
     <div class="btn m-0 btn-outline-none action_product action_product_click">
         <i class="fa-solid fa-list"></i>
@@ -119,7 +127,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm("Add", "Product", FormMethod.Post, new { @class = "p-5 mt-3 bg-white shadow rounded d-none", @id = "add_form" }))
+@using (Html.BeginForm("Add", "Product", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "p-5 mt-3 bg-white shadow rounded d-none", @id = "add_form" }))
 {
     <div class="row d-flex justify-content-center">
         <div class="col-md-8">
@@ -128,24 +136,22 @@
                     <img src="https://static2.yan.vn/YanNews/2167221/202102/facebook-cap-nhat-avatar-doi-voi-tai-khoan-khong-su-dung-anh-dai-dien-e4abd14d.jpg"
                          alt="" class="img-fluid rounded img-thumbnail" id="image">
                     <label class="custom-file-upload mt-3">
-                        <input type="file" id="inputImage" name="image" value="/upload/user/Default.png">
+                        @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @type = "file", @id = "inputImage", name = "image", @value = "/upload/user/Default.png" } })
                         Choose File
                     </label>
                     <div id="picture-err" class="form-text d-none" style="text-align: center;color: red">
-                        Ảnh không
-                        hợp
-                        lệ
+                        Ảnh không hợp lệ
                     </div>
                 </div>
                 <div class="col-md-8">
                     <div class="mb-3">
                         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label" })
-                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên sản phẩm" } })
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên sản phẩm", @id="name_product" } })
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                     </div>
                     <div class="mb-3">
                         <label for="title" class="form-label">Loại sản phẩm</label>
-                        <select class="form-select" name="CategoryID">
+                        <select class="form-select" name="CategoryID" id="CategoryID_product">
                             <option selected>--Chọn loại sản phẩm--</option>
                             @foreach (Category category in categories)
                             {
@@ -156,58 +162,61 @@
                     <div class="mb-3">
                         @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "form-label" })
                         <div class="input-group mb-3">
-                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập giá sản phẩm" } })
+                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập giá sản phẩm", @id = "price_product" } })
                             <span class="input-group-text">VNĐ</span>
                         </div>
                         @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                     </div>
                     <div class="">
-                        <label class="form-label">Mô tả sản phẩm</label>
-                        <textarea class="form-control" placeholder="Leave a comment here"
-                                  style="height: 31.7vh"></textarea>
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-label" })
+                        @Html.TextAreaFor(model => model.Description, htmlAttributes: new { @class = "form-control", @placeholder = "Nhập mô tả sản phẩm", @style = "height: 31.7vh", @id = "description_product" })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="mb-3">
-                <label for="title" class="form-label">Kích thước</label>
-                <input type="text" class="form-control" id="title" placeholder="Nhập tiêu đề " name="title"
-                       value="">
-            </div>
-            <div class="mb-3">
-                <label for="title" class="form-label">Cân nặng</label>
+                @Html.LabelFor(model => model.Mass, htmlAttributes: new { @class = "form-label" })
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                           placeholder="Nhập giá sản phẩm">
+                    @Html.EditorFor(model => model.Mass, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập khối lượng sản phẩm", @id = "mass_product" } })
                     <span class="input-group-text">kg</span>
+                    @Html.ValidationMessageFor(model => model.Mass, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="mb-3">
-                <label for="title" class="form-label">Công suất</label>
+                @Html.LabelFor(model => model.Power, htmlAttributes: new { @class = "form-label" })
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                           placeholder="Nhập giá sản phẩm">
+                    @Html.EditorFor(model => model.Power, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập công suất sản phẩm", @id = "power_product" } })
                     <span class="input-group-text">W</span>
+                    @Html.ValidationMessageFor(model => model.Power, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="mb-3">
-                <label for="title" class="form-label">Ngày sản xuất</label>
-                <input type="date" class="form-control" id="title" placeholder="Nhập tiêu đề " name="title"
-                       value="">
+                @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "form-label" })
+                @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập số lượng sản phẩm", @id = "stock_product" } })
+                @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
             </div>
             <div class="mb-3">
-                <label for="title" class="form-label">Nhà sản xuất</label>
-                <input type="text" class="form-control" id="title" placeholder="Nhập tiêu đề " name="title"
-                       value="">
+                @Html.LabelFor(model => model.Producer, htmlAttributes: new { @class = "form-label" })
+                @Html.EditorFor(model => model.Producer, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập nhà sản xuất", @id = "producer_product" } })
+                @Html.ValidationMessageFor(model => model.Producer, "", new { @class = "text-danger" })
             </div>
             <div class="mb-3">
-                <label for="title" class="form-label">Số lượng hàng hóa</label>
-                <input type="number" min="1" class="form-control" id="title" placeholder="Nhập tiêu đề "
-                       name="title" value="1">
+                @Html.LabelFor(model => model.ProducerDate, htmlAttributes: new { @class = "form-label" })
+                @Html.EditorFor(model => model.ProducerDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "producerDate_product" } })
+                @Html.ValidationMessageFor(model => model.ProducerDate, "", new { @class = "text-danger" })
             </div>
             <div class="mb-3">
-                <button class="btn btn-primary col-12 mt-3" id="submit-btn" type="submit">Thêm sản phẩm</button>
+                @Html.LabelFor(model => model.MaintenanceTime, htmlAttributes: new { @class = "form-label" })
+                <div class="input-group mb-3">
+                    @Html.EditorFor(model => model.MaintenanceTime, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập thời gian bảo hành", @id = "maintenanceTime_product" } })
+                    <span class="input-group-text">Month</span>
+                    @Html.ValidationMessageFor(model => model.MaintenanceTime, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary col-12 mt-3" id="submitBtn" type="submit">Thêm sản phẩm</button>
             </div>
         </div>
     </div>
@@ -215,4 +224,7 @@
 
 @section scripts {
     <script src="~/public/js/Add_Product.js"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="/Scripts/jquery.validate.js"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.js"></script>
 }
