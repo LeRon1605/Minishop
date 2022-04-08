@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
 
 namespace PBL3.Areas.Admin.Controllers
 {
@@ -25,22 +26,56 @@ namespace PBL3.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(Product product)
+        public ActionResult Add(Product product, HttpPostedFileBase Image)
         {
             if (ModelState.IsValid)
             {
-                new ProductDAO().Add(product);
-                return new JsonResult
+                try
                 {
-                    Data = new
+                    if (Image.ContentLength > 0)
                     {
-                        status = true,
-                        message = "Thêm thành công"
+                        string fileName = Path.GetFileName(Image.FileName);
+                        string path = Path.Combine(Server.MapPath("~/public/uploads/products"), fileName);
+                        Image.SaveAs(path);
+                        ProductDAO productDAO = new ProductDAO();
+                        product.Image = path;
+                        productDAO.Add(product);
+                        TempData["notification"] = "Thêm thành công";
                     }
-                };
+                    else
+                    {
+                        // return View
+                        /*
+                        return new JsonResult
+                        {
+                            Data = new
+                            {
+                                status = false,
+                                message = "Thêm thất bại",
+                                detail = "Dữ liệu không hợp lệ"
+                            }
+                        };
+                        */
+                    }
+                }
+                catch
+                {
+                    /*
+                    return new JsonResult
+                    {
+                        Data = new
+                        {
+                            status = false,
+                            message = "Thêm thất bại",
+                            detail = "Tải file thất bại"
+                        }
+                    };
+                    */
+                }
             }
             else
             {
+                /*
                 return new JsonResult
                 {
                     Data = new
@@ -50,7 +85,9 @@ namespace PBL3.Areas.Admin.Controllers
                         detail = "Dữ liệu không hợp lệ"
                     }
                 };
+                */
             }
+            return View("Index");
         }
     }
 }
