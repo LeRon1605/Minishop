@@ -12,17 +12,6 @@
     <link rel="stylesheet" href="~/public/css/Add_Product.css" />
 }
 
-<center>
-    <h1 class="mt-5">Quản lí sản phẩm</h1>
-</center>
-<div id="notification">
-    @if (TempData["Message"] != null)
-    {
-        <div class="alert alert-danger col-sm-12 col-md-10 p-2" role="alert">
-            @TempData["Message"]
-        </div>
-    }
-</div>
 <div class="d-flex">
     <div class="btn m-0 btn-outline-none action_product action_product_click">
         <i class="fa-solid fa-list"></i>
@@ -32,6 +21,9 @@
         <i class="fa-solid fa-plus"></i>
         Thêm sản phẩm
     </div>
+</div>
+<div id="notification" class="mt-2">
+
 </div>
 <div class="table-responsive mt-3 shadow" id="list_product">
     <div class="table-wrapper">
@@ -146,7 +138,7 @@
                 <div class="col-md-8">
                     <div class="mb-3">
                         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label" })
-                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên sản phẩm", @id="name_product" } })
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên sản phẩm", @id = "name_product" } })
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                     </div>
                     <div class="mb-3">
@@ -222,9 +214,23 @@
     </div>
 }
 
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="notification_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="fa-solid fa-bell"></i>
+            <strong class="me-auto ms-1">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body text-white bg-success" id="toast_body">
+            
+        </div>
+    </div>
+</div>
+
 @section scripts {
     <script src="~/public/js/Add_Product.js"></script>
     <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="/Scripts/jquery.validate.js"></script>
     <script src="/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 }

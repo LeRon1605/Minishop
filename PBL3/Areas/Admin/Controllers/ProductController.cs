@@ -13,7 +13,7 @@ namespace PBL3.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         // GET: Admin/Product
-        public ActionResult Index()
+        public ActionResult Index(int? page, int? entites)
         {
             List<Product> products = new ProductDAO().findAll();
             foreach (Product product in products)
@@ -40,54 +40,53 @@ namespace PBL3.Areas.Admin.Controllers
                         ProductDAO productDAO = new ProductDAO();
                         product.Image = path;
                         productDAO.Add(product);
-                        TempData["notification"] = "Thêm thành công";
+                        return new JsonResult
+                        {
+                            Data = new
+                            {
+                                status = true,
+                                message = "Thêm sản phẩm thành công"
+                            }
+                        };
                     }
                     else
                     {
-                        // return View
-                        /*
                         return new JsonResult
                         {
                             Data = new
                             {
                                 status = false,
-                                message = "Thêm thất bại",
+                                message = "Thêm sản phẩm thất bại",
                                 detail = "Dữ liệu không hợp lệ"
                             }
                         };
-                        */
                     }
                 }
                 catch
-                {
-                    /*
+                {                  
                     return new JsonResult
                     {
                         Data = new
                         {
                             status = false,
-                            message = "Thêm thất bại",
+                            message = "Thêm sản phẩm thất bại",
                             detail = "Tải file thất bại"
                         }
                     };
-                    */
                 }
             }
             else
             {
-                /*
                 return new JsonResult
                 {
                     Data = new
                     {
                         status = false,
-                        message = "Thêm thất bại",
+                        message = "Thêm sản phẩm thất bại",
                         detail = "Dữ liệu không hợp lệ"
                     }
                 };
-                */
             }
-            return View("Index");
         }
     }
 }

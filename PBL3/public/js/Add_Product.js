@@ -23,7 +23,7 @@ for (let i = 0; i < action.length; i++) {
 inputImage.onchange = (e) => {
     image.src = URL.createObjectURL(e.target.files[0]);
 }
-/*
+
 $("#submitBtn").click(function (e) {
     const data =
     {
@@ -39,34 +39,39 @@ $("#submitBtn").click(function (e) {
         ProducerDate: new Date($('#producerDate_product').val()),
         MaintenanceTime: $('#maintenanceTime_product').val()
     };
-    let formData = new FormData();
-    formData.append('Name', $('#name_product').val());
-    formData.append('Image', inputImage.files[0], 'random.png');
-    formData.append('CategoryID', document.getElementById('CategoryID_product').options[document.getElementById('CategoryID_product').selectedIndex].value);
+    const formData = new FormData();
+    formData.append('Name', data.Name);
+    formData.append('CategoryID', data.CategoryID);
+    formData.append('Price', data.Price);
+    formData.append('Image', inputImage.files[0], data.Image);
+    formData.append('Description', data.Description);
+    formData.append('Mass', data.Mass);
+    formData.append('Power', data.Power);
+    formData.append('Stock', data.Stock);
+    formData.append('Producer', data.Producer);
+    formData.append('ProducerDate', new Date(data.ProducerDate).toLocaleDateString('en-GB'));
+    formData.append('MaintenanceTime', data.MaintenanceTime);
     e.preventDefault();
-    $.ajax({
-        type: "POST",
-        url: '/product/add',
-        data: formData,
-        dataType: "json",
-        enctype: 'multipart/form-data',
-        contentType: "application/json; charset=utf-8",
-                success: (data) => {
-                    const notification = document.querySelector("#notification");
-                    if (data.status) {
-                        notification.innerHTML = `<div class="alert alert-success col-sm-12 col-md-10 p-2" role="alert">`
-                            + data.message +
-                            `</div>`;
-                    } else {
-                        notification.innerHTML = `<div class="alert alert-danger col-sm-12 col-md-10 p-2" role="alert">`
-                            + data.message +
-                            `</div>`;
-                    }
-        },
-        error: function () {
-
-        }
-       });
-       return false;
+    axios.post('/admin/product/add',
+        formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+    })
+        .then((res) => {
+            const toastBody = document.getElementById('toast_body');
+            if (res.data.status) {
+                if (toastBody.classList.contains('bg-danger')) toastBody.classList.remove('bg-danger');
+                if (!toastBody.classList.contains('bg-success')) toastBody.classList.add('bg-success');
+            } else {
+                if (!toastBody.classList.contains('bg-danger')) toastBody.classList.add('bg-danger');
+                if (toastBody.classList.contains('bg-success')) toastBody.classList.remove('bg-success');
+                document.getElementById('notification').innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            ${res.data.detail}
+                        </div>`;
+            }
+            toastBody.innerText = res.data.message;
+            $("#notification_toast").toast('show');
+        })
 });
-*/
