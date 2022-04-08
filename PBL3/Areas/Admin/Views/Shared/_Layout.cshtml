@@ -22,75 +22,67 @@
                 <!-- Bootstrap List Group -->
                 <ul class="list-group">
                     <!-- Separator with title -->
-                    <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
-                        <small>MAIN MENU</small>
+                    <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed padding">
+                        <small class="text">MINI SHOP</small>
                     </li>
                     <!-- /END Separator -->
                     <!-- Menu with submenu -->
                     <a href="#submenu1" data-toggle="collapse" aria-expanded="false"
                        class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-start align-items-center">
-                            <span class="fa fa-dashboard fa-fw mr-3"></span>
-                            <span class="menu-collapsed">Dashboard</span>
+                            <span class="fa-solid fa-layer-group icon"></span>
+                            <span class="menu-collapsed">Quản Lí</span>
                             <span class="submenu-icon ml-auto"></span>
+                            <i class="fa-solid fa-angle-down pl"></i>
                         </div>
                     </a>
                     <!-- Submenu content -->
                     <div id='submenu1' class="collapse sidebar-submenu">
                         <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Charts</span>
+                            <span class="fa-solid fa-store subicon"></span>
+                            <span class="menu-collapsed">Quản Lí Sản Phẩm</span>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Reports</span>
+                            <span class="fa-solid fa-cart-shopping subicon"></span>
+                            <span class="menu-collapsed">Quản Lí Đơn Hàng</span>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Tables</span>
+                            <span class="fa-solid fa-tachograph-digital subicon"></span>
+                            <span class="menu-collapsed">Quản Lí Voucher</span>
                         </a>
                     </div>
                     <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
                        class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-start align-items-center">
-                            <span class="fa fa-user fa-fw mr-3"></span>
-                            <span class="menu-collapsed">Profile</span>
+                            <span class="fa-solid fa-user icon"></span>
+                            <span class="menu-collapsed">Thông tin</span>
                             <span class="submenu-icon ml-auto"></span>
                         </div>
                     </a>
-                    <!-- Submenu content -->
-                    <div id='submenu2' class="collapse sidebar-submenu">
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Settings</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="menu-collapsed">Password</span>
-                        </a>
-                    </div>
+
                     <a href="#" class="bg-dark list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-start align-items-center">
-                            <span class="fa fa-tasks fa-fw mr-3"></span>
-                            <span class="menu-collapsed">Tasks</span>
+                        <div class="d-flex w-10d fa-ballot-check0 justify-content-start align-items-center">
+                            <span class="fa-solid fa-check icon "></span>
+                            <span class="menu-collapsed">Duyệt Đơn</span>
                         </div>
                     </a>
                     <!-- Separator with title -->
-                    <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
-                        <small>OPTIONS</small>
-                    </li>
                     <!-- /END Separator -->
                     <a href="#" class="bg-dark list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-start align-items-center">
-                            <span class="fa fa-calendar fa-fw mr-3"></span>
-                            <span class="menu-collapsed">Calendar</span>
+                            <span class="fa-solid fa-table-list icon"></span>
+                            <span class="menu-collapsed">Thống Kê</span>
                         </div>
                     </a>
                     <a href="#" class="bg-dark list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-start align-items-center">
-                            <span class=""><i class="fa-solid fa-message"></i></span>
+                            <span class="fa-solid fa-comment icon"></span>
                             <span class="menu-collapsed">
-                                 Messages <span class="badge badge-pill badge-primary ml-2">5</span>
+                                Phản hồi<span class="badge badge-pill badge-primary ml-2">5</span>
                             </span>
                         </div>
                     </a>
-                    <!-- Separator without title -->
-                    <li class="list-group-item sidebar-separator menu-collapsed"></li>
+
                     <!-- /END Separator -->
                     <a href="#" class="bg-dark list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-start align-items-center">
@@ -98,25 +90,29 @@
                             <span class="menu-collapsed">Help</span>
                         </div>
                     </a>
+
+                    <!-- Separator without title -->
+                    <li class="list-group-item sidebar-separator menu-collapsed"></li>
                     <a href="#" data-toggle="sidebar-colapse"
                        class="bg-dark list-group-item list-group-item-action d-flex align-items-center">
                         <div class="d-flex w-100 justify-content-start align-items-center">
-                            <span id="collapse-icon" class="fa fa-2x mr-3"></span>
-                            <span id="collapse-text" class="menu-collapsed">Collapse</span>
+                            <span id="collapse-icon" class="fa fa-2x mr-3 "></span>
+
                         </div>
                     </a>
-                   
-                    
+
+
                 </ul><!-- List Group END-->
             </div><!-- sidebar-container END -->
             <!-- MAIN -->
             <div class="col">
-            @RenderBody()
+                @RenderBody()
             </div>
         </div><!-- body-row END -->
 
     </div><!-- container -->
 
+    
     @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -146,6 +142,7 @@
             $('.menu-collapsed').toggleClass('d-none');
             $('.sidebar-submenu').toggleClass('d-none');
             $('.submenu-icon').toggleClass('d-none');
+            $('.fa-solid fa-angle-down pl').toggleClass('d-none');
             $('#sidebar-container').toggleClass('sidebar-expanded sidebar-collapsed');
 
             // Treating d-flex/d-none on separators with title

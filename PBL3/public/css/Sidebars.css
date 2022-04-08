@@ -61,3 +61,20 @@
 a.bg-dark {
     background-color: #132644 !important;
 }
+.icon {
+    padding-right: 25px;
+}
+.subicon {
+    padding-right: 15px;
+}
+
+.text {
+    color: white;
+    font-size: 25px;
+}
+.padding {
+    padding: 30px;
+}
+.pl{
+    padding-left: 50px;
+}
