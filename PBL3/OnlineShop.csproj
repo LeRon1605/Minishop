@@ -551,6 +551,7 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="public\css\Add_Product.css" />
+    <Content Include="public\css\Sidebars.css" />
     <Content Include="public\css\table.css" />
     <Content Include="public\icon\eye.svg" />
     <Content Include="public\icon\filter.svg" />
