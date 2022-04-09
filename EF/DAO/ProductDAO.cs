@@ -18,6 +18,23 @@ namespace EF.DAO
         {
             return context.Products.ToList();
         }
+
+        public List<Product> getPage(int page, int pageSize, out int totalRow)
+        {
+            totalRow = (int)Math.Ceiling((double)context.Products.Count() / pageSize);
+            if (page > 0)
+            {
+                CategoryDAO categoryDAO = new CategoryDAO();
+                return context.Products.Skip((page - 1) * pageSize).Take(pageSize).Select(product => new Product { 
+                    ID = product.ID,
+                    Name = product.Name,
+                    Stock = product.Stock,
+                    Price = product.Price,
+                    Category = categoryDAO.find(product.CategoryID)
+                }).ToList();
+            }
+            return null;
+        }
         public void Add(Product product)
         {
             context.Products.Add(product);
@@ -45,7 +62,6 @@ namespace EF.DAO
                 product.Price = entity.Price;
                 product.Stock = entity.Stock;
                 product.CategoryID = entity.CategoryID;
-                // product.Detail = entity.Detail;
                 context.SaveChanges();
                 return true;
             }

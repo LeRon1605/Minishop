@@ -9,7 +9,8 @@ namespace PBL3.Areas.Admin.Models
 {
     public class ProductModel
     {
-        public Product Product { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
         public ProductDetail Detail { get; set; }
     }
 }

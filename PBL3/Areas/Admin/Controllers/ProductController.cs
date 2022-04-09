@@ -7,21 +7,25 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
+using PBL3.Models;
 
 namespace PBL3.Areas.Admin.Controllers
 {
     public class ProductController : Controller
     {
         // GET: Admin/Product
-        public ActionResult Index(int? page, int? entites)
+        public ActionResult Index(int page = 1)
         {
-            List<Product> products = new ProductDAO().findAll();
-            foreach (Product product in products)
-            {
-                product.Category = new CategoryDAO().find(product.CategoryID);
-            }
-            ViewBag.products = products;
+            ProductDAO productDAO = new ProductDAO();
+            int totalPage;
+            ViewBag.products = productDAO.getPage(page, 10, out totalPage);
             ViewBag.categories = new CategoryDAO().findAll();
+            ViewBag.pagingData = new PagingModel
+            {
+                CountPages = totalPage,
+                CurrentPage = page,
+                GenerateURL = (int pageNum) => $"?page={pageNum}"
+            };
             return View();
         }
 
@@ -87,6 +91,33 @@ namespace PBL3.Areas.Admin.Controllers
                     }
                 };
             }
+        }
+
+        public ActionResult Delete(int id)
+        {
+            ProductDAO productDAO = new ProductDAO();
+            if (productDAO.Delete(id))
+            {
+                return new JsonResult{
+                    Data = new
+                    {
+                        message = "Xóa thành công sản phẩm",
+                        status = true
+                    }
+                };
+            }    
+            else
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        message = "Xóa thất bại sản phẩm",
+                        detail = "Sản phẩm không tồn tại",
+                        status = false
+                    }
+                };
+            }    
         }
     }
 }

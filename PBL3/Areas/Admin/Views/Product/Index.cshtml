@@ -1,9 +1,11 @@
 ﻿@using EF.Models;
+@using PBL3.Models; 
 @model Product
 @{
     ViewBag.Title = "Product";
     List<Product> products = ViewBag.products;
     List<Category> categories = ViewBag.categories;
+    PagingModel pagingData = ViewBag.pagingData as PagingModel;
 }
 
 @section Styles
@@ -21,9 +23,6 @@
         <i class="fa-solid fa-plus"></i>
         Thêm sản phẩm
     </div>
-</div>
-<div id="notification" class="mt-2">
-
 </div>
 <div class="table-responsive mt-3 shadow" id="list_product">
     <div class="table-wrapper">
@@ -77,7 +76,7 @@
                 @for (int i = 0; i < products.Count; i++)
                 {
                     <tr>
-                        <td>@(i + 1)</td>
+                        <td class="STT">@(i + 1)</td>
                         <td>@products[i].Name</td>
                         <td>@products[i].Category.Name</td>
                         <td>@products[i].Price</td>
@@ -90,13 +89,9 @@
                             <a href="#" class="btn bg-primary rounded" title="Chỉnh sửa sản phẩm">
                                 <i class="fa-solid fa-pen" style="color: white"></i>
                             </a>
-                            @using (Html.BeginForm("Delete", "Product", new { area = "Admin" }, FormMethod.Post))
-                            {
-                                <input name="id" value="@products[i].ID" class="d-none" />
-                                <button type="submit" class="btn bg-danger rounded" title="Xóa sản phẩm">
-                                    <i class="fa-solid fa-trash-can" style="color: white"></i>
-                                </button>
-                            }
+                            <button type="submit" class="btn bg-danger rounded" title="Xóa sản phẩm" data-index="@i" data-id="@products[i].ID" onclick="deleteProduct(this)">
+                                <i class="fa-solid fa-trash-can" style="color: white"></i>
+                            </button>
                         </td>
                     </tr>
                 }
@@ -104,23 +99,16 @@
         </table>
         <div class="clearfix">
             <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-            <ul class="pagination">
-                <li class="page-item disabled"><a href="#">Previous</a></li>
-                <li class="page-item"><a href="#" class="page-link">1</a></li>
-                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                <li class="page-item"><a href="#" class="page-link">3</a></li>
-                <li class="page-item active"><a href="#" class="page-link">4</a></li>
-                <li class="page-item"><a href="#" class="page-link">5</a></li>
-                <li class="page-item"><a href="#" class="page-link">6</a></li>
-                <li class="page-item"><a href="#" class="page-link">7</a></li>
-                <li class="page-item"><a href="#" class="page-link">Next</a></li>
-            </ul>
+            @Html.Partial("_Pagination", pagingData)
         </div>
     </div>
 </div>
 
 @using (Html.BeginForm("Add", "Product", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "p-5 mt-3 bg-white shadow rounded d-none", @id = "add_form" }))
 {
+    <div id="notification" class="mt-2">
+
+    </div>
     <div class="row d-flex justify-content-center">
         <div class="col-md-8">
             <div class="row">
@@ -222,13 +210,13 @@
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
         <div class="toast-body text-white bg-success" id="toast_body">
-            
+
         </div>
     </div>
 </div>
 
 @section scripts {
-    <script src="~/public/js/Add_Product.js"></script>
+    <script src="~/public/js/Product.js"></script>
     <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="/Scripts/jquery.validate.js"></script>
     <script src="/Scripts/jquery.validate.unobtrusive.js"></script>
