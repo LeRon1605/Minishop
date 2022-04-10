@@ -19,19 +19,23 @@ namespace EF.DAO
             return context.Products.ToList();
         }
 
-        public List<Product> getPage(int page, int pageSize, out int totalRow)
+        public List<Product> getPage(int page, int pageSize, string keyword, string categoryID, string price, out int totalRow)
         {
             totalRow = (int)Math.Ceiling((double)context.Products.Count() / pageSize);
             if (page > 0)
             {
                 CategoryDAO categoryDAO = new CategoryDAO();
-                return context.Products.Skip((page - 1) * pageSize).Take(pageSize).Select(product => new Product { 
+                return context.Products.Where(product => (
+                    (product.Name.Contains(keyword) || keyword == "All") &&
+                    (categoryID == "All" || product.CategoryID == int.Parse(categoryID)) &&
+                    (price == "All" || product.Price <= int.Parse(price))
+                )).Select(product => new Product { 
                     ID = product.ID,
                     Name = product.Name,
                     Stock = product.Stock,
                     Price = product.Price,
                     Category = categoryDAO.find(product.CategoryID)
-                }).ToList();
+                }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
             }
             return null;
         }
@@ -60,8 +64,14 @@ namespace EF.DAO
             {
                 product.Name = entity.Name;
                 product.Price = entity.Price;
-                product.Stock = entity.Stock;
                 product.CategoryID = entity.CategoryID;
+                product.Power = entity.Power;
+                product.Image = entity.Image;
+                product.Mass = entity.Mass;
+                product.MaintenanceTime = entity.MaintenanceTime;
+                product.Producer = entity.Producer;
+                product.Description = entity.Description;
+                product.UpdatedAt = DateTime.Now;
                 context.SaveChanges();
                 return true;
             }

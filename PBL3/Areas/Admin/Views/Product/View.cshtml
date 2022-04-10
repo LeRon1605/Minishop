@@ -1,0 +1,231 @@
+﻿@using EF.Models
+@model Product
+@{
+    ViewBag.Title = "Edit";
+    bool editable = ViewBag.isEdit;
+    List<Category> categories = ViewBag.categories;
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/public/css/Add_Product.css" />
+}
+@using (Html.BeginForm("Update", "Product", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "p-5 pt-4 mt-3 bg-white shadow rounded", @id = "add_form" }))
+{
+    <a href="@Url.Action("Index", "Product", new { area = "Admin" })" class="text-decoration-none bg-white m-auto">
+        <i class="fa-solid fa-arrow-left"></i>
+        Trở về
+    </a>
+    @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @class = "d-none" } })
+    <div id="notification" class="mt-2">
+        @if (TempData["UpdateMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["UpdateMessage"]
+            </div>
+        }
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-4 d-flex flex-column justify-content-start align-items-center">
+                    <img src="@Model.Image"
+                         alt="" class="img-fluid rounded img-thumbnail" id="image">
+                    <label class="custom-file-upload mt-3">
+                        @if (editable)
+                        {
+                            <input type="file" id="inputImage" name="file"/>
+                            @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class="d-none" } })
+                        }
+                        else
+                        {
+                            @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @disabled = "disabled", @type = "file", @id = "inputImage", name = "image"} })
+                        }
+                        Choose File
+                    </label>
+                    <div id="picture-err" class="form-text d-none" style="text-align: center;color: red">
+                        Ảnh không hợp lệ
+                    </div>
+                    <div class="mb-3 mt-3">
+                        @Html.LabelFor(model => model.CreatedAt, htmlAttributes: new { @class = "form-label" })
+                        <input disabled value="@Model.CreatedAt.ToString()" type="text" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.UpdatedAt, htmlAttributes: new { @class = "form-label" })
+                        @if (Model.UpdatedAt != null)
+                        {
+                            <input disabled value="@Model.UpdatedAt.ToString()" type="text" class="form-control" />
+                        }
+                        else
+                        {
+                            <input disabled value="dd/mm/yyyy" type="text" class="form-control" />
+                        }
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label" })
+                        @if (editable)
+                        {
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = $"form-control", @placeholder = "Nhập tên sản phẩm", @id = "name_product" } })
+                        }
+                        else
+                        {
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @disabled = "disabled", @class = $"form-control", @placeholder = "Nhập tên sản phẩm", @id = "name_product" } })
+                        }
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Loại sản phẩm</label>
+                        <select class="form-select" name="CategoryID" id="CategoryID_product">
+                            <option selected>--Chọn loại sản phẩm--</option>
+                            @foreach (Category category in categories)
+                            {
+                                if (category.ID == Model.CategoryID)
+                                {
+                                    <option value="@category.ID" selected>@category.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@category.ID">@category.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "form-label" })
+                        <div class="input-group mb-3">
+                            @if (editable)
+                            {
+                                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = $"form-control", @placeholder = "Nhập giá sản phẩm", @id = "price_product" } })
+                            }
+                            else
+                            {
+                                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @disabled = "disabled", @class = $"form-control", @placeholder = "Nhập giá sản phẩm", @id = "price_product" } })
+                            }
+                            <span class="input-group-text">VNĐ</span>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-label" })
+                        @if (editable)
+                        {
+                            @Html.TextAreaFor(model => model.Description, htmlAttributes: new { @class = $"form-control", @placeholder = "Nhập mô tả sản phẩm", @style = "height: 31.7vh", @id = "description_product" })
+                        }
+                        else
+                        {
+                            @Html.TextAreaFor(model => model.Description, htmlAttributes: new { @disabled = "disabled", @class = $"form-control", @placeholder = "Nhập mô tả sản phẩm", @style = "height: 31.7vh", @id = "description_product" })
+                        }
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Mass, htmlAttributes: new { @class = "form-label" })
+                <div class="input-group mb-3">
+                    @if (editable)
+                    {
+                        @Html.EditorFor(model => model.Mass, new { htmlAttributes = new { @class = $"form-control", @placeholder = "Nhập khối lượng sản phẩm", @id = "mass_product" } })
+                    }
+                    else
+                    {
+                        @Html.EditorFor(model => model.Mass, new { htmlAttributes = new { @disabled = "disabled", @class = $"form-control", @placeholder = "Nhập khối lượng sản phẩm", @id = "mass_product" } })
+                    }
+                    <span class="input-group-text">kg</span>
+                    @Html.ValidationMessageFor(model => model.Mass, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Power, htmlAttributes: new { @class = "form-label" })
+                <div class="input-group mb-3">
+                    @if (editable)
+                    {
+                        @Html.EditorFor(model => model.Power, new { htmlAttributes = new { @class = $"form-control", @placeholder = "Nhập công suất sản phẩm", @id = "power_product" } })
+                    }
+                    else
+                    {
+                        @Html.EditorFor(model => model.Power, new { htmlAttributes = new { @disabled = "disabled", @class = $"form-control", @placeholder = "Nhập công suất sản phẩm", @id = "power_product" } })
+                    }
+                    <span class="input-group-text">W</span>
+                    @Html.ValidationMessageFor(model => model.Power, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "form-label" })
+                @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = $"form-control", @placeholder = "Nhập số lượng sản phẩm", @id = "stock_product", @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Producer, htmlAttributes: new { @class = "form-label" })
+                @if (editable)
+                {
+                    @Html.EditorFor(model => model.Producer, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập nhà sản xuất", @id = "producer_product" } })
+                }
+                else
+                {
+                    @Html.EditorFor(model => model.Producer, new { htmlAttributes = new { @disabled = "disabled", @class = $"form-control", @placeholder = "Nhập nhà sản xuất", @id = "producer_product" } })
+                }
+                @Html.ValidationMessageFor(model => model.Producer, "", new { @class = "text-danger" })
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(model => model.ProducerDate, htmlAttributes: new { @class = "form-label" })
+                @if (editable)
+                {
+                    @Html.EditorFor(model => model.ProducerDate, new { htmlAttributes = new { @class = $"form-control", @type = "date", @id = "producerDate_product" } })
+                }
+                else
+                {
+                    <input disabled value="@Model.ProducerDate.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-GB"))" type="text" class="form-control" />
+                }
+                @Html.ValidationMessageFor(model => model.ProducerDate, "", new { @class = "text-danger" })
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(model => model.MaintenanceTime, htmlAttributes: new { @class = "form-label" })
+                <div class="input-group mb-3">
+                    @if (editable)
+                    {
+                        @Html.EditorFor(model => model.MaintenanceTime, new { htmlAttributes = new { @class = $"form-control", @placeholder = "Nhập thời gian bảo hành", @id = "maintenanceTime_product" } })
+                    }
+                    else
+                    {
+                        @Html.EditorFor(model => model.MaintenanceTime, new { htmlAttributes = new { @disabled = "disabled", @class = $"form-control", @placeholder = "Nhập thời gian bảo hành", @id = "maintenanceTime_product" } })
+                    }
+                    <span class="input-group-text">Month</span>
+                    @Html.ValidationMessageFor(model => model.MaintenanceTime, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="mb-3">
+                @if (editable)
+                {
+                    <button class="btn btn-primary col-12 mt-3" id="submitBtn" type="submit">Xác nhận</button>
+                }
+                else
+                {
+                    @Html.ActionLink("Cập nhật sản phẩm", "View", new { id = Model.ID, isEdit = true }, new { @class = "btn btn-primary text-deceration-none" })
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="notification_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="fa-solid fa-bell"></i>
+            <strong class="me-auto ms-1">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body text-white bg-success" id="toast_body">
+
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="/Scripts/jquery.validate.js"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.js"></script>
+}
