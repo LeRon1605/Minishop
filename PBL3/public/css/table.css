@@ -3,7 +3,7 @@
 }
 
 .table-wrapper {
-    min-width: 1000px;
+    min-width: 100%;
     background: #fff;
     padding: 20px 25px;
     border-radius: 3px;
@@ -219,4 +219,16 @@ table.table .avatar {
     float: left;
     margin-top: 10px;
     font-size: 13px;
+}
+
+
+@media (min-width: 1116px) {
+    .filter-group .form-control{
+        max-width: 100px;
+    }
+}
+@media (max-width: 769px){
+    .table-filter{
+        display: none;
+    }   
 }

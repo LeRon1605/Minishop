@@ -12,7 +12,7 @@ function SidebarCollapse() {
     $('.menu-collapsed').toggleClass('d-none');
     $('.sidebar-submenu').toggleClass('d-none');
     $('.submenu-icon').toggleClass('d-none');
-    $('.fa-solid fa-angle-down pl').toggleClass('d-none');
+    $('fa-solid fa-angle-down pl').toggleClass('d-none');
     $('#sidebar-container').toggleClass('sidebar-expanded sidebar-collapsed');
 
     // Treating d-flex/d-none on separators with title

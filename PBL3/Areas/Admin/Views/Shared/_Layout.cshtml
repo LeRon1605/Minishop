@@ -17,7 +17,7 @@
         <!-- Bootstrap row -->
         <div class="row" id="body-row">
             <!-- Sidebar -->
-            <div id="sidebar-container" class="sidebar-expanded d-none d-md-block">
+            <div id="sidebar-container" class="sidebar-expanded d-md-block">
                 <!-- d-* hiddens the Sidebar in smaller devices. Its itens can be kept on the Navbar 'Menu' -->
                 <!-- Bootstrap List Group -->
                 <ul class="list-group">
@@ -30,7 +30,7 @@
                     <a href="#submenu1" data-toggle="collapse" aria-expanded="false"
                        class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-start align-items-center">
-                            <span class="fa-solid fa-layer-group icon"></span>
+                            <span class="fa-solid fa-layer-group icon"></span>  
                             <span class="menu-collapsed">Quản Lí</span>
                             <span class="submenu-icon ml-auto"></span>
                             <i class="fa-solid fa-angle-down pl"></i>
@@ -97,7 +97,7 @@
                 </ul><!-- List Group END-->
             </div><!-- sidebar-container END -->
             <!-- MAIN -->
-            <div class="col bg-light">
+            <div class="col bg-light" , style="overflow-y: scroll; max-height: 100vh;">
                 @RenderBody()
             </div>
         </div><!-- body-row END -->
