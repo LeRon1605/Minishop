@@ -14,11 +14,14 @@ namespace PBL3.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         // GET: Admin/Product
-        public ActionResult Index(int page = 1)
+        public ActionResult Index(int page = 1, string keyword = "All", string categoryID = "All", string price = "All")
         {
             ProductDAO productDAO = new ProductDAO();
             int totalPage;
-            ViewBag.products = productDAO.getPage(page, 10, out totalPage);
+            ViewBag.products = productDAO.getPage(page, 10, keyword, categoryID, price, out totalPage);
+            ViewBag.keyword = keyword;
+            ViewBag.categoryID = categoryID;
+            ViewBag.price = price;
             ViewBag.categories = new CategoryDAO().findAll();
             ViewBag.pagingData = new PagingModel
             {
@@ -27,6 +30,23 @@ namespace PBL3.Areas.Admin.Controllers
                 GenerateURL = (int pageNum) => $"?page={pageNum}"
             };
             return View();
+        }
+        [HttpGet]
+        public ActionResult View(int? id, bool isEdit = false)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }    
+            ViewBag.isEdit = isEdit;
+            ViewBag.categories = new CategoryDAO().findAll();
+            Product product = new ProductDAO().find((int)id);
+            if (product == null)
+            {
+                TempData["Message"] = "Sản phẩm không tồn tại";
+                return RedirectToAction("Index");
+            }    
+            return View(product);
         }
 
         [HttpPost]
@@ -42,7 +62,7 @@ namespace PBL3.Areas.Admin.Controllers
                         string path = Path.Combine(Server.MapPath("~/public/uploads/products"), fileName);
                         Image.SaveAs(path);
                         ProductDAO productDAO = new ProductDAO();
-                        product.Image = path;
+                        product.Image = $"/public/uploads/products/{fileName}";
                         productDAO.Add(product);
                         return new JsonResult
                         {
@@ -90,6 +110,36 @@ namespace PBL3.Areas.Admin.Controllers
                         detail = "Dữ liệu không hợp lệ"
                     }
                 };
+            }
+        }
+
+        public ActionResult Update(Product product, HttpPostedFileBase file)
+        {
+            if (ModelState.IsValid)
+            {
+                ProductDAO productDAO = new ProductDAO();
+                if (file != null && file.ContentLength > 0)
+                {
+                    string fileName = Path.GetFileName(file.FileName);
+                    string path = Path.Combine(Server.MapPath("~/public/uploads/products"), fileName);
+                    file.SaveAs(path);
+                    product.Image = $"/public/uploads/products/{fileName}";
+                }
+                if (productDAO.Update(product))
+                {
+                    TempData["UpdateMessage"] = "Cập nhật thành công";
+                    return RedirectToAction("View", new { id = product.ID });
+                }
+                else
+                {
+                    TempData["UpdateMessage"] = "Cập nhật thất bại";
+                    return RedirectToAction("View", new { id = product.ID, isEdit = true });
+                }
+            }
+            else
+            {
+                TempData["UpdateMessage"] = "Dữ liệu không hợp lệ";
+                return RedirectToAction("View", new { id = product.ID, isEdit = true });
             }
         }
 
