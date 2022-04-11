@@ -19,7 +19,7 @@
 
 .sidebar-collapsed {
     /*width: 60px;*/
-    width: 100px;
+    width: 60px;
 }
 
 /* ----------| Menu item*/
@@ -62,7 +62,7 @@ a.bg-dark {
     background-color: #132644 !important;
 }
 .icon {
-    padding-right: 25px;
+    padding-right: 15px;
 }
 .subicon {
     padding-right: 15px;
