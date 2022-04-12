@@ -28,42 +28,42 @@
     <div class="table-wrapper">
         @using (Html.BeginForm("Index", "Product", FormMethod.Get))
         {
-        <div class="row">
-            <div class="col-sm-8 row">
-                <div class="col-sm-4">
-                    <label class="form-label">Loại sản phẩm</label>
-                    <select class="form-select" name="categoryID" id="CategoryID_product">
-                        <option value="All">All</option>
-                        @foreach (Category category in categories)
-                        {
-                            if (ViewBag.categoryID != "All" && category.ID == int.Parse(ViewBag.categoryID))
+            <div class="row">
+                <div class="col-sm-8 row">
+                    <div class="col-sm-4">
+                        <label class="form-label">Loại sản phẩm</label>
+                        <select class="form-select" name="CategoryID">
+                            <option value="All">All</option>
+                            @foreach (Category category in categories)
                             {
-                                <option value="@category.ID" selected>@category.Name</option>
+                                if (ViewBag.CategoryID != "All" && category.ID == int.Parse(ViewBag.CategoryID))
+                                {
+                                    <option value="@category.ID" selected>@category.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@category.ID">@category.Name</option>
+                                }
                             }
-                            else
-                            {
-                                <option value="@category.ID">@category.Name</option>
-                            }
-                        }
-                    </select>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="form-label">Giá sản phẩm</label>
+                        <select class="form-select" name="Price">
+                            <option value="All">All</option>
+                            <option value="100000">Dưới 100.000</option>
+                            <option value="1000000">Dưới 1.000.000</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-sm-4">
-                    <label class="form-label">Giá sản phẩm</label>
-                    <select class="form-select" name="price">
-                        <option value="All">All</option>
-                        <option value="100000">Dưới 100.000</option>
-                        <option value="1000000">Dưới 1.000.000</option>
-                    </select>
+                <div class="col-sm-4 p-0">
+                    <label class="form-label">Tìm kiếm</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="keyword" placeholder="Nhập từ khóa tìm kiếm" value=@ViewBag.keyword>
+                        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
                 </div>
             </div>
-            <div class="col-sm-4 p-0">
-                <label class="form-label">Tìm kiếm</label>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="keyword" placeholder="Nhập từ khóa tìm kiếm" value=@ViewBag.keyword>
-                    <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </div>
-            </div>
-        </div>
 
         }
         <table class="table table-striped table-hover">
@@ -86,25 +86,32 @@
                         <td>@products[i].Name</td>
                         <td>@products[i].Category.Name</td>
                         <td>@products[i].Price</td>
-                        <td>@products[i].Stock</td>
+                        <td class="product_stock_table" data-id="@products[i].ID">@products[i].Stock</td>
                         <td>0</td>
-                        <td class="d-flex">
-                            <a href="@Url.Action("View", "Product", new { id = products[i].ID })" class="btn bg-success rounded m-0" title="Xem chi tiết sản phẩm" data-toggle="tooltip">
-                                <i class="fa-solid fa-eye" style="color: white"></i>
-                            </a>
-                            <a href="@Url.Action("View", "Product", new { id = products[i].ID, isEdit = true, area = "Admin" })" class="btn bg-primary rounded" title="Chỉnh sửa sản phẩm">
-                                <i class="fa-solid fa-pen" style="color: white"></i>
-                            </a>
-                            <button type="submit" class="btn bg-danger rounded" title="Xóa sản phẩm" data-index="@i" data-id="@products[i].ID" onclick="deleteProduct(this)">
-                                <i class="fa-solid fa-trash-can" style="color: white"></i>
-                            </button>
+                        <td>
+                            <div class="d-flex">
+                                <a href="@Url.Action("View", "Product", new { id = products[i].ID })" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết sản phẩm" data-toggle="tooltip">
+                                    <i class="fa-solid fa-eye" style="color: white"></i>
+                                </a>
+                                <a href="@Url.Action("View", "Product", new { id = products[i].ID, isEdit = true, area = "Admin" })" class="btn bg-primary rounded ms-2" title="Chỉnh sửa sản phẩm">
+                                    <i class="fa-solid fa-pen" style="color: white"></i>
+                                </a>
+                                <button type="button" class="btn bg-dark rounded ms-2" title="Nhập hàng" data-bs-toggle="modal" data-bs-target="#importProductModal" data-index="@i" data-id="@products[i].ID" data-name="@products[i].Name" onclick="transferData(this)">
+                                    <i class="fa-solid fa-plus" style="color: white"></i>
+                                </button>
+
+                                <button type="submit" class="btn bg-danger rounded ms-2" title="Xóa sản phẩm" data-index="@i" data-id="@products[i].ID" onclick="deleteProduct(this)">
+                                    <i class="fa-solid fa-trash-can" style="color: white"></i>
+                                </button>
+
+                            </div>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
         <div class="clearfix">
-            <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+            <div class="hint-text">Showing <b>8</b> out of <b>25</b> entries</div>
             @Html.Partial("_Pagination", pagingData)
         </div>
     </div>
@@ -171,6 +178,7 @@
                 </div>
             </div>
             <div class="mb-3">
+             
                 @Html.LabelFor(model => model.Power, htmlAttributes: new { @class = "form-label" })
                 <div class="input-group mb-3">
                     @Html.EditorFor(model => model.Power, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập công suất sản phẩm", @id = "power_product" } })
@@ -218,6 +226,36 @@
         <div class="toast-body text-white bg-success" id="toast_body">
 
         </div>
+    </div>
+</div>
+
+<div class="modal fadeInDown" id="importProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nhập hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            @using (Html.BeginForm("Import", "Product", FormMethod.Get, new { @id = "importForm" }))
+            {
+                <div class="modal-body">
+                    <input name="id" class="d-none" value="" id="product_id_modal"/>
+                    <div class="mb-3">
+                        <label class="form-label">Tên sản phẩm</label>
+                        <input class="form-control" id="product_name_modal" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Số lượng hàng</label>
+                        <input class="form-control" id="product_quantity_modal" placeholder="Nhập số lượng hàng muốn nhập thêm">
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                </div>
+            }
+            </div>
     </div>
 </div>
 

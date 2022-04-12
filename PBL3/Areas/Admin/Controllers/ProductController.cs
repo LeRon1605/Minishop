@@ -14,20 +14,20 @@ namespace PBL3.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         // GET: Admin/Product
-        public ActionResult Index(int page = 1, string keyword = "All", string categoryID = "All", string price = "All")
+        public ActionResult Index(int page = 1, string keyword = "", string CategoryID = "All", string Price = "All")
         {
             ProductDAO productDAO = new ProductDAO();
-            int totalPage;
-            ViewBag.products = productDAO.getPage(page, 10, keyword, categoryID, price, out totalPage);
+            int totalPage = 0;
+            ViewBag.products = productDAO.getPage(page, 10, keyword, CategoryID, Price, out totalPage);
             ViewBag.keyword = keyword;
-            ViewBag.categoryID = categoryID;
-            ViewBag.price = price;
+            ViewBag.CategoryID = CategoryID;
+            ViewBag.Price = Price;
             ViewBag.categories = new CategoryDAO().findAll();
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,
                 CurrentPage = page,
-                GenerateURL = (int pageNum) => $"?page={pageNum}"
+                GenerateURL = (int pageNum) => $"?page={pageNum}&keyword={keyword}&CategoryID={CategoryID}&Price={Price}"
             };
             return View();
         }
@@ -140,6 +140,34 @@ namespace PBL3.Areas.Admin.Controllers
             {
                 TempData["UpdateMessage"] = "Dữ liệu không hợp lệ";
                 return RedirectToAction("View", new { id = product.ID, isEdit = true });
+            }
+        }
+
+        public ActionResult Import(int id, int quantity)
+        {
+            ProductDAO productDAO = new ProductDAO();
+            if (productDAO.import(id, quantity))
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        status = true,
+                        message = "Nhập hàng vào kho thành công"
+                    }
+                };
+            }
+            else
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        status = false,
+                        message = "Nhập hàng vào kho thất bại",
+                        detail = "Sản phẩm không tồn tại"
+                    }
+                };
             }
         }
 

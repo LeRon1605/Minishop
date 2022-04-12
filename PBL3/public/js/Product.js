@@ -21,6 +21,15 @@ let showToast = (status, message) => {
     toastBody.innerText = message;
     $("#notification_toast").toast('show');
 }
+
+let transferData = (e) => {
+    let name = e.dataset.name;
+    let id = e.dataset.id;
+
+    $('#product_name_modal').val(name);
+    document.getElementById('product_id_modal').value = id;
+};
+
 let deleteProduct = (e) =>
 {
     let table = document.getElementById('list_product');
@@ -39,7 +48,7 @@ let deleteProduct = (e) =>
             {
                 STT[i].innerText = parseInt(STT[i].innerText) - 1;
             };
-            e.parentElement.parentElement.remove();
+            e.parentElement.parentElement.parentElement.remove();
         }
         showToast(res.data.status, res.data.message);
     })
@@ -60,6 +69,35 @@ for (let i = 0; i < action.length; i++) {
 inputImage.onchange = (e) => {
     image.src = URL.createObjectURL(e.target.files[0]);
 }
+
+$('#importForm').on('submit', (e) => {
+    e.preventDefault();
+    const data = {
+        id: $('#product_id_modal').val(),
+        quantity: $('#product_quantity_modal').val(),
+    };
+    axios.post('/admin/product/import', data)
+        .then(res => {
+            if (res.data.status) {
+                const stock = document.getElementsByClassName('product_stock_table');
+                let index;
+                for (let i = 0; i < stock.length; i++) {
+                    if (stock[i].dataset.id == data.id) {
+                        index = i;
+                        break;
+                    }
+                }
+                console.log(stock);
+                console.log(index);
+                stock[index].innerText = `${parseInt(stock[index].innerText.trim()) + parseInt(data.quantity.trim())}`;
+            }
+            showToast(res.data.status, res.data.message);
+        })
+    $('#product_name_modal').val('');
+    $('#product_id_modal').val('');
+    $('#product_quantity_modal').val('');
+    $('#importProductModal').modal('toggle');
+})
 
 $("#submitBtn").click(function (e) {
     const formData = new FormData();

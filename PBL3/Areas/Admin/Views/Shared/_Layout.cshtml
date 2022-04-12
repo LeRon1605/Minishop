@@ -13,31 +13,22 @@
 </head>
 <body>
     <div class="container-fluid p-0">
-
-        <!-- Bootstrap row -->
         <div class="row" id="body-row">
-            <!-- Sidebar -->
             <div id="sidebar-container" class="sidebar-expanded d-md-block">
-                <!-- d-* hiddens the Sidebar in smaller devices. Its itens can be kept on the Navbar 'Menu' -->
-                <!-- Bootstrap List Group -->
                 <ul class="list-group">
-                    <!-- Separator with title -->
                     <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed padding">
                         <small class="text">MINI SHOP</small>
                     </li>
-                    <!-- /END Separator -->
-                    <!-- Menu with submenu -->
                     <a href="#submenu1" data-toggle="collapse" aria-expanded="false"
                        class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-start align-items-center">
-                            <span class="fa-solid fa-layer-group icon"></span>  
+                            <span class="fa-solid fa-layer-group icon"></span>
                             <span class="menu-collapsed">Quản Lí</span>
-                            <span class="submenu-icon ml-auto"></span>
-                            <i class="fa-solid fa-angle-down pl"></i>
+                            <span class="submenu-icon me-auto"></span>
+                            <i class="fa-solid fa-angle-down"></i>
                         </div>
                     </a>
-                    <!-- Submenu content -->
-                    <div id='submenu1' class="collapse sidebar-submenu">
+                    <div id="submenu1" class="collapse sidebar-submenu">
                         <a href="@Url.Action("Index", "Product", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="fa-solid fa-store subicon"></span>
                             <span class="menu-collapsed">Quản Lí Sản Phẩm</span>
@@ -110,15 +101,15 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
-    <!-- Popper.JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
-            integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
-            crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
             integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
             crossorigin="anonymous"></script>
-    @RenderSection("scripts", required: false)
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+            integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+            crossorigin="anonymous"></script>
     <script src="~/public/js/Sidebar.js"></script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>

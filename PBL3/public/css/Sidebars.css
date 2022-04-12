@@ -24,7 +24,6 @@
 
 /* ----------| Menu item*/
 #sidebar-container .list-group a {
-    height: 50px;
     color: white;
 }
 
@@ -34,7 +33,6 @@
 }
 
 #sidebar-container .list-group .sidebar-submenu a {
-    height: 45px;
     padding-left: 30px;
 }
 
