@@ -28,7 +28,7 @@ namespace PBL3.Areas.Admin.Controllers
                 new CategoryDAO().Add(category);
                 TempData["Message"] = "Thêm thành công";
             }
-            return View();
+            return View("Index");
         }
 
         [HttpGet]
