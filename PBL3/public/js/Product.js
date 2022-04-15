@@ -129,12 +129,12 @@ $("#submitBtn").click(function (e) {
             } else {
                 let product = res.data.product;
                 let nextBtn = document.getElementById('next_btn');
-                if (nextBtn.classList.contains('disabled'))
+                if (nextBtn == null || nextBtn.classList.contains('disabled'))
                 {
                     let tableBody = document.getElementById('table_body');
-                    if (tableBody.length == 5) {
+                    if (tableBody.length == 10) {
                         let currentPage = document.getElementById('current_page').dataset.current;
-                        nextBtn.remove();
+                        if (!nextBtn) nextBtn.remove();
                         $('#pagination').innerHTML += `
                                         <li class="page-item" id="next_btn"><a href="/admin/product?page=${currentPage + 1}" class="page-link">${currentPage + 1}</a></li>
                                         <li class="page-item" id="next_btn"><a href="/admin/product?page=${currentPage + 1}" class="page-link">Next</a></li>
