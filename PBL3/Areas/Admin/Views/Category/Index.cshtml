@@ -1,7 +1,127 @@
-﻿
+﻿@using EF.Models
+@using PBL3.Models
+@model Category
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Category";
+
 }
+@section Styles
+{
+    <link rel="stylesheet" href="~/public/css/table.css" />
+}
+<div class="d-flex mt-3 p-2">
+    <div class="btn m-0 btn-outline-none action_product action_product_click">
+        <i class="fa-solid fa-list"></i>
+        Danh sách loại sản phẩm
+    </div>
+    <div class="btn m-0 action_product">
+        <i class="fa-solid fa-plus"></i>
+        Thêm loại sản phẩm
+    </div>
+</div>
+<div class="table-responsive mt-3 shadow" id="list_product">
+    <div class="table-wrapper">
+        @using (Html.BeginForm("Index", "Category", FormMethod.Get))
+        {
+            <div class="row">
+                <div class="col-sm-8 row">
 
-<h2>Category Index</h2>
+                </div>
+                <div class="col-sm-4 p-0">
+                    <label class="form-label">Tìm kiếm</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="keyword_search" name="keyword" placeholder="Nhập từ khóa tìm kiếm">
+                        <button class="btn btn-primary" type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+            </div>
 
+        }
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Mô tả</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="table_body">
+
+                <tr>
+                    @*<td class="STT">@(i + 1)</td>*@
+
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <div class="d-flex">
+                            <a href="@Url.Action("View", "Product")" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết sản phẩm" data-toggle="tooltip">
+                                <i class="fa-solid fa-eye" style="color: white"></i>
+                            </a>
+                            <a href="@Url.Action("View", "Product")" class="btn bg-primary rounded ms-2" title="Chỉnh sửa sản phẩm">
+                                <i class="fa-solid fa-pen" style="color: white"></i>
+                            </a>
+                            <button type="submit" class="btn bg-danger rounded ms-2" title="Xóa sản phẩm" onclick="deleteProduct(this)">
+                                <i class="fa-solid fa-trash-can" style="color: white"></i>
+                            </button>
+
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="clearfix">
+            <div class="hint-text">Hiển thị <b>10</b> trên <b>@ViewBag.Total</b> sản phẩm</div>
+            @*@Html.Partial("_Pagination", pagingData)*@
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("Add", "Category", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "p-5 mt-3 bg-white shadow rounded d-none", @id = "add_form" }))
+{
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-primary col-12 mt-3" id="submitBtn" type="submit">Thêm sản phẩm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    let action = document.getElementsByClassName('action_product');
+
+    // Content 
+    let listProduct = document.getElementById('list_product');
+    let addForm = document.getElementById('add_form');
+
+    for (let i = 0; i < action.length; i++) {
+        action[i].addEventListener('click', (e) => {
+            for (let j = 0; j < action.length; j++) {
+                action[j].classList.toggle('action_product_click');
+            }
+            console.log(listProduct);
+            listProduct.classList.toggle('d-none');
+            addForm.classList.toggle('d-none');
+        });
+    }
+</script>
