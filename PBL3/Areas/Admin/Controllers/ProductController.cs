@@ -63,54 +63,27 @@ namespace PBL3.Areas.Admin.Controllers
                         product.Image = $"/public/uploads/products/{fileName}";
                         productDAO.Add(product);
                         product.Category = new CategoryDAO().find(product.CategoryID);
-                        return new JsonResult
-                        {
-                            Data = new
-                            {
-                                product = product,
-                                status = true,
-                                message = "Thêm sản phẩm thành công"
-                            }
-                        };
+                        TempData["AddStatus"] = true;
                     }
                     else
                     {
-                        return new JsonResult
-                        {
-                            Data = new
-                            {
-                                status = false,
-                                message = "Thêm sản phẩm thất bại",
-                                detail = "Dữ liệu không hợp lệ"
-                            }
-                        };
+                        TempData["AddStatus"] = false;
+                        TempData["AddDetail"] = "Dữ liệu không hợp lệ";
                     }
                 }
                 catch
-                {                  
-                    return new JsonResult
-                    {
-                        Data = new
-                        {
-                            status = false,
-                            message = "Thêm sản phẩm thất bại",
-                            detail = "Tải file thất bại"
-                        }
-                    };
+                {
+                    TempData["AddStatus"] = false;
+                    TempData["AddDetail"] = "Tải thất bại";
                 }
             }
             else
             {
-                return new JsonResult
-                {
-                    Data = new
-                    {
-                        status = false,
-                        message = "Thêm sản phẩm thất bại",
-                        detail = "Dữ liệu không hợp lệ"
-                    }
-                };
+
+                TempData["AddStatus"] = false;
+                TempData["AddDetail"] = "Dữ liệu không hợp lệ";
             }
+            return RedirectToAction("Index");
         }
 
         public ActionResult Update(Product product, HttpPostedFileBase file)

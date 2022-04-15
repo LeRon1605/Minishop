@@ -1,4 +1,5 @@
-﻿using EF.Models;
+﻿using EF.DAO;
+using EF.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,10 @@ namespace PBL3.Controllers
     {
         public ActionResult Index()
         {
-             //ShopOnlineDbContext context = new ShopOnlineDbContext();
-             //context.Database.EnsureCreated();
+            //ShopOnlineDbContext context = new ShopOnlineDbContext();
+            //context.Database.EnsureCreated();
+            List<Product> products = new ProductDAO().findAll();
+            ViewBag.products = products;
             return View();
         }
 

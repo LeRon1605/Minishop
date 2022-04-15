@@ -100,87 +100,13 @@ $('#importForm').on('submit', (e) => {
     $('#importProductModal').modal('toggle');
 })
 
-$("#submitBtn").click(function (e) {
-    const formData = new FormData();
-    formData.append('Name', $('#name_product').val());
-    formData.append('CategoryID', document.getElementById('CategoryID_product').options[document.getElementById('CategoryID_product').selectedIndex].value);
-    formData.append('Price', $('#price_product').val());
-    formData.append('Image', inputImage.files[0], $('#inputImage').val());
-    formData.append('Description', $('#description_product').val());
-    formData.append('Mass', $('#mass_product').val());
-    formData.append('Power', $('#power_product').val());
-    formData.append('Stock', $('#stock_product').val());
-    formData.append('Producer', $('#producer_product').val());
-    formData.append('ProducerDate', new Date($('#producerDate_product').val()).toLocaleDateString('en-GB'));
-    formData.append('MaintenanceTime', $('#maintenanceTime_product').val());
-    e.preventDefault();
-    axios.post('/admin/product/add',
-        formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-    })
-        .then((res) => {
-            if (!res.data.status) {
-                document.getElementById('notification').innerHTML = `
-                        <div class="alert alert-danger" role="alert">
-                            ${res.data.detail}
-                        </div>`;
-            } else {
-                let product = res.data.product;
-                let nextBtn = document.getElementById('next_btn');
-                if (nextBtn == null || nextBtn.classList.contains('disabled'))
-                {
-                    let tableBody = document.getElementById('table_body');
-                    if (tableBody.length == 10) {
-                        let currentPage = document.getElementById('current_page').dataset.current;
-                        if (!nextBtn) nextBtn.remove();
-                        $('#pagination').innerHTML += `
-                                        <li class="page-item" id="next_btn"><a href="/admin/product?page=${currentPage + 1}" class="page-link">${currentPage + 1}</a></li>
-                                        <li class="page-item" id="next_btn"><a href="/admin/product?page=${currentPage + 1}" class="page-link">Next</a></li>
-                        `;
-                    } else {
-                        let newRow = `
-                            <tr>
-                                <td class="STT">${tableBody.childElementCount + 1}</td>
-                                <td>${product.Name}</td>
-                                <td>${product.Category.Name}</td>
-                                <td>${product.Price}</td>
-                                <td class="product_stock_table" data-id="${product.ID}">${product.Stock}</td>
-                                <td>0</td>
-                                <td>
-                                    <div class="d-flex">
-                                        <a href="/admin/product/view/${product.ID}" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết sản phẩm" data-toggle="tooltip">
-                                            <i class="fa-solid fa-eye" style="color: white"></i>
-                                        </a>
-                                        <a href="/admin/product/view/${product.ID}?isEdit=true" class="btn bg-primary rounded ms-2" title="Chỉnh sửa sản phẩm">
-                                            <i class="fa-solid fa-pen" style="color: white"></i>
-                                        </a>
-                                        <button type="button" class="btn bg-dark rounded ms-2" title="Nhập hàng" data-bs-toggle="modal" data-bs-target="#importProductModal" data-index="${tableBody.childElementCount}" data-id="${product.ID}" data-name=${product.Name} onclick="transferData(this)">
-                                            <i class="fa-solid fa-plus" style="color: white"></i>
-                                        </button>
-
-                                        <button type="submit" class="btn bg-danger rounded ms-2" title="Xóa sản phẩm" data-index="${tableBody.childElementCount}" data-id="${product.ID}" onclick="deleteProduct(this)">
-                                            <i class="fa-solid fa-trash-can" style="color: white"></i>
-                                        </button>
-
-                                    </div>
-                                </td>
-                            </tr>
-                        `;
-                        tableBody.innerHTML += newRow;
-                    }
-                }
-            }
-            showToast(res.data.status, res.data.message);
-        })
-});
-
 window.addEventListener('load', (e) => {
     const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
     });
+    const toast = document.getElementById('toast_body');
     $('#keyword_search').val(params.keyword || '');
     $('#category_search').val(params.CategoryID || 'All');
     $('#price_search').val(params.Price || 'All');
+    if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
 })

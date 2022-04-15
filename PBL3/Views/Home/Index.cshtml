@@ -1,3 +1,31 @@
-﻿@{
-    ViewBag.Title = "ShopOnline";
+﻿@using EF.Models
+@{
+    ViewBag.Title = "Shoponline";
+    List<Product> products = ViewBag.products as List<Product>;
 }
+
+<div class="container-fluid mt-3">
+    <div class="row g-0 container-fluid d-flex justify-content-center">
+        <div class="col-md-2 bg-white shadow"> a</div>
+        <div class="col-md-8 d-flex flex-wrap rounded ms-5">
+            @foreach (Product product in products)
+            {
+                <figure class="figure col-4 bg-light p-3 rounded ms-4" style="width: 250px">
+                    <img src="@product.Image"
+                         class="figure-img img-fluid rounded" style="width: 250px; height: 200px">
+                    <figcaption class="figure-caption text-start">
+                        <p class="m-0">@product.Name</p>
+                        <p class="m-0">@product.Price</p>
+                        <div>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                        </div>
+                    </figcaption>
+                </figure>
+            }
+        </div>
+    </div>
+</div>
