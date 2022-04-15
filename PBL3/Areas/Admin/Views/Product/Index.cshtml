@@ -13,8 +13,28 @@
     <link rel="stylesheet" href="~/public/css/table.css" />
     <link rel="stylesheet" href="~/public/css/Add_Product.css" />
 }
+<div class="row d-flex container-fluid mt-3">
+    <div class="col-3 row p-4 bg-success text-white rounded shadow">
+        <div class="col-3 d-flex align-items-center justify-content-start">
+            <i class="fa-solid fa-chart-pie" style="font-size: 50px"></i>
+        </div>
+        <div class="col-9">
+            <div class="text-end" id="total_product">@ViewBag.Total</div>
+            <div class="text-end">Tổng sản phẩm</div>
+        </div>
+    </div>
+    <div class="col-4 row p-4 bg-primary text-white rounded shadow ms-4">
+        <div class="col-3 d-flex align-items-center justify-content-start">
+            <i class="fa-solid fa-chart-pie" style="font-size: 50px"></i>
+        </div>
+        <div class="col-9">
+            <div class="text-end">0</div>
+            <div class="text-end">Tổng sản phẩm được bán</div>
+        </div>
+    </div>
+</div>
 
-<div class="d-flex">
+<div class="d-flex mt-3 p-2">
     <div class="btn m-0 btn-outline-none action_product action_product_click">
         <i class="fa-solid fa-list"></i>
         Danh sách sản phẩm
@@ -32,24 +52,17 @@
                 <div class="col-sm-8 row">
                     <div class="col-sm-4">
                         <label class="form-label">Loại sản phẩm</label>
-                        <select class="form-select" name="CategoryID">
+                        <select class="form-select" name="CategoryID" id="category_search">
                             <option value="All">All</option>
                             @foreach (Category category in categories)
                             {
-                                if (ViewBag.CategoryID != "All" && category.ID == int.Parse(ViewBag.CategoryID))
-                                {
-                                    <option value="@category.ID" selected>@category.Name</option>
-                                }
-                                else
-                                {
-                                    <option value="@category.ID">@category.Name</option>
-                                }
+                                <option value="@category.ID">@category.Name</option>
                             }
                         </select>
                     </div>
                     <div class="col-sm-4">
                         <label class="form-label">Giá sản phẩm</label>
-                        <select class="form-select" name="Price">
+                        <select class="form-select" name="Price" id="price_search">
                             <option value="All">All</option>
                             <option value="100000">Dưới 100.000</option>
                             <option value="1000000">Dưới 1.000.000</option>
@@ -59,8 +72,8 @@
                 <div class="col-sm-4 p-0">
                     <label class="form-label">Tìm kiếm</label>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="keyword" placeholder="Nhập từ khóa tìm kiếm" value=@ViewBag.keyword>
-                        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <input type="text" class="form-control" id="keyword_search" name="keyword" placeholder="Nhập từ khóa tìm kiếm">
+                        <button class="btn btn-primary" type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </div>
             </div>
@@ -78,7 +91,7 @@
                     <th>Hành động</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="table_body">
                 @for (int i = 0; i < products.Count; i++)
                 {
                     <tr>
@@ -111,7 +124,7 @@
             </tbody>
         </table>
         <div class="clearfix">
-            <div class="hint-text">Showing <b>8</b> out of <b>25</b> entries</div>
+            <div class="hint-text">Hiển thị <b>10</b> trên <b>@ViewBag.Total</b> sản phẩm</div>
             @Html.Partial("_Pagination", pagingData)
         </div>
     </div>
@@ -230,7 +243,7 @@
 </div>
 
 <div class="modal fadeInDown" id="importProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Nhập hàng</h5>

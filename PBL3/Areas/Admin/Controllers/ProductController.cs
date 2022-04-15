@@ -19,9 +19,7 @@ namespace PBL3.Areas.Admin.Controllers
             ProductDAO productDAO = new ProductDAO();
             int totalPage = 0;
             ViewBag.products = productDAO.getPage(page, 10, keyword, CategoryID, Price, out totalPage);
-            ViewBag.keyword = keyword;
-            ViewBag.CategoryID = CategoryID;
-            ViewBag.Price = Price;
+            ViewBag.Total = productDAO.Count();
             ViewBag.categories = new CategoryDAO().findAll();
             ViewBag.pagingData = new PagingModel
             {
@@ -64,10 +62,12 @@ namespace PBL3.Areas.Admin.Controllers
                         ProductDAO productDAO = new ProductDAO();
                         product.Image = $"/public/uploads/products/{fileName}";
                         productDAO.Add(product);
+                        product.Category = new CategoryDAO().find(product.CategoryID);
                         return new JsonResult
                         {
                             Data = new
                             {
+                                product = product,
                                 status = true,
                                 message = "Thêm sản phẩm thành công"
                             }

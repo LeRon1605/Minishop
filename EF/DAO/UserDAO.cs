@@ -24,7 +24,6 @@ namespace EF.DAO
         {
             return context.Users.ToList();
         }
-
         public async Task<bool> Add(User newUser)
         {
             User user = context.Users.ToList().Where(u => u.Email == newUser.Email).FirstOrDefault();

@@ -85,6 +85,11 @@ namespace EF.DAO
             return context.Products.Find(id);
         }
 
+        public int Count()
+        {
+            return context.Products.Count();
+        }
+
         public bool import(int id, int quantity)
         {
             Product product = context.Products.Find(id);

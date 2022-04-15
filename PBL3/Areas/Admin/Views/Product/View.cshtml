@@ -29,37 +29,41 @@
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-4 d-flex flex-column justify-content-start align-items-center">
-                    <img src="@Model.Image"
-                         alt="" class="img-fluid rounded img-thumbnail" id="image">
-                    <label class="custom-file-upload mt-3">
-                        @if (editable)
-                        {
-                            <input type="file" id="inputImage" name="file"/>
-                            @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class="d-none" } })
-                        }
-                        else
-                        {
-                            @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @disabled = "disabled", @type = "file", @id = "inputImage", name = "image"} })
-                        }
-                        Choose File
-                    </label>
-                    <div id="picture-err" class="form-text d-none" style="text-align: center;color: red">
-                        Ảnh không hợp lệ
+                    <div class="d-flex flex-column justify-content-start align-items-center">
+                        <img src="@Model.Image"
+                             alt="" class="img-fluid rounded img-thumbnail" id="image">
+                        <label class="custom-file-upload mt-3">
+                            @if (editable)
+                            {
+                                <input type="file" id="inputImage" name="file" />
+                                @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "d-none" } })
+                            }
+                            else
+                            {
+                                @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @disabled = "disabled", @type = "file", @id = "inputImage", name = "image" } })
+                            }
+                            Choose File
+                        </label>
+                        <div id="picture-err" class="form-text d-none" style="text-align: center;color: red">
+                            Ảnh không hợp lệ
+                        </div>
                     </div>
-                    <div class="mb-3 mt-3">
-                        @Html.LabelFor(model => model.CreatedAt, htmlAttributes: new { @class = "form-label" })
-                        <input disabled value="@Model.CreatedAt.ToString()" type="text" class="form-control" />
-                    </div>
-                    <div class="mb-3">
-                        @Html.LabelFor(model => model.UpdatedAt, htmlAttributes: new { @class = "form-label" })
-                        @if (Model.UpdatedAt != null)
-                        {
-                            <input disabled value="@Model.UpdatedAt.ToString()" type="text" class="form-control" />
-                        }
-                        else
-                        {
-                            <input disabled value="dd/mm/yyyy" type="text" class="form-control" />
-                        }
+                    <div class="mt-auto col-md-12">
+                        <div>
+                            @Html.LabelFor(model => model.CreatedAt, htmlAttributes: new { @class = "form-label" })
+                            <input disabled value="@Model.CreatedAt.ToString()" type="text" class="form-control" />
+                        </div>
+                        <div class="mt-3">
+                            @Html.LabelFor(model => model.UpdatedAt, htmlAttributes: new { @class = "form-label" })
+                            @if (Model.UpdatedAt != null)
+                            {
+                                <input disabled value="@Model.UpdatedAt.ToString()" type="text" class="form-control" />
+                            }
+                            else
+                            {
+                                <input disabled value="dd/mm/yyyy" type="text" class="form-control" />
+                            }
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -77,7 +81,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="title" class="form-label">Loại sản phẩm</label>
-                        <select class="form-select" name="CategoryID" id="CategoryID_product">
+                        <select class="form-select" name="CategoryID" id="CategoryID_product" disabled=@(!editable)>
                             <option selected>--Chọn loại sản phẩm--</option>
                             @foreach (Category category in categories)
                             {
@@ -91,7 +95,7 @@
                                 }
                             }
                         </select>
-                    </div>
+</div>
                     <div class="mb-3">
                         @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "form-label" })
                         <div class="input-group mb-3">
@@ -174,11 +178,11 @@
                 @Html.LabelFor(model => model.ProducerDate, htmlAttributes: new { @class = "form-label" })
                 @if (editable)
                 {
-                    @Html.EditorFor(model => model.ProducerDate, new { htmlAttributes = new { @class = $"form-control", @type = "date", @id = "producerDate_product" } })
+                <input value="@Model.ProducerDate.ToString("yyyy-MM-dd")" type="date" class="form-control" id="producerDate_product" value=@Model.ProducerDate.ToString("yyyy-MM-dd") />
                 }
                 else
                 {
-                    <input disabled value="@Model.ProducerDate.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-GB"))" type="text" class="form-control" />
+                    <input disabled value="@Model.ProducerDate.ToString("yyyy-MM-dd")" type="date" class="form-control" id = "producerDate_product"/>
                 }
                 @Html.ValidationMessageFor(model => model.ProducerDate, "", new { @class = "text-danger" })
             </div>
@@ -197,14 +201,14 @@
                     @Html.ValidationMessageFor(model => model.MaintenanceTime, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="mb-3">
+            <div class="">
                 @if (editable)
                 {
                     <button class="btn btn-primary col-12 mt-3" id="submitBtn" type="submit">Xác nhận</button>
                 }
                 else
                 {
-                    @Html.ActionLink("Cập nhật sản phẩm", "View", new { id = Model.ID, isEdit = true }, new { @class = "btn btn-primary text-deceration-none" })
+                    @Html.ActionLink("Cập nhật sản phẩm", "View", new { id = Model.ID, isEdit = true }, new { @class = "btn btn-primary text-deceration-none col-12 mt-3" })
                 }
             </div>
         </div>
@@ -225,6 +229,13 @@
 </div>
 
 @section scripts {
+    <script>
+        let inputImage = document.getElementById('inputImage');
+        let image = document.getElementById('image');
+        inputImage.onchange = (e) => {
+            image.src = URL.createObjectURL(e.target.files[0]);
+        }
+    </script>
     <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="/Scripts/jquery.validate.js"></script>
     <script src="/Scripts/jquery.validate.unobtrusive.js"></script>
