@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="~/public/css/Sidebars.css" />
     @RenderSection("Styles", false)
+    <style>
+        body {
+            background-color: #F0F2F5;
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid p-0">
@@ -92,7 +97,7 @@
                 </ul><!-- List Group END-->
             </div><!-- sidebar-container END -->
             <!-- MAIN -->
-            <div class="col bg-light" , style="overflow-y: scroll; max-height: 100vh;">
+            <div class="col" , style="overflow-y: scroll; max-height: 100vh">
                 @RenderBody()
             </div>
         </div><!-- body-row END -->

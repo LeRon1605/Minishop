@@ -13,6 +13,9 @@
         .test:hover {
             color: #0d6efd !important;
         }
+        body {
+            background-color: #F0F2F5;
+        }
     </style>
 </head>
 <body>
@@ -30,7 +33,7 @@
 
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item"">Category</a></li>
+                    <li><a class="dropdown-item" ">Category</a></li>
                     @if (Session["User"] == null)
                     {
                         <li>@Html.ActionLink("Đăng nhập", "Login", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
@@ -63,97 +66,98 @@
             }
         </div>
     </header>
+    <div class="container-fluid mt-5" style="background-color: #F0F2F5">
+        @RenderBody()
+    </div>
 
-    @RenderBody()
+    <footer class="bg-dark text-white pt-5 pb-4 mt-5">
+        <div class="container text-dark text-md-left">
 
-<footer class="bg-dark text-white pt-5 pb-4">
-    <div class="container text-dark text-md-left">
+            <div class="row text-start text-md-left">
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h5 class="mb-4 font-weight-bold text-muted">Where To Buy</h5>
 
-        <div class="row text-start text-md-left">
-            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                <h5 class="mb-4 font-weight-bold text-muted">Where To Buy</h5>
+                    <a href="#" class="text-white text-decoration-none test">See Authorized Retailer</a>
 
-                <a href="#" class="text-white text-decoration-none test">See Authorized Retailer</a>
+                </div>
 
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3 d-flex flex-column">
+                    <h5 class="mb-4 font-weight-bold text-muted">Sorry Reward</h5>
+                    <a href="#" class="text-white text-decoration-none test">Join Now</a>
+                    <a href="#" class="text-white text-decoration-none test">Learn More</a>
+                    <a href="#" class="text-white text-decoration-none test">Manager Account</a>
+                </div>
+
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3 d-flex flex-column">
+                    <h5 class="mb-4 font-weight-bold text-muted">New & Info</h5>
+
+                    <a href="#" class="text-white text-decoration-none test">Press Releases</a>
+                    <a href="#" class="text-white text-decoration-none test">About Sony</a>
+                    <a href="#" class="text-white text-decoration-none test">Product Support</a>
+                    <a href="#" class="text-white text-decoration-none test">Product Manual</a>
+                    <a href="#" class="text-white text-decoration-none test">Product Registration</a>
+                    <a href="#" class="text-white text-decoration-none test">Newsletter sign up</a>
+                    <a href="#" class="text-white text-decoration-none test">Accessibility and Usability</a>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3 d-flex flex-column">
+                    <h5 class="mb-4 font-weight-bold text-muted">Other Sites</h5>
+                    <a href="#" class="text-white text-decoration-none test">PlayStation</a>
+                    <a href="#" class="text-white text-decoration-none test">Sony Picture</a>
+                    <a href="#" class="text-white text-decoration-none test">Sony Music</a>
+                    <a href="#" class="text-white text-decoration-none test">Sony Mobile</a>
+                    <a href="#" class="text-white text-decoration-none test">Crackle</a>
+                    <a href="#" class="text-white text-decoration-none test">Sony Square NYC</a>
+                </div>
             </div>
-
-            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3 d-flex flex-column">
-                <h5 class="mb-4 font-weight-bold text-muted">Sorry Reward</h5>
-                <a href="#" class="text-white text-decoration-none test">Join Now</a>
-                <a href="#" class="text-white text-decoration-none test">Learn More</a>
-                <a href="#" class="text-white text-decoration-none test">Manager Account</a>
-            </div>
-
-            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3 d-flex flex-column">
-                <h5 class="mb-4 font-weight-bold text-muted">New & Info</h5>
-
-                <a href="#" class="text-white text-decoration-none test">Press Releases</a>
-                <a href="#" class="text-white text-decoration-none test">About Sony</a>
-                <a href="#" class="text-white text-decoration-none test">Product Support</a>
-                <a href="#" class="text-white text-decoration-none test">Product Manual</a>
-                <a href="#" class="text-white text-decoration-none test">Product Registration</a>
-                <a href="#" class="text-white text-decoration-none test">Newsletter sign up</a>
-                <a href="#" class="text-white text-decoration-none test">Accessibility and Usability</a>
-            </div>
-            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3 d-flex flex-column">
-                <h5 class="mb-4 font-weight-bold text-muted">Other Sites</h5>
-                <a href="#" class="text-white text-decoration-none test">PlayStation</a>
-                <a href="#" class="text-white text-decoration-none test">Sony Picture</a>
-                <a href="#" class="text-white text-decoration-none test">Sony Music</a>
-                <a href="#" class="text-white text-decoration-none test">Sony Mobile</a>
-                <a href="#" class="text-white text-decoration-none test">Crackle</a>
-                <a href="#" class="text-white text-decoration-none test">Sony Square NYC</a>
-            </div>
-        </div>
-        <hr class="mb-3">
-        <div class="row align-items-center">
-            <div class="col-md-2 col-lg-12">
-                <div class="text-center text-md-center">
-                    <ul class="justify-content-center">
-                        <li class="list-inline-item list-inline-item">
-                            <a href="#" class="text-white text-decoration-none test">For Professionals</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" class="text-white text-decoration-none test">Careers</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" class="text-white text-decoration-none test">Contact Us</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" class="text-white text-decoration-none test">Company info</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" class="text-white text-decoration-none test">Voluntary Recall</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" class="btn-sm btn-secondary" type="button">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" class="btn-sm btn-secondary" type="button">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" class="btn-sm btn-secondary" type="button">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" class="btn-sm btn-secondary" type="button"><i class="fab fa-weibo"></i></a>
-                        </li>
-                    </ul>
+            <hr class="mb-3">
+            <div class="row align-items-center">
+                <div class="col-md-2 col-lg-12">
+                    <div class="text-center text-md-center">
+                        <ul class="justify-content-center">
+                            <li class="list-inline-item list-inline-item">
+                                <a href="#" class="text-white text-decoration-none test">For Professionals</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="text-white text-decoration-none test">Careers</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="text-white text-decoration-none test">Contact Us</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="text-white text-decoration-none test">Company info</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="text-white text-decoration-none test">Voluntary Recall</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="btn-sm btn-secondary" type="button">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="btn-sm btn-secondary" type="button">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="btn-sm btn-secondary" type="button">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="btn-sm btn-secondary" type="button"><i class="fab fa-weibo"></i></a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <hr>
-    <div class="p-3 text-center">
-        © 2018 SONY CORPORATION OF AMERICA
-    </div>
+        <hr>
+        <div class="p-3 text-center">
+            © 2018 SONY CORPORATION OF AMERICA
+        </div>
 
-</footer>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/bootstrap.min.js"></script>
