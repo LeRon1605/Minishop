@@ -37,14 +37,13 @@
                 </div>
             </div>
         </div>
-
         }
 
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th>STT</th>
-                    <th class="m-50">Tên sản phẩm</th>
+                    <th class="w-25">Tên sản phẩm</th>
                     <th>Mô tả</th>
                     <th>Hành động</th>
                 </tr>
@@ -58,10 +57,10 @@
                     <td>@categories[i].Description</td>
                     <td>
                         <div class="d-flex">
-                            <a href="@Url.Action("View", "Product")" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết loại sản phẩm" data-toggle="tooltip">
+                            <a href="@Url.Action("View", "Category")" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết loại sản phẩm" data-toggle="tooltip">
                                 <i class="fa-solid fa-eye" style="color: white"></i>
                             </a>
-                            <a href="@Url.Action("View", "Product")" class="btn bg-primary rounded ms-2" title="Chỉnh sửa loại sản phẩm">
+                            <a href="@Url.Action("View", "Category")" class="btn bg-primary rounded ms-2" title="Chỉnh sửa loại sản phẩm">
                                 <i class="fa-solid fa-pen" style="color: white"></i>
                             </a>
                             <button type="submit" class="btn bg-danger rounded ms-2" title="Xóa loại sản phẩm" onclick="deleteCategory(this)">
