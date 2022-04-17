@@ -560,6 +560,7 @@
     <Content Include="public\icon\search.svg" />
     <Content Include="public\icon\trash.svg" />
     <Content Include="public\images\Logo.jpg" />
+    <Content Include="public\js\Category.js" />
     <Content Include="public\js\Product.js" />
     <Content Include="public\js\Sidebar.js" />
     <Content Include="public\uploads\products\2022-04-07 %282%29.png" />

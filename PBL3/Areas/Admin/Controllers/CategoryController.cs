@@ -25,10 +25,16 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                new CategoryDAO().Add(category);
-                TempData["Message"] = "Thêm thành công";
+                CategoryDAO categoryDAO = new CategoryDAO();
+                categoryDAO.Add(category);
+                TempData["Addstatus"] = true;
             }
-            return View("Index");
+            else
+            {
+                TempData["Addstatus"] = false;
+                TempData["AddDetail"] = "Thêm thất bại";
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

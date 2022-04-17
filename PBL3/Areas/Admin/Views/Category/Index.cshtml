@@ -3,7 +3,8 @@
 @model Category
 @{
     ViewBag.Title = "Category";
-
+    List<Category> categories = ViewBag.categories;
+    PagingModel pagingData = ViewBag.pagingData as PagingModel;
 }
 @section Styles
 {
@@ -48,29 +49,28 @@
                 </tr>
             </thead>
             <tbody id="table_body">
-
-                <tr>
-                    @*<td class="STT">@(i + 1)</td>*@
-
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <div class="d-flex">
-                            <a href="@Url.Action("View", "Product")" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết sản phẩm" data-toggle="tooltip">
-                                <i class="fa-solid fa-eye" style="color: white"></i>
-                            </a>
-                            <a href="@Url.Action("View", "Product")" class="btn bg-primary rounded ms-2" title="Chỉnh sửa sản phẩm">
-                                <i class="fa-solid fa-pen" style="color: white"></i>
-                            </a>
-                            <button type="submit" class="btn bg-danger rounded ms-2" title="Xóa sản phẩm" onclick="deleteProduct(this)">
-                                <i class="fa-solid fa-trash-can" style="color: white"></i>
-                            </button>
-
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
+                @for (int i = 0; i < categories.Count; i++)
+                {
+                    <tr>
+                        <td class="STT">@(i + 1)</td>
+                        <td>@categories[i].Name</td>
+                        <td>@categories[i].Description</td>
+                        <td>
+                            <div class="d-flex">
+                                <a href="@Url.Action("View", "Product")" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết loại sản phẩm" data-toggle="tooltip">
+                                    <i class="fa-solid fa-eye" style="color: white"></i>
+                                </a>
+                                <a href="@Url.Action("View", "Product")" class="btn bg-primary rounded ms-2" title="Chỉnh sửa loại sản phẩm">
+                                    <i class="fa-solid fa-pen" style="color: white"></i>
+                                </a>
+                                <button type="submit" class="btn bg-danger rounded ms-2" title="Xóa loại sản phẩm" onclick="deleteCategory(this)">
+                                    <i class="fa-solid fa-trash-can" style="color: white"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
         </table>
         <div class="clearfix">
             <div class="hint-text">Hiển thị <b>10</b> trên <b>@ViewBag.Total</b> sản phẩm</div>
@@ -82,24 +82,20 @@
 {
     <div class="row d-flex justify-content-center">
         <div class="col-md-8">
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="form-group">
-                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label" })
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên loại sản phẩm", @id = "name_category" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                        </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-label" })
+                        @Html.TextAreaFor(model => model.Description, htmlAttributes: new { @class = "form-control", @placeholder = "Nhập mô tả loại sản phẩm", @style = "height: 31.7vh", @id = "description_category" })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-4">
                         <button class="btn btn-primary col-12 mt-3" id="submitBtn" type="submit">Thêm sản phẩm</button>
                     </div>
                 </div>
@@ -107,21 +103,40 @@
         </div>
     </div>
 }
-<script>
-    let action = document.getElementsByClassName('action_product');
-
-    // Content 
-    let listProduct = document.getElementById('list_product');
-    let addForm = document.getElementById('add_form');
-
-    for (let i = 0; i < action.length; i++) {
-        action[i].addEventListener('click', (e) => {
-            for (let j = 0; j < action.length; j++) {
-                action[j].classList.toggle('action_product_click');
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="notification_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="fa-solid fa-bell"></i>
+            <strong class="me-auto ms-1">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        @if (TempData["AddStatus"] != null)
+        {
+            if ((bool)TempData["AddStatus"] == false)
+            {
+                <div class="toast-body text-white bg-danger" id="toast_body">
+                    @TempData["AddDetail"]
+                </div>
             }
-            console.log(listProduct);
-            listProduct.classList.toggle('d-none');
-            addForm.classList.toggle('d-none');
-        });
-    }
-</script>
+            else
+            {
+                <div class="toast-body text-white bg-success" id="toast_body">
+                    Thêm loại sản phẩm thành công
+                </div>
+            }
+        }
+        else
+        {
+            <div class="toast-body text-white bg-success" id="toast_body">
+
+            </div>
+        }
+    </div>
+</div>
+@section scripts {
+    <script src="~/public/js/Category.js"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="/Scripts/jquery.validate.js"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}
