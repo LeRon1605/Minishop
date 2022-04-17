@@ -222,9 +222,27 @@
             <strong class="me-auto ms-1">Thông báo</strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body text-white bg-success" id="toast_body">
+        @if (TempData["Status"] != null)
+        {
+            if ((bool)TempData["Status"] == false)
+            {
+                <div class="toast-body text-white bg-danger" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+            else
+            {
+                <div class="toast-body text-white bg-success" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+        }
+        else
+        {
+            <div class="toast-body text-white bg-success" id="toast_body">
 
-        </div>
+            </div>
+        }
     </div>
 </div>
 
@@ -234,7 +252,11 @@
         let image = document.getElementById('image');
         inputImage.onchange = (e) => {
             image.src = URL.createObjectURL(e.target.files[0]);
-        }
+        };
+        window.addEventListener('load', (e) => {
+            const toast = document.getElementById('toast_body');
+            if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
+        })
     </script>
     <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="/Scripts/jquery.validate.js"></script>

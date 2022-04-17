@@ -36,10 +36,17 @@ namespace EF.DAO
                     Name = product.Name,
                     Stock = product.Stock,
                     Price = product.Price,
+                    Image = product.Image,
                     Category = categoryDAO.find(product.CategoryID)
                 }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
             }
             return null;
+        }
+
+        public List<Product> getLasted(int quantity)
+        {
+            if (quantity < 1) return null;
+            else return context.Products.Skip(context.Products.Count() - quantity).ToList();
         }
         public void Add(Product product)
         {
