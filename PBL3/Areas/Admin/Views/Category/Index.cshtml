@@ -57,13 +57,13 @@
                         <td>@categories[i].Description</td>
                         <td>
                             <div class="d-flex">
-                                <a href="@Url.Action("View", "Product")" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết loại sản phẩm" data-toggle="tooltip">
+                                <a href="@Url.Action("View", "Category", new {id = categories[i].ID})" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết loại sản phẩm" data-toggle="tooltip">
                                     <i class="fa-solid fa-eye" style="color: white"></i>
                                 </a>
-                                <a href="@Url.Action("View", "Product")" class="btn bg-primary rounded ms-2" title="Chỉnh sửa loại sản phẩm">
+                                <a href="@Url.Action("View", "Category", new {id = categories[i].ID, isEdit = true})" class="btn bg-primary rounded ms-2" title="Chỉnh sửa loại sản phẩm">
                                     <i class="fa-solid fa-pen" style="color: white"></i>
                                 </a>
-                                <button type="submit" class="btn bg-danger rounded ms-2" title="Xóa loại sản phẩm" onclick="deleteCategory(this)">
+                                <button type="submit" class="btn bg-danger rounded ms-2" title="Xóa loại sản phẩm" data-id="@categories[i].ID" data-index="@i" onclick="deleteCategory(this)">
                                     <i class="fa-solid fa-trash-can" style="color: white"></i>
                                 </button>
                             </div>
@@ -73,12 +73,12 @@
                 </tbody>
         </table>
         <div class="clearfix">
-            <div class="hint-text">Hiển thị <b>10</b> trên <b>@ViewBag.Total</b> sản phẩm</div>
-            @*@Html.Partial("_Pagination", pagingData)*@
+            <div class="hint-text">Hiển thị <b>@categories.Count()</b> trên <b>@ViewBag.Total</b>loại sản phẩm</div>
+            @Html.Partial("_Pagination", pagingData)
         </div>
     </div>
 </div>
-@using (Html.BeginForm("Add", "Category", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "p-5 mt-3 bg-white shadow rounded d-none", @id = "add_form" }))
+@using (Html.BeginForm("Add", "Category", FormMethod.Post, new { @class = "p-5 mt-3 bg-white shadow rounded d-none", @id = "add_form" }))
 {
     <div class="row d-flex justify-content-center">
         <div class="col-md-8">
@@ -96,7 +96,7 @@
                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-4">
-                        <button class="btn btn-primary col-12 mt-3" id="submitBtn" type="submit">Thêm sản phẩm</button>
+                        <button class="btn btn-primary col-12 mt-3" id="submitBtn" type="submit">Thêm loại sản phẩm</button>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,118 @@
+﻿@model EF.Models.Category
+
+@{
+    ViewBag.Title = "View";
+    bool isEdit = (bool)ViewBag.isEdit;
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Update", "Category", FormMethod.Post))
+{
+    <div class="row d-flex justify-content-center align-items-center" style="height:100vh">
+        <div class="col-md-8">
+            <a href="@Url.Action("Index", "Category", new { area = "Admin" })" class="text-decoration-none m-auto">
+                <i class="fa-solid fa-arrow-left"></i>
+                Trở về
+            </a>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @class = "form-control d-none" } })
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label" })
+                        @if (isEdit == true)
+                        {
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên loại sản phẩm", @id = "name_category" } })
+                        }
+                        else
+                        {
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên loại sản phẩm", @id = "name_category", @disabled = "" } })
+                        }
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-label" })
+                        @if (isEdit == true)
+                        {
+                            @Html.TextAreaFor(model => model.Description, htmlAttributes: new { @class = "form-control", @placeholder = "Nhập mô tả loại sản phẩm", @style = "height: 31.7vh", @id = "description_category" })
+                        }
+                        else
+                        {
+                            @Html.TextAreaFor(model => model.Description, htmlAttributes: new { @class = "form-control", @placeholder = "Nhập mô tả loại sản phẩm", @style = "height: 31.7vh", @id = "description_category", @disabled = "" })
+                        }
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.CreatedAt, htmlAttributes: new { @class = "form-label" })
+                        <input disabled value="@Model.CreatedAt.ToString()" type="text" class="form-control" />
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.UpdatedAt, htmlAttributes: new { @class = "form-label" })
+                        @if (Model.UpdatedAt == null)
+                        {
+                            <input disabled value="dd/mm/yyyy" type="text" class="form-control" />
+                        }
+                        else
+                        {
+                            <input disabled value="@Model.UpdatedAt.ToString()" type="text" class="form-control" />
+                        }
+
+                    </div>
+                    <div class="col-12">
+                        @if (isEdit == true)
+                        {
+                            <button class="btn btn-primary col-12 mt-3" id="submitBtn" type="submit">
+                                Xác Nhận
+                            </button>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("View","Category", new {id = @Model.ID, isEdit = true})" class="btn btn-primary col-12 mt-3">Cập nhật loại sản phẩm</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="notification_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="fa-solid fa-bell"></i>
+            <strong class="me-auto ms-1">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        @if (TempData["Status"] != null)
+        {
+            if ((bool)TempData["Status"] == false)
+            {
+                <div class="toast-body text-white bg-danger" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+            else
+            {
+                <div class="toast-body text-white bg-success" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+        }
+        else
+        {
+            <div class="toast-body text-white bg-success" id="toast_body">
+
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        window.addEventListener('load', (e) => {
+            const toast = document.getElementById('toast_body');
+            if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
+        })
+    </script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="/Scripts/jquery.validate.js"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.js"></script>
+}

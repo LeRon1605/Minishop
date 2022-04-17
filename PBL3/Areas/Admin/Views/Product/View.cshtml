@@ -10,7 +10,7 @@
 {
     <link rel="stylesheet" href="~/public/css/Add_Product.css" />
 }
-@using (Html.BeginForm("Update", "Product", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "p-5 pt-4 mt-3 bg-white shadow rounded", @id = "add_form" }))
+@using (Html.BeginForm("Update", "Product", FormMethod.Post, new { @class = "p-5 pt-4 mt-3 bg-white shadow rounded", @id = "add_form" }))
 {
     <a href="@Url.Action("Index", "Product", new { area = "Admin" })" class="text-decoration-none bg-white m-auto">
         <i class="fa-solid fa-arrow-left"></i>

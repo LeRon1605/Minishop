@@ -53,6 +53,7 @@ namespace EF.DAO
             {
                 category.Name = entity.Name;
                 category.Description = entity.Description;
+                category.UpdatedAt = DateTime.Now;
                 context.SaveChanges();
                 return true;
             }
