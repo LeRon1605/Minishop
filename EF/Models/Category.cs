@@ -14,7 +14,8 @@ namespace EF.Models
         [Required(ErrorMessage = "Loại sản phẩm không được để trống")]
         public string Name { get; set; }
         [Display(Name = "Mô tả")]
-        [Required(ErrorMessage = "Mô tả không được để trống")]
+        [Required(ErrorMessage = "Mô tả loại sản phẩm không được để trống")]
+        [StringLength(300, MinimumLength = 30, ErrorMessage = "Mô phải dài từ 30 - 300 kí tự")]
         public string Description { get; set; }
     }
 }

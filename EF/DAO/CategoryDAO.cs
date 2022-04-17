@@ -73,7 +73,7 @@ namespace EF.DAO
             return context.Categories.Count();
         }
 
-        public List<Category> getPage(int page, int pageSize,string keyword,out int totalRow)
+        public List<Category> getPage(int page, int pageSize, string keyword,out int totalRow)
         {
             totalRow = 0;
             if(page > 0)
@@ -85,6 +85,7 @@ namespace EF.DAO
                 {
                     ID = product.ID,
                     Name = product.Name,  
+                    Description = product.Description,
                 }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
             }
             return null;
