@@ -22,7 +22,9 @@
             <div id="sidebar-container" class="sidebar-expanded d-md-block">
                 <ul class="list-group">
                     <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed padding">
-                        <small class="text">MINI SHOP</small>
+                        <a href="@Url.Action("Index", "Home", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
+                            <small class="text">MINI SHOP</small>
+                         </a>
                     </li>
                     <a href="#submenu1" data-toggle="collapse" aria-expanded="false"
                        class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
