@@ -27,6 +27,21 @@ namespace PBL3.Areas.Admin.Controllers
             };
             return View();
         }
+        [HttpGet]
+        public ActionResult View(int? id, bool isEdit = false)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+            ViewBag.isEdit = isEdit;
+            Category category = new CategoryDAO().find((int)id);
+            if (category == null)
+            {
+                TempData["Message"] = " Loại sản phẩm không tồn tại";
+                return RedirectToAction("Index");
+            }
+        }
         [HttpPost]
         public ActionResult Add(Category category)
         {
@@ -42,21 +57,6 @@ namespace PBL3.Areas.Admin.Controllers
                 TempData["AddDetail"] = "Thêm thất bại";
             }
             return RedirectToAction("Index");
-        }
-        public ActionResult View(int id, bool isEdit = false)
-        {
-            CategoryDAO categoryDAO = new CategoryDAO();
-            Category category = categoryDAO.find(id);
-            if(category == null)
-            {
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                ViewBag.isEdit = isEdit;
-                return View(category);
-            }
-           
         }
 
         [HttpPost]
@@ -111,6 +111,5 @@ namespace PBL3.Areas.Admin.Controllers
                 };
             }
         }
-
     }
 }

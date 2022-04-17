@@ -554,6 +554,7 @@
     <Content Include="public\css\Add_Product.css" />
     <Content Include="public\css\lightslider.min.css" />
     <Content Include="public\css\Sidebars.css" />
+    <Content Include="public\css\Add_Category.css" />
     <Content Include="public\css\table.css" />
     <Content Include="public\icon\eye.svg" />
     <Content Include="public\icon\filter.svg" />

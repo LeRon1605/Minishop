@@ -1,5 +1,4 @@
-﻿/// <reference path="product.js" />
-let action = document.getElementsByClassName('action_product');
+﻿let action = document.getElementsByClassName('action_product');
 
 // Content 
 let listProduct = document.getElementById('list_product');
