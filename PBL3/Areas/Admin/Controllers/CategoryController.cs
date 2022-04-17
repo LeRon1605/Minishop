@@ -28,9 +28,20 @@ namespace PBL3.Areas.Admin.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Add()
+        public ActionResult View(int? id, bool isEdit = false)
         {
-            return View();
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+            ViewBag.isEdit = isEdit;
+            Category category = new CategoryDAO().find((int)id);
+            if (category == null)
+            {
+                TempData["Message"] = " Loại sản phẩm không tồn tại";
+                return RedirectToAction("Index");
+            }
+            return View(category);
         }
         [HttpPost]
         public ActionResult Add(Category category)
@@ -62,6 +73,33 @@ namespace PBL3.Areas.Admin.Controllers
                 new CategoryDAO().Update(category);
             }
             return RedirectToAction("Update");
+        }
+        public ActionResult Delete(int id)
+        {
+            CategoryDAO categoryDAO =new CategoryDAO();
+            if (categoryDAO.Delete(id))
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        message = "Xóa thành công loại sản phẩm",
+                        status = true
+                    }
+                };
+            }
+            else
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        message = "Xóa thất bại loại sản phẩm",
+                        detail = "Loại sản phẩm không tồn tại",
+                        status = false
+                    }
+                };
+            }
         }
     }
 }
