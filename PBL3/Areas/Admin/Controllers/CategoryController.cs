@@ -27,7 +27,6 @@ namespace PBL3.Areas.Admin.Controllers
             };
             return View();
         }
-
         [HttpGet]
         public ActionResult View(int? id, bool isEdit = false)
         {
@@ -42,7 +41,6 @@ namespace PBL3.Areas.Admin.Controllers
                 TempData["Message"] = " Loại sản phẩm không tồn tại";
                 return RedirectToAction("Index");
             }
-            return View(category);
         }
         [HttpPost]
         public ActionResult Add(Category category)

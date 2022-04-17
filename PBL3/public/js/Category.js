@@ -1,5 +1,4 @@
-﻿/// <reference path="product.js" />
-let action = document.getElementsByClassName('action_product');
+﻿let action = document.getElementsByClassName('action_product');
 
 // Content 
 let listProduct = document.getElementById('list_product');
@@ -15,12 +14,6 @@ for (let i = 0; i < action.length; i++) {
         addForm.classList.toggle('d-none');
     });
 }
-<<<<<<< HEAD
-let deleteCategory = (e) => {
-    let table = document.getElementById('list_category');
-    let index = e.dataset.index;
-    let id = e.dataset.id;
-=======
 let showToast = (status, message) => {
     const toastBody = document.getElementById('toast_body');
     if (status) {
@@ -36,7 +29,6 @@ let showToast = (status, message) => {
 let deleteCategory = (e) => {
     let id = e.dataset.id;
     let index = e.dataset.index;
->>>>>>> 0283fa77bd074453c3d3e375c1cd65677a22b1c1
     axios({
         method: 'post',
         url: '/admin/category/delete',
@@ -51,16 +43,8 @@ let deleteCategory = (e) => {
                 STT[i].dataset.index = parseInt(STT[i].dataset.index) - 1;
             };
             e.parentElement.parentElement.parentElement.remove();
-<<<<<<< HEAD
-            document.getElementById('total_category').innerText = parseInt(document.getElementById('total_category').innerText) - 1;
-        }
-        showToast(res.data.status, res.data.message);
-    })
-
-=======
             // document.getElementById('total_product').innerText = parseInt(document.getElementById('total_product').innerText) - 1;
         }
         showToast(res.data.status, res.data.message);
     })
->>>>>>> 0283fa77bd074453c3d3e375c1cd65677a22b1c1
 }
