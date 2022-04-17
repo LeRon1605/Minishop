@@ -5,14 +5,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
+using PBL3.Models;
 
 namespace PBL3.Areas.Admin.Controllers
 {
     public class CategoryController : Controller
     {
         // GET: Admin/Category
-        public ActionResult Index()
+        public ActionResult Index(int page = 1, string keyword = "")
         {
+            CategoryDAO categoryDAO = new CategoryDAO();
+            int totalPage = 0;
+            ViewBag.categories = categoryDAO.getPage(page, 10, keyword, out totalPage);
+            ViewBag.Total = categoryDAO.Count();
+            ViewBag.pagingData = new PagingModel
+            {
+                CountPages = totalPage,
+                CurrentPage = page,
+                GenerateURL = (int pageNum) => $"?page={pageNum}&keyword={keyword}"
+            };
             return View();
         }
         [HttpGet]
