@@ -46,7 +46,12 @@ namespace EF.DAO
         public List<Product> getLasted(int quantity)
         {
             if (quantity < 1) return null;
-            else return context.Products.Skip(context.Products.Count() - quantity).ToList();
+            else
+            {
+                int skip = context.Products.Count() - quantity;
+                if (skip <= 0) return context.Products.ToList(); 
+                else return context.Products.Skip(context.Products.Count() - quantity).ToList();
+            }
         }
         public void Add(Product product)
         {
