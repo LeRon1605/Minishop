@@ -27,6 +27,7 @@ namespace PBL3.Areas.Admin.Controllers
             };
             return View();
         }
+
         [HttpGet]
         public ActionResult View(int? id, bool isEdit = false)
         {
@@ -60,43 +61,54 @@ namespace PBL3.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public ActionResult Update(int id)
-        {
-            Category category = new CategoryDAO().find(id);
-            return View(category);
-        }
+        [HttpPost]
         public ActionResult Update(Category category)
         {
+            
             if (ModelState.IsValid)
             {
-                new CategoryDAO().Update(category);
+                CategoryDAO categoryDAO = new CategoryDAO();
+                if(categoryDAO.Update(category) == true)
+                {
+                    TempData["Status"] = true;
+                    TempData["Message"] = "Cập nhật loại sản phẩm thành công";
+                    return RedirectToAction("View",new {id = category.ID});
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            return RedirectToAction("Update");
+            else
+            {
+                TempData["Status"] = false;
+                TempData["Message"] = "Cập nhật loại sản phẩm thất bại";
+                return RedirectToAction("View", new { id = category.ID, isEdit = true });
+            } 
         }
+        [HttpPost]
         public ActionResult Delete(int id)
         {
-            CategoryDAO categoryDAO =new CategoryDAO();
-            if (categoryDAO.Delete(id))
+            CategoryDAO categoryDAO = new CategoryDAO();
+            if(categoryDAO.Delete(id) == true)
             {
                 return new JsonResult
                 {
-                    Data = new
+                    Data =  new 
                     {
-                        message = "Xóa thành công loại sản phẩm",
-                        status = true
+                         status = true,
+                         message = "Xóa thành công loại sản phẩm"
                     }
                 };
-            }
+            } 
             else
             {
                 return new JsonResult
                 {
                     Data = new
                     {
-                        message = "Xóa thất bại loại sản phẩm",
-                        detail = "Loại sản phẩm không tồn tại",
-                        status = false
+                        status = false,
+                        message = "Xóa thất bại loại sản phẩm"
                     }
                 };
             }
