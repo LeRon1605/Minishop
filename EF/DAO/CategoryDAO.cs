@@ -68,5 +68,26 @@ namespace EF.DAO
             return list;
         }
 
+        public int Count()
+        {
+            return context.Categories.Count();
+        }
+
+        public List<Category> getPage(int page, int pageSize,string keyword,out int totalRow)
+        {
+            totalRow = 0;
+            if(page > 0)
+            {
+                List<Category> categories = context.Categories.Where(category => (
+                (category.Name.Contains(keyword) || keyword == ""))).ToList();
+                totalRow = (int)Math.Ceiling((double)categories.Count() / pageSize);
+                return categories.Select(product => new Category
+                {
+                    ID = product.ID,
+                    Name = product.Name,  
+                }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            }
+            return null;
+        }
     }
 }
