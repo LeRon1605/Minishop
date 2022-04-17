@@ -27,11 +27,6 @@ namespace PBL3.Areas.Admin.Controllers
             };
             return View();
         }
-        [HttpGet]
-        public ActionResult Add()
-        {
-            return View();
-        }
         [HttpPost]
         public ActionResult Add(Category category)
         {
@@ -48,20 +43,74 @@ namespace PBL3.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
-
-        [HttpGet]
-        public ActionResult Update(int id)
+        public ActionResult View(int id, bool isEdit = false)
         {
-            Category category = new CategoryDAO().find(id);
-            return View(category);
+            CategoryDAO categoryDAO = new CategoryDAO();
+            Category category = categoryDAO.find(id);
+            if(category == null)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewBag.isEdit = isEdit;
+                return View(category);
+            }
+           
         }
+
+        [HttpPost]
         public ActionResult Update(Category category)
         {
+            
             if (ModelState.IsValid)
             {
-                new CategoryDAO().Update(category);
+                CategoryDAO categoryDAO = new CategoryDAO();
+                if(categoryDAO.Update(category) == true)
+                {
+                    TempData["Status"] = true;
+                    TempData["Message"] = "Cập nhật loại sản phẩm thành công";
+                    return RedirectToAction("View",new {id = category.ID});
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            return RedirectToAction("Update");
+            else
+            {
+                TempData["Status"] = false;
+                TempData["Message"] = "Cập nhật loại sản phẩm thất bại";
+                return RedirectToAction("View", new { id = category.ID, isEdit = true });
+            } 
         }
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            CategoryDAO categoryDAO = new CategoryDAO();
+            if(categoryDAO.Delete(id) == true)
+            {
+                return new JsonResult
+                {
+                    Data =  new 
+                    {
+                         status = true,
+                         message = "Xóa thành công loại sản phẩm"
+                    }
+                };
+            } 
+            else
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        status = false,
+                        message = "Xóa thất bại loại sản phẩm"
+                    }
+                };
+            }
+        }
+
     }
 }
