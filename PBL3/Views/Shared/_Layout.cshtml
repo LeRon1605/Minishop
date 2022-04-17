@@ -6,67 +6,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hello, world!</title>
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    @Scripts.Render("~/bundles/modernizr")
-    <link href="~/Content/bootstrap.css" />
     <style>
         .test:hover {
             color: #0d6efd !important;
         }
+
         body {
             background-color: #F0F2F5;
         }
     </style>
+    @RenderSection("Styles", false)
 </head>
 <body>
-    <header class="container-fluid p-3 d-flex justify-content-around align-items-center bg-light">
-        <div class="navbar-brand">
-            @Html.ActionLink("Minishop", "Index", new { controller = "Home" }, new { @class = "text-decoration-none" })
-        </div>
-        <div class="d-flex">
-            <input type="text" name="" class="rounded-start rounded-0 form-control">
-            <button class="btn btn-primary rounded-0">Search</button>
-        </div>
-        <div class="navbar-nav p-1 d-sm-none d-flex">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <div class="shadow p-3 m-0 row justify-content-center bg-light">
+        <header class="d-flex justify-content-between align-items-center" style="width: 73.7em">
+            <div class="navbar-brand">
+                @Html.ActionLink("Minishop", "Index", new { controller = "Home" }, new { @class = "text-decoration-none" })
+            </div>
+            <div class="navbar-nav p-1 d-sm-none d-flex">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" ">Category</a></li>
-                    @if (Session["User"] == null)
-                    {
-                        <li>@Html.ActionLink("Đăng nhập", "Login", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
-                        <li>@Html.ActionLink("Đăng kí", "Register", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
-                    }
-                    else
-                    {
-                        User user = Session["USER"] as User;
-                        <li>@Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
-                        <li>@Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
-                    }
-                </ul>
-            </li>
-        </div>
-        <div class="d-none d-sm-flex">
-            @Html.ActionLink("Trang chủ", "Index", "Home", new { @class = "p-2 text-decoration-none" })
-            <a href="" class="p-2 text-decoration-none">Category</a>
-            <a href="" class="p-2 text-decoration-none">Cart</a>
-            @if (Session["User"] == null)
-            {
-                @Html.ActionLink("Đăng nhập", "Login", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
-                @Html.ActionLink("Đăng kí", "Register", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
-            }
-            else
-            {
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" ">Category</a></li>
+                        @if (Session["User"] == null)
+                        {
+                            <li>@Html.ActionLink("Đăng nhập", "Login", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                            <li>@Html.ActionLink("Đăng kí", "Register", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                        }
+                        else
+                        {
+                            User user = Session["USER"] as User;
+                            <li>@Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                            <li>@Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                        }
+                    </ul>
+                </li>
+            </div>
+            <div class="d-none d-sm-flex">
+                @Html.ActionLink("Trang chủ", "Index", "Home", new { @class = "p-2 text-decoration-none" })
+                <a href="" class="p-2 text-decoration-none">Category</a>
+                <a href="" class="p-2 text-decoration-none">Cart</a>
+                @if (Session["User"] == null)
+                {
+                    @Html.ActionLink("Đăng nhập", "Login", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
+                    @Html.ActionLink("Đăng kí", "Register", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
+                }
+                else
+                {
 
-                User user = Session["USER"] as User;
-                @Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
-                @Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
-            }
-        </div>
-    </header>
-    <div class="container-fluid mt-5" style="background-color: #F0F2F5">
+                    User user = Session["USER"] as User;
+                    @Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
+                    @Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
+                }
+            </div>
+        </header>
+    </div>
+    <div class="container-fluid m-auto mt-5 row" style="background-color: #F0F2F5">
         @RenderBody()
     </div>
 
@@ -156,11 +155,8 @@
         <div class="p-3 text-center">
             © 2018 SONY CORPORATION OF AMERICA
         </div>
-
     </footer>
-
     @Scripts.Render("~/bundles/jquery")
-    <script src="~/Scripts/bootstrap.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

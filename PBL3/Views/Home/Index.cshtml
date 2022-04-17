@@ -1,28 +1,207 @@
 ﻿@using EF.Models
+@using PBL3.Models
 @{
     ViewBag.Title = "Shoponline";
     List<Product> products = ViewBag.products as List<Product>;
+    List<Product> lastedProducts = ViewBag.lastedProduct as List<Product>;
+    List<Category> categories = ViewBag.categories as List<Category>;
 }
+@section Styles
+{
+    <link rel="stylesheet" href="~/public/css/lightslider.min.css" />
+    <style>
+        .lSNext {
+            color: black;
+            font-size: 2rem;
+            background-color: white;
+            text-decoration: none;
+            border-radius: 200px;
+            text-align: center;
+            line-height: 28px;
+        }
 
-    <div class="row g-0 container-fluid d-flex justify-content-center">
-        <div class="col-md-2 bg-white shadow"> a</div>
-        <div class="col-md-8 d-flex flex-wrap rounded ms-5">
-            @foreach (Product product in products)
+        .lSPrev {
+            color: black;
+            font-size: 2rem;
+            background-color: white;
+            text-decoration: none;
+            border-radius: 200px;
+            text-align: center;
+            line-height: 28px;
+        }
+
+        .product_hover:hover {
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        }
+    </style>
+}
+<div class="row m-auto p-3" style="width: 73.7em">
+    <div class="col-md-8 text-center border">
+        <h3>Sản phẩm mới</h3>
+        <ul id="lastedProduct" class="cs-hidden">
+            @foreach (Product product in lastedProducts)
             {
-                <figure class="figure col-4 ms-4" style="width: 250px">
-                    <img src="@product.Image" class="figure-img img-fluid m-0 rounded-top" style="width: 250px; height: 200px;object-fit:cover">
-                    <figcaption class="figure-caption text-start bg-white rounded-bottom p-2 border-top">
-                        <p class="m-0">@product.Name</p>
-                        <p class="m-0">@product.Price</p>
-                        <div>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </figcaption>
-                </figure>
+                <li>
+                    <figure class="figure rounded m-1 p-0 border product_hover" style="width: 14rem">
+                        <a href="">
+                            <img src="@product.Image"
+                                 class="figure-img img-fluid rounded-top border-bottom mb-0"
+                                 style="width: 100%; height: 250px;object-fit: cover;">
+                        </a>
+                        <figcaption class="text-start p-2 m-0 rounded-end" style="background-color: #F0F2F5">
+                            <a class="m-0 fw-bold text-dark text-decoration-none" href="">@product.Name</a>
+                            <p class="m-0 text-danger">@product.Price đ</p>
+                            <div class="m-0 d-flex justify-content-between align-items-center">
+                                <div>
+                                    3.5
+                                    <i class="fa-solid fa-star checked" style="color: yellow"></i>
+                                </div>
+                                <div class="fs-6">
+                                    Đã bán 3.5k
+                                </div>
+                            </div>
+                        </figcaption>
+                    </figure>
+                </li>
             }
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <div class="border text-center d-flex justify-content-center align-items-center flex-column p-3 mt-4 mt-md-0">
+            <h3 class="m-0">Chủ nhật</h3>
+            <h3 class="m-0">03/04/2020</h3>
+            <p class="m-0 mt-3">Nếu bạn không ngừng nghĩ về nó, thì hãy <b>mua</b> nó</p>
+        </div>
+        <div class="border mt-3 text-center">
+            <h4 class="p-2 m-0">
+                <i class="fa-solid fa-ticket"></i> Voucher
+            </h4>
+            <ul id="voucher" class="cs-hidden">
+                <li>
+                    <a class="m-0 text-center text-decoration-none text-dark" href="">
+                        <p class="m-2">Tên voucher</p>
+                        <p class="m-2">Mã giảm giá <span class="bg-danger p-1 rounded text-white">3CkuDK</span></p>
+                        <p class="m-2">Giảm <span class="bg-success p-1 rounded text-white">30%</span></p>
+                        <p class="m-2">Hạn cuối 03/04/2020</p>
+                    </a>
+                </li>
+                <li>
+                    <div class="m-0 text-center">
+                        <p class="m-2">Tên voucher</p>
+                        <p class="m-2">Mã giảm giá <span class="bg-danger p-1 rounded text-white">3CkuDK</span></p>
+                        <p class="m-2">Giảm <span class="bg-success p-1 rounded text-white">30%</span></p>
+                        <p class="m-2">Hạn cuối 03/04/2020</p>
+                    </div>
+                </li>
+
+            </ul>
         </div>
     </div>
+</div>
+<div class="row m-auto mt-5" style="width: 77em">
+    <div class="row bg-white p-2 rounded shadow m-auto" style="width: 73.7em">
+        <div class="col-sm-8 d-flex p-0">
+            <div class="col-sm-3">
+                <label class="form-label">Giá sản phẩm</label>
+                <select class="form-select" name="Price" id="price_search">
+                    <option value="All">All</option>
+                    <option value="100000">Dưới 100.000</option>
+                    <option value="1000000">Dưới 1.000.000</option>
+                </select>
+            </div>
+            <div class="col-sm-3 ms-3">
+                <label class="form-label">Loại sản phẩm</label>
+                <select class="form-select" name="Price" id="price_search">
+                    <option value="All">All</option>
+                    @foreach (Category category in categories)
+                    {
+                        <option value="@category.ID">@category.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-sm-3 ms-3">
+                <label class="form-label">Sắp xếp theo</label>
+                <select class="form-select" name="Price" id="price_search">
+                    <option value="All">All</option>
+                    <option value="100000">Tên sản phẩm</option>
+                    <option value="1000000">Giá sản phẩm</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-4 p-0">
+            <label class="form-label">Tìm kiếm</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="keyword_search" name="keyword" placeholder="Nhập từ khóa tìm kiếm">
+                <button class="btn btn-primary" type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="p-0 justify-content-md-center m-auto mt-3" style="display: inline-block;width: 73.7em">
+        @foreach (Product product in products)
+        {
+            <figure class="figure bg-white rounded m-1 p-0 product_hover border" style="width: 14rem">
+                <a href="">
+                    <img src="@product.Image"
+                         class="figure-img img-fluid rounded-top border-bottom"
+                         style="width: 100%; height: 250px;object-fit: cover;">
+                </a>
+                <figcaption class="text-start p-2 m-0">
+                    <a class="m-0 fw-bold text-dark text-decoration-none" href="">@product.Name</a>
+                    <p class="m-0 text-danger">@product.Price đ</p>
+                    <div class="m-0 d-flex justify-content-between align-items-center">
+                        <div>
+                            3.5
+                            <i class="fa-solid fa-star checked" style="color: yellow"></i>
+                        </div>
+                        <div class="fs-6">
+                            Đã bán 3.5k
+                        </div>
+                    </div>
+                </figcaption>
+            </figure>
+        }
+    </div>
+    <div class="p-0 d-flex justify-content-center mt-3" style="width: 73.7em">
+        @Html.Partial("_Pagination", ViewBag.pagingData as PagingModel)
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/public/js/lightslider.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#lastedProduct').lightSlider({
+                loop: true,
+                item: 3,
+                slideMove: 1,
+                controls: true,
+                nextHtml: '>',
+                prevHtml: '<',
+                enableDrag: true,
+                pauseOnHover: true,
+                speed: 1000,
+                pause: 5000,
+                auto: true,
+                pager: false,
+                onSliderLoad: function () {
+                    $('#autoWidth').removeClass('cS-hidden');
+                }
+            });
+            $('#voucher').lightSlider({
+                loop: true,
+                item: 1,
+                auto: true,
+                controls: true,
+                prevHtml: '<',
+                nextHtml: '>',
+                speed: 1000,
+                pause: 5000,
+                pauseOnHover: true,
+                pager: true,
+                onSliderLoad: function () {
+                    $('#autoWidth').removeClass('cS-hidden');
+                }
+            });
+        });
+    </script>
+}

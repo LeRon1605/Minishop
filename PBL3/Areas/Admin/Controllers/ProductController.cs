@@ -100,18 +100,21 @@ namespace PBL3.Areas.Admin.Controllers
                 }
                 if (productDAO.Update(product))
                 {
-                    TempData["UpdateMessage"] = "Cập nhật thành công";
+                    TempData["Status"] = true;
+                    TempData["Message"] = "Cập nhật thành công";
                     return RedirectToAction("View", new { id = product.ID });
                 }
                 else
                 {
-                    TempData["UpdateMessage"] = "Cập nhật thất bại";
+                    TempData["Status"] = false;
+                    TempData["Message"] = "Cập nhật thất bại";
                     return RedirectToAction("View", new { id = product.ID, isEdit = true });
                 }
             }
             else
             {
-                TempData["UpdateMessage"] = "Dữ liệu không hợp lệ";
+                TempData["Status"] = false;
+                TempData["Message"] = "Dữ liệu không hợp lệ";
                 return RedirectToAction("View", new { id = product.ID, isEdit = true });
             }
         }

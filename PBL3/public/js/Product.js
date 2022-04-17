@@ -47,6 +47,7 @@ let deleteProduct = (e) =>
             for (let i = index; i < STT.length; i++)
             {
                 STT[i].innerText = parseInt(STT[i].innerText) - 1;
+                STT[i].dataset.index = parseInt(STT[i].dataset.index) - 1;
             };
             e.parentElement.parentElement.parentElement.remove();
             document.getElementById('total_product').innerText = parseInt(document.getElementById('total_product').innerText) - 1;

@@ -552,6 +552,7 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="public\css\Add_Product.css" />
+    <Content Include="public\css\lightslider.min.css" />
     <Content Include="public\css\Sidebars.css" />
     <Content Include="public\css\table.css" />
     <Content Include="public\icon\eye.svg" />
@@ -560,7 +561,8 @@
     <Content Include="public\icon\search.svg" />
     <Content Include="public\icon\trash.svg" />
     <Content Include="public\images\Logo.jpg" />
-    <Content Include="public\js\Category.js" />
+	  <Content Include="public\js\lightslider.min.js" />
+	  <Content Include="public\js\Category.js" />
     <Content Include="public\js\Product.js" />
     <Content Include="public\js\Sidebar.js" />
     <Content Include="public\uploads\products\2022-04-07 %282%29.png" />
