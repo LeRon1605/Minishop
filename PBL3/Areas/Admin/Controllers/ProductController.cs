@@ -85,7 +85,7 @@ namespace PBL3.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
-
+        [HttpPost]
         public ActionResult Update(Product product, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)

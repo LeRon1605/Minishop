@@ -48,7 +48,7 @@
                                  class="figure-img img-fluid rounded-top border-bottom mb-0"
                                  style="width: 100%; height: 250px;object-fit: cover;">
                         </a>
-                        <figcaption class="text-start p-2 m-0 rounded-end" style="background-color: #F0F2F5">
+                        <figcaption class="text-start p-2 m-0 rounded-end bg-white" style="background-color: #F0F2F5">
                             <a class="m-0 fw-bold text-dark text-decoration-none" href="">@product.Name</a>
                             <p class="m-0 text-danger">@product.Price đ</p>
                             <div class="m-0 d-flex justify-content-between align-items-center">
@@ -99,20 +99,18 @@
     </div>
 </div>
 <div class="row m-auto mt-5" style="width: 77em">
-    <div class="row bg-white p-2 rounded shadow m-auto" style="width: 73.7em">
-        <div class="col-sm-8 d-flex p-0">
+    <div class="row p-2 rounded m-auto border" style="width: 73.7em">
+        <div class="col-sm-8 d-flex p-0 align-items-center">
             <div class="col-sm-3">
-                <label class="form-label">Giá sản phẩm</label>
                 <select class="form-select" name="Price" id="price_search">
-                    <option value="All">All</option>
+                    <option value="All">Giá sản phẩm</option>
                     <option value="100000">Dưới 100.000</option>
                     <option value="1000000">Dưới 1.000.000</option>
                 </select>
             </div>
             <div class="col-sm-3 ms-3">
-                <label class="form-label">Loại sản phẩm</label>
                 <select class="form-select" name="Price" id="price_search">
-                    <option value="All">All</option>
+                    <option value="All">Loại sản phẩm</option>
                     @foreach (Category category in categories)
                     {
                         <option value="@category.ID">@category.Name</option>
@@ -120,17 +118,15 @@
                 </select>
             </div>
             <div class="col-sm-3 ms-3">
-                <label class="form-label">Sắp xếp theo</label>
                 <select class="form-select" name="Price" id="price_search">
-                    <option value="All">All</option>
+                    <option value="All">Sắp xếp</option>
                     <option value="100000">Tên sản phẩm</option>
                     <option value="1000000">Giá sản phẩm</option>
                 </select>
             </div>
         </div>
-        <div class="col-sm-4 p-0">
-            <label class="form-label">Tìm kiếm</label>
-            <div class="input-group mb-3">
+        <div class="col-sm-4 p-0 d-flex align-items-center">
+            <div class="input-group m-0">
                 <input type="text" class="form-control" id="keyword_search" name="keyword" placeholder="Nhập từ khóa tìm kiếm">
                 <button class="btn btn-primary" type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
