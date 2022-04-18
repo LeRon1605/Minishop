@@ -34,12 +34,16 @@ namespace PBL3.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index");
             }
-            ViewBag.isEdit = isEdit;
             Category category = new CategoryDAO().find((int)id);
             if (category == null)
             {
-                TempData["Message"] = " Loại sản phẩm không tồn tại";
+                TempData["Message"] = "Loại sản phẩm không tồn tại";
                 return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewBag.isEdit = isEdit;
+                return View(category);
             }
         }
         [HttpPost]
