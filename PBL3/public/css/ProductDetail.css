@@ -1,0 +1,408 @@
+﻿.pd-wrap {
+    padding: 40px 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.heading-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+    .heading-section h2 {
+        font-size: 32px;
+        font-weight: 500;
+        padding-top: 10px;
+        padding-bottom: 15px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+.user-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    position: relative;
+    min-width: 80px;
+    background-size: 100%;
+}
+
+.carousel-testimonial .item {
+    padding: 30px 10px;
+}
+
+.product-name {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 22px;
+    margin-bottom: 4px;
+}
+
+.product-price-discount {
+    font-size: 22px;
+    font-weight: 400;
+    padding: 10px 0;
+    clear: both;
+}
+
+    .product-price-discount span.line-through {
+        text-decoration: line-through;
+        margin-left: 10px;
+        font-size: 14px;
+        vertical-align: middle;
+        color: #a5a5a5;
+    }
+
+.display-flex {
+    display: flex;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.product-info {
+    width: 100%;
+}
+
+.reviews-counter {
+    font-size: 13px;
+}
+
+    .reviews-counter span {
+        vertical-align: -2px;
+    }
+
+.rate {
+    float: left;
+    padding: 0 10px 0 0;
+}
+
+    .rate:not(:checked) > input {
+        position: absolute;
+        top: -9999px;
+    }
+
+    .rate:not(:checked) > label {
+        float: right;
+        width: 15px;
+        overflow: hidden;
+        white-space: nowrap;
+        cursor: pointer;
+        font-size: 21px;
+        color: #ccc;
+        margin-bottom: 0;
+        line-height: 21px;
+    }
+
+        .rate:not(:checked) > label:before {
+            content: '\2605';
+        }
+
+    .rate > input:checked ~ label {
+        color: #ffc700;
+    }
+
+    .rate:not(:checked) > label:hover,
+    .rate:not(:checked) > label:hover ~ label {
+        color: #deb217;
+    }
+
+    .rate > input:checked + label:hover,
+    .rate > input:checked + label:hover ~ label,
+    .rate > input:checked ~ label:hover,
+    .rate > input:checked ~ label:hover ~ label,
+    .rate > label:hover ~ input:checked ~ label {
+        color: #c59b08;
+    }
+
+.product-dtl p {
+    font-size: 14px;
+    line-height: 24px;
+    color: #7a7a7a;
+}
+
+.product-dtl .form-control {
+    font-size: 15px;
+}
+
+.product-dtl label {
+    line-height: 16px;
+    font-size: 15px;
+}
+
+.form-control:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.product-count .qtyminus,
+.product-count .qtyplus {
+    width: 44px;
+    height: 34px;
+    background: #212529;
+    text-align: center;
+    font-size: 19px;
+    line-height: 20px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.product-count .qtyminus {
+    border-radius: 3px 0 0 3px;
+}
+
+.product-count .qtyplus {
+    border-radius: 0 3px 3px 0;
+}
+
+.product-count .qty {
+    width: 145px;
+    text-align: center;
+}
+
+.product-info-tabs {
+    margin-top: 25px;
+}
+
+    .product-info-tabs .nav-tabs {
+        border-bottom: 2px solid #d8d8d8;
+    }
+
+        .product-info-tabs .nav-tabs .nav-item {
+            margin-bottom: 0;
+        }
+
+        .product-info-tabs .nav-tabs .nav-link {
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: #323232;
+        }
+
+        .product-info-tabs .nav-tabs .nav-item .nav-link:hover {
+            border: none;
+        }
+
+        .product-info-tabs .nav-tabs .nav-item.show .nav-link,
+        .product-info-tabs .nav-tabs .nav-link.active,
+        .product-info-tabs .nav-tabs .nav-link.active:hover {
+            border: none;
+            border-bottom: 2px solid #d8d8d8;
+            font-weight: bold;
+        }
+
+    .product-info-tabs .tab-content .tab-pane {
+        padding: 30px 20px;
+        font-size: 15px;
+        line-height: 24px;
+        color: #7a7a7a;
+    }
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.round-red-btn {
+    border-radius: 4px;
+    background: rgba(255, 0, 0, 0.834);
+    color: #fff;
+    padding: 7px 45px;
+    display: inline-block;
+    margin-top: 20px;
+    border: solid 2px #212529;
+    transition: all 0.5s ease-in-out 0s;
+}
+
+    .round-red-btn:hover,
+    .round-red-btn:focus {
+        background: transparent;
+        color: #212529;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+.round-black-btn {
+    border-radius: 4px;
+    background: #212529;
+    color: #fff;
+    padding: 7px 15px;
+    display: inline-block;
+    margin-top: 20px;
+    border: solid 2px #212529;
+    transition: all 0.5s ease-in-out 0s;
+}
+
+    .round-black-btn:hover,
+    .round-black-btn:focus {
+        background: transparent;
+        color: #212529;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+.margin_width {
+    margin-left: 15px;
+    margin-right: 15px;
+    min-width: 235px;
+    max-width: 250px;
+}
+
+.name_spec {
+    background-color: #ececec;
+    padding: 15px 15px;
+}
+
+.spec {
+    background-color: #f9f9f9;
+    padding: 15px 15px;
+}
+
+.Product_decription {
+    font-size: 25px;
+    padding: 10px;
+    color: #d51818;
+    font-family: fangsong;
+}
+
+/*comment*/
+
+a {
+    text-decoration: none !important;
+    color: inherit
+}
+
+    a:hover {
+        color: #455A64
+    }
+
+.rating-box {
+    width: 130px;
+    height: 130px;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: #FBC02D;
+    color: #fff
+}
+
+.rating-label {
+    font-weight: bold
+}
+
+.rating-bar {
+    width: 300px;
+    padding: 8px;
+    border-radius: 5px
+}
+
+.bar-container {
+    width: 100%;
+    background-color: #f1f1f1;
+    text-align: center;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 5px
+}
+
+.bar-5 {
+    width: 70%;
+    height: 13px;
+    background-color: #FBC02D;
+    border-radius: 20px
+}
+
+.bar-4 {
+    width: 30%;
+    height: 13px;
+    background-color: #FBC02D;
+    border-radius: 20px
+}
+
+.bar-3 {
+    width: 20%;
+    height: 13px;
+    background-color: #FBC02D;
+    border-radius: 20px
+}
+
+.bar-2 {
+    width: 10%;
+    height: 13px;
+    background-color: #FBC02D;
+    border-radius: 20px
+}
+
+.bar-1 {
+    width: 0%;
+    height: 13px;
+    background-color: #FBC02D;
+    border-radius: 20px
+}
+
+td {
+    padding-bottom: 10px
+}
+
+.card {
+    border-radius: 5px;
+    background-color: #fff;
+    margin-top: 30px;
+    margin: 0 20px;
+    padding: 10px 30px;
+}
+
+
+.star-active {
+    color: #FBC02D;
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
+    .star-active:hover {
+        color: #F9A825;
+        cursor: pointer
+    }
+
+.star-inactive {
+    color: #CFD8DC;
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
+.blue-text {
+    color: #0091EA
+}
+
+.content {
+    font-size: 18px
+}
+
+.profile-pic {
+    width: 90px;
+    height: 90px;
+    border-radius: 100%;
+    margin-right: 30px;
+}
+
+.pic {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+}
+
+.vote {
+    cursor: pointer
+}
+
+.comments {
+    font-size: 25px;
+    padding: 10px 20px;
+    color: #d51818;
+    font-family: fangsong;
+}
+
+.name_user {
+    text-align: left;
+}
+
+.margin-t{
+    margin-top : 15px;
+}

@@ -515,6 +515,7 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Models\PagingModel.cs" />
     <Compile Include="Areas\Admin\Models\ProductModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -553,6 +554,7 @@
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="public\css\Add_Product.css" />
     <Content Include="public\css\lightslider.min.css" />
+    <Content Include="public\css\ProductDetail.css" />
     <Content Include="public\css\Sidebars.css" />
     <Content Include="public\css\Add_Category.css" />
     <Content Include="public\css\table.css" />
@@ -565,6 +567,7 @@
     <Content Include="public\js\lightslider.min.js" />
     <Content Include="public\js\Category.js" />
     <Content Include="public\js\Product.js" />
+    <Content Include="public\js\ProductDetail.js" />
     <Content Include="public\js\Sidebar.js" />
     <Content Include="public\uploads\products\2022-04-07 %282%29.png" />
     <Content Include="public\uploads\products\Capture.PNG" />
@@ -617,7 +620,8 @@
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\ActivateAccount.cshtml" />
-    <Content Include="Views\User\View.cshtml" />
+	<Content Include="Views\Product\Index.cshtml" />
+	<Content Include="Views\User\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
