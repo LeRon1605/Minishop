@@ -82,18 +82,34 @@
                     <div class="mb-3">
                         <label for="title" class="form-label">Loại sản phẩm</label>
                         <select class="form-select" name="CategoryID" id="CategoryID_product" disabled=@(!editable)>
-                            <option selected>--Chọn loại sản phẩm--</option>
-                            @foreach (Category category in categories)
+                            @if (editable)
                             {
-                                if (category.ID == Model.CategoryID)
+                                <option selected value="">--Chọn loại sản phẩm--</option>
+                                foreach (Category category in categories)
                                 {
-                                    <option value="@category.ID" selected>@category.Name</option>
+                                    if (Model.Category != null && category.ID == Model.CategoryID)
+                                    {
+                                        <option value="@category.ID" selected>@category.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@category.ID">@category.Name</option>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (Model.Category == null)
+                                {
+                                    <option>NOT</option>
                                 }
                                 else
                                 {
-                                    <option value="@category.ID">@category.Name</option>
+                                    <option>@Model.Category.Name</option>
                                 }
                             }
+
+
                         </select>
 </div>
                     <div class="mb-3">

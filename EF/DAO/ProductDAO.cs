@@ -31,13 +31,13 @@ namespace EF.DAO
                     (price == "All" || product.Price <= int.Parse(price))
                 )).ToList();
                 totalRow = (int)Math.Ceiling((double)products.Count() / pageSize);
-                return products.Select(product => new Product { 
+                return products.Select(product => new Product {
                     ID = product.ID,
                     Name = product.Name,
                     Stock = product.Stock,
                     Price = product.Price,
                     Image = product.Image,
-                    Category = categoryDAO.find(product.CategoryID)
+                    Category = (product.CategoryID != null) ? categoryDAO.find((int)product.CategoryID) : null
                 }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
             }
             return null;
@@ -92,9 +92,15 @@ namespace EF.DAO
             return false;
         }
 
-        public Product find(int id)
+        public Product find(int id, bool isLoadCategory = false)
         {
-            return context.Products.Find(id);
+            Product product = context.Products.Find(id);
+            if (isLoadCategory)
+            {
+                CategoryDAO categoryDAO = new CategoryDAO();
+                product.Category = (product.CategoryID == null) ? null : categoryDAO.find((int)product.CategoryID);
+            }
+            return product;
         }
 
         public int Count()

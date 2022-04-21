@@ -14,6 +14,7 @@ namespace PBL3.Controllers
         public ActionResult Index(int page = 1)
         {
             //ShopOnlineDbContext context = new ShopOnlineDbContext();
+            //context.Database.EnsureDeleted();
             //context.Database.EnsureCreated();
             List<Category> categories = new CategoryDAO().findAll();
             ProductDAO productDAO = new ProductDAO();

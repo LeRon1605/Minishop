@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EF.DAO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -61,8 +62,7 @@ namespace EF.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; } = null;
 
-        public int CategoryID { get; set; }
-        [ForeignKey("CategoryID")]
+        public int? CategoryID { get; set; }
         public Category Category { get; set; }
         public List<Comment> Comments { get; set; }
         // public ProductDetail Detail { get; set; }

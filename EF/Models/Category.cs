@@ -20,6 +20,8 @@ namespace EF.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }
 
+        public List<Product> Products { get; set; }
+
 
     }
 }

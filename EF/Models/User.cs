@@ -49,10 +49,10 @@ namespace EF.Models
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        public int RoleID { get; set; }
-        [ForeignKey("RoleID")]
+        public int? RoleID { get; set; }
         public Role Role { get; set; }
         public List<Order> Orders { get; set; }
         public List<Comment> Comments { get; set; }
+        public Cart Cart { get; set; }
     }
 }

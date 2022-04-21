@@ -24,7 +24,7 @@ namespace EF.DAO
         {
             return context.Users.ToList();
         }
-        public async Task<bool> Add(User newUser)
+        public async Task<bool> Add(User newUser, bool isAdmin = false)
         {
             User user = context.Users.ToList().Where(u => u.Email == newUser.Email).FirstOrDefault();
             if (user != null)
@@ -33,10 +33,15 @@ namespace EF.DAO
             }
             else
             {
+                if (isAdmin) newUser.RoleID = new RoleDAO().findByName("ADMIN").ID;
+                else
+                {
+                    newUser.RoleID = new RoleDAO().findByName("USER").ID;
+                    newUser.Cart = new Cart();
+                }
                 newUser.CreatedAt = DateTime.Now;
                 newUser.UpdatedAt = null;
                 newUser.isActivated = false;
-                newUser.RoleID = new RoleDAO().findByName("USER").ID;
                 await context.Users.AddAsync(newUser);
                 await context.SaveChangesAsync();
                 return true;

@@ -17,7 +17,12 @@ namespace PBL3.Controllers
         // GET: User
         public ActionResult Index()
         {
-            return View();
+            if (Session["USER"] == null) return RedirectToAction("Login");
+            else
+            {
+                User user = Session["USER"] as User;
+                return View(user);
+            }
         }
         [HttpGet]
         public ActionResult Login()
@@ -37,7 +42,7 @@ namespace PBL3.Controllers
                 if (user != null)
                 {
                     Session["USER"] = user;
-                    Role role = new RoleDAO().find(user.RoleID);
+                    Role role = new RoleDAO().find((int)user.RoleID);
                     if (role.Name == "ADMIN") return RedirectToAction("Index", "Home", new { area = "Admin" });
                     else return RedirectToAction("Index", "Home");
                 }

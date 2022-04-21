@@ -30,15 +30,13 @@ namespace PBL3.Areas.Admin.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult View(int? id, bool isEdit = false)
+        public ActionResult View(int id, bool isEdit = false)
         {
-            if (id == null)
-            {
-                return RedirectToAction("Index");
-            }    
+            CategoryDAO categoryDAO = new CategoryDAO();
+            ProductDAO productDAO = new ProductDAO();
             ViewBag.isEdit = isEdit;
-            ViewBag.categories = new CategoryDAO().findAll();
-            Product product = new ProductDAO().find((int)id);
+            ViewBag.categories = categoryDAO.findAll();
+            Product product = productDAO.find(id, true);
             if (product == null)
             {
                 TempData["Message"] = "Sản phẩm không tồn tại";
@@ -62,7 +60,7 @@ namespace PBL3.Areas.Admin.Controllers
                         ProductDAO productDAO = new ProductDAO();
                         product.Image = $"/public/uploads/products/{fileName}";
                         productDAO.Add(product);
-                        product.Category = new CategoryDAO().find(product.CategoryID);
+                        product.Category = new CategoryDAO().find((int)product.CategoryID);
                         TempData["AddStatus"] = true;
                     }
                     else

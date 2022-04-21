@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace EF.Models
 {
     public class ShopOnlineDbContext: DbContext
     {
-        private string connectionString = "Server=localhost,1433;Database=ShopOnline;UID=sa;PWD=ronle75";
+        private string connectionString = ConfigurationManager.ConnectionStrings["ShopOnline"].ConnectionString;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -18,6 +19,22 @@ namespace EF.Models
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<Product>(entity =>
+            {
+                entity.HasOne(product => product.Category)
+                      .WithMany(category => category.Products)
+                      .HasForeignKey("CategoryID")
+                      .OnDelete(DeleteBehavior.SetNull);
+            });
+
+            builder.Entity<User>(entity =>
+            {
+                entity.HasOne(user => user.Role)
+                      .WithMany(role => role.Users)
+                      .HasForeignKey("RoleID")
+                      .OnDelete(DeleteBehavior.SetNull);
+            });
         }
 
         public DbSet<User> Users { get; set; }
