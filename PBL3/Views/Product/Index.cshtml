@@ -1,0 +1,200 @@
+﻿@model EF.Models.Product
+
+@{
+    ViewBag.Title = "Index";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/public/css/ProductDetail.css">
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="width-image border">
+                <img src="@Model.Image" alt="" style="width: 100% ">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="product-dtl">
+                <div class="product-info">
+                    <div class="product-name">@Model.Name</div>
+                    <div class="reviews-counter">
+                        <div class="rate">
+                            <input type="radio" id="star5" name="rate" value="5" checked />
+                            <label for="star5" title="text">5 Sao</label>
+                            <input type="radio" id="star4" name="rate" value="4" checked />
+                            <label for="star4" title="text">4 Sao</label>
+                            <input type="radio" id="star3" name="rate" value="3" />
+                            <label for="star3" title="text">3 Sao</label>
+                            <input type="radio" id="star2" name="rate" value="2" />
+                            <label for="star2" title="text">2 Sao</label>
+                            <input type="radio" id="star1" name="rate" value="1" />
+                            <label for="star1" title="text">1 Sao</label>
+                        </div>
+                        <span>150 Reviews</span>
+                    </div>
+                    <div class="product-price-discount">
+                        <span>@Model.Price</span><span class="line-through">15000000 VNĐ</span>
+                    </div>
+                </div>
+                <div>
+                    <label for="size">Voucher dành cho sản phẩm</label>
+                </div>
+                <div class="information" style="padding: 15px 0;">
+                    <div class="row product_mass" style="padding: 0 15px; margin-top: 15px">
+                        <label class="col-md-4 name_spec" for="size">Khối lượng</label>
+                        <label class="col-md-8 spec" for="size">@Model.Mass</label>
+                    </div>
+                    <div class="row product_power" style="padding: 0 15px; margin-top: 15px">
+                        <label class="col-md-4 name_spec" for="size">Công suất</label>
+                        <label class="col-md-8 spec" for="size">@Model.Power</label>
+                    </div>
+                    <div class="row product_producer" style="padding: 0 15px; margin-top: 15px">
+                        <label class="col-md-4 name_spec" for="size">Nhà sản suất</label>
+                        <label class="col-md-8 spec" for="size">@Model.Producer</label>
+                    </div>
+                    <div class="row product_producerDate" style="padding: 0 15px; margin-top: 15px">
+                        <label class="col-md-4 name_spec" for="size">Ngày sản suất</label>
+                        <label class="col-md-8 spec" for="size">@Model.ProducerDate.ToString("dd/MM/yyyy")</label>
+                    </div>
+                    <div class="row product_maintenanceTime" style="padding: 0 15px; margin-top: 15px">
+                        <label class="col-md-4 name_spec" for="size">Thời gian bảo hành</label>
+                        <label class="col-md-8 spec" for="size">@Model.MaintenanceTime</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="product-count">
+                            <label for="size">Số lượng</label>
+                            <div class="d-flex">
+                                <button id="qtyminus" class="qtyminus">-</button>
+                                <input type="text" name="quantity" value="0" id="qty" class="qty">
+                                <button id="qtyplus" class="qtyplus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 row">
+                        <button class="round-black-btn col-md-4 margin_width">
+                            <i class="fa-solid fa-cart-plus"></i>
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="product-info-tabs">
+            <div class="tab-content">
+                <div class="Product_decription">
+                    Mô tả sản phẩm
+                </div>
+                <div class="tab-pane fade show active" id="description" role="tabpanel"
+                     aria-labelledby="description-tab">
+                    @Model.Description
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid px-1 py-5 mx-auto">
+            <div class="comments">Đánh giá sản phẩm</div>
+
+            <div class="row justify-content-center">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center mb-5">
+                    <div class="card">
+                        <div class="row justify-content-left d-flex">
+                            <div class="col-md-4 d-flex flex-column">
+                                <div class="rating-box">
+                                    <h1 class="pt-4">4.0</h1>
+                                    <p class="">out of 5</p>
+                                </div>
+                                <div>
+                                    <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="rating-bar0 justify-content-center">
+                                    <table class="text-left mx-auto">
+                                        <tr>
+                                            <td class="rating-label">Excellent</td>
+                                            <td class="rating-bar">
+                                                <div class="bar-container">
+                                                    <div class="bar-5"></div>
+                                                </div>
+                                            </td>
+                                            <td class="text-right">123</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="rating-label">Good</td>
+                                            <td class="rating-bar">
+                                                <div class="bar-container">
+                                                    <div class="bar-4"></div>
+                                                </div>
+                                            </td>
+                                            <td class="text-right">23</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="rating-label">Average</td>
+                                            <td class="rating-bar">
+                                                <div class="bar-container">
+                                                    <div class="bar-3"></div>
+                                                </div>
+                                            </td>
+                                            <td class="text-right">10</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="rating-label">Poor</td>
+                                            <td class="rating-bar">
+                                                <div class="bar-container">
+                                                    <div class="bar-2"></div>
+                                                </div>
+                                            </td>
+                                            <td class="text-right">3</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="rating-label">Terrible</td>
+                                            <td class="rating-bar">
+                                                <div class="bar-container">
+                                                    <div class="bar-1"></div>
+                                                </div>
+                                            </td>
+                                            <td class="text-right">0</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center mb-5">
+                    <div class="card">
+                        <div class="d-flex">
+                            <div class="">
+                                <img class="profile-pic mt-3"
+                                     src="~/public/images/Logo.jpg">
+                            </div>
+                            <div class="d-flex flex-column" style="text-align: left; width: 100%">
+                                <h3 class="mt-2 mb-0 name_user">Name</h3>
+                                <div>
+                                    <p class="text-left m-0">
+                                        <span class="text-muted">4.0</span> <span class="fa fa-star star-active ml-3"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-inactive"></span>
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="content">Sản phẩm chỉ đẹp khi người dùng có tiền. Hông có tiền để mua :(((</p>
+                                </div>
+                            </div>
+                            <div class="" style="text-align: right; width: 100px">
+                                <p class="text-muted pt-5 pt-sm-3">10 Sept</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+@section scripts{
+    <script src="~/public/js/ProductDetail.js"></script>
+}
