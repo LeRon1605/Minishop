@@ -563,6 +563,7 @@
     <Content Include="public\icon\pencil.svg" />
     <Content Include="public\icon\search.svg" />
     <Content Include="public\icon\trash.svg" />
+    <Content Include="public\images\Default.jpg" />
     <Content Include="public\images\Logo.jpg" />
     <Content Include="public\js\lightslider.min.js" />
     <Content Include="public\js\Category.js" />
@@ -620,12 +621,13 @@
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\ActivateAccount.cshtml" />
-	<Content Include="Views\Product\Index.cshtml" />
-	<Content Include="Views\User\View.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\User\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="public\uploads\users\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

@@ -45,6 +45,7 @@ namespace EF.Models
         [RegularExpression("^[a-zA-Z1-9]*$", ErrorMessage = "Mật khẩu không chứa kí tự đặc biệt")]
         [StringLength(32, MinimumLength = 8, ErrorMessage = "Mật khẩu có độ dài từ 8 - 32")]
         public string Password { get; set; }
+        public string Image { get; set; }
         public bool isActivated { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

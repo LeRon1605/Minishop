@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using PBL3.Models;
 using PBL3.Helper;
 using System.Web.Routing;
+using System.IO;
 
 namespace PBL3.Controllers
 {
@@ -204,7 +205,40 @@ namespace PBL3.Controllers
                     };
                 }
             }
-
         }
+        [HttpPost]
+        public ActionResult Update(User user, HttpPostedFileBase file)
+        {
+            if (ModelState["Password"] != null) ModelState["Password"].Errors.Clear();
+            if (ModelState.IsValid)
+            {
+                if (file != null && file.ContentLength > 0)
+                {
+                    string fileName = Path.GetFileName(file.FileName);
+                    string path = Path.Combine(Server.MapPath("~/public/uploads/users"), fileName);
+                    file.SaveAs(path);
+                    user.Image = $"/public/uploads/users/{fileName}";
+                }
+                User result = new UserDAO().Update(user);
+                if (result != null)
+                {
+                    TempData["Status"] = true;
+                    TempData["Message"] = "Cập nhật tài khoản công";
+                    Session["USER"] = result;
+                }
+                else
+                {
+                    TempData["Status"] = false;
+                    TempData["Message"] = "Cập nhật tài khoản thất bại";
+                }
+            }
+            else
+            {
+                TempData["Status"] = false;
+                TempData["Message"] = "Dữ liệu không hợp lệ";
+            }
+            return RedirectToAction("Index");
+        }
+        
     }
 }

@@ -47,7 +47,7 @@
                 </li>
             </div>
             <div class="d-none d-sm-flex">
-                @Html.ActionLink("Trang chủ", "Index", "Home", new { @class = "p-2 text-decoration-none" })
+                @Html.ActionLink("Trang chủ", "Index", new { controller = "Home" }, new { @class = "p-2 text-decoration-none" })
                 <a href="" class="p-2 text-decoration-none">Category</a>
                 <a href="" class="p-2 text-decoration-none">Cart</a>
                 @if (Session["User"] == null)
@@ -65,7 +65,7 @@
             </div>
         </header>
     </div>
-    <div class="container-fluid m-auto mt-5 row" style="background-color: #F0F2F5">
+    <div class="container-fluid m-auto mt-5 row" style="background-color: #F0F2F5; position: relative">
         @RenderBody()
     </div>
 
@@ -157,6 +157,8 @@
         </div>
     </footer>
     @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

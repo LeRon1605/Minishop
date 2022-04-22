@@ -43,13 +43,13 @@
             {
                 <li>
                     <figure class="figure rounded m-1 p-0 border product_hover" style="width: 14rem">
-                        <a href="">
+                        <a href=""@Url.Action("Index", "Product", new { id = product.ID })"">
                             <img src="@product.Image"
                                  class="figure-img img-fluid rounded-top border-bottom mb-0"
                                  style="width: 100%; height: 250px;object-fit: cover;">
                         </a>
                         <figcaption class="text-start p-2 m-0 rounded-end bg-white" style="background-color: #F0F2F5">
-                            <a class="m-0 fw-bold text-dark text-decoration-none" href="">@product.Name</a>
+                            <a class="m-0 fw-bold text-dark text-decoration-none" href="@Url.Action("Index", "Product", new { id = product.ID })">@product.Name</a>
                             <p class="m-0 text-danger">@product.Price đ</p>
                             <div class="m-0 d-flex justify-content-between align-items-center">
                                 <div>
@@ -136,13 +136,13 @@
         @foreach (Product product in products)
         {
             <figure class="figure bg-white rounded m-1 p-0 product_hover border" style="width: 14rem">
-                <a href="">
+                <a href="@Url.Action("Index", "Product", new { id = product.ID })">
                     <img src="@product.Image"
                          class="figure-img img-fluid rounded-top border-bottom"
                          style="width: 100%; height: 250px;object-fit: cover;">
                 </a>
                 <figcaption class="text-start p-2 m-0">
-                    <a class="m-0 fw-bold text-dark text-decoration-none" href="">@product.Name</a>
+                    <a class="m-0 fw-bold text-dark text-decoration-none" href=""@Url.Action("Index", "Product", new { id = product.ID })"">@product.Name</a>
                     <p class="m-0 text-danger">@product.Price đ</p>
                     <div class="m-0 d-flex justify-content-between align-items-center">
                         <div>

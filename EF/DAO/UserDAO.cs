@@ -39,6 +39,7 @@ namespace EF.DAO
                     newUser.RoleID = new RoleDAO().findByName("USER").ID;
                     newUser.Cart = new Cart();
                 }
+                newUser.Image = $"/public/images/Default.jpg";
                 newUser.CreatedAt = DateTime.Now;
                 newUser.UpdatedAt = null;
                 newUser.isActivated = false;
@@ -64,6 +65,29 @@ namespace EF.DAO
         {
             User user = context.Users.ToList().Where(u => (u.Email == email && u.Password == password)).FirstOrDefault();
             return user;
+        }
+
+        public User Update(User entity)
+        {
+            User user = context.Users.Find(entity.ID);
+            if (user == null) return null;
+            else
+            {
+                user.Name = entity.Name;
+                user.Phone = entity.Phone;
+                user.Birth = entity.Birth;
+                user.Gender = entity.Gender;
+                user.Address = entity.Address;
+                user.Image = entity.Image;
+                if (user.Email != entity.Email)
+                {
+                    user.Email = entity.Email;
+                    user.isActivated = false;
+                }    
+                user.UpdatedAt = DateTime.Now;
+                context.SaveChanges();
+                return find(user.ID);
+            }
         }
     }
 }
