@@ -107,7 +107,7 @@ namespace PBL3.Controllers
             if (Session["User"] == null) return RedirectToAction("Index", "Home");
             else
             {
-                User user = (User)Session["User"];
+                User user = new UserDAO().find((Session["User"] as User).ID);
                 if (user.isActivated)
                 {
                     // Đã kích hoạt rồi
@@ -133,8 +133,9 @@ namespace PBL3.Controllers
             {
                 if (DateTime.Now < data.Date.AddMinutes(3))
                 {
-                    await new UserDAO().Activate(data.userID);
-                    // TempData["Message"] = "Kích hoạt thành công";
+                    UserDAO userDAO = new UserDAO();
+                    await userDAO.Activate(data.userID);
+                    Session["User"] = userDAO.find((Session["User"] as User).ID);
                     return RedirectToAction("Index", "Home");
                 }
                 else
