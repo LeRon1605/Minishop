@@ -1,0 +1,141 @@
+﻿@model EF.Models.Cart
+@{
+    ViewBag.Title = "Index";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/public/css/Cart.css">
+}
+<div class="container">
+
+    <!-- Shopping Cart-->
+    <div class="table-responsive shopping-cart">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Tên sản phẩm</th>
+                    <th class="text-center">Số lượng</th>
+                    <th class="text-center">Tổng tiền</th>
+                    <th class="text-center">Discount</th>
+                    <th class="text-center"><a class="btn btn-sm btn-outline-danger" href="#">Xóa tất cả</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="product-item">
+                            <a class="product-thumb" href="#"><img src="images/img1.jpg" alt="Product"></a>
+                            <div class="product-info">
+                                <h4 class="product-title"><a href="#">Camera Canon</a></h4><span>
+                                    <em>Size:</em>
+                                    10.5
+                                </span><span><em>Color:</em> Dark Blue</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="center">
+                        <div class="input-group w-auto justify-content-center align-items-center">
+                            <div class="minus input-group-prepend">
+                                <button class="btn btn-light btn-sm" id="minus-btn" onclick="minusProduct(this)"><i class="fas fa-minus"></i></button>
+                            </div>
+                            <input type="text" id="qty_input" class="text" value="1">
+                            <div class="plus input-group-prepend">
+                                <button class="btn btn-light btn-sm" id="plus-btn" onclick="plusProduct(this)"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center text-lg text-medium">9.780.000 VND</td>
+                    <td class="text-center text-lg text-medium">—</td>
+                    <td class="text-center">
+                        <a class="remove-from-cart" href="#" data-toggle="tooltip" title=""
+                           data-original-title="Remove item"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="product-item">
+                            <a class="product-thumb" href="#"><img src="images/img2.jpg" alt="Product"></a>
+                            <div class="product-info">
+                                <h4 class="product-title"><a href="#">IPhone 13 Pro Max</a></h4><span>
+                                    <em>Size:</em>
+                                    XL
+                                </span><span><em>Color:</em> Black</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="center">
+                        <div class="input-group w-auto justify-content-center align-items-center">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-light btn-sm" id="minus-btn" onclick="minusProduct(this)"><i class="fas fa-minus"></i></button>
+                            </div>
+                            <input type="text" id="qty_input" class="text" value="1">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-light btn-sm" id="plus-btn" onclick="plusProduct(this)"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center text-lg text-medium">3.200.000 VND</td>
+                    <td class="text-center">—</td>
+                    <td class="text-center">
+                        <a class="remove-from-cart" href="#" data-toggle="tooltip" title=""
+                           data-original-title="Remove item"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="product-item">
+                            <a class="product-thumb" href="#"><img src="images/img3.jpg" alt="Product"></a>
+                            <div class="product-info">
+                                <h4 class="product-title"><a href="#">Nồi chiên không dầu</a></h4>
+                                <span><em>Nhà sản xuất:</em></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="center">
+                        <div class="input-group w-auto justify-content-center align-items-center">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-light btn-sm" id="minus-btn" onclick="minusProduct(this)"><i class="fas fa-minus"></i></button>
+                            </div>
+                            <input type="text" id="qty_input" class="text" value="1">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-light btn-sm" id="plus-btn" onclick="plusProduct(this)"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center text-lg text-medium">1.790.000 VND</td>
+                    <td class="text-center">15000 VND</td>
+                    <td class="text-center">
+                        <a class="remove-from-cart" href="#" data-toggle="tooltip" title=""
+                           data-original-title="Remove item"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="shopping-cart-footer">
+        <div class="column">
+            <form class="coupon-form">
+                <input class="form-control form-control-sm" type="text" placeholder="Mã giảm giá">
+                <button class="btn btn-outline-primary btn-sm" type="submit">Áp dụng</button>
+            </form>
+        </div>
+        <div class="column text-lg">Tổng tiền: <span class="text-medium">43.430.000 VND</span></div>
+    </div>
+    <div class="shopping-cart-footer">
+        <div class="column">
+            <a class="btn btn-outline-secondary" href="#">
+                <i class="icon-arrow-left"></i>&nbsp;Tiếp
+                tục mua hàng
+            </a>
+        </div>
+        <div class="column">
+            <a class="btn btn-primary" href="#" data-toast="" data-toast-type="success"
+               data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Your cart"
+               data-toast-message="is updated successfully!">Cập nhật giỏ hàng</a><a class="btn btn-success"
+                                                                                     href="#">Thanh toán</a>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/public/js/Cart.js"></script>    
+}
