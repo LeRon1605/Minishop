@@ -1,4 +1,5 @@
-﻿@using EF.Models;
+﻿@using EF.Models
+@using EF.DAO
 <!doctype html>
 <html lang="en">
 <head>
@@ -39,7 +40,7 @@
                         }
                         else
                         {
-                            User user = Session["USER"] as User;
+                            User user = new UserDAO().find((int)Session["USER"]);
                             <li>@Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
                             <li>@Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
                         }
@@ -49,7 +50,7 @@
             <div class="d-none d-sm-flex">
                 @Html.ActionLink("Trang chủ", "Index", new { controller = "Home" }, new { @class = "p-2 text-decoration-none" })
                 <a href="" class="p-2 text-decoration-none">Category</a>
-                <a href="" class="p-2 text-decoration-none">Cart</a>
+                <a href="@Url.Action("Index", "Cart")" class="p-2 text-decoration-none">Cart</a>
                 @if (Session["User"] == null)
                 {
                     @Html.ActionLink("Đăng nhập", "Login", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
@@ -58,7 +59,7 @@
                 else
                 {
 
-                    User user = Session["USER"] as User;
+                    User user = new UserDAO().find((int)Session["USER"]);
                     @Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
                     @Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
                 }

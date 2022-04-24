@@ -8,12 +8,24 @@ using System.Threading.Tasks;
 
 namespace EF.DAO
 {
-    public class UserDAO
+    public class UserDAO: IDAO<User>
     {
         private ShopOnlineDbContext context;
         public UserDAO()
         {
             context = new ShopOnlineDbContext();
+        }
+
+        public bool Delete(int id)
+        {
+            User user = context.Users.Find(id);
+            if (user == null) return false;
+            else
+            {
+                context.Users.Remove(user);
+                context.SaveChanges();
+                return true;
+            }
         }
 
         public User find(int id)
@@ -23,6 +35,11 @@ namespace EF.DAO
         public List<User> findAll()
         {
             return context.Users.ToList();
+        }
+
+        public void add(User user)
+        {
+
         }
         public async Task<bool> Add(User newUser, bool isAdmin = false)
         {

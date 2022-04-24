@@ -16,14 +16,11 @@ namespace PBL3.Controllers
     public class UserController : Controller
     {
         // GET: User
+        [HasLogin(Role = "USER")]
         public ActionResult Index()
         {
-            if (Session["USER"] == null) return RedirectToAction("Login");
-            else
-            {
-                User user = Session["USER"] as User;
-                return View(user);
-            }
+             User user = new UserDAO().find((int)Session["USER"]);
+             return View(user);
         }
         [HttpGet]
         public ActionResult Login()
@@ -42,7 +39,7 @@ namespace PBL3.Controllers
                 User user = new UserDAO().Login(data.Email, Encryptor.MD5Hash(data.Password));
                 if (user != null)
                 {
-                    Session["USER"] = user;
+                    Session["USER"] = user.ID;
                     Role role = new RoleDAO().find((int)user.RoleID);
                     if (role.Name == "ADMIN") return RedirectToAction("Index", "Home", new { area = "Admin" });
                     else return RedirectToAction("Index", "Home");
@@ -81,7 +78,7 @@ namespace PBL3.Controllers
                     if (result)
                     {
                         // TempData["Message"] = "Đăng kí thành viên thành công";
-                        Session["User"] = user;
+                        Session["User"] = user.ID;
                         return RedirectToAction("ActivateAccount");
                     }
                     else
@@ -101,13 +98,14 @@ namespace PBL3.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
+        [HasLogin(Role = "USER")]
         [HttpGet]
         public async Task<ActionResult> ActivateAccount()
         {
             if (Session["User"] == null) return RedirectToAction("Index", "Home");
             else
             {
-                User user = new UserDAO().find((Session["User"] as User).ID);
+                User user = new UserDAO().find((int)Session["USER"]);
                 if (user.isActivated)
                 {
                     // Đã kích hoạt rồi
@@ -125,6 +123,7 @@ namespace PBL3.Controllers
             }
         }
         [HttpPost]
+        [HasLogin(Role = "USER")]
         public async Task<ActionResult> ActivateAccount(string key)
         {
             ActivateAccountModel data = Session["ActivateAccount"] as ActivateAccountModel;
@@ -135,7 +134,6 @@ namespace PBL3.Controllers
                 {
                     UserDAO userDAO = new UserDAO();
                     await userDAO.Activate(data.userID);
-                    Session["User"] = userDAO.find((Session["User"] as User).ID);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -150,6 +148,7 @@ namespace PBL3.Controllers
                 return RedirectToAction("ActivateAccount");
             }
         }
+        [HasLogin(Role = "USER")]
         public async Task<ActionResult> SendActiveKey(int userID, string userEmail)
         {
             ActivateAccountModel data = Session["ActivateAccount"] as ActivateAccountModel;
@@ -208,6 +207,7 @@ namespace PBL3.Controllers
             }
         }
         [HttpPost]
+        [HasLogin(Role = "USER")]
         public ActionResult Update(User user, HttpPostedFileBase file)
         {
             if (ModelState["Password"] != null) ModelState["Password"].Errors.Clear();
@@ -225,7 +225,6 @@ namespace PBL3.Controllers
                 {
                     TempData["Status"] = true;
                     TempData["Message"] = "Cập nhật tài khoản công";
-                    Session["USER"] = result;
                 }
                 else
                 {

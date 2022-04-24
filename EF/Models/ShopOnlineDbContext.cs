@@ -35,6 +35,30 @@ namespace EF.Models
                       .HasForeignKey("RoleID")
                       .OnDelete(DeleteBehavior.SetNull);
             });
+
+            builder.Entity<CartProduct>(entity =>
+            {
+                entity.HasIndex(cartProduct => new { cartProduct.CartID, cartProduct.ProductID })
+                      .IsUnique();
+            });
+
+            builder.Entity<ProductOrder>(entity =>
+            {
+                entity.HasOne(productOrder => productOrder.Product)
+                      .WithMany(product => product.ProductOrder)
+                      .HasForeignKey("ProductID")
+                      .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(productOrder => productOrder.Order)
+                      .WithMany(order => order.ProductOrder)
+                      .HasForeignKey("OrderID")
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasIndex(productOrder => new { productOrder.ProductID, productOrder.OrderID })
+                      .IsUnique();
+            });
+
+
         }
 
         public DbSet<User> Users { get; set; }

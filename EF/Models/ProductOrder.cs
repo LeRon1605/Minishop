@@ -17,9 +17,8 @@ namespace EF.Models
         [Required(ErrorMessage ="Số lượng không được để trống")]
         [Range(0,int.MaxValue)]
         public int Quantity { get; set; }
-        [ForeignKey("ProductID")]
+        public int Price { get; set; }
         public Product Product { get; set; }
-        [ForeignKey("OrderID")]
         public Order Order { get; set; }
     }
 }

@@ -512,13 +512,15 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Helper\HasLoginAttribute.cs" />
     <Compile Include="Models\PagingModel.cs" />
-    <Compile Include="Areas\Admin\Models\ProductModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -565,6 +567,7 @@
     <Content Include="public\icon\pencil.svg" />
     <Content Include="public\icon\search.svg" />
     <Content Include="public\icon\trash.svg" />
+    <Content Include="public\images\UnAuthorize.gif" />
     <Content Include="public\images\Default.jpg" />
     <Content Include="public\images\Logo.jpg" />
     <Content Include="public\js\Cart.js" />
@@ -625,12 +628,15 @@
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\ActivateAccount.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
-    <Content Include="Views\User\View.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Shared\UnAuthorize.cshtml" />
+    <Content Include="Views\Error\PageNotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Account\" />
     <Folder Include="public\uploads\users\" />
   </ItemGroup>
   <ItemGroup>

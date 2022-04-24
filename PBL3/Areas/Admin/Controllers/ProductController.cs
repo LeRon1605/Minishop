@@ -1,6 +1,5 @@
 ﻿using EF.Models;
 using EF.DAO;
-using PBL3.Areas.Admin.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +7,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 using PBL3.Models;
+using PBL3.Helper;
 
 namespace PBL3.Areas.Admin.Controllers
 {
+    [HasLogin(Role = "ADMIN")]
     public class ProductController : Controller
     {
         // GET: Admin/Product
@@ -58,9 +59,10 @@ namespace PBL3.Areas.Admin.Controllers
                         string path = Path.Combine(Server.MapPath("~/public/uploads/products"), fileName);
                         Image.SaveAs(path);
                         ProductDAO productDAO = new ProductDAO();
+                        CategoryDAO categoryDAO = new CategoryDAO();
                         product.Image = $"/public/uploads/products/{fileName}";
                         productDAO.Add(product);
-                        product.Category = new CategoryDAO().find((int)product.CategoryID);
+                        product.Category = (product.CategoryID == null) ? null : categoryDAO.find((int)product.CategoryID);
                         TempData["AddStatus"] = true;
                     }
                     else

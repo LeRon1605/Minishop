@@ -7,9 +7,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 using PBL3.Models;
+using PBL3.Helper;
 
 namespace PBL3.Areas.Admin.Controllers
 {
+    [HasLogin(Role = "ADMIN")]
     public class CategoryController : Controller
     {
         // GET: Admin/Category
