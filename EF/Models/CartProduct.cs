@@ -18,6 +18,7 @@ namespace EF.Models
         public bool Status { get; set; }
         public int Quantity { get; set; }
         public DateTime InsertedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
     }
 }
