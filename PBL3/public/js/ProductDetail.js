@@ -1,7 +1,9 @@
 ﻿
+
+
+
 let btnMinus = document.getElementById('qtyminus');
 let btnPlus = document.getElementById('qtyplus');
-console.log(btnPlus)
 let quantity = document.getElementById('qty');
 btnMinus.addEventListener('click', (e) => {
     let value = quantity.value;
@@ -11,3 +13,5 @@ btnPlus.addEventListener('click', (e) => {
     let value = quantity.value;
     quantity.value = parseInt(value) + 1;
 });
+
+

@@ -25,7 +25,6 @@ namespace PBL3.Controllers
             {
                 return View(product);
             }
-            
         }
     }
 }

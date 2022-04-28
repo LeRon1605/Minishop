@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="width-image border">
-                <img src="@Model.Image" alt="" style="width: 100%; height: 30em;object-fit:cover ">
+                <img src="@Model.Image" alt="" style="width: 100%;object-fit:cover ">
             </div>
         </div>
         <div class="col-md-6">
@@ -61,28 +61,30 @@
                         <label class="col-md-8 spec" for="size">@Model.MaintenanceTime</label>
                     </div>
                 </div>
+                @using (Html.BeginForm("Add", "Cart", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
                 <div class="row">
-                    <div class="col-md-12">
+                    @Html.HiddenFor(model => model.ID, new { @id = "productID" })
+                    <div class="col-md-6">
                         <div class="product-count">
                             <label for="size">Số lượng</label>
-                            <div class="d-flex">
-                                <button id="qtyminus" class="qtyminus">-</button>
+                            <div class="d-flex p-1">
+                                <button id="qtyminus" class="qtyminus" type="button">-</button>
                                 <input type="text" name="quantity" value="0" id="qty" class="qty">
-                                <button id="qtyplus" class="qtyplus">+</button>
+                                <button id="qtyplus" class="qtyplus" type="button">+</button>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 row">
-                        <button class="round-black-btn col-md-4 margin_width">
+                    <div class="col-md-6">
+                        <button class="round-black-btn col-md-4 margin_width" type="submit" id="btnSubmit">
                             <i class="fa-solid fa-cart-plus"></i>
                             Thêm vào giỏ hàng
                         </button>
                     </div>
                 </div>
+                }
+                </div>
             </div>
-        </div>
         <div class="product-info-tabs">
             <div class="tab-content">
                 <div class="Product_decription">
@@ -196,6 +198,51 @@
         </div>
     </div>
 </div>
+
+<div class="position-fixed d-flex justify-content-end p-3" style="z-index: 11; top: 10%">
+    <div id="notification_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="fa-solid fa-bell"></i>
+            <strong class="me-auto ms-1">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+            <div class="toast-body text-white bg-success" id="toast_body">
+
+            </div>
+    </div>
+</div>
 @section scripts{
     <script src="~/public/js/ProductDetail.js"></script>
+    <script>
+        let showToast = (status, message) => {
+            const toastBody = document.getElementById('toast_body');
+            if (status) {
+                if (toastBody.classList.contains('bg-danger')) toastBody.classList.remove('bg-danger');
+                if (!toastBody.classList.contains('bg-success')) toastBody.classList.add('bg-success');
+            } else {
+                if (!toastBody.classList.contains('bg-danger')) toastBody.classList.add('bg-danger');
+                if (toastBody.classList.contains('bg-success')) toastBody.classList.remove('bg-success');
+            }
+            toastBody.innerText = message;
+            $("#notification_toast").toast('show');
+        };
+
+        document.querySelector("#btnSubmit").addEventListener('click', function (e) {
+            e.preventDefault();
+            let data = {
+                productID: document.querySelector("#productID").value,
+                quantity: document.querySelector("#qty").value
+            };
+            $.ajax({
+                type: "POST",
+                url: `/Cart/Add`,
+                data: JSON.stringify(data),
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function (res) {
+                    showToast(res.status, res.message);
+                }
+            })
+        });
+    </script>
 }
