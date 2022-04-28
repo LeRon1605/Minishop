@@ -27,7 +27,6 @@ namespace PBL3.Controllers
             {
                 return View(product);
             }
-            
         }
         public ActionResult Search(string keyword, string categoryID, string price, int page = 1)
         {

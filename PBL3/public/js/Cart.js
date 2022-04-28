@@ -6,6 +6,7 @@
     }
 }
 
+
 const plusProduct = (e) => {
     let input = e.parentNode.previousElementSibling;
     let value = input.value;
