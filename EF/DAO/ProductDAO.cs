@@ -27,7 +27,7 @@ namespace EF.DAO
                 CategoryDAO categoryDAO = new CategoryDAO();
                 List<Product> products = context.Products.Where(product => (
                     (product.Name.Contains(keyword) || keyword == "") &&
-                    (categoryID == "All" || product.CategoryID == int.Parse(categoryID)) &&
+                    (categoryID == "All" || categoryID == null ||product.CategoryID == int.Parse(categoryID)) &&
                     (price == "All" || product.Price <= int.Parse(price))
                 )).ToList();
                 totalRow = (int)Math.Ceiling((double)products.Count() / pageSize);
