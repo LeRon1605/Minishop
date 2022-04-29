@@ -48,20 +48,20 @@
                 </li>
             </div>
             <div class="d-none d-sm-flex">
-                @Html.ActionLink("Trang chủ", "Index", new { controller = "Home" }, new { @class = "p-2 text-decoration-none" })
+                @Html.ActionLink("Trang chủ", "Index", new { controller = "Home", area = string.Empty }, new { @class = "p-2 text-decoration-none" })
                 <a href="" class="p-2 text-decoration-none">Category</a>
                 <a href="@Url.Action("Index", "Cart")" class="p-2 text-decoration-none">Cart</a>
                 @if (Session["User"] == null)
                 {
-                    @Html.ActionLink("Đăng nhập", "Login", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
-                    @Html.ActionLink("Đăng kí", "Register", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
+                    @Html.ActionLink("Đăng nhập", "Login", new { controller = "User", area = string.Empty }, new { @class = "p-2 text-decoration-none" })
+                    @Html.ActionLink("Đăng kí", "Register", new { controller = "User", area = string.Empty }, new { @class = "p-2 text-decoration-none" })
                 }
                 else
                 {
 
                     User user = new UserDAO().find((int)Session["USER"]);
-                    @Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
-                    @Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none" })
+                    @Html.ActionLink(user.Name, "Index", new { controller = "User", area = string.Empty }, new { @class = "p-2 text-decoration-none" })
+                    @Html.ActionLink("Đăng xuất", "Logout", new { controller = "User", area = string.Empty }, new { @class = "p-2 text-decoration-none" })
                 }
             </div>
         </header>

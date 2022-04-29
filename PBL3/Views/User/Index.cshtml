@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutNoFooter.cshtml";
 }
 @using EF.Models
 @model User
@@ -27,7 +28,7 @@
         }
     </style>
 }
-@using (Html.BeginForm("Update", "User", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Update", "User", FormMethod.Post, new { @enctype = "multipart/form-data", @class="mt-4" }))
 {
     @Html.HiddenFor(model => model.ID)
     <div class="row m-0 justify-content-center">

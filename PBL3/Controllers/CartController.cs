@@ -8,15 +8,16 @@ using System.Web.Mvc;
 
 namespace PBL3.Controllers
 {
-    [HasLogin(Role = "USER")]
     public class CartController : Controller
     {
         // GET: Cart
+        [HasLogin(Role = "USER")]
         public ActionResult Index()
         {
             return View();
         }
         [HttpPost]
+        [HasLogin(Role = "USER", ContentType = "json")]
         public ActionResult Add(int productID, int quantity)
         {
             int CartID = Convert.ToInt32(Session["USER"]);
