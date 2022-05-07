@@ -48,10 +48,16 @@ namespace PBL3.Helper
                 return false;
             }
         }
-        public static string GetMailContent(string[] content)
+        public static string GetMailActivateContent(string content)
         {
             StringBuilder html = new StringBuilder("<p>Bạn cần xác nhận tài khoản của mình</p>\n");
-            html.Append($"<p>Mở Ứng dụng và nhập mã xác nhận: <b>{content[0]}</b></p>" + "\n");
+            html.Append($"<p>Mở Ứng dụng và nhập mã xác nhận: <b>{content}</b></p>" + "\n");
+            return html.ToString();
+        }
+        public static string GetMailResetPasswordContent(string password)
+        {
+            StringBuilder html = new StringBuilder("<p>Đặt lại mật khẩu cho tài khoản</p>\n");
+            html.Append($"<p>Mật khẩu của bạn đã được đặt lại: <b>{password}</b></p>" + "\n");
             return html.ToString();
         }
     }

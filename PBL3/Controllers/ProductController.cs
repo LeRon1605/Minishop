@@ -28,7 +28,7 @@ namespace PBL3.Controllers
                 return View(product);
             }
         }
-        public ActionResult Search(string keyword, string categoryID, string price, int page = 1)
+        public ActionResult Search(string keyword = "", string categoryID = "All", string price = "All", int page = 1)
         {
             ProductDAO productDAO = new ProductDAO();
             int totalPage = 0;

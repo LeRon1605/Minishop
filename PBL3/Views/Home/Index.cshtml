@@ -50,7 +50,7 @@
                         </a>
                         <figcaption class="text-start p-2 m-0 rounded-end bg-white" style="background-color: #F0F2F5">
                             <a class="m-0 fw-bold text-dark text-decoration-none" href="@Url.Action("Index", "Product", new { id = product.ID })">@product.Name</a>
-                            <p class="m-0 text-danger">@product.Price đ</p>
+                            <p class="m-0 text-danger">@String.Format("{0:0,0}", product.Price) đ</p>
                             <div class="m-0 d-flex justify-content-between align-items-center">
                                 <div>
                                     3.5
@@ -111,7 +111,7 @@
                     </select>
                 </div>
                 <div class="col-sm-3 ms-3">
-                    <select class="form-select" name="Price" id="price_search">
+                    <select class="form-select" name="CategoryID" id="price_search">
                         <option value="All">Loại sản phẩm</option>
                         @foreach (Category category in categories)
                         {
@@ -120,7 +120,7 @@
                     </select>
                 </div>
                 <div class="col-sm-3 ms-3">
-                    <select class="form-select" name="Price" id="price_search">
+                    <select class="form-select" id="price_search">
                         <option value="All">Sắp xếp</option>
                         <option value="100000">Tên sản phẩm</option>
                         <option value="1000000">Giá sản phẩm</option>
@@ -146,7 +146,7 @@
                 </a>
                 <figcaption class="text-start p-2 m-0">
                     <a class="m-0 fw-bold text-dark text-decoration-none" href=""@Url.Action("Index", "Product", new { id = product.ID })"">@product.Name</a>
-                    <p class="m-0 text-danger">@product.Price đ</p>
+                    <p class="m-0 text-danger">@String.Format("{0:0,0}", product.Price) đ</p>
                     <div class="m-0 d-flex justify-content-between align-items-center">
                         <div>
                             3.5

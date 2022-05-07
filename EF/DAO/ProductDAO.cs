@@ -1,6 +1,7 @@
 ﻿using EF.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace EF.DAO
         }
         public List<Product> findAll()
         {
-            return context.Products.ToList();
+            return context.Products.AsNoTracking().ToList();
         }
 
         public List<Product> getPage(int page, int pageSize, string keyword, string categoryID, string price, out int totalRow)
@@ -25,20 +26,30 @@ namespace EF.DAO
             if (page > 0)
             {
                 CategoryDAO categoryDAO = new CategoryDAO();
-                List<Product> products = context.Products.Where(product => (
-                    (product.Name.Contains(keyword) || keyword == "") &&
-                    (categoryID == "All" || categoryID == null ||product.CategoryID == int.Parse(categoryID)) &&
-                    (price == "All" || product.Price <= int.Parse(price))
-                )).ToList();
-                totalRow = (int)Math.Ceiling((double)products.Count() / pageSize);
-                return products.Select(product => new Product {
+                List<Product> products = context.Products.AsNoTracking().Select(product => new Product
+                {
                     ID = product.ID,
                     Name = product.Name,
                     Stock = product.Stock,
                     Price = product.Price,
                     Image = product.Image,
-                    Category = (product.CategoryID != null) ? categoryDAO.find((int)product.CategoryID) : null
-                }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                    Category = (product.CategoryID == null) ? null : categoryDAO.find((int)product.CategoryID),
+                    CategoryID = product.CategoryID
+                }).Where(product => (
+                    (product.Name.Contains(keyword) || keyword == "") &&
+                    (categoryID == "All" || categoryID == null ||product.CategoryID == int.Parse(categoryID)) &&
+                    (price == "All" || product.Price <= int.Parse(price))
+                )).ToList();
+                totalRow = (int)Math.Ceiling((double)products.Count() / pageSize);
+                if (pageSize >= products.Count()) return products;
+                else
+                    try{
+                        return products.GetRange((page - 1) * pageSize, pageSize);
+                    }
+                    catch(Exception e)
+                    {
+                        return products.GetRange((page - 1) * pageSize, products.Count() - (page - 1) * pageSize);
+                    }
             }
             return null;
         }
@@ -48,9 +59,9 @@ namespace EF.DAO
             if (quantity < 1) return null;
             else
             {
-                int skip = context.Products.Count() - quantity;
-                if (skip <= 0) return context.Products.ToList(); 
-                else return context.Products.Skip(context.Products.Count() - quantity).ToList();
+                int skip = context.Products.AsNoTracking().Count() - quantity;
+                if (skip <= 0) return context.Products.AsNoTracking().ToList(); 
+                else return context.Products.AsNoTracking().Skip(context.Products.AsNoTracking().Count() - quantity).ToList();
             }
         }
         public void Add(Product product)
@@ -97,15 +108,14 @@ namespace EF.DAO
             Product product = context.Products.Find(id);
             if (isLoadCategory)
             {
-                CategoryDAO categoryDAO = new CategoryDAO();
-                product.Category = (product.CategoryID == null) ? null : categoryDAO.find((int)product.CategoryID);
+                context.Entry(product).Reference(p => p.Category).Load();
             }
             return product;
         }
 
         public int Count()
         {
-            return context.Products.Count();
+            return context.Products.AsNoTracking().Count();
         }
 
         public bool import(int id, int quantity)

@@ -162,7 +162,7 @@ namespace PBL3.Controllers
                     userEmail = userEmail,
                     Date = DateTime.Now
                 };
-                await Mail.SendMail(userEmail, "Kích hoạt tài khoản", Mail.GetMailContent(new string[] { key }));
+                await Mail.SendMail(userEmail, "Kích hoạt tài khoản", Mail.GetMailActivateContent(key));
                 return new JsonResult { 
                     Data = new
                     {
@@ -194,7 +194,7 @@ namespace PBL3.Controllers
                         userEmail = userEmail,
                         Date = DateTime.Now
                     };
-                    await Mail.SendMail(userEmail, "Kích hoạt tài khoản", Mail.GetMailContent(new string[] { key }));
+                    await Mail.SendMail(userEmail, "Kích hoạt tài khoản", Mail.GetMailActivateContent(key));
                     return new JsonResult
                     {
                         Data = new
@@ -239,6 +239,34 @@ namespace PBL3.Controllers
             }
             return RedirectToAction("Index");
         }
-        
+        [HttpPost]
+        public async Task<ActionResult> ResetPassword(string email)
+        {
+            string password = new UserDAO().ResetPasssword(email);
+            if (password == null)
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        status = false,
+                        message = "Reset password failure",
+                        detail = "User not found"
+                    }
+                };
+            }
+            else
+            {
+                await Mail.SendMail(email, "Đặt lại mật khẩu", Mail.GetMailResetPasswordContent(password));
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        status = true,
+                        message = "Đặt lại mật khẩu thành công"
+                    }
+                };
+            }  
+        }
     }
 }

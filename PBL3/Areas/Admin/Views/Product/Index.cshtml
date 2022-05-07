@@ -105,7 +105,7 @@
                     {
                         <td>NOT</td>
                     }
-                    <td>@products[i].Price</td>
+                <td>@String.Format("{0:0,0}", products[i].Price)</td>
                     <td class="product_stock_table" data-id="@products[i].ID">@products[i].Stock</td>
                     <td>0</td>
                     <td>
@@ -131,7 +131,7 @@
             </tbody>
         </table>
         <div class="clearfix">
-            <div class="hint-text">Hiển thị <b>@products.Count</b> trên <b>@ViewBag.Total</b> sản phẩm</div>
+            <div class="hint-text">Hiển thị <b>@products.Count</b> trên <b>@products.Count()</b> sản phẩm</div>
             @Html.Partial("_Pagination", pagingData)
         </div>
     </div>

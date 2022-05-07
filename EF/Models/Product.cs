@@ -30,12 +30,12 @@ namespace EF.Models
         [Display(Name = "Khối lượng")]
         [Required(ErrorMessage = "Khối lượng hàng hóa không được để trống")]
         [Range(0, float.MaxValue, ErrorMessage = "Không nhận giá trị âm")]
-        public float Mass { get; set; }
+        public double Mass { get; set; }
 
         [Display(Name = "Công suất")]
         [Required(ErrorMessage = "Công suất hàng hóa không được để trống")]
         [Range(0, float.MaxValue, ErrorMessage = "Không nhận giá trị âm")]
-        public float Power { get; set; }
+        public double Power { get; set; }
         
         [Display(Name = "Ngày sản xuất")]
         public DateTime ProducerDate { get; set; }
@@ -52,7 +52,7 @@ namespace EF.Models
         [Display(Name = "Thời gian bảo hành")]
         [Required(ErrorMessage = "Thời gian bảo hành không được để trống")]
         [Range(0, float.MaxValue, ErrorMessage = "Không nhận giá trị âm")]
-        public float MaintenanceTime { get; set; }
+        public double MaintenanceTime { get; set; }
 
         [Display(Name = "Nhà sản xuất")]
         [Required(ErrorMessage = "Nhà sản xuất không được để trống")]
@@ -63,7 +63,7 @@ namespace EF.Models
         public DateTime? UpdatedAt { get; set; } = null;
 
         public int? CategoryID { get; set; }
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
         public List<Comment> Comments { get; set; }
         // public ProductDetail Detail { get; set; }
         public virtual List<ProductVoucher> ProductVoucher { get; set; }

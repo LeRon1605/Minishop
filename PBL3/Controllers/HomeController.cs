@@ -19,7 +19,7 @@ namespace PBL3.Controllers
             int totalPage = 0;
             ViewBag.Total = productDAO.Count();
             ViewBag.categories = new CategoryDAO().findAll();
-            ViewBag.products = productDAO.getPage(page, 10, "", "All", "All", out totalPage);
+            ViewBag.products = productDAO.getPage(page, 20, "", "All", "All", out totalPage);
             ViewBag.lastedProduct = productDAO.getLasted(5);
             ViewBag.pagingData = new PagingModel
             {
@@ -49,16 +49,19 @@ namespace PBL3.Controllers
             ShopOnlineDbContext context = new ShopOnlineDbContext();
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
+            List<Product> products = new List<Product>();
+            List<Category> categories = new List<Category>();
             context.Roles.Add(new Role
             {
                 Name = "USER",
                 Description = "Người dùng"
             });
-            context.Roles.Add(new Role
+            Role adminRole = new Role
             {
                 Name = "ADMIN",
                 Description = "Quản trị viên"
-            });
+            };
+            context.Roles.Add(adminRole);
             context.Users.Add(new User
             {
                 Name = "Admin",
@@ -69,8 +72,36 @@ namespace PBL3.Controllers
                 Address = "83 Bà Triệu, Thành Phố Huế",
                 Birth = new DateTime(2022, 3, 15),
                 Gender = "Nam",
-                RoleID = 2
+                Role = adminRole
             });
+            for (int i = 1;i <= 10;i++)
+            {
+                categories.Add(new Category
+                {
+                    Name = $"Loại sản phẩm {i}",
+                    Description = $"Mô tả cho loại sản phẩm, được viết ở đây"
+                });
+            }
+            context.Categories.AddRange(categories);
+            for (int i = 1;i <= 500;i++)
+            {
+                products.Add(new Product
+                {
+                    Name = $"Sản phẩm {i}",
+                    Description = $"Mô tả cho sản phẩm, được viết ở đây",
+                    Power = 3,
+                    MaintenanceTime = 3,
+                    Producer = "Nhà sản xuất",
+                    ProducerDate = DateTime.Now,
+                    CategoryID = (i % 10) + 1,
+                    Price = new Random().Next(100000, 1000000000) * i % 10 * 300000,
+                    Image = "/public/uploads/products/agridrone.png",
+                    CreatedAt = DateTime.Now,
+                    Stock = new Random().Next(3, 50),
+                    Mass = 4
+                });
+            }
+            context.Products.AddRange(products);
             context.SaveChanges();
             return RedirectToAction("Index");
         }    

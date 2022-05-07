@@ -73,7 +73,7 @@
             </tbody>
         </table>
         <div class="clearfix">
-            <div class="hint-text">Hiển thị <b>@categories.Count()</b> trên <b>@ViewBag.Total</b>loại sản phẩm</div>
+            <div class="hint-text">Hiển thị <b>@categories.Count()</b> trên <b>@categories.Count()</b> loại sản phẩm</div>
             @Html.Partial("_Pagination", pagingData)
         </div>
     </div>
@@ -95,8 +95,8 @@
                         @Html.TextAreaFor(model => model.Description, htmlAttributes: new { @class = "form-control", @placeholder = "Nhập mô tả loại sản phẩm", @style = "height: 31.7vh", @id = "description_category" })
                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                     </div>
-                    <div class="col-4">
-                        <button class="btn btn-primary col-12 mt-3" id="submitBtn" type="submit">Thêm sản phẩm</button>
+                    <div class="col-12">
+                        <button class="btn btn-primary col-12 mt-3" id="submitBtn" type="submit">Thêm loại sản phẩm</button>
                     </div>
                 </div>
             </div>

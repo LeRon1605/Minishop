@@ -1,6 +1,7 @@
 ﻿using EF.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace EF.DAO
         }
         public List<Role> findAll()
         {
-            return context.Roles.ToList();
+            return context.Roles.AsNoTracking().ToList();
         }
         public Role find(int id)
         {
@@ -24,7 +25,7 @@ namespace EF.DAO
         }
         public Role findByName(string Name)
         {
-            return context.Roles.ToList().Where(role => role.Name == Name).FirstOrDefault();
+            return context.Roles.AsNoTracking().ToList().Where(role => role.Name == Name).FirstOrDefault();
         }
     }
 }
