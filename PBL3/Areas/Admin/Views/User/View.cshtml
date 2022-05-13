@@ -1,0 +1,219 @@
+﻿
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@using EF.Models
+@model User
+@section Styles
+{
+    <style>
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload {
+            border: 1px solid;
+            color: black;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            position: absolute;
+            bottom: 7%;
+            right: 0;
+        }
+
+        input:focus {
+            outline: none !important;
+            border-color: #719ECE;
+        }
+    </style>
+}
+@using (Html.BeginForm("Update", "User", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "mt-4" }))
+{
+    @Html.HiddenFor(model => model.ID)
+    <div class="row m-0 justify-content-center">
+        <div class="col-md-3 rounded d-flex flex-column">
+            <div class="d-flex flex-column align-items-center justify-content-between border rounded bg-white p-2">
+                <div class="d-flex flex-column align-items-center" style="position: relative">
+                    <img src="@Model.Image"
+                         class="img-fluid rounded-circle" style="width: 200px; height: 200px;object-fit: cover" id="image">
+                    <label class="custom-file-upload mt-3 rounded-circle bg-light">
+                        @Html.HiddenFor(model => model.Image)
+                        <input type="file" id="inputImage" name="file" value="/upload/user/Default.png">
+                        <i class="fa-solid fa-camera"></i>
+                    </label>
+                </div>
+                <h4 class="mt-2">@Model.Name</h4>
+                <div class="d-flex d-flex justify-content-around border-top align-items-center p-2" style="width: 100%">
+                    <div class="text-center">
+                        <p class="m-0">Tổng đơn hàng</p>
+                        <p class="m-0">0</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="m-0">Tổng đơn hàng</p>
+                        <p class="m-0">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end d-md-block d-none mt-auto">
+                <button class="btn btn-danger col-12" data-bs-toggle="modal" data-bs-target="#changePassword" type="button">Đổi mật khẩu</button>
+                <button class="btn btn-primary col-12 mt-2" type="submit">Lưu thông tin</button>
+            </div>
+        </div>
+        <div class="col-md-6 mt-md-0 mt-3">
+            <div class="border bg-white rounded">
+                <div class="row d-flex m-3 border-bottom">
+                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">ID người dùng</h6>
+                    @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @readonly = true, @class = "col-8 m-0 p-0", @placeholder = "Nhập gmail của bạn", @type = "text", @style = "border: none" } })
+                </div>
+                <div class="row d-flex m-3 border-bottom">
+                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Họ và tên</h6>
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập tên của bạn", @type = "text", @style = "border: none" } })
+                </div>
+                <div class="row d-flex m-3 border-bottom">
+                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Gmail</h6>
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập gmail của bạn", @style = "border: none" } })
+                </div>
+                <div class="row d-flex m-3 border-bottom">
+                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Số điện thoại</h6>
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập số điện thoại của bạn", @type = "text", @style = "border: none" } })
+                </div>
+                <div class="row d-flex m-3 border-bottom">
+                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Địa chỉ</h6>
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập số địa chỉ của bạn", @type = "text", @style = "border: none" } })
+                </div>
+                <div class="row d-flex m-3 border-bottom">
+                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Giới tính</h6>
+                    <div class="col-8 d-flex m-0 p-0">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Gender" checked value="Nam">
+                            <label class="form-check-label" for="flexRadioDefault1 m-0">
+                                Nam
+                            </label>
+                        </div>
+                        <div class="form-check ms-3">
+                            @if (Model.Gender == "Nữ")
+                            {
+                                <input class="form-check-input" type="radio" name="Gender" checked value="Nữ">
+                            }
+                            else
+                            {
+                                <input class="form-check-input" type="radio" name="Gender" value="Nữ">
+                            }
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Nữ
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-flex m-3 border-bottom">
+                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Ngày sinh</h6>
+                    <input value="@Model.Birth.ToString("yyyy-MM-dd")" style="border: none" class="col-8 m-0 p-0" type="date" name="Birth" />
+                </div>
+                <div class="row d-flex m-3 border-bottom">
+                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Trạng thái</h6>
+                    <input value="@(Model.isActivated ? "Đã kích hoạt" : "Chưa kích hoạt")" style="border: none" class="col-8 m-0 p-0" readonly>
+                </div>
+                <div class="row d-flex m-3 border-bottom">
+                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Ngày tham gia</h6>
+                    <input value="@Model.CreatedAt.ToString("hh:mm:ss dd/MM/yyyy")" style="border: none" class="col-8 m-0 p-0" readonly type="text">
+                </div>
+                <div class="row d-flex m-3 border-bottom">
+                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Cập nhật lần cuối</h6>
+                    @if (Model.UpdatedAt != null)
+                    {
+                        <input value="@Convert.ToDateTime(Model.UpdatedAt).ToString("hh:mm:ss dd/MM/yyyy")" style="border: none" class="col-8 m-0 p-0" readonly type="text">
+                    }
+                    else
+                    {
+                        <input value="dd/mm/yyyy" style="border: none" class="col-8 m-0 p-0" readonly type="text">
+                    }
+                </div>
+            </div>
+            <div class="d-md-none mt-3">
+                <button class="btn btn-danger col-12" data-bs-toggle="modal" data-bs-target="#changePassword" type="button">Đổi mật khẩu</button>
+                <button class="btn btn-primary col-12 mt-2" type="submit" id="submitBtn">Lưu thông tin</button>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="position-fixed p-3 d-flex justify-content-end" style="z-index: 11; top: 10%">
+    <div id="notification_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="fa-solid fa-bell"></i>
+            <strong class="me-auto ms-1">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        @if (TempData["Status"] != null)
+        {
+            if ((bool)TempData["Status"] == false)
+            {
+                <div class="toast-body text-white bg-danger" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+            else
+            {
+                <div class="toast-body text-white bg-success" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+        }
+        else
+        {
+            <div class="toast-body text-white bg-success" id="toast_body">
+
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="changePassword">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Đổi mật khẩu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Mật khẩu hiện tại</label>
+                        <input type="password" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mật khẩu mới</label>
+                        <input type="password" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Xác nhận mật khẩu mới</label>
+                        <input type="password" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        let inputImage = document.getElementById('inputImage');
+        let image = document.getElementById('image');
+        inputImage.onchange = (e) => {
+            image.src = URL.createObjectURL(e.target.files[0]);
+        };
+        window.addEventListener('load', (e) => {
+            const toast = document.getElementById('toast_body');
+            if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
+        })
+    </script>
+}
+
