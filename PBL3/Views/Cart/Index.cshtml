@@ -1,9 +1,13 @@
-﻿@model EF.Models.Cart
+﻿@using EF.Models
+@using PBL3.Models
+@model List<CartProduct>
 @{
     ViewBag.Title = "Index";
 }
-@section Styles {
+@section Styles
+{
     <link rel="stylesheet" href="~/public/css/Cart.css">
+    <link rel="stylesheet" href="~/public/uploads/products">
 }
 <div class="container" style="width: 73.7em">
 
@@ -12,7 +16,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Tên sản phẩm</th>
+                    <th class="text-center">Tên sản phẩm</thclass="text-center">
                     <th class="text-center">Số lượng</th>
                     <th class="text-center">Tổng tiền</th>
                     <th class="text-center">Discount</th>
@@ -21,39 +25,44 @@
                 </tr>
             </thead>
             <tbody>
+                @for (int i = 0; i < ((List<CartProduct>)Model).Count; i++)
+                {
                 <tr>
                     <td>
                         <div class="product-item">
-                            <a class="product-thumb" href="#"><img src="~/public/images/Logo.jpg" alt="Product"></a>
+                            <img src=@Model[i].Product.Image alt="" / style="max-width: 150px">
                             <div class="product-info">
-                                <h4 class="product-title"><a href="#">Camera Canon</a></h4><span>
-                                    <em>Size:</em>
-                                    10.5
-                                </span><span><em>Color:</em> Dark Blue</span>
+                                <h4 class="product-title"><a href="#">@Model[i].Product.Name</a></h4><span>
                             </div>
                         </div>
                     </td>
                     <td class="center">
+
                         <div class="input-group w-auto justify-content-center align-items-center">
                             <div class="minus input-group-prepend">
-                                <button class="btn btn-dark btn-sm" id="minus-btn" onclick="minusProduct(this)"><i class="fas fa-minus"></i></button>
+                                <button class="btn btn-dark btn-sm"  data-productID="@Model[i].Product.ID" onclick="UpdateCartProduct(this, -1)"><i class="fas fa-minus"></i></button>
                             </div>
-                            <input type="text" id="qty_input" class="text" value="1">
+                            <input type="text" id="qty_input" class="text" value=@Model[i].Quantity readonly>
                             <div class="plus input-group-prepend">
-                                <button class="btn btn-dark btn-sm" id="plus-btn" onclick="plusProduct(this)"><i class="fas fa-plus"></i></button>
+                                <button class="btn btn-dark btn-sm" data-productID="@Model[i].Product.ID" onclick="UpdateCartProduct(this, 1)"><i class="fas fa-plus"></i></button>
                             </div>
                         </div>
                     </td>
-                    <td class="text-center text-lg text-medium">9.780.000 VND</td>
+                    <td class="text-center text-lg text-medium">@String.Format("{0:0,0}", (Model[i].Quantity * Model[i].Product.Price))</td>
                     <td class="text-center text-lg text-medium">—</td>
-                    <td class="text-center">
-                        <a class="remove-from-cart" href="#" data-toggle="tooltip" title=""
-                           data-original-title="Remove item"><i class="fa fa-trash"></i></a>
-                    </td>
-                    <td class="text-center">
-                        <input type="checkbox" id="add_order"/>
-                    </td>
-                </tr>
+                 
+                    
+                        <td class="text-center">
+                            <button type="button" class="btn bg-danger rounded ms-2" title="Xóa sản phẩm khỏi giỏ hàng" data-index="@i" data-id="@Model[i].ID" onclick="deleteHandler(this)">
+                                <i class="fa-solid fa-trash-can" style="color: white"></i>
+                            </button>
+                       </td>
+                    
+                        <td class="text-center" data-index="@i" data-id="@Model[i].ID">
+                            <input type="checkbox" id="add_order" />
+                        </td>
+                    </tr>
+            }
             </tbody>
         </table>
     </div>
@@ -74,14 +83,88 @@
             </a>
         </div>
         <div class="column">
-            <a class="btn btn-primary" href="#" data-toast="" data-toast-type="success"
-               data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Your cart"
-               data-toast-message="is updated successfully!">Cập nhật giỏ hàng</a><a class="btn btn-success"
-                                                                                     href="#">Thanh toán</a>
+         <a class="btn btn-success" href="#">Thanh toán</a>
         </div>
     </div>
 </div>
+<div class="position-fixed d-flex justify-content-end p-3" style="z-index: 11; top: 10%">
+    <div id="notification_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="fa-solid fa-bell"></i>
+            <strong class="me-auto ms-1">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body text-white bg-success" id="toast_body">
 
+        </div>
+    </div>
+</div>
 @section scripts{
-    <script src="~/public/js/Cart.js"></script>    
+    <script src="~/public/js/Cart.js"></script>
+    <script>
+        let showToast = (status, message) => {
+            const toastBody = document.getElementById('toast_body');
+            if (status) {
+                if (toastBody.classList.contains('bg-danger')) toastBody.classList.remove('bg-danger');
+                if (!toastBody.classList.contains('bg-success')) toastBody.classList.add('bg-success');
+            } else {
+                if (!toastBody.classList.contains('bg-danger')) toastBody.classList.add('bg-danger');
+                if (toastBody.classList.contains('bg-success')) toastBody.classList.remove('bg-success');
+            }
+            toastBody.innerText = message;
+            $("#notification_toast").toast('show');
+        };
+
+        let deleteHandler = (e) => {
+            let id = e.dataset.id
+            let data = {
+                id,
+            };
+            $.ajax({
+                type: "POST",
+                url: `/Cart/Delete`,
+                data: JSON.stringify(data),
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function (res) {
+                    if (res.status) {
+                        e.parentElement.parentElement.remove();
+                    }
+                    showToast(res.status, res.message);
+                }
+            })
+        }
+
+        let UpdateCartProduct = (e, quantity) => {
+            let ProductID = e.dataset.productid
+            let data = {
+                productID : ProductID,
+                quantity
+            }
+            let inputQty = e.parentElement.parentElement.children[1];
+            if (parseInt(inputQty.value) + quantity > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: `/Cart/Add`,
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    success: function (res) {
+                        if (res.status) {
+                            let oldQuantity = parseInt(inputQty.value);
+
+                            inputQty.value = parseInt(inputQty.value) + quantity;
+
+                            let money = e.parentElement.parentElement.parentElement.nextElementSibling;
+                            money.innerText = ((Number(money.innerText.trim().replace(/[^0-9.-]+/g, "")) / oldQuantity * parseInt(inputQty.value)).toLocaleString('vi', { style: 'currency', currency: 'VND' })).replace('₫', '').replace(/\./g,',').trim();
+                        }
+                        else {
+                            showToast(res.status, "Không đủ số lượng sản phẩm trong kho");
+                        }
+                    }
+                })
+            }
+        }
+
+    </script>
 }
