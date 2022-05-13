@@ -521,6 +521,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Helper\HasLoginAttribute.cs" />
+    <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\PagingModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -638,6 +639,7 @@
     <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Views\Product\Search.cshtml" />
     <Content Include="Views\Shared\_LayoutNoFooter.cshtml" />
+    <Content Include="Views\User\ForgetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

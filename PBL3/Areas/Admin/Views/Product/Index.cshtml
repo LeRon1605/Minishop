@@ -105,7 +105,7 @@
                     {
                         <td>NOT</td>
                     }
-                <td>@String.Format("{0:0,0}", products[i].Price)</td>
+                    <td>@String.Format("{0:0,0}", products[i].Price)</td>
                     <td class="product_stock_table" data-id="@products[i].ID">@products[i].Stock</td>
                     <td>0</td>
                     <td>
@@ -120,10 +120,9 @@
                                 <i class="fa-solid fa-plus" style="color: white"></i>
                             </button>
 
-                            <button type="submit" class="btn bg-danger rounded ms-2" title="Xóa sản phẩm" data-index="@i" data-id="@products[i].ID" onclick="deleteProduct(this)">
+                            <button type="submit" class="btn bg-danger rounded ms-2 btnDelete" title="Xóa sản phẩm" data-index="@i" data-id="@products[i].ID" onclick="deleteProduct(this)">
                                 <i class="fa-solid fa-trash-can" style="color: white"></i>
                             </button>
-
                         </div>
                     </td>
                 </tr>

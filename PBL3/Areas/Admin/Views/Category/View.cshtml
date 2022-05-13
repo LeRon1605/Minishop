@@ -16,7 +16,7 @@
             </a>
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <div class="form-group">
+                    <div class="form-group mt-3">
                         @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @class = "form-control d-none" } })
                         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label" })
                         @if (isEdit == true)
@@ -29,7 +29,7 @@
                         }
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                     </div>
-                    <div class="">
+                    <div class="form-group mt-3">
                         @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-label" })
                         @if (isEdit == true)
                         {
@@ -41,11 +41,11 @@
                         }
                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                     </div>
-                    <div>
+                    <div class="form-group mt-3">
                         @Html.LabelFor(model => model.CreatedAt, htmlAttributes: new { @class = "form-label" })
                         <input disabled value="@Model.CreatedAt.ToString()" type="text" class="form-control" />
                     </div>
-                    <div>
+                    <div class="form-group mt-3">
                         @Html.LabelFor(model => model.UpdatedAt, htmlAttributes: new { @class = "form-label" })
                         @if (Model.UpdatedAt == null)
                         {
