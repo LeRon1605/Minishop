@@ -19,7 +19,6 @@ namespace EF.DAO
         {
             return context.Products.AsNoTracking().ToList();
         }
-
         public List<Product> getPage(int page, int pageSize, string keyword, string categoryID, string price, out int totalRow)
         {
             totalRow = 0;

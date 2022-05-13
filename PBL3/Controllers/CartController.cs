@@ -14,7 +14,8 @@ namespace PBL3.Controllers
         [HasLogin(Role = "USER")]
         public ActionResult Index()
         {
-            return View();
+            int CartID = Convert.ToInt32(Session["USER"]);
+            return View(new CartDAO().GetProductCart(CartID));
         }
         [HttpPost]
         [HasLogin(Role = "USER", ContentType = "json")]
@@ -39,6 +40,33 @@ namespace PBL3.Controllers
                     {
                         status = false,
                         message = "Thêm sản phẩm vào giỏ hàng thất bại"
+                    }
+                };
+            }
+        }
+        [HasLogin(Role = "USER")]
+        public ActionResult Delete(int id)
+        {
+            CartDAO cartDAO = new CartDAO();
+            if (cartDAO.DeleteProduct(id) == true)
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        status = true,
+                        message = "Xóa thành công sản phẩm trong giỏ hàng"
+                    }
+                };
+            }
+            else
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        status = false,
+                        message = "Xóa thất bại sản phẩm trong giỏ hàng"
                     }
                 };
             }
