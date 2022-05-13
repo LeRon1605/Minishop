@@ -94,7 +94,7 @@ namespace PBL3.Controllers
                     Producer = "Nhà sản xuất",
                     ProducerDate = DateTime.Now,
                     CategoryID = (i % 10) + 1,
-                    Price = new Random().Next(100000, 1000000000) * i % 10 * 300000,
+                    Price = new Random().Next(1000, 9999) * 30000 / i,
                     Image = "/public/uploads/products/agridrone.png",
                     CreatedAt = DateTime.Now,
                     Stock = new Random().Next(3, 50),
