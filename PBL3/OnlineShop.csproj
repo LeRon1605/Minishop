@@ -516,6 +516,7 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -563,6 +564,7 @@
     <Content Include="public\css\Sidebars.css" />
     <Content Include="public\css\Add_Category.css" />
     <Content Include="public\css\table.css" />
+    <Content Include="public\css\User.css" />
     <Content Include="public\icon\eye.svg" />
     <Content Include="public\icon\filter.svg" />
     <Content Include="public\icon\pencil.svg" />
@@ -577,6 +579,7 @@
     <Content Include="public\js\Product.js" />
     <Content Include="public\js\ProductDetail.js" />
     <Content Include="public\js\Sidebar.js" />
+    <Content Include="public\js\User.js" />
     <Content Include="public\uploads\products\2022-04-07 %282%29.png" />
     <Content Include="public\uploads\products\Capture.PNG" />
     <Content Include="public\uploads\products\footer.PNG" />
@@ -596,6 +599,8 @@
     <Content Include="Views\Shared\_Pagination.cshtml" />
     <Content Include="Areas\Admin\Views\Product\View.cshtml" />
     <Content Include="Areas\Admin\Views\Category\View.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\User\View.cshtml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
