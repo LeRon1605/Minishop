@@ -15,7 +15,5 @@ namespace EF.Models
         [Display(Name="Mô tả")]
         public string Description { get; set; }
         public List<StateOrder> StateOrder { get; set; }
-
-        
     }
 }

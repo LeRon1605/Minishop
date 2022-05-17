@@ -18,11 +18,15 @@ namespace EF.Models
         [Required(ErrorMessage ="Không dược để trống")]
         [Range(0,int.MaxValue)]
         public int Total { get; set; }
+        public int UserID { get; set; }
+        public bool isCancel { get; set; }
+        public bool isReceived { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public Voucher Voucher { get; set; }
-        public User User { get; set; }
-        public List<ProductOrder> ProductOrder { get; set; }
-        public List<StateOrder> StateOrder { get; set; }
+        [ForeignKey("UserID")]
+        public virtual User User { get; set; }
+        public virtual List<ProductOrder> ProductOrder { get; set; }
+        public virtual List<StateOrder> StateOrder { get; set; }
     }
 }

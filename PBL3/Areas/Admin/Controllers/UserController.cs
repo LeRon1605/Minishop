@@ -1,6 +1,7 @@
 ﻿using EF.DAO;
 using EF.Models;
 using PBL3.Helper;
+using PBL3.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,16 @@ namespace PBL3.Areas.Admin.Controllers
     [HasLogin(Role = "ADMIN")]
     public class UserController: Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(int page = 1, string keyword = "")
         {
-            List<User> list = new UserDAO().findAll();
-
+            int countPages = 0;
+            List<User> list = new UserDAO().getPage(page, 10, keyword, out countPages);
+            ViewBag.PagingData = new PagingModel
+            {
+                CountPages = countPages,
+                CurrentPage = page,
+                GenerateURL = (pageNum) => $"/?page={pageNum}&keyword={keyword}"
+            };
             return View(list);
         }
         public ActionResult View(int id)

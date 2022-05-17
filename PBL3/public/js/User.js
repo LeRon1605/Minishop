@@ -1,6 +1,7 @@
 ﻿let deleteUser = (e) => {
     let id = e.dataset.id;
     let index = e.dataset.index;
+    e.classList.add('disabled');
     axios({
         method: 'post',
         url: '/admin/user/delete',
@@ -15,9 +16,28 @@
                 STT[i].dataset.index = parseInt(STT[i].dataset.index) - 1;
             };
             e.parentElement.parentElement.parentElement.remove();
-            // document.getElementById('total_product').innerText = parseInt(document.getElementById('total_product').innerText) - 1;
+        } else {
+            e.classList.remove('disabled');
         }
         showToast(res.data.status, res.data.message);
+    })
+}
+let resetPassword = (e) =>
+{
+    e.classList.add('disabled');
+    axios({
+        method: 'post',
+        url: '/user/resetpassword',
+        data: {
+            email: e.dataset.email
+        }
+    }).then(res => {
+        if (res.data.status) {
+            showToast(res.data.status, "Đặt lại mật khẩu thành công");
+        } else {
+            showToast(res.data.status, "Đặt lại mật khẩu thất bại")
+        }
+        e.classList.remove('disabled');
     })
 }
 let showToast = (status, message) => {

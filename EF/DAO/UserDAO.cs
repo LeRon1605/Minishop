@@ -11,7 +11,36 @@ using System.Threading.Tasks;
 namespace EF.DAO
 {
     public class UserDAO: IDAO<User>
-    {
+    { 
+        public List<User> getPage(int page, int pageSize, string keyword, out int totalRow)
+        {
+            totalRow = 0;
+            if (page > 0)
+            {
+                using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+                {
+                    totalRow = (int)Math.Ceiling(context.Users.Count() / (double)pageSize);
+                    return context.Users.Select(user => new User {
+                        ID = user.ID,
+                        Name = user.Name,
+                        Email = user.Email,
+                        Birth = user.Birth,
+                        Address = user.Address,
+                        Gender = user.Gender,
+                        Phone = user.Phone,
+                        isActivated = user.isActivated,
+                        Image = user.Image,
+                        CreatedAt = user.CreatedAt,
+                        Role = user.Role,
+                        UpdatedAt = user.UpdatedAt
+                    })
+                        .Where(user => user.Role.Name == "USER" && (user.ID.ToString().Contains(keyword) || user.Name.Contains(keyword) || user.Email.Contains(keyword)))
+                        .Skip((page - 1) * pageSize).Take(pageSize)
+                        .ToList();
+                }    
+            }
+            return null;
+        }
         public bool Delete(int id)
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())

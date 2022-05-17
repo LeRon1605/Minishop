@@ -10,7 +10,10 @@ namespace EF.DAO
     public class VoucherDAO
     {
         private ShopOnlineDbContext context;
-
+        VoucherDAO()
+        {
+            context = new ShopOnlineDbContext();
+        }    
         public void Add(Voucher voucher)
         {
             context.Vouchers.Add(voucher);

@@ -519,6 +519,7 @@
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Helper\HasLoginAttribute.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
@@ -532,6 +533,7 @@
     <Compile Include="Helper\Mail.cs" />
     <Compile Include="Models\ActivateAccountModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\ProductOrderModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -647,6 +649,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Account\" />
     <Folder Include="public\uploads\users\" />
+    <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

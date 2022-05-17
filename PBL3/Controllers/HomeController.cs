@@ -101,6 +101,19 @@ namespace PBL3.Controllers
                     Mass = 4
                 });
             }
+            context.States.AddRange(new State[]
+                {
+                    new State
+                    {
+                        Name = "Đang chờ xác nhận",
+                        Description = "Chờ xác nhận đơn hàng"
+                    },
+                    new State
+                    {
+                        Name = "Đang giao",
+                        Description = "Đang giao đơn hàng"
+                    }
+                });
             context.Products.AddRange(products);
             context.SaveChanges();
             return RedirectToAction("Index");

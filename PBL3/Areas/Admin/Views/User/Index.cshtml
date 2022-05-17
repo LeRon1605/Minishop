@@ -1,10 +1,11 @@
-﻿
+﻿@using EF.Models
+@using PBL3.Models
+@model  List<User>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    PagingModel pagingModel = ViewBag.PagingData as PagingModel;
 }
-@using EF.Models
-@model  List<User>
 @section Styles{
     <link rel="stylesheet" href="~/public/css/User.css">
 }
@@ -18,13 +19,16 @@
                     </div>
                     <div class="col-sm-4 p-0">
                         <label class="form-label">Tìm kiếm</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control"
-                                   placeholder="Nhập từ khóa tìm kiếm">
-                            <button class="btn btn-light" type="submit" id="btn_search">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </button>
-                        </div>
+                        @using (Html.BeginForm("Index", "User", FormMethod.Get))
+                        {
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control"
+                                       placeholder="Nhập từ khóa tìm kiếm" name="keyword">
+                                <button class="btn btn-light" type="submit" id="btn_search">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -55,7 +59,7 @@
                                     <a href="@Url.Action("View", "User", new { id = Model[i].ID })" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết sản phẩm" data-toggle="tooltip">
                                         <i class="fa-solid fa-eye" style="color: white"></i>
                                     </a>
-                                    <button type="button" class="btn btn-warning rounded ms-2" title="Khôi phục mật khẩu">
+                                    <button type="button" class="btn btn-warning rounded ms-2" title="Khôi phục mật khẩu" data-email="@Model[i].Email" onclick="resetPassword(this)">
                                         <i class="fa-solid fa-arrow-rotate-left" style="color: white"></i>
                                     </button>
 
@@ -67,11 +71,11 @@
                             </td>
                         </tr>
                     }
-
                 </tbody>
-
+                <div class="clearfix">
+                    @Html.Partial("_Pagination", pagingModel)
+                </div>
             </table>
-
         </div>
     </div>
 </div>
@@ -82,31 +86,13 @@
             <strong class="me-auto ms-1">Thông báo</strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        @if (TempData["AddStatus"] != null)
-        {
-            if ((bool)TempData["AddStatus"] == false)
-            {
-                <div class="toast-body text-white bg-danger" id="toast_body">
-                    @TempData["AddDetail"]
-                </div>
-            }
-            else
-            {
-                <div class="toast-body text-white bg-success" id="toast_body">
-                    Thêm loại sản phẩm thành công
-                </div>
-            }
-        }
-        else
-        {
-            <div class="toast-body text-white bg-success" id="toast_body">
+        <div class="toast-body text-white bg-success" id="toast_body">
 
-            </div>
-        }
+        </div>
     </div>
 </div>
 
 @section scripts{
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="~/public/js/User.js"></script>
-}s
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}

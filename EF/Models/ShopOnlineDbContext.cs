@@ -46,19 +46,17 @@ namespace EF.Models
             {
                 entity.HasOne(productOrder => productOrder.Product)
                       .WithMany(product => product.ProductOrder)
-                      .HasForeignKey("ProductID")
-                      .OnDelete(DeleteBehavior.NoAction);
+                      .HasForeignKey(productOrder => productOrder.ProductID)
+                      .OnDelete(DeleteBehavior.SetNull);
 
                 entity.HasOne(productOrder => productOrder.Order)
                       .WithMany(order => order.ProductOrder)
-                      .HasForeignKey("OrderID")
+                      .HasForeignKey(productOrder => productOrder.OrderID)
                       .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasIndex(productOrder => new { productOrder.ProductID, productOrder.OrderID })
                       .IsUnique();
             });
-
-
         }
 
         public DbSet<User> Users { get; set; }
