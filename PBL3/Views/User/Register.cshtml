@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Đăng kí";
+    Layout = "~/Views/Shared/_LayoutNoFooter.cshtml";
 }
 <section class="d-flex align-items-center p-4">
     <div class="container pt-5 p-5 rounded bg-white shadow">
@@ -65,9 +66,12 @@
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     </div>
                     <button type="submit" class="btn btn-primary col-12">Đăng kí</button>
-                    <p class="mt-3">
+                    <p class="mt-3 mb-0">
                         Bạn đã có tài khoản?
                         @Html.ActionLink("Đăng nhập", "Login", "User", new { @class = "text-decoration-none" })
+                    </p>
+                    <p class="mt-2">
+                        @Html.ActionLink("Quên mật khẩu?", "ForgetPassword", "User", new { @class = "text-decoration-none" })
                     </p>
                 }
             </div>

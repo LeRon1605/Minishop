@@ -1,7 +1,9 @@
-﻿@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutNoFooter.cshtml";
+﻿
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
 @using EF.Models
 @model User
 @section Styles
@@ -28,7 +30,7 @@
         }
     </style>
 }
-@using (Html.BeginForm("Update", "User", FormMethod.Post, new { @enctype = "multipart/form-data", @class="mt-4" }))
+@using (Html.BeginForm("Update", "User", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "mt-4" }))
 {
     @Html.HiddenFor(model => model.ID)
     <div class="row m-0 justify-content-center">
@@ -177,26 +179,24 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div id="notification">
-
-                </div>
-                    <input name="UserID" value="@Model.ID" class="d-none" id="UserID"/>
+                <form>
                     <div class="mb-3">
                         <label class="form-label">Mật khẩu hiện tại</label>
-                        <input type="password" class="form-control" name="oldPassword" placeholder="Nhập mật khẩu hiện tại">
+                        <input type="password" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Mật khẩu mới</label>
-                        <input type="password" class="form-control" name="newPassword" placeholder="Nhập mật khẩu mới">
+                        <input type="password" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Xác nhận mật khẩu mới</label>
-                        <input type="password" class="form-control" name="confirmPassword" placeholder="Xác nhận mật khẩu mới">
+                        <input type="password" class="form-control">
                     </div>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="submit" class="btn btn-primary" id="btnSubmit">Đổi mật khẩu</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
@@ -214,48 +214,6 @@
             const toast = document.getElementById('toast_body');
             if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
         })
-        $("#btnSubmit").click(function (e) {
-            e.preventDefault();
-            const data = {
-                UserID: $("#UserID").val(),
-                OldPassword: $("input[name='oldPassword']").val(),
-                NewPassword: $("input[name='newPassword']").val(),
-                ConfirmPassword: $("input[name='confirmPassword']").val()
-            };
-            if (data.NewPassword !== data.ConfirmPassword) {
-                const notification = document.querySelector("#notification");
-                notification.innerHTML = `<div class="alert alert-danger col-12 p-2" role="alert">`
-                     +'Mật khẩu xác nhận sai'+  
-                    `</div>`
-                    ;
-                return false;
-            }
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("ChangePassword", "User")',
-                data: JSON.stringify(data),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: (data) =>
-                {
-                    const notification = document.querySelector("#notification");
-                    if (data.status) {
-                        notification.innerHTML = `<div class="alert alert-success col-12 p-2" role="alert">`
-                                + data.message +
-                            `</div>`;
-                        $("input[name='oldPassword']").val("");
-                        $("input[name='newPassword']").val("");
-                        $("input[name='confirmPassword']").val("");
-                    } else {
-                        notification.innerHTML = `<div class="alert alert-danger col-12 p-2" role="alert">`
-                                + data.detail +
-                            `</div>`;
-                    }
-                },
-                error: function () {
-
-                }
-            });
-        });
     </script>
 }
+

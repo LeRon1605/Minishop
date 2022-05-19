@@ -65,8 +65,6 @@ namespace EF.Models
         public int? CategoryID { get; set; }
         public virtual Category Category { get; set; }
         public List<Comment> Comments { get; set; }
-        // public ProductDetail Detail { get; set; }
-        public virtual List<ProductVoucher> ProductVoucher { get; set; }
         public List<ProductOrder> ProductOrder { get; set; }
         public virtual List<CartProduct> CartProduct { get; set; }
     }

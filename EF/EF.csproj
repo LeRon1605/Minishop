@@ -166,8 +166,10 @@
     <Compile Include="DAO\CartDAO.cs" />
     <Compile Include="DAO\CategoryDAO.cs" />
     <Compile Include="DAO\IDAO.cs" />
+    <Compile Include="DAO\OrderDAO.cs" />
     <Compile Include="DAO\ProductDAO.cs" />
     <Compile Include="DAO\RoleDAO.cs" />
+    <Compile Include="DAO\StateDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="DAO\VoucherDAO.cs" />
     <Compile Include="Helper\Encryptor.cs" />
@@ -186,6 +188,7 @@
     <Compile Include="Models\StateOrder.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Voucher.cs" />
+    <Compile Include="ViewModel\OrderViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

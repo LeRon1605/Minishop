@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -41,8 +41,8 @@ namespace EF.Models
         [Required(ErrorMessage = "Email không được để trống")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Email không được để trống")]
-        [RegularExpression("^[a-zA-Z1-9]*$", ErrorMessage = "Mật khẩu không chứa kí tự đặc biệt")]
+        [Required(ErrorMessage = "Mật khẩu không được để trống")]
+        [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "Mật khẩu không chứa kí tự đặc biệt")]
         [StringLength(32, MinimumLength = 8, ErrorMessage = "Mật khẩu có độ dài từ 8 - 32")]
         public string Password { get; set; }
         public string Image { get; set; }

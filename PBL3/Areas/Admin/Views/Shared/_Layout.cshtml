@@ -24,7 +24,7 @@
                     <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed padding">
                         <a href="@Url.Action("Index", "Home", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
                             <small class="text">MINI SHOP</small>
-                         </a>
+                        </a>
                     </li>
                     <a href="#submenu1" data-toggle="collapse" aria-expanded="false"
                        class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
@@ -36,6 +36,10 @@
                         </div>
                     </a>
                     <div id="submenu1" class="collapse sidebar-submenu">
+                        <a href="@Url.Action("Index", "User", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
+                            <span class="fa-solid fa-user subicon"></span>
+                            <span class="menu-collapsed">Quản Lí Người Dùng</span>
+                        </a>
                         <a href="@Url.Action("Index", "Product", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="fa-solid fa-store subicon"></span>
                             <span class="menu-collapsed">Quản Lí Sản Phẩm</span>
@@ -44,7 +48,7 @@
                             <span class="fa-solid fa-cart-shopping subicon"></span>
                             <span class="menu-collapsed">Quản Lí Loại Sản Phẩm</span>
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
+                        <a href="@Url.Action("Index", "Order", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="fa-solid fa-cart-shopping subicon"></span>
                             <span class="menu-collapsed">Quản Lí Đơn Hàng</span>
                         </a>
@@ -84,6 +88,14 @@
                             </span>
                         </div>
                     </a>
+                    <a href="@Url.Action("Logout", "User", new { area = "" })" class="bg-dark list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                            <i class="fa-solid fa-arrow-right-from-bracket icon"></i>
+                            <span class="menu-collapsed">
+                                Đăng xuất
+                            </span>
+                        </div>
+                    </a>
 
                     <!-- /END Separator -->
                     <!-- Separator without title -->
@@ -91,7 +103,7 @@
                     <a href="#" data-toggle="sidebar-colapse"
                        class="bg-dark list-group-item list-group-item-action d-flex align-items-center">
                         <div class="d-flex w-100 justify-content-start align-items-center">
-                            <span id="collapse-icon" class="fa fa-2x mr-3 "></span>
+                            <span id="collapse-icon" class="fa mr-3"></span>
                         </div>
                     </a>
 

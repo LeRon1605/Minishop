@@ -11,7 +11,36 @@ using System.Threading.Tasks;
 namespace EF.DAO
 {
     public class UserDAO: IDAO<User>
-    {
+    { 
+        public List<User> getPage(int page, int pageSize, string keyword, out int totalRow)
+        {
+            totalRow = 0;
+            if (page > 0)
+            {
+                using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+                {
+                    totalRow = (int)Math.Ceiling(context.Users.Count() / (double)pageSize);
+                    return context.Users.Select(user => new User {
+                        ID = user.ID,
+                        Name = user.Name,
+                        Email = user.Email,
+                        Birth = user.Birth,
+                        Address = user.Address,
+                        Gender = user.Gender,
+                        Phone = user.Phone,
+                        isActivated = user.isActivated,
+                        Image = user.Image,
+                        CreatedAt = user.CreatedAt,
+                        Role = user.Role,
+                        UpdatedAt = user.UpdatedAt
+                    })
+                        .Where(user => user.Role.Name == "USER" && (user.ID.ToString().Contains(keyword) || user.Name.Contains(keyword) || user.Email.Contains(keyword)))
+                        .Skip((page - 1) * pageSize).Take(pageSize)
+                        .ToList();
+                }    
+            }
+            return null;
+        }
         public bool Delete(int id)
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
@@ -31,14 +60,42 @@ namespace EF.DAO
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
-                return context.Users.Find(id);
+                return context.Users.Select(user => new User 
+                { 
+                    ID = user.ID,
+                    Name = user.Name, 
+                    Email = user.Email,
+                    Birth = user.Birth,
+                    Address = user.Address,
+                    Gender = user.Gender,
+                    Phone = user.Phone,
+                    isActivated = user.isActivated,
+                    Image = user.Image,
+                    CreatedAt = user.CreatedAt,
+                    RoleID = user.RoleID,
+                    UpdatedAt = user.UpdatedAt
+                }).FirstOrDefault(user => user.ID == id);
             }    
         }
         public User findByEmail(string email)
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
-                return context.Users.FirstOrDefault(user => user.Email == email);
+                return context.Users.AsNoTracking().Select(user => new User
+                {
+                    ID = user.ID,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Birth = user.Birth,
+                    Address = user.Address,
+                    Gender = user.Gender,
+                    Phone = user.Phone,
+                    isActivated = user.isActivated,
+                    Image = user.Image,
+                    CreatedAt = user.CreatedAt,
+                    RoleID = user.RoleID,
+                    UpdatedAt = user.UpdatedAt
+                }).FirstOrDefault(user => user.Email == email);
             }    
         }
         public List<User> findAll()
@@ -103,17 +160,16 @@ namespace EF.DAO
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
-                User user = context.Users.AsNoTracking().FirstOrDefault(u => (u.Email == email && u.Password == password));
-                return user;
+                return context.Users.AsNoTracking().FirstOrDefault(u => (u.Email == email && u.Password == password));               
             }
         }
 
-        public User Update(User entity)
+        public bool Update(User entity)
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
                 User user = context.Users.Find(entity.ID);
-                if (user == null) return null;
+                if (user == null) return false;
                 else
                 {
                     user.Name = entity.Name;
@@ -129,7 +185,7 @@ namespace EF.DAO
                     }
                     user.UpdatedAt = DateTime.Now;
                     context.SaveChanges();
-                    return find(user.ID);
+                    return true;
                 }
             }
         }
@@ -149,6 +205,29 @@ namespace EF.DAO
                     return password;
                 }
             }    
+        }
+
+        public bool ChangePassword(string oldPassword, string newPassword, int ID)
+        {
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                User user = context.Users.FirstOrDefault(u => u.ID == ID);
+                if (user == null) return false;
+                else
+                {
+                    if (Encryptor.MD5Hash(oldPassword) == user.Password)
+                    {
+                        user.Password = Encryptor.MD5Hash(newPassword);
+                        user.UpdatedAt = DateTime.Now;
+                        context.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
         }
     }
 }

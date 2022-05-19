@@ -4,3 +4,16 @@
 width-table{
     width: 100%
 }
+.action_product {
+    border: none
+}
+
+    .action_product:hover {
+        color: #0D6EFD
+    }
+
+.action_product_click {
+    color: #0D6EFD;
+    border-radius: 0;
+    border-bottom: 2px solid #0D6EFD;
+}

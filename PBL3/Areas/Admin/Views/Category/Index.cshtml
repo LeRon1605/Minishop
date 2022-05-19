@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-sm-4 p-0">
                     <label class="form-label">Tìm kiếm</label>
-                    <div class="input-group mb-3">
+                    <div class="input-group">
                         <input type="text" class="form-control" id="keyword_search" name="keyword" placeholder="Nhập từ khóa tìm kiếm">
                         <button class="btn btn-primary" type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
@@ -43,7 +43,7 @@
             <thead>
                 <tr>
                     <th>STT</th>
-                    <th class="w-25">Tên sản phẩm</th>
+                    <th class="w-25">Tên loại sản phẩm</th>
                     <th>Mô tả</th>
                     <th>Hành động</th>
                 </tr>
@@ -91,7 +91,7 @@
 
                     </div>
                     <div class="">
-                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-label" })
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-label mt-3" })
                         @Html.TextAreaFor(model => model.Description, htmlAttributes: new { @class = "form-control", @placeholder = "Nhập mô tả loại sản phẩm", @style = "height: 31.7vh", @id = "description_category" })
                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                     </div>

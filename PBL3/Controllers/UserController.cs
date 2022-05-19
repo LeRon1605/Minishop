@@ -220,8 +220,8 @@ namespace PBL3.Controllers
                     file.SaveAs(path);
                     user.Image = $"/public/uploads/users/{fileName}";
                 }
-                User result = new UserDAO().Update(user);
-                if (result != null)
+                bool result = new UserDAO().Update(user);
+                if (result)
                 {
                     TempData["Status"] = true;
                     TempData["Message"] = "Cập nhật tài khoản công";
@@ -239,6 +239,15 @@ namespace PBL3.Controllers
             }
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public ActionResult ForgetPassword()
+        {
+            if (Session["USER"] != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }    
+            return View();
+        }
         [HttpPost]
         public async Task<ActionResult> ResetPassword(string email)
         {
@@ -250,8 +259,8 @@ namespace PBL3.Controllers
                     Data = new
                     {
                         status = false,
-                        message = "Reset password failure",
-                        detail = "User not found"
+                        message = "Đặt lại mật khẩu thất bại",
+                        detail = "Không tồn tại người dùng"
                     }
                 };
             }
@@ -263,10 +272,60 @@ namespace PBL3.Controllers
                     Data = new
                     {
                         status = true,
-                        message = "Đặt lại mật khẩu thành công"
+                        message = "Vui lòng kiểm tra email để tiếp tục đăng nhập"
                     }
                 };
             }  
+        }
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                bool result = new UserDAO().ChangePassword(model.OldPassword, model.NewPassword, model.UserID);
+                if (result)
+                {
+                    return new JsonResult
+                    {
+                        Data = new
+                        {
+                            status = true,
+                            message = "Thay đổi mật khẩu thành công"
+                        }
+                    };
+                }
+                else
+                {
+                    return new JsonResult
+                    {
+                        Data = new
+                        {
+                            status = false,
+                            message = "Thay đổi mật khẩu thất bại",
+                            detail = "Mật khẩu không chính xác"
+                        }
+                    };
+                }
+            }
+            else
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        status = false,
+                        message = "Thay đổi mật khẩu thất bại",
+                        detail = ModelState.Values.SelectMany(v => v.Errors).ToList()[0].ErrorMessage
+                    }
+                };
+            }
+        }
+        [HttpGet]
+        [HasLogin(Role = "USER")]
+        public ActionResult Orders()
+        {
+            List<Order> orders = new OrderDAO().getUserOrders((int)Session["USER"]);
+            return View(orders);
         }
     }
 }

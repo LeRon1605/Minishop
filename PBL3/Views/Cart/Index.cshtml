@@ -10,59 +10,57 @@
     <link rel="stylesheet" href="~/public/uploads/products">
 }
 <div class="container" style="width: 73.7em">
-
     <!-- Shopping Cart-->
     <div class="table-responsive shopping-cart">
         <table class="table">
             <thead>
                 <tr>
-                    <th class="text-center">Tên sản phẩm</thclass="text-center">
+                    <th class="text-center">Tên sản phẩm</th>
                     <th class="text-center">Số lượng</th>
                     <th class="text-center">Tổng tiền</th>
                     <th class="text-center">Discount</th>
-                    <th class="text-center"><a class="btn btn-sm btn-danger" href="#">Xóa tất cả</a></th>
-                    <th class="text-center"><a class="btn btn-sm btn-success" href="#">Chọn</a></th>
+                    <th class="text-center"><a class="btn btn-sm btn-danger">Xóa tất cả</a></th>
+                    <th class="text-center"><a class="btn btn-sm btn-success">Chọn</a></th>
                 </tr>
             </thead>
             <tbody>
                 @for (int i = 0; i < ((List<CartProduct>)Model).Count; i++)
                 {
-                <tr>
-                    <td>
-                        <div class="product-item">
-                            <img src=@Model[i].Product.Image alt="" / style="max-width: 150px">
-                            <div class="product-info">
-                                <h4 class="product-title"><a href="#">@Model[i].Product.Name</a></h4><span>
+                    <tr>
+                        <td>
+                            <div class="product-item">
+                                <img src=@Model[i].Product.Image style="max-width: 150px">
+                                <div class="product-info">
+                                    <h4 class="product-title"><a href="#">@Model[i].Product.Name</a></h4>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td class="center">
+                        </td>
+                        <td class="center">
+                            <div class="input-group w-auto justify-content-center align-items-center">
+                                <div class="minus input-group-prepend">
+                                    <button class="btn btn-dark btn-sm" data-productID="@Model[i].Product.ID" onclick="UpdateCartProduct(this, -1)"><i class="fas fa-minus"></i></button>
+                                </div>
+                                <input type="text" id="qty_input" class="text" value=@Model[i].Quantity readonly>
+                                <div class="plus input-group-prepend">
+                                    <button class="btn btn-dark btn-sm" data-productID="@Model[i].Product.ID" onclick="UpdateCartProduct(this, 1)"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center text-lg text-medium text-danger">@String.Format("{0:0,0}", (Model[i].Quantity * Model[i].Product.Price))<span> đ</span></td>
+                        <td class="text-center text-lg text-medium">—</td>
 
-                        <div class="input-group w-auto justify-content-center align-items-center">
-                            <div class="minus input-group-prepend">
-                                <button class="btn btn-dark btn-sm"  data-productID="@Model[i].Product.ID" onclick="UpdateCartProduct(this, -1)"><i class="fas fa-minus"></i></button>
-                            </div>
-                            <input type="text" id="qty_input" class="text" value=@Model[i].Quantity readonly>
-                            <div class="plus input-group-prepend">
-                                <button class="btn btn-dark btn-sm" data-productID="@Model[i].Product.ID" onclick="UpdateCartProduct(this, 1)"><i class="fas fa-plus"></i></button>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="text-center text-lg text-medium">@String.Format("{0:0,0}", (Model[i].Quantity * Model[i].Product.Price))</td>
-                    <td class="text-center text-lg text-medium">—</td>
-                 
-                    
+
                         <td class="text-center">
                             <button type="button" class="btn bg-danger rounded ms-2" title="Xóa sản phẩm khỏi giỏ hàng" data-index="@i" data-id="@Model[i].ID" onclick="deleteHandler(this)">
                                 <i class="fa-solid fa-trash-can" style="color: white"></i>
                             </button>
-                       </td>
-                    
+                        </td>
+
                         <td class="text-center" data-index="@i" data-id="@Model[i].ID">
                             <input type="checkbox" id="add_order" />
                         </td>
                     </tr>
-            }
+                }
             </tbody>
         </table>
     </div>
@@ -78,12 +76,12 @@
     <div class="shopping-cart-footer">
         <div class="column">
             <a class="btn btn-secondary" href="#">
-                <i class="icon-arrow-left"></i>&nbsp;
+                <i class="icon-arrow-left"></i>
                 Tiếp tục mua hàng
             </a>
         </div>
         <div class="column">
-         <a class="btn btn-success" href="#">Thanh toán</a>
+            <a class="btn btn-success" href="#">Thanh toán</a>
         </div>
     </div>
 </div>
@@ -101,70 +99,4 @@
 </div>
 @section scripts{
     <script src="~/public/js/Cart.js"></script>
-    <script>
-        let showToast = (status, message) => {
-            const toastBody = document.getElementById('toast_body');
-            if (status) {
-                if (toastBody.classList.contains('bg-danger')) toastBody.classList.remove('bg-danger');
-                if (!toastBody.classList.contains('bg-success')) toastBody.classList.add('bg-success');
-            } else {
-                if (!toastBody.classList.contains('bg-danger')) toastBody.classList.add('bg-danger');
-                if (toastBody.classList.contains('bg-success')) toastBody.classList.remove('bg-success');
-            }
-            toastBody.innerText = message;
-            $("#notification_toast").toast('show');
-        };
-
-        let deleteHandler = (e) => {
-            let id = e.dataset.id
-            let data = {
-                id,
-            };
-            $.ajax({
-                type: "POST",
-                url: `/Cart/Delete`,
-                data: JSON.stringify(data),
-                dataType: 'json',
-                contentType: "application/json; charset=utf-8",
-                success: function (res) {
-                    if (res.status) {
-                        e.parentElement.parentElement.remove();
-                    }
-                    showToast(res.status, res.message);
-                }
-            })
-        }
-
-        let UpdateCartProduct = (e, quantity) => {
-            let ProductID = e.dataset.productid
-            let data = {
-                productID : ProductID,
-                quantity
-            }
-            let inputQty = e.parentElement.parentElement.children[1];
-            if (parseInt(inputQty.value) + quantity > 0) {
-                $.ajax({
-                    type: "POST",
-                    url: `/Cart/Add`,
-                    data: JSON.stringify(data),
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
-                    success: function (res) {
-                        if (res.status) {
-                            let oldQuantity = parseInt(inputQty.value);
-
-                            inputQty.value = parseInt(inputQty.value) + quantity;
-
-                            let money = e.parentElement.parentElement.parentElement.nextElementSibling;
-                            money.innerText = ((Number(money.innerText.trim().replace(/[^0-9.-]+/g, "")) / oldQuantity * parseInt(inputQty.value)).toLocaleString('vi', { style: 'currency', currency: 'VND' })).replace('₫', '').replace(/\./g,',').trim();
-                        }
-                        else {
-                            showToast(res.status, "Không đủ số lượng sản phẩm trong kho");
-                        }
-                    }
-                })
-            }
-        }
-
-    </script>
 }

@@ -44,10 +44,11 @@ let deleteProduct = (e) =>
     }).then(res => {
         if (res.data.status) {
             let STT = document.getElementsByClassName('STT');
+            let btnDelete = document.getElementsByClassName('btnDelete');
             for (let i = index; i < STT.length; i++)
             {
                 STT[i].innerText = parseInt(STT[i].innerText) - 1;
-                STT[i].dataset.index = parseInt(STT[i].dataset.index) - 1;
+                btnDelete[i].dataset.index = parseInt(btnDelete[i].dataset.index) - 1;
             };
             e.parentElement.parentElement.parentElement.remove();
             document.getElementById('total_product').innerText = parseInt(document.getElementById('total_product').innerText) - 1;
