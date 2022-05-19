@@ -21,7 +21,7 @@
     @RenderSection("Styles", false)
 </head>
 <body>
-    <div class="shadow p-3 m-0 row justify-content-center bg-light">
+    <div class="shadow p-3 m-0 row justify-content-center bg-light sticky-top">
         <header class="d-flex justify-content-between align-items-center" style="width: 73.7em">
             <div class="navbar-brand">
                 @Html.ActionLink("Minishop", "Index", new { controller = "Home" }, new { @class = "text-decoration-none" })
@@ -32,7 +32,7 @@
 
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" ">Category</a></li>
+                        <li><a class="dropdown-item">Category</a></li>
                         @if (Session["User"] == null)
                         {
                             <li>@Html.ActionLink("Đăng nhập", "Login", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
@@ -58,10 +58,38 @@
                 }
                 else
                 {
-
                     User user = new UserDAO().find((int)Session["USER"]);
-                    @Html.ActionLink(user.Name, "Index", new { controller = "User", area = string.Empty }, new { @class = "p-2 text-decoration-none" })
-                    @Html.ActionLink("Đăng xuất", "Logout", new { controller = "User", area = string.Empty }, new { @class = "p-2 text-decoration-none" })
+                    <div class="dropdown">
+                        <a class="btn dropdown-toggle text-primary p-2" href="@Url.Action("Index", "User", new {area = string.Empty})" data-bs-toggle="dropdown" aria-expanded="false" style="border: none">
+                            @user.Name
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <li>
+                                <a class="dropdown-item d-flex" href="@Url.Action("Index", "User", new {area = string.Empty})">
+                                    <div class="col-2">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <span>Tài khoản</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex" href="@Url.Action("Orders", "User", new {area = string.Empty})">
+                                    <div class="col-2">
+                                        <i class="fa-solid fa-clipboard-list"></i>
+                                    </div>
+                                    <span>Đơn mua</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex" href="@Url.Action("Logout", "User", new {area = string.Empty})">
+                                    <div class="col-2">
+                                        <i class="fa-solid fa-right-from-bracket"></i>
+                                    </div>
+                                    <span>Đăng xuất</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 }
             </div>
         </header>

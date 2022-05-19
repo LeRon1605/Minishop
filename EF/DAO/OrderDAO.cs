@@ -75,7 +75,7 @@ namespace EF.DAO
                 }).ToList();
             }
         }
-        public List<Order> getPage(int page, int pageSize, int userID, int stateID, out int totalRow)
+        public List<Order> getPage(int page, int pageSize, string keyword, int stateID, out int totalRow)
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
@@ -89,6 +89,7 @@ namespace EF.DAO
                                           CreatedAt = order.CreatedAt,
                                           UpdatedAt = order.UpdatedAt,
                                           UserID = order.UserID,
+                                          User = order.User,
                                           ReceiverAddress = order.ReceiverAddress,
                                           Total = order.Total,
                                           ProductOrder = order.ProductOrder.Select(productOrder => new ProductOrder
@@ -107,7 +108,7 @@ namespace EF.DAO
                                                Date = stateOrder.Date
                                           }).ToList(),
                                      })
-                                     .Where(order => (order.UserID == userID || userID == 0) && (order.StateOrder.Last().State.ID == stateID || stateID == 0))
+                                     .Where(order => (order.UserID.ToString().Contains(keyword) || order.User.Name.Contains(keyword) || order.ID.ToString().Contains(keyword)) && (stateID == 0 || order.StateOrder.OrderByDescending(s => s.ID).FirstOrDefault().StateID == stateID))
                                      .Skip(pageSize * (page - 1)).Take(pageSize).ToList();
             }
         }    
@@ -129,6 +130,7 @@ namespace EF.DAO
                             {
                                 if (productOrder.Quantity <= product.Stock)
                                 {
+                                    product.Stock -= productOrder.Quantity;
                                     productOrders.Add(new ProductOrder
                                     {
                                         ProductID = product.ID,
@@ -136,6 +138,7 @@ namespace EF.DAO
                                         Price = product.Price
                                     });
                                     TotalPrice += productOrder.Quantity * product.Price;
+                                    new ProductDAO().Update(product);
                                 }
                             }
                         }
@@ -155,6 +158,7 @@ namespace EF.DAO
                                 };
                                 context.Orders.Add(order);
                                 context.SaveChanges();
+                                new StateDAO().addProductState(order.ID, "Đặt đơn hàng thành công");
                                 new StateDAO().addProductState(order.ID, "Đang chờ xác nhận");
                                 message = "Tạo đơn hàng thành công";
                                 return order.ID;
@@ -185,7 +189,12 @@ namespace EF.DAO
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
-                Order order = context.Orders.Find(orderID);
+                Order order = context.Orders.Select(o => new Order { 
+                    ID = o.ID,
+                    StateOrder = o.StateOrder.Select(stateOrder => new StateOrder { State = stateOrder.State }).ToList(),
+                    isCancel = o.isCancel,
+                    isReceived = o.isReceived
+                }).FirstOrDefault(o => o.ID == orderID);
                 if (order != null)
                 {
                     if (!order.isCancel && !order.isReceived && order.StateOrder.Last().State.Name == lastState)
@@ -207,6 +216,26 @@ namespace EF.DAO
                 return false;
             }
         }    
+        public bool confirm(int orderID)
+        {
+            return (addState(orderID, "Đang chờ xác nhận", "Đã xác nhận đơn hàng") && addState(orderID, "Đã xác nhận đơn hàng", "Đang chuẩn bị đơn hàng"));
+        }
+        public bool deliver(int orderID)
+        {
+            return addState(orderID, "Đang chuẩn bị đơn hàng", "Đang giao hàng");
+        }
+        public bool confirmDeliver(int orderID)
+        {
+            return (addState(orderID, "Đang giao hàng", "Đã giao hàng") && addState(orderID, "Đã giao hàng", "Đang chờ xác nhận nhận hàng"));
+        }
+        public bool confirmReceived(int orderID)
+        {
+            return addState(orderID, "Đang chờ xác nhận nhận hàng", "Đã nhận hàng", false, true);
+        }
+        public bool cancel(int orderID)
+        {
+            return addState(orderID, "Đang chờ xác nhận", "Đã hủy đơn hàng", true);
+        }
         public bool delete(int id)
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())

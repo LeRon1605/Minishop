@@ -320,5 +320,12 @@ namespace PBL3.Controllers
                 };
             }
         }
+        [HttpGet]
+        [HasLogin(Role = "USER")]
+        public ActionResult Orders()
+        {
+            List<Order> orders = new OrderDAO().getUserOrders((int)Session["USER"]);
+            return View(orders);
+        }
     }
 }

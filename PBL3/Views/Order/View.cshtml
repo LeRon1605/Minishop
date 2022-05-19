@@ -1,0 +1,110 @@
+﻿@using EF.Models
+@model Order
+@{
+    ViewBag.Title = "View";
+}
+
+<div class="row m-auto rounded d-flex justify-content-center" style="width: 77.7em">
+    <div class="col-7">
+        <div class="bg-white p-3 shadow rounded">
+            <div class="col-12 d-flex justify-content-between">
+                <h6 class="p-0 m-0 fw-bold">Thông tin đơn hàng</h6>
+                <p class="p-0 m-0 fw-bold">ID đơn hàng: @Model.ID</p>
+            </div>
+            @foreach (ProductOrder productOrder in Model.ProductOrder)
+            {
+                <hr>
+                <div class="col-12 d-flex">
+                    <div class="col-2 border" style="height: 15vh">
+                        <img src="@productOrder.Product.Image" alt="" style="width: 100%;height: 100%;object-fit:cover">
+                    </div>
+                    <div class="col-10 d-flex justify-content-between">
+                        <div class="ms-3">
+                            <p class="p-0 m-0">@productOrder.Product.Name</p>
+                            <p class="p-0 m-0">Số lượng: @productOrder.Quantity</p>
+                        </div>
+                        <div class="">
+                            <p class="p-0 m-0 fw-bold text-danger">@String.Format("{0:0,0}", productOrder.Price) đ</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="bg-white p-3 shadow rounded mt-3">
+            <div class="d-flex justify-content-between col-12">
+                <p class="m-0 p-0">Hình thức thanh toán: </p>
+                <p class="p-0 m-0 text-danger fw-bold">Thanh toán lúc nhận hàng</p>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between col-12">
+                <p class="m-0 p-0">Đơn vị vận chuyển: </p>
+                <p class="p-0 m-0 text-danger fw-bold">Shopmini</p>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between col-12">
+                <p class="m-0 p-0">Lưu ý: </p>
+                <p class="p-0 m-0 text-danger fw-bold">Vận chuyển vào thứ 3 - thứ 7</p>
+            </div>
+            <hr>
+            <div class="text-end fw-bold">
+                Cảm ơn đã mua sắm tại shop!
+            </div>
+        </div>
+    </div>
+    <div class="col-4 ms-5 rounded">
+        <div class="bg-white p-3 shadow rounded">
+            <div class="col-12">
+                <p class="p-0 m-0 fw-bold"><i class="fa-solid fa-address-card"></i> Địa chỉ nhận hàng</p>
+            </div>
+            <hr>
+            <div class="col-12">
+                <p class="p-0 m-0">Lê Quốc Rôn</p>
+                <p class="p-0 m-0 text-muted">(+84) 905857760</p>
+                <p class="p-0 m-0 text-muted">@Model.ReceiverAddress</p>
+            </div>
+        </div>
+        <div class="bg-white p-3 shadow rounded mt-3">
+            <div class="col-12">
+                <p class="p-0 m-0 fw-bold"><i class="fa-solid fa-signal"></i> Trạng thái đơn hàng</p>
+            </div>
+            <hr>
+            <div class="col-12">
+                @for (int i = Model.StateOrder.Count - 1; i >= 0; i--)
+                {
+                    if (i != Model.StateOrder.Count - 1)
+                    {
+                        <p class="p-0 m-0 text-muted"><i class="fa-solid fa-check" style="color:green"></i> @Model.StateOrder[i].Date.ToString("HH:mm dd/MM/yyyy"): @Model.StateOrder[i].State.Name</p>
+                    }
+                    else
+                    {
+                        <p class="p-0 m-0" style="color:#26aa99">
+                            <i class="fa-solid fa-spinner"></i> @Model.StateOrder[i].Date.ToString("HH:mm dd/MM/yyyy"): @Model.StateOrder[i].State.Name
+                        </p>
+                    }
+                }
+            </div>
+        </div>
+        <div class="bg-white p-3 shadow rounded mt-3">
+            <div class="col-12">
+                <p class="p-0 m-0 fw-bold"><i class="fa-solid fa-wallet"></i> Hóa đơn</p>
+            </div>
+            <hr>
+            <div class="col-12">
+                <div class="d-flex justify-content-between col-12">
+                    <p class="p-0 m-0">Tổng tiền hàng: </p>
+                    <p class="p-0 m-0">30.000 đ</p>
+                </div>
+                <div class="d-flex justify-content-between col-12">
+                    <p class="p-0 m-0">Voucher từ shop: </p>
+                    <p class="p-0 m-0">-30.000 đ</p>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between col-12">
+                    <p class="p-0 m-0">Tổng số tiền: </p>
+                    <p class="p-0 m-0 text-danger fw-bold">@String.Format("{0:0,0}", Model.Total) đ</p>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-danger mt-3 col-12">Hủy đơn hàng</button>
+    </div>
+</div>

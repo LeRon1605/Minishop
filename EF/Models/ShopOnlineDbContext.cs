@@ -67,7 +67,7 @@ namespace EF.Models
         // public DbSet<ProductDetail> ProductDetails { get; set; }
         public DbSet<ProductOrder> ProductOrder { get; set; }
         public DbSet<Voucher> Vouchers { get; set; }
-        public DbSet<ProductVoucher> ProductVoucher { get; set; }
+        // public DbSet<ProductVoucher> ProductVoucher { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartProduct> CartProduct { get; set; }
         public DbSet<Comment> Comments { get; set; }

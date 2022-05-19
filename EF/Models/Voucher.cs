@@ -22,7 +22,6 @@ namespace EF.Models
         public int Quantity { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public virtual List<ProductVoucher> ProductVoucher { get; set; }
         public virtual List<Order> Orders { get; set; }
     }
 }

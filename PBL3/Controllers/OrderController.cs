@@ -29,7 +29,7 @@ namespace PBL3.Controllers
                 }
                 else
                 {
-                    return View(order);
+                    return View("View", order);
                 }
             }
         }
