@@ -145,7 +145,7 @@ select.form-control {
 .wishlist-table .product-item .product-title,
 .order-table .product-item .product-title {
     margin-bottom: 6px;
-    padding-top: 5px;
+    padding-top: 40px;
     font-size: 16px;
     font-weight: 500
 }

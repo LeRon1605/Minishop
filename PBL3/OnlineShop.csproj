@@ -556,6 +556,7 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="public\css\Add_Product.css" />
+    <Content Include="public\css\Admin_Home.css" />
     <Content Include="public\css\Cart.css" />
     <Content Include="public\css\lightslider.min.css" />
     <Content Include="public\css\ProductDetail.css" />
@@ -571,6 +572,7 @@
     <Content Include="public\images\Default.jpg" />
     <Content Include="public\images\Logo.jpg" />
     <Content Include="public\js\Cart.js" />
+    <Content Include="public\js\Admin_Home.js" />
     <Content Include="public\js\lightslider.min.js" />
     <Content Include="public\js\Category.js" />
     <Content Include="public\js\Product.js" />
