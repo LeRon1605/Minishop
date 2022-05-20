@@ -64,6 +64,17 @@
                             @user.Name
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            @if (!user.isActivated)
+                            {
+                                <li>
+                                    <a class="dropdown-item d-flex" href="@Url.Action("ActivateAccount", "User", new {area = string.Empty})">
+                                        <div class="col-2">
+                                            <i class="fa-solid fa-user"></i>
+                                        </div>
+                                        <span>Kích hoạt tài khoản</span>
+                                    </a>
+                                </li>
+                            }
                             <li>
                                 <a class="dropdown-item d-flex" href="@Url.Action("Index", "User", new {area = string.Empty})">
                                     <div class="col-2">

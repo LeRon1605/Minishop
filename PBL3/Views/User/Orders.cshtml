@@ -2,77 +2,93 @@
 @model List<Order>
 @{
     ViewBag.Title = "Orders";
+    List<State> states = ViewBag.States as List<State>;
 }
-<style>
-    .order-header:hover {
-        color: #dc3545
-    }
-</style>
+@section Styles{
+    <style>
+        .order-header:hover {
+            color: #dc3545 !important;
+        }
+    </style>
+}
 <div class="row m-auto rounded" style="width: 73.7em">
     <div class="col-12 rounded">
         <div class="col-12 d-flex justify-content-between">
+            @using (Html.BeginForm("Orders", "User", FormMethod.Get, new { @class = "col-12 d-flex justify-content-between" }))
+            {
             <div class="col-4">
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Trạng thái đơn hàng</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <select class="form-select" aria-label="Default select example" name="stateID">
+                    <option selected value="0">Trạng thái đơn hàng</option>
+                    @foreach (State state in states)
+                    {
+                        <option value="@state.ID">@state.Name</option>
+                    }
                 </select>
             </div>
             <div class="col-4 d-flex">
-                <input type="text" class="form-control" placeholder="Nhập từ khóa tìm kiếm" aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button class="btn btn-outline-primary" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <input type="text" class="form-control" placeholder="Nhập từ khóa tìm kiếm" name="keyword">
+                <button class="btn btn-outline-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
+            }
         </div>
-        @foreach (Order order in Model)
+        @if (Model != null && Model.Count > 0)
         {
-            <div class="bg-white p-3 shadow rounded mt-3">
-                <a class="col-12 d-flex justify-content-between text-decoration-none text-dark order-header" href="@Url.Action("Index", "Order", new { id = order.ID })">
-                    <h6 class="p-0 m-0 fw-bold">ID đơn hàng: @order.ID</h6>
-                    <p class="p-0 m-0 fw-bold">@order.StateOrder.Last().State.Name</p>
-                </a>
-                <hr>
-                @foreach (ProductOrder productOrder in order.ProductOrder)
-                {
-                    <div class="col-12 d-flex">
-                        <div class="col-1 border" style="height: 10vh">
-                            <img src="@productOrder.Product.Image" alt="" style="width: 100%;height: 100%;object-fit:cover">
-                        </div>
-                        <div class="col-11 d-flex justify-content-between">
-                            <div class="ms-3">
-                                <p class="p-0 m-0 fw-bold">@productOrder.Product.Name</p>
-                                <p class="p-0 m-0 text-muted">Số lượng: @productOrder.Quantity</p>
-                            </div>
-                            <div class="d-flex flex-column justify-content-between">
-                                <p class="p-0 m-0 text-danger fw-bold text-end">@String.Format("{0:0,0}", productOrder.Price) đ</p>
-                                @if (order.isReceived)
-                                {
-                                    <button class="btn btn-danger">Đánh giá</button>
-                                }
-                            </div>
-                        </div>
-                    </div>
+            foreach (Order order in Model)
+            {
+                <div class="bg-white p-3 shadow rounded mt-3">
+                    <a class="col-12 d-flex justify-content-between text-decoration-none text-dark order-header" href="@Url.Action("Index", "Order", new { id = order.ID })">
+                        <h6 class="p-0 m-0 fw-bold">ID đơn hàng: @order.ID</h6>
+                        <p class="p-0 m-0 fw-bold">@order.StateOrder.Last().State.Name</p>
+                    </a>
                     <hr>
-                }
-                <div class="col-12 d-flex">
-                    @if (order.UpdatedAt != null)
+                    @foreach (ProductOrder productOrder in order.ProductOrder)
                     {
-                        <div class="col-3 mt-auto">
-                            <div class="text-muted fs-6">Cập nhật vào lúc: @(((DateTime)(order.UpdatedAt)).ToString("hh:mm dd/MM/yyyy"))</div>
+                        <div class="col-12 d-flex">
+                            <div class="col-1 border" style="height: 10vh">
+                                <img src="@productOrder.Product.Image" alt="" style="width: 100%;height: 100%;object-fit:cover">
+                            </div>
+                            <div class="col-11 d-flex justify-content-between">
+                                <div class="ms-3">
+                                    <p class="p-0 m-0 fw-bold">@productOrder.Product.Name</p>
+                                    <p class="p-0 m-0 text-muted">Số lượng: @productOrder.Quantity</p>
+                                </div>
+                                <div class="d-flex flex-column justify-content-between">
+                                    <p class="p-0 m-0 text-danger fw-bold text-end">@String.Format("{0:0,0}", productOrder.Price) đ</p>
+                                    @if (order.isReceived)
+                                    {
+                                        <button class="btn btn-danger">Đánh giá</button>
+                                    }
+                                </div>
+                            </div>
                         </div>
+                        <hr>
                     }
-                    <div class="col-3 ms-auto">
-                        <div class="col-12 d-flex justify-content-between">
-                            <div>Voucher</div>
-                            <div class="text-danger fw-bold">3xdeft</div>
-                        </div>
-                        <div class="col-12 d-flex justify-content-between">
-                            <div>Tổng số tiền</div>
-                            <div class="text-danger fw-bold">@String.Format("{0:0,0}", order.Total) đ</div>
+                    <div class="col-12 d-flex">
+                        @if (order.UpdatedAt != null)
+                        {
+                            <div class="col-3 mt-auto">
+                                <div class="text-muted fs-6">Cập nhật vào lúc: @(((DateTime)(order.UpdatedAt)).ToString("hh:mm dd/MM/yyyy"))</div>
+                            </div>
+                        }
+                        <div class="col-3 ms-auto">
+                            <div class="col-12 d-flex justify-content-between">
+                                <div>Voucher</div>
+                                <div class="text-danger fw-bold">3xdeft</div>
+                            </div>
+                            <div class="col-12 d-flex justify-content-between">
+                                <div>Tổng số tiền</div>
+                                <div class="text-danger fw-bold">@String.Format("{0:0,0}", order.Total) đ</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
+        }
+        else
+        {
+            <script src="@("https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js")"></script>
+            <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_3qzrm0wa.json" background="transparent" speed="1" style="width: 400px; height: 400px;" loop autoplay class="m-auto"></lottie-player>
+            <h3 class="text-center">Không tìm thấy đơn hàng</h3>
         }
     </div>
 </div>

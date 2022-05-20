@@ -322,9 +322,10 @@ namespace PBL3.Controllers
         }
         [HttpGet]
         [HasLogin(Role = "USER")]
-        public ActionResult Orders()
+        public ActionResult Orders(int stateID = 0, string keyword = "")
         {
-            List<Order> orders = new OrderDAO().getUserOrders((int)Session["USER"]);
+            List<Order> orders = new OrderDAO().getUserOrders((int)Session["USER"], stateID, keyword);
+            ViewBag.States = new StateDAO().findAll();
             return View(orders);
         }
     }

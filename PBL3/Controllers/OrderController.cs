@@ -34,17 +34,29 @@ namespace PBL3.Controllers
             }
         }
         [HttpGet]
-        public ActionResult Add([Bind(Include = "ProductID,Quantity,Price")] List<ProductOrder> item)
+        public ActionResult Add()
         {
-            return View(item);
+            List<CartProduct> item = new CartDAO().GetProductCart((int)Session["USER"], true);
+            if (item.Count > 0)
+            {
+                ViewBag.Items = item;
+                ViewBag.Total = new CartDAO().getTotal((int)Session["USER"], true);
+                return View();
+            }
+            else
+            {
+                TempData["Message"] = "Phải chọn ít nhất một sản phẩm";
+                return RedirectToAction("Index", "Cart");
+            }
         }
         [HttpPost]
-        public ActionResult Add([Bind(Include = "ProductID,Quantity")] List<ProductOrder> item, string receiverAddress)
+        public ActionResult Add(Order order)
         {
+            if (ModelState["Voucher.Seri"] != null) ModelState["Voucher.Seri"].Errors.Clear();
             if (ModelState.IsValid)
             {
                 string message;
-                int orderID = new OrderDAO().add(item, (int)Session["USER"], receiverAddress, out message);
+                int orderID = new OrderDAO().add(order, (int)Session["USER"], out message);
                 if (orderID != -1)
                 {
                     return RedirectToAction("Index", new { id = orderID });
@@ -52,13 +64,13 @@ namespace PBL3.Controllers
                 else
                 {
                     TempData["Message"] = message;
-                    return View();
+                    return RedirectToAction("Add");
                 }
             }
             else
             {
                 TempData["Message"] = "Dữ liệu không hợp lệ";
-                return View();
+                return RedirectToAction("Add");
             }
         }
 

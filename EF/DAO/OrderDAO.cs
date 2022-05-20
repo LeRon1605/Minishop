@@ -23,6 +23,9 @@ namespace EF.DAO
                     CreatedAt = order.CreatedAt,
                     UpdatedAt = order.UpdatedAt,
                     UserID = order.UserID,
+                    ReceiverName = order.ReceiverName,
+                    ReceiverPhone = order.ReceiverPhone,
+                    Note = order.Note,
                     ReceiverAddress = order.ReceiverAddress,
                     Total = order.Total,
                     ProductOrder = order.ProductOrder.Select(productOrder => new ProductOrder 
@@ -43,11 +46,11 @@ namespace EF.DAO
                 }).FirstOrDefault(order => order.ID == id);
             }    
         }
-        public List<Order> getUserOrders(int userID)
+        public List<Order> getUserOrders(int userID, int stateID, string keyword)
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
-                return context.Orders.AsNoTracking().Where(order => order.UserID == userID).Select(order => new Order
+                List<Order> orders = context.Orders.AsNoTracking().Select(order => new Order
                 {
                     ID = order.ID,
                     isCancel = order.isCancel,
@@ -55,6 +58,9 @@ namespace EF.DAO
                     CreatedAt = order.CreatedAt,
                     UpdatedAt = order.UpdatedAt,
                     UserID = order.UserID,
+                    ReceiverName = order.ReceiverName,
+                    ReceiverPhone = order.ReceiverPhone,
+                    Note = order.Note,
                     ReceiverAddress = order.ReceiverAddress,
                     Total = order.Total,
                     ProductOrder = order.ProductOrder.Select(productOrder => new ProductOrder
@@ -73,6 +79,7 @@ namespace EF.DAO
                         Date = stateOrder.Date
                     }).ToList(),
                 }).ToList();
+                return orders.Where(order => order.UserID == userID && (stateID == 0 || order.StateOrder.Last().StateID == stateID) && order.ID.ToString().Contains(keyword)).ToList();
             }
         }
         public List<Order> getPage(int page, int pageSize, string keyword, int stateID, out int totalRow)
@@ -80,39 +87,42 @@ namespace EF.DAO
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
                 totalRow = (int)Math.Ceiling((double)context.Orders.AsNoTracking().Count() / pageSize);
-                return context.Orders.AsNoTracking()
+                List<Order> orders = context.Orders.AsNoTracking()
                                      .Select(order => new Order
                                      {
-                                          ID = order.ID,
-                                          isCancel = order.isCancel,
-                                          isReceived = order.isReceived,
-                                          CreatedAt = order.CreatedAt,
-                                          UpdatedAt = order.UpdatedAt,
-                                          UserID = order.UserID,
-                                          User = order.User,
-                                          ReceiverAddress = order.ReceiverAddress,
-                                          Total = order.Total,
-                                          ProductOrder = order.ProductOrder.Select(productOrder => new ProductOrder
-                                          {
-                                               ID = productOrder.ID,
-                                               ProductID = productOrder.ProductID,
-                                               Product = productOrder.Product,
-                                               Price = productOrder.Price,
-                                               Quantity = productOrder.Quantity
-                                          }).ToList(),
-                                          StateOrder = order.StateOrder.Select(stateOrder => new StateOrder
-                                          {
-                                               ID = stateOrder.ID,
-                                               StateID = stateOrder.StateID,
-                                               State = stateOrder.State,
-                                               Date = stateOrder.Date
-                                          }).ToList(),
-                                     })
-                                     .Where(order => (order.UserID.ToString().Contains(keyword) || order.User.Name.Contains(keyword) || order.ID.ToString().Contains(keyword)) && (stateID == 0 || order.StateOrder.OrderByDescending(s => s.ID).FirstOrDefault().StateID == stateID))
+                                         ID = order.ID,
+                                         isCancel = order.isCancel,
+                                         isReceived = order.isReceived,
+                                         CreatedAt = order.CreatedAt,
+                                         UpdatedAt = order.UpdatedAt,
+                                         UserID = order.UserID,
+                                         User = order.User,
+                                         ReceiverName = order.ReceiverName,
+                                         ReceiverPhone = order.ReceiverPhone,
+                                         Note = order.Note,
+                                         ReceiverAddress = order.ReceiverAddress,
+                                         Total = order.Total,
+                                         ProductOrder = order.ProductOrder.Select(productOrder => new ProductOrder
+                                         {
+                                             ID = productOrder.ID,
+                                             ProductID = productOrder.ProductID,
+                                             Product = productOrder.Product,
+                                             Price = productOrder.Price,
+                                             Quantity = productOrder.Quantity
+                                         }).ToList(),
+                                         StateOrder = order.StateOrder.Select(stateOrder => new StateOrder
+                                         {
+                                             ID = stateOrder.ID,
+                                             StateID = stateOrder.StateID,
+                                             State = stateOrder.State,
+                                             Date = stateOrder.Date
+                                         }).ToList(),
+                                     }).ToList();
+                return orders.Where(order => (order.UserID.ToString().Contains(keyword) || order.User.Name.Contains(keyword) || order.ID.ToString().Contains(keyword)) && (stateID == 0 || order.StateOrder.Last().StateID == stateID))
                                      .Skip(pageSize * (page - 1)).Take(pageSize).ToList();
             }
         }    
-        public int add(List<ProductOrder> model, int UserID, string receiverAddress, out string message)
+        public int add(Order order, int UserID, out string message)
         {
             User user = new UserDAO().find(UserID);
             if (user != null)
@@ -121,9 +131,9 @@ namespace EF.DAO
                 int TotalPrice = 0;
                 if (user.isActivated)
                 {
-                    if (model != null && model.Count > 0)
+                    if (order != null && order.ProductOrder.Count > 0)
                     {
-                        foreach (ProductOrder productOrder in model)
+                        foreach (ProductOrder productOrder in order.ProductOrder)
                         {
                             Product product = new ProductDAO().find((int)productOrder.ProductID);
                             if (product != null)
@@ -139,6 +149,7 @@ namespace EF.DAO
                                     });
                                     TotalPrice += productOrder.Quantity * product.Price;
                                     new ProductDAO().Update(product);
+                                    new CartDAO().DeleteProduct(product.ID, user.ID);
                                 }
                             }
                         }
@@ -146,22 +157,27 @@ namespace EF.DAO
                         {
                             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
                             {
-                                Order order = new Order
+                                // Find Voucher -> if valid add voucherID else not
+                                Order newOrder = new Order
                                 {
                                     UserID = user.ID,
-                                    ReceiverAddress = receiverAddress,
+                                    ReceiverAddress = order.ReceiverAddress,
+                                    ReceiverName = order.ReceiverName,
+                                    ReceiverPhone = order.ReceiverPhone,
+                                    Note = order.Note,
                                     Total = TotalPrice,
                                     ProductOrder = productOrders,
                                     isCancel = false,
                                     isReceived = false,
+                                    VoucherID = null,
                                     CreatedAt = DateTime.Now
                                 };
-                                context.Orders.Add(order);
+                                context.Orders.Add(newOrder);
                                 context.SaveChanges();
-                                new StateDAO().addProductState(order.ID, "Đặt đơn hàng thành công");
-                                new StateDAO().addProductState(order.ID, "Đang chờ xác nhận");
+                                new StateDAO().addProductState(newOrder.ID, "Đặt đơn hàng thành công");
+                                new StateDAO().addProductState(newOrder.ID, "Đang chờ xác nhận");
                                 message = "Tạo đơn hàng thành công";
-                                return order.ID;
+                                return newOrder.ID;
                             }
                         }
                         else

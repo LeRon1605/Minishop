@@ -15,7 +15,7 @@ namespace EF.DAO
         {
             context = new ShopOnlineDbContext();
         }
-        public List<CartProduct> GetProductCart(int CartID)
+        public List<CartProduct> GetProductCart(int CartID, bool isSelected = false)
         {
             return context.CartProduct.AsNoTracking().Select(cp => new CartProduct
             {
@@ -25,8 +25,9 @@ namespace EF.DAO
                 Status = cp.Status,
                 Quantity = cp.Quantity,
                 InsertedAt = cp.InsertedAt,
+                isSelected = cp.isSelected,
                 Product = context.Products.FirstOrDefault(p => p.ID == cp.ProductID)
-            }).Where(cp => cp.CartID == CartID).ToList();
+            }).Where(cp => cp.CartID == CartID && (isSelected == false || cp.isSelected == isSelected)).ToList();
         }
         public bool add_Update(int id, int quantity, int CartID)
         {
@@ -56,7 +57,8 @@ namespace EF.DAO
                             Quantity = quantity,
                             Status = true,
                             InsertedAt = DateTime.Now,
-                            UpdatedAt = null
+                            UpdatedAt = null,
+                            isSelected = false
                         };
                         context.CartProduct.Add(cartProduct);
                         context.SaveChanges();
@@ -80,6 +82,43 @@ namespace EF.DAO
             {
                 return false;
             }
+        }
+        public bool DeleteProduct(int productID, int cartID)
+        {
+            CartProduct cartProduct = context.CartProduct.FirstOrDefault(c => c.ProductID == productID && c.CartID == cartID);
+            if (cartProduct != null)
+            {
+                context.Remove(cartProduct);
+                context.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool select(int id)
+        {
+            CartProduct cartProduct = context.CartProduct.Find(id);
+            if (cartProduct != null)
+            {
+                cartProduct.isSelected = !cartProduct.isSelected;
+                context.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public int getTotal(int userID, bool isSelected = false)
+        {
+            int total = 0;
+            foreach (CartProduct cartProduct in GetProductCart(userID, isSelected))
+            {
+                total += cartProduct.Product.Price * cartProduct.Quantity;
+            }
+            return total;
         }
     }
 }

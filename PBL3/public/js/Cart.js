@@ -57,3 +57,20 @@ let UpdateCartProduct = (e, quantity) => {
         })
     }
 }
+let SelectProduct = (e) => {
+    let data = {
+        id: e.dataset.id
+    };
+    $.ajax({
+        type: "POST",
+        url: `/Cart/Select`,
+        data: JSON.stringify(data),
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        success: function (res) {
+            if (res.status == false) {
+                showToast(res.status, "Xảy ra lỗi");
+            }
+        }
+    })
+};

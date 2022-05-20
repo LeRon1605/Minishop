@@ -15,6 +15,7 @@ namespace PBL3.Controllers
         public ActionResult Index()
         {
             int CartID = Convert.ToInt32(Session["USER"]);
+            ViewBag.Total = new CartDAO().getTotal(CartID, true);
             return View(new CartDAO().GetProductCart(CartID));
         }
         [HttpPost]
@@ -70,6 +71,17 @@ namespace PBL3.Controllers
                     }
                 };
             }
+        }
+        [HasLogin(Role = "USER")]
+        public ActionResult Select(int id)
+        {
+            return new JsonResult
+            {
+                Data = new
+                {
+                    status = new CartDAO().select(id)
+                }
+            };
         }
     }
 }

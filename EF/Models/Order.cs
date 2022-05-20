@@ -14,6 +14,14 @@ namespace EF.Models
         [Display(Name ="Địa chỉ nhận")]
         [Required(ErrorMessage ="Địa chỉ nhận không được để trống")]
         public string ReceiverAddress { get; set; }
+        [Display(Name = "Tên người nhận")]
+        [Required(ErrorMessage = "Tên người nhận không được để trống")]
+        public string ReceiverName { get; set; }
+        [Display(Name = "Số điện thoại người nhận")]
+        [Required(ErrorMessage = "Số điện thoại người nhận không được để trống")]
+        [Phone(ErrorMessage = "Số điện thoại không hợp lệ")]
+        public string ReceiverPhone { get; set; }
+        public string Note { get; set; }
         [Display(Name ="Tổng")]
         [Required(ErrorMessage ="Không dược để trống")]
         [Range(0,int.MaxValue)]
