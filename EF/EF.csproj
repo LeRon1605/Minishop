@@ -172,6 +172,7 @@
     <Compile Include="DAO\StateDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="DAO\VoucherDAO.cs" />
+    <Compile Include="Helper\DateGreaterThanAttribute.cs" />
     <Compile Include="Helper\Encryptor.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\CartProduct.cs" />

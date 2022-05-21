@@ -1,4 +1,4 @@
-﻿using EF.DAO;
+﻿    using EF.DAO;
 using EF.Models;
 using System;
 using System.Collections.Generic;
@@ -72,7 +72,7 @@ namespace PBL3.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 CategoryDAO categoryDAO = new CategoryDAO();
-                if(categoryDAO.Update(category) == true)
+                if(categoryDAO.Update(category))
                 {
                     TempData["Status"] = true;
                     TempData["Message"] = "Cập nhật loại sản phẩm thành công";

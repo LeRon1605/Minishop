@@ -1,16 +1,16 @@
-﻿let action = document.getElementsByClassName('action_category');
+﻿let action = document.getElementsByClassName('action_voucher');
 
 // Content 
-let listCategory = document.getElementById('list_category');
+let listVoucher = document.getElementById('list_voucher');
 let addForm = document.getElementById('add_form');
 
 for (let i = 0; i < action.length; i++) {
     action[i].addEventListener('click', (e) => {
         for (let j = 0; j < action.length; j++) {
-            action[j].classList.toggle('action_category_click');
+            action[j].classList.toggle('action_voucher_click');
         }
-        console.log(listCategory);
-        listCategory.classList.toggle('d-none');
+        console.log(listVoucher);
+        listVoucher.classList.toggle('d-none');
         addForm.classList.toggle('d-none');
     });
 }
@@ -26,12 +26,12 @@ let showToast = (status, message) => {
     toastBody.innerText = message;
     $("#notification_toast").toast('show');
 }
-let deleteCategory = (e) => {
+let deleteVoucher = (e) => {
     let id = e.dataset.id;
     let index = e.dataset.index;
     axios({
         method: 'post',
-        url: '/admin/category/delete',
+        url: '/admin/voucher/delete',
         data: {
             id
         }
@@ -47,3 +47,4 @@ let deleteCategory = (e) => {
         showToast(res.data.status, res.data.message);
     })
 }
+
