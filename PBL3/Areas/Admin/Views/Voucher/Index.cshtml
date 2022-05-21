@@ -1,0 +1,177 @@
+﻿@using EF.Models
+@using PBL3.Models
+@model Voucher
+@{
+    ViewBag.Title = "Voucher";
+    List<Voucher> Vouchers = (List<Voucher>)ViewBag.Vouchers;
+    PagingModel pagingData = ViewBag.pagingData as PagingModel;
+}
+@section Styles
+{
+    <link rel="stylesheet" href="~/public/css/table.css" />
+}
+<div class="d-flex mt-3 p-2">
+    <div class="btn m-0 btn-outline-none action_voucher action_voucher_click">
+        <i class="fa-solid fa-list"></i>
+        Danh sách Voucher
+    </div>
+    <div class="btn m-0 action_voucher">
+        <i class="fa-solid fa-plus"></i>
+        Thêm Voucher
+    </div>
+</div>
+<div class="table-responsive mt-3 shadow" id="list_voucher">
+    <div class="table-wrapper">
+        @using (Html.BeginForm("Index", "Voucher", FormMethod.Get))
+        {
+            <div class="row">
+                <div class="col-sm-8 row">
+
+                </div>
+                <div class="col-sm-4 p-0">
+                    <label class="form-label">Tìm kiếm</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="keyword_search" name="keyword" placeholder="Nhập từ khóa tìm kiếm">
+                        <button class="btn btn-primary" type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Giá trị Voucher</th>
+                    <th>Seri</th>
+                    <th>Số lượng</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="table_body">
+                @for (int i = 0; i < Vouchers.Count; i++)
+                {
+                    <tr>
+                        <td class="STT">@(i + 1)</td>
+                        <td>@String.Format("{0:0,0}", Vouchers[i].Value) đ</td>
+                        <td>@Vouchers[i].Seri</td>
+                        <td>@Vouchers[i].Quantity</td>
+                        <td>
+                            <div class="d-flex">
+                                <a href="@Url.Action("View", "Voucher", new {id = Vouchers[i].ID})" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết Voucher" data-toggle="tooltip">
+                                    <i class="fa-solid fa-eye" style="color: white"></i>
+                                </a>
+                                <a href="@Url.Action("View", "Voucher", new {id = Vouchers[i].ID, isEdit = true})" class="btn bg-primary rounded ms-2" title="Chỉnh sửa Voucher">
+                                    <i class="fa-solid fa-pen" style="color: white"></i>
+                                </a>
+                                <button type="submit" class="btn bg-danger rounded ms-2" title="Xóa Voucher" data-index="@i" data-id="@Vouchers[i].ID" onclick="deleteVoucher(this)">
+                                    <i class="fa-solid fa-trash-can" style="color: white"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="clearfix">
+            <div class="hint-text">Hiển thị <b>@Vouchers.Count()</b> trên <b>@Vouchers.Count()</b> Voucher</div>
+            @Html.Partial("_Pagination", pagingData)
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("Add", "Voucher", FormMethod.Post, new { @class = "p-5 mt-3 bg-white shadow rounded d-none", @id = "add_form" }))
+{
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="">
+                        @Html.LabelFor(model => model.Value, htmlAttributes: new { @class = "form-label" })
+                        @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập giá trị của Voucher", @id = "value_voucher" } })
+                        @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="">
+                        @Html.LabelFor(model => model.Seri, htmlAttributes: new { @class = "form-label mt-3" })
+                        @Html.EditorFor(model => model.Seri, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập Mã của Voucher", @id = "seri_voucher" } })
+                        @Html.ValidationMessageFor(model => model.Seri, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="">
+                        @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "form-label mt-3" })
+                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập Số lượng Voucher", @id = "quantity_voucher" } })
+                        @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "form-label" })
+                        @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "startDate_voucher" } })
+                        @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "form-label" })
+                        @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "endDate_voucher" } })
+                        @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger", @id = "endDate_validation" })
+                        <span id="validation-message" class="text-danger d-none">Ngày kết thúc không được bé hơn ngày bắt đầu</span>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary col-12 mt-3" id="submitBtn" type="submit">Thêm Voucher</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="notification_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="fa-solid fa-bell"></i>
+            <strong class="me-auto ms-1">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        @if (TempData["Status"] != null)
+        {
+            if ((bool)TempData["Status"] == false)
+            {
+                <div class="toast-body text-white bg-danger" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+            else
+            {
+                <div class="toast-body text-white bg-success" id="toast_body">
+                    Thêm voucher thành công
+                </div>
+            }
+        }
+        else
+        {
+            <div class="toast-body text-white bg-success" id="toast_body">
+
+            </div>
+        }
+    </div>
+</div>
+@section scripts {
+    <script>
+        window.addEventListener('load', (e) => {
+            const toast = document.getElementById('toast_body');
+            if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
+        });
+        $('#submitBtn').click(e => {
+            let startDate = document.getElementById('startDate_voucher');
+            let endDate = document.getElementById('endDate_voucher');
+            let validationMessage = document.getElementById('validation-message');
+            if (new Date(endDate.value).getTime() < new Date(startDate.value).getTime()) {
+                if (validationMessage.classList.contains('d-none')) validationMessage.classList.remove('d-none');
+                e.preventDefault();
+            } else {
+                if (!validationMessage.classList.contains('d-none')) validationMessage.classList.add('d-none');
+            }
+        });
+    </script>
+    <script src="~/public/js/Voucher.js"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="/Scripts/jquery.validate.js"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}

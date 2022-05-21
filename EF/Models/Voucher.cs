@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PBL3.Helper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,14 +15,20 @@ namespace EF.Models
         [Display(Name ="Giá trị voucher")]
         [Required(ErrorMessage = "Giá trị không được bỏ trống")]
         public int Value { get; set; }
-        [Display(Name ="Seri")]
-        [Required(ErrorMessage = "Seri không được bỏ trống")]
+        [Display(Name ="Mã voucher")]
+        [StringLength(6, MinimumLength = 6, ErrorMessage = "Độ dài mã voucher phải bằng 6")]
+        [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "Mã voucher không chứa kí tự đặc biệt")]
+        [Required(ErrorMessage = "Mã voucher không được bỏ trống")]
         public string Seri { get; set; }
         [Display(Name = "Số lượng")]
         [Required(ErrorMessage ="Số lượng không được bỏ trống")]
         public int Quantity { get; set; }
+        [Display(Name = "Ngày bắt đầu")]
+        [DateGreaterThan("EndDate", ErrorMessage = "Ngày kết thúc không được bé hơn Ngày bắt đầu")]
         public DateTime StartDate { get; set; }
+        [Display(Name = "Ngày kết thúc")]
         public DateTime EndDate { get; set; }
+
         public virtual List<Order> Orders { get; set; }
     }
 }
