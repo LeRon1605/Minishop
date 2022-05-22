@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EF.DAO
+namespace Models.BLL
 {
     public class BaseDAO<TEntity> : IDAO<TEntity> where TEntity : class
     {

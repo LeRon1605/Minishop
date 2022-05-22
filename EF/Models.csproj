@@ -8,8 +8,8 @@
     <ProjectGuid>{2D8A6E60-7781-43F9-BE0A-71601BF1F97E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EF</RootNamespace>
-    <AssemblyName>EF</AssemblyName>
+    <RootNamespace>Models</RootNamespace>
+    <AssemblyName>Models</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -174,8 +174,7 @@
     <Compile Include="BLL\UserBLL.cs" />
     <Compile Include="BLL\VoucherBLL.cs" />
     <Compile Include="DAO\UserDAO.cs" />
-	  <Compile Include="DAO\VoucherDAO.cs" />
-	  <Compile Include="Helper\DateGreaterThanAttribute.cs" />
+    <Compile Include="Helper\DateGreaterThanAttribute.cs" />
     <Compile Include="Helper\Encryptor.cs" />
     <Compile Include="DTO\Cart.cs" />
     <Compile Include="DTO\CartProduct.cs" />

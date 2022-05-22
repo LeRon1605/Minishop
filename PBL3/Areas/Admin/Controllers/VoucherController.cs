@@ -1,5 +1,5 @@
-﻿using EF.DAO;
-using EF.Models;
+﻿using Models.BLL;
+using Models.DTO;
 using PBL3.Helper;
 using PBL3.Models;
 using System;
@@ -16,7 +16,7 @@ namespace PBL3.Areas.Admin.Controllers
         // GET: Admin/View
         public ActionResult Index(int page = 1, string keyword = "")
         {
-            VoucherDAO voucherDAO = new VoucherDAO();
+            VoucherBLL voucherDAO = new VoucherBLL();
             int totalPage = 0;
             ViewBag.Vouchers = voucherDAO.getPage(page, 10, keyword, out totalPage);
             ViewBag.Total = voucherDAO.Count();
@@ -34,7 +34,7 @@ namespace PBL3.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index");
             }
-            Voucher voucher = new VoucherDAO().find((int)id);
+            Voucher voucher = new VoucherBLL().find((int)id);
             if (voucher == null)
             {
                 TempData["Message"] = "Voucher không tồn tại";
@@ -50,7 +50,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                VoucherDAO voucherDAO = new VoucherDAO();
+                VoucherBLL voucherDAO = new VoucherBLL();
                 voucherDAO.Add(voucher);
                 TempData["Status"] = true;
             }
@@ -64,7 +64,7 @@ namespace PBL3.Areas.Admin.Controllers
         public ActionResult Delete(int id)
         {
 
-            VoucherDAO voucherDAO = new VoucherDAO();
+            VoucherBLL voucherDAO = new VoucherBLL();
             if (voucherDAO.Delete(id) == true)
             {
                 return new JsonResult
@@ -92,7 +92,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                VoucherDAO voucherDAO = new VoucherDAO();
+                VoucherBLL voucherDAO = new VoucherBLL();
                 if (voucherDAO.Update(voucher) == true)
                 {
                     TempData["Status"] = true;

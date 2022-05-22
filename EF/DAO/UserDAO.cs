@@ -1,4 +1,4 @@
-﻿using EF.DAO;
+﻿using Models.BLL;
 using Models.DTO;
 using Models.DAL;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EF.DAO_Test
+namespace Models.BLL_Test
 {
     public class UserDAO: BaseDAO<User>
     {

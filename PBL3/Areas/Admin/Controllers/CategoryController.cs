@@ -1,5 +1,5 @@
-﻿    using EF.DAO;
-using EF.Models;
+﻿using Models.BLL;
+using Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace PBL3.Areas.Admin.Controllers
         // GET: Admin/Category
         public ActionResult Index(int page = 1, string keyword = "")
         {
-            CategoryDAO categoryDAO = new CategoryDAO();
+            CategoryBLL categoryDAO = new CategoryBLL();
             int totalPage = 0;
             ViewBag.categories = categoryDAO.getPage(page, 10, keyword, out totalPage);
             ViewBag.Total = categoryDAO.Count();
@@ -36,7 +36,7 @@ namespace PBL3.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index");
             }
-            Category category = new CategoryDAO().find((int)id);
+            Category category = new CategoryBLL().find((int)id);
             if (category == null)
             {
                 TempData["Message"] = "Loại sản phẩm không tồn tại";
@@ -53,7 +53,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                CategoryDAO categoryDAO = new CategoryDAO();
+                CategoryBLL categoryDAO = new CategoryBLL();
                 categoryDAO.Add(category);
                 TempData["Addstatus"] = true;
             }
@@ -71,7 +71,7 @@ namespace PBL3.Areas.Admin.Controllers
             
             if (ModelState.IsValid)
             {
-                CategoryDAO categoryDAO = new CategoryDAO();
+                CategoryBLL categoryDAO = new CategoryBLL();
                 if(categoryDAO.Update(category))
                 {
                     TempData["Status"] = true;
@@ -93,7 +93,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            CategoryDAO categoryDAO = new CategoryDAO();
+            CategoryBLL categoryDAO = new CategoryBLL();
             if(categoryDAO.Delete(id) == true)
             {
                 return new JsonResult

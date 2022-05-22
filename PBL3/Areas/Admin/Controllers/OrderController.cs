@@ -1,5 +1,5 @@
-﻿using EF.DAO;
-using EF.Models;
+﻿using Models.DTO;
+using Models.BLL;
 using PBL3.Helper;
 using PBL3.Models;
 using System;
@@ -17,8 +17,8 @@ namespace PBL3.Areas.Admin.Controllers
         public ActionResult Index(int page = 1, int stateID = 0, string keyword = "")
         {
             int countPages = 0;
-            List<Order> orders = new OrderDAO().getPage(page, 10, keyword, stateID, out countPages);
-            ViewBag.states = new StateDAO().findAll();
+            List<Order> orders = new OrderBLL().getPage(page, 10, keyword, stateID, out countPages);
+            ViewBag.states = new StateBLL().findAll();
             ViewBag.pagingModel = new PagingModel
             {
                 CountPages = countPages,
@@ -30,7 +30,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Confirm(int ID)
         {
-            if (new OrderDAO().confirm(ID))
+            if (new OrderBLL().confirm(ID))
             {
                 return new JsonResult
                 {
@@ -56,7 +56,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult View(int ID)
         {
-            Order order = new OrderDAO().find(ID);
+            Order order = new OrderBLL().find(ID);
             if (order == null)
             {
                 return HttpNotFound();

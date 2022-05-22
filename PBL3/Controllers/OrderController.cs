@@ -1,6 +1,4 @@
-﻿using EF.Models;
-using EF.DAO;
-using PBL3.Helper;
+﻿using PBL3.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;

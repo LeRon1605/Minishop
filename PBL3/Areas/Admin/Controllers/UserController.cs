@@ -1,5 +1,5 @@
-﻿using EF.DAO;
-using EF.Models;
+﻿using Models.DTO;
+using Models.BLL;
 using PBL3.Helper;
 using PBL3.Models;
 using System;
@@ -16,7 +16,7 @@ namespace PBL3.Areas.Admin.Controllers
         public ActionResult Index(int page = 1, string keyword = "")
         {
             int countPages = 0;
-            List<User> list = new UserDAO().getPage(page, 10, keyword, out countPages);
+            List<User> list = new UserBLL().getPage(page, 10, keyword, out countPages);
             ViewBag.PagingData = new PagingModel
             {
                 CountPages = countPages,
@@ -27,11 +27,11 @@ namespace PBL3.Areas.Admin.Controllers
         }
         public ActionResult View(int id)
         {
-            return View(new UserDAO().find(id));
+            return View(new UserBLL().find(id));
         }
         public ActionResult Delete(int id)
         {
-            if(new UserDAO().Delete(id))
+            if(new UserBLL().Delete(id))
             {
                 return new JsonResult
                 {

@@ -1,5 +1,5 @@
-﻿using EF.DAO;
-using EF.Models;
+﻿using Models.DTO;
+using Models.BLL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace PBL3.Helper
             }
             else
             {
-                User user = new UserDAO().find((int)userID);
+                User user = new UserBLL().find((int)userID);
                 if (user == null)
                 {
                     Message = "Người dùng không tồn tại";
@@ -32,7 +32,7 @@ namespace PBL3.Helper
                 else
                 {
                     if (Role == "ALL") return true;
-                    Role userRole = new RoleDAO().find((int)user.RoleID);
+                    Role userRole = new RoleBLL().find((int)user.RoleID);
                     if (userRole == null)
                     {
                         Message = "Lỗi hệ thống";

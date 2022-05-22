@@ -1,5 +1,5 @@
-﻿using EF.Models;
-using EF.DAO;
+﻿using Models.BLL;
+using Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +17,11 @@ namespace PBL3.Areas.Admin.Controllers
         // GET: Admin/Product
         public ActionResult Index(int page = 1, string keyword = "", string CategoryID = "All", string Price = "All")
         {
-            ProductDAO productDAO = new ProductDAO();
+            ProductBLL productDAO = new ProductBLL();
             int totalPage = 0;
             ViewBag.products = productDAO.getPage(page, 10, keyword, CategoryID, Price, out totalPage);
             ViewBag.Total = productDAO.Count();
-            ViewBag.categories = new CategoryDAO().findAll();
+            ViewBag.categories = new CategoryBLL().findAll();
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,
@@ -33,8 +33,8 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult View(int id, bool isEdit = false)
         {
-            CategoryDAO categoryDAO = new CategoryDAO();
-            ProductDAO productDAO = new ProductDAO();
+            CategoryBLL categoryDAO = new CategoryBLL();
+            ProductBLL productDAO = new ProductBLL();
             ViewBag.isEdit = isEdit;
             ViewBag.categories = categoryDAO.findAll();
             Product product = productDAO.find(id, true);
@@ -58,8 +58,8 @@ namespace PBL3.Areas.Admin.Controllers
                         string fileName = Path.GetFileName(Image.FileName);
                         string path = Path.Combine(Server.MapPath("~/public/uploads/products"), fileName);
                         Image.SaveAs(path);
-                        ProductDAO productDAO = new ProductDAO();
-                        CategoryDAO categoryDAO = new CategoryDAO();
+                        ProductBLL productDAO = new ProductBLL();
+                        CategoryBLL categoryDAO = new CategoryBLL();
                         product.Image = $"/public/uploads/products/{fileName}";
                         productDAO.Add(product);
                         product.Category = (product.CategoryID == null) ? null : categoryDAO.find((int)product.CategoryID);
@@ -90,7 +90,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                ProductDAO productDAO = new ProductDAO();
+                ProductBLL productDAO = new ProductBLL();
                 if (file != null && file.ContentLength > 0)
                 {
                     string fileName = Path.GetFileName(file.FileName);
@@ -121,7 +121,7 @@ namespace PBL3.Areas.Admin.Controllers
 
         public ActionResult Import(int id, int quantity)
         {
-            ProductDAO productDAO = new ProductDAO();
+            ProductBLL productDAO = new ProductBLL();
             if (productDAO.import(id, quantity))
             {
                 return new JsonResult
@@ -149,7 +149,7 @@ namespace PBL3.Areas.Admin.Controllers
 
         public ActionResult Delete(int id)
         {
-            ProductDAO productDAO = new ProductDAO();
+            ProductBLL productDAO = new ProductBLL();
             if (productDAO.Delete(id))
             {
                 return new JsonResult{
