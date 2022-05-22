@@ -1,5 +1,5 @@
-﻿using EF.Models;
-using EF.ViewModel;
+﻿using Models.DTO;
+using Models.DAL;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EF.DAO
+namespace Models.BLL
 {
-    public class OrderDAO
+    public class OrderBLL
     {
         public Order find(int id)
         {
@@ -124,7 +124,7 @@ namespace EF.DAO
         }    
         public int add(Order order, int UserID, out string message)
         {
-            User user = new UserDAO().find(UserID);
+            User user = new UserBLL().find(UserID);
             if (user != null)
             {
                 List<ProductOrder> productOrders = new List<ProductOrder>();
@@ -135,7 +135,7 @@ namespace EF.DAO
                     {
                         foreach (ProductOrder productOrder in order.ProductOrder)
                         {
-                            Product product = new ProductDAO().find((int)productOrder.ProductID);
+                            Product product = new ProductBLL().find((int)productOrder.ProductID);
                             if (product != null)
                             {
                                 if (productOrder.Quantity <= product.Stock)
@@ -148,8 +148,8 @@ namespace EF.DAO
                                         Price = product.Price
                                     });
                                     TotalPrice += productOrder.Quantity * product.Price;
-                                    new ProductDAO().Update(product);
-                                    new CartDAO().DeleteProduct(product.ID, user.ID);
+                                    new ProductBLL().Update(product);
+                                    new CartBLL().DeleteProduct(product.ID, user.ID);
                                 }
                             }
                         }
@@ -174,8 +174,8 @@ namespace EF.DAO
                                 };
                                 context.Orders.Add(newOrder);
                                 context.SaveChanges();
-                                new StateDAO().addProductState(newOrder.ID, "Đặt đơn hàng thành công");
-                                new StateDAO().addProductState(newOrder.ID, "Đang chờ xác nhận");
+                                new StateBLL().addProductState(newOrder.ID, "Đặt đơn hàng thành công");
+                                new StateBLL().addProductState(newOrder.ID, "Đang chờ xác nhận");
                                 message = "Tạo đơn hàng thành công";
                                 return newOrder.ID;
                             }
@@ -225,7 +225,7 @@ namespace EF.DAO
                             order.isReceived = true;
                             context.SaveChanges();
                         }    
-                        new StateDAO().addProductState(orderID, newState);
+                        new StateBLL().addProductState(orderID, newState);
                         return true;
                     }
                 }

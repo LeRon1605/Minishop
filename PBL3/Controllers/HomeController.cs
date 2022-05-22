@@ -1,5 +1,7 @@
 ﻿using EF.DAO;
-using EF.Models;
+using Models.BLL;
+using Models.DAL;
+using Models.DTO;
 using PBL3.Helper;
 using PBL3.Models;
 using System;
@@ -14,11 +16,11 @@ namespace PBL3.Controllers
     {
         public ActionResult Index(int page = 1)
         {
-            List<Category> categories = new CategoryDAO().findAll();
-            ProductDAO productDAO = new ProductDAO();
+            List<Category> categories = new CategoryBLL().findAll();
+            ProductBLL productDAO = new ProductBLL();
             int totalPage = 0;
             ViewBag.Total = productDAO.Count();
-            ViewBag.categories = new CategoryDAO().findAll();
+            ViewBag.categories = new CategoryBLL().findAll();
             ViewBag.products = productDAO.getPage(page, 20, "", "All", "All", out totalPage);
             ViewBag.lastedProduct = productDAO.getLasted(5);
             ViewBag.pagingData = new PagingModel

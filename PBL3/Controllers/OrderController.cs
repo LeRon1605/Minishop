@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Models.BLL;
+using Models.DTO;
 
 namespace PBL3.Controllers
 {
@@ -15,7 +17,7 @@ namespace PBL3.Controllers
         // GET: Order
         public ActionResult Index(int id)
         {           
-            Order order = new OrderDAO().find(id);
+            Order order = new OrderBLL().find(id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -36,11 +38,11 @@ namespace PBL3.Controllers
         [HttpGet]
         public ActionResult Add()
         {
-            List<CartProduct> item = new CartDAO().GetProductCart((int)Session["USER"], true);
+            List<CartProduct> item = new CartBLL().GetProductCart((int)Session["USER"], true);
             if (item.Count > 0)
             {
                 ViewBag.Items = item;
-                ViewBag.Total = new CartDAO().getTotal((int)Session["USER"], true);
+                ViewBag.Total = new CartBLL().getTotal((int)Session["USER"], true);
                 return View();
             }
             else
@@ -56,7 +58,7 @@ namespace PBL3.Controllers
             if (ModelState.IsValid)
             {
                 string message;
-                int orderID = new OrderDAO().add(order, (int)Session["USER"], out message);
+                int orderID = new OrderBLL().add(order, (int)Session["USER"], out message);
                 if (orderID != -1)
                 {
                     return RedirectToAction("Index", new { id = orderID });

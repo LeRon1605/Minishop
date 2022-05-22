@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Models.DTO;
 
-namespace EF.Models
+namespace Models.DAL
 {
     public class ShopOnlineDbContext: DbContext
     {

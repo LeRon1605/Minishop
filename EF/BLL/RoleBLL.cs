@@ -1,4 +1,5 @@
-﻿using EF.Models;
+﻿using Models.DTO;
+using Models.DAL;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -6,12 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EF.DAO
+namespace Models.BLL
 {
-    public class RoleDAO
+    public class RoleBLL
     {
         private ShopOnlineDbContext context;
-        public RoleDAO()
+        public RoleBLL()
         {
             context = new ShopOnlineDbContext();
         }

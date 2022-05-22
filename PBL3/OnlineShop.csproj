@@ -682,9 +682,9 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EF\EF.csproj">
+    <ProjectReference Include="..\EF\Models.csproj">
       <Project>{2d8a6e60-7781-43f9-be0a-71601bf1f97e}</Project>
-      <Name>EF</Name>
+      <Name>Models</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
-﻿using EF.Models;
+﻿using Models.DTO;
+using Models.DAL;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -6,12 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EF.DAO
+namespace Models.BLL
 {
-    public class ProductDAO
+    public class ProductBLL
     {
         private ShopOnlineDbContext context;
-        public ProductDAO()
+        public ProductBLL()
         {
             context = new ShopOnlineDbContext();
         }
@@ -24,7 +25,7 @@ namespace EF.DAO
             totalRow = 0;
             if (page > 0)
             {
-                CategoryDAO categoryDAO = new CategoryDAO();
+                CategoryBLL categoryDAO = new CategoryBLL();
                 List<Product> products = context.Products.AsNoTracking().Select(product => new Product
                 {
                     ID = product.ID,
