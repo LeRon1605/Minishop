@@ -516,6 +516,8 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProfileController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReplyController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Controllers\VoucherController.cs" />
     <Compile Include="Controllers\CartController.cs" />
@@ -562,13 +564,14 @@
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="public\css\Add_Product.css" />
     <Content Include="public\css\Admin_Home.css" />
+    <Content Include="public\css\Admin_Reply.css" />
     <Content Include="public\css\Cart.css" />
     <Content Include="public\css\lightslider.min.css" />
     <Content Include="public\css\ProductDetail.css" />
+    <Content Include="public\css\Admin_Profile.css" />
     <Content Include="public\css\Sidebars.css" />
     <Content Include="public\css\Add_Category.css" />
     <Content Include="public\css\table.css" />
-    <Content Include="public\css\User.css" />
     <Content Include="public\icon\eye.svg" />
     <Content Include="public\icon\filter.svg" />
     <Content Include="public\icon\pencil.svg" />
@@ -610,6 +613,8 @@
     <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Voucher\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Voucher\View.cshtml" />
+    <Content Include="Areas\Admin\Views\Profile\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Reply\Index.cshtml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />

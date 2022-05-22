@@ -101,7 +101,7 @@ namespace PBL3.Areas.Admin.Controllers
                 if (productDAO.Update(product))
                 {
                     TempData["Status"] = true;
-                    TempData["Message"] = "Cập nhật thành công";
+                    TempData["Message"] = "Cập nhật sản phẩm thành công";
                     return RedirectToAction("View", new { id = product.ID });
                 }
                 else
