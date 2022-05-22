@@ -53,6 +53,7 @@ namespace PBL3.Controllers
         public ActionResult Add(Order order)
         {
             if (ModelState["Voucher.Seri"] != null) ModelState["Voucher.Seri"].Errors.Clear();
+            if (ModelState["Voucher.StartDate"] != null) ModelState["Voucher.StartDate"].Errors.Clear();
             if (ModelState.IsValid)
             {
                 string message;

@@ -13,6 +13,7 @@
     <style>
         body {
             background-color: #F0F2F5;
+            margin-top: 0;
         }
     </style>
 </head>
@@ -37,7 +38,7 @@
                     </a>
                     <div id="submenu1" class="collapse sidebar-submenu">
                         <a href="@Url.Action("Index", "User", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="fa-solid fa-user subicon"></span>
+                            <span class="fa-solid fa-store subicon"></span>
                             <span class="menu-collapsed">Quản Lí Người Dùng</span>
                         </a>
                         <a href="@Url.Action("Index", "Product", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
@@ -57,7 +58,7 @@
                             <span class="menu-collapsed">Quản Lí Voucher</span>
                         </a>
                     </div>
-                    <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
+                    <a href="@Url.Action("Index", "Profile", new { area = "Admin" })" aria-expanded="false"
                        class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-start align-items-center">
                             <span class="fa-solid fa-user icon"></span>
@@ -74,13 +75,7 @@
                     </a>
                     <!-- Separator with title -->
                     <!-- /END Separator -->
-                    <a href="#" class="bg-dark list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-start align-items-center">
-                            <span class="fa-solid fa-table-list icon"></span>
-                            <span class="menu-collapsed">Thống Kê</span>
-                        </div>
-                    </a>
-                    <a href="#" class="bg-dark list-group-item list-group-item-action">
+                    <a href="@Url.Action("Index", "Reply", new { area = "Admin" })" class="bg-dark list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-start align-items-center">
                             <span class="fa-solid fa-comment icon"></span>
                             <span class="menu-collapsed">
