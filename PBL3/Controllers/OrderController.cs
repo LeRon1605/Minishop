@@ -74,6 +74,36 @@ namespace PBL3.Controllers
                 return RedirectToAction("Add");
             }
         }
+        [HttpPost]
+        public ActionResult Cancel(int id)
+        {
+            if (new OrderBLL().cancel(id, (int)Session["USER"]))
+            {
+                TempData["Message"] = "Hủy đơn hàng thành công";
+                TempData["Status"] = true;
+            }
+            else
+            {
+                TempData["Status"] = false;
+                TempData["Message"] = "Hủy đơn hàng thất bại";
+            }
+            return RedirectToAction("Index", new { id = id });
+        }
+        [HttpPost]
+        public ActionResult ConfirmReceive(int id)
+        {
+            if (new OrderBLL().confirmReceived(id, (int)Session["USER"]))
+            {
+                TempData["Message"] = "Xác nhận nhận hàng thành công";
+                TempData["Status"] = true;
+            }
+            else
+            {
+                TempData["Status"] = false;
+                TempData["Message"] = "Xác nhận nhận hàng thất bại";
+            }
+            return RedirectToAction("Index", new { id = id });
+        }
 
     }
 }

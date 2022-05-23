@@ -16,7 +16,7 @@ namespace PBL3.Controllers
         public ActionResult Index()
         {
             int CartID = Convert.ToInt32(Session["USER"]);
-            ViewBag.Total = new CartBLL().getTotal(CartID);
+            ViewBag.Total = new CartBLL().getTotal(CartID, true);
             return View(new CartBLL().GetProductCart(CartID));
         }
         [HttpPost]
@@ -24,13 +24,14 @@ namespace PBL3.Controllers
         public ActionResult Add(int productID, int quantity)
         {
             int CartID = Convert.ToInt32(Session["USER"]);
-            bool result = new CartBLL().add_Update(productID, quantity, CartID);
+            bool result = new CartBLL().save(productID, quantity, CartID);
             if (result)
             {
                 return new JsonResult {
                     Data = new {
                         status = true,
-                        message = "Thêm sản phẩm vào giỏ hàng thành công"
+                        message = "Thêm sản phẩm vào giỏ hàng thành công",
+                        total = new CartBLL().getTotal(Convert.ToInt32(Session["USER"]), true)
                     }
                 };
             }
@@ -57,7 +58,8 @@ namespace PBL3.Controllers
                     Data = new
                     {
                         status = true,
-                        message = "Xóa thành công sản phẩm trong giỏ hàng"
+                        message = "Xóa thành công sản phẩm trong giỏ hàng",
+                        total = new CartBLL().getTotal(Convert.ToInt32(Session["USER"]), true)
                     }
                 };
             }
@@ -80,7 +82,8 @@ namespace PBL3.Controllers
             {
                 Data = new
                 {
-                    status = new CartBLL().select(id)
+                    status = new CartBLL().select(id),
+                    total = new CartBLL().getTotal(Convert.ToInt32(Session["USER"]), true)
                 }
             };
         }

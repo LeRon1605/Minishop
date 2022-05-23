@@ -27,32 +27,6 @@ namespace PBL3.Areas.Admin.Controllers
             };
             return View(orders);
         }
-        [HttpPost]
-        public ActionResult Confirm(int ID)
-        {
-            if (new OrderBLL().confirm(ID))
-            {
-                return new JsonResult
-                {
-                    Data = new
-                    {
-                        status = true,
-                        message = "Xác nhận đơn hàng thành công"
-                    }
-                };
-            }
-            else
-            {
-                return new JsonResult
-                {
-                    Data = new
-                    {
-                        status = false,
-                        message = "Xác nhận đơn hàng thất bại"
-                    }
-                };
-            }
-        }
         [HttpGet]
         public ActionResult View(int ID)
         {
@@ -65,6 +39,66 @@ namespace PBL3.Areas.Admin.Controllers
             {
                 return View(order);
             }
+        }
+        [HttpPost]
+        public ActionResult Decline(int ID)
+        {
+            if (new OrderBLL().decline(ID))
+            {
+                TempData["Message"] = "Từ chối đơn hàng thành công";
+                TempData["Status"] = true;
+            }
+            else
+            {
+                TempData["Message"] = "Từ chối đơn hàng thất bại";
+                TempData["Status"] = false;
+            }
+            return RedirectToAction("View", new { id = ID });
+        }
+        [HttpPost]
+        public ActionResult Confirm(int id)
+        {
+            if (new OrderBLL().confirm(id))
+            {
+                TempData["Message"] = "Xác nhận đơn hàng thành công";
+                TempData["Status"] = true;
+            }
+            else
+            {
+                TempData["Message"] = "Xác nhận đơn hàng thất bại";
+                TempData["Status"] = false;
+            }
+            return RedirectToAction("View", new { id = id });
+        }
+        [HttpPost]
+        public ActionResult Deliver(int ID)
+        {
+            if (new OrderBLL().deliver(ID))
+            {
+                TempData["Message"] = "Xác nhận giao hàng thành công";
+                TempData["Status"] = true;
+            }
+            else
+            {
+                TempData["Message"] = "Xác nhận giao hàng thất bại";
+                TempData["Status"] = false;
+            }
+            return RedirectToAction("View", new { id = ID });
+        }
+        [HttpPost]
+        public ActionResult ConfirmDeliver(int ID)
+        {
+            if (new OrderBLL().confirmDeliver(ID))
+            {
+                TempData["Message"] = "Xác nhận đã giao hàng thành công";
+                TempData["Status"] = true;
+            }
+            else
+            {
+                TempData["Message"] = "Xác nhận đã giao hàng thất bại";
+                TempData["Status"] = false;
+            }
+            return RedirectToAction("View", new { id = ID });
         }
     }
 }

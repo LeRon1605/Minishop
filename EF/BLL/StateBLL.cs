@@ -38,6 +38,7 @@ namespace Models.BLL
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
                 Order order = context.Orders.Find(orderID);
+                context.Entry(order).State = Microsoft.EntityFrameworkCore.EntityState.Unchanged;
                 if (order != null)
                 {
                     State state = findByName(stateName);
@@ -58,6 +59,16 @@ namespace Models.BLL
                 }
                 return false;
             }
-        }    
+        }
+        public State getCurrentProductState(int orderID)
+        {
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                return context.StateOrder.AsNoTracking().Select(stateOrder => new StateOrder { 
+                    OrderID = stateOrder.OrderID,
+                    State = stateOrder.State
+                }).Where(stateOrder => stateOrder.OrderID == orderID).ToList().Last().State;
+            }    
+        }
     }
 }

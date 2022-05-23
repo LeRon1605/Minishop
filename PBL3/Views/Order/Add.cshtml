@@ -61,22 +61,22 @@
                     <div class="col-12">
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-                            @Html.EditorFor(model => model.ReceiverName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên người nhận" } })
+                            @Html.EditorFor(model => model.ReceiverName, new { htmlAttributes = new { @class = "form-control col-12", @placeholder = "Nhập tên người nhận" } })
                             @Html.ValidationMessageFor(model => model.ReceiverName, "", new { @class = "text-danger" })
                         </div>
                         <div class="input-group flex-nowrap mt-2">
                             <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
-                            @Html.EditorFor(model => model.ReceiverPhone, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập số điện thoại người nhận" } })
+                            @Html.EditorFor(model => model.ReceiverPhone, new { htmlAttributes = new { @class = "form-control col-12", @placeholder = "Nhập số điện thoại người nhận" } })
                             @Html.ValidationMessageFor(model => model.ReceiverPhone, "", new { @class = "text-danger" })
                         </div>
                         <div class="input-group flex-nowrap mt-2">
                             <span class="input-group-text"><i class="fa-solid fa-location-pin"></i></span>
-                            @Html.EditorFor(model => model.ReceiverAddress, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập địa chỉ người nhận" } })
+                            @Html.EditorFor(model => model.ReceiverAddress, new { htmlAttributes = new { @class = "form-control col-12", @placeholder = "Nhập địa chỉ người nhận" } })
                             @Html.ValidationMessageFor(model => model.ReceiverAddress, "", new { @class = "text-danger" })
                         </div>
                         <div class="input-group flex-nowrap mt-2">
                             <span class="input-group-text"><i class="fa-solid fa-message"></i></span>
-                            @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập lưu ý cho người giao hàng" } })
+                            @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control col-12", @placeholder = "Nhập lưu ý cho người giao hàng" } })
                             @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -88,8 +88,12 @@
                     </div>
                     <hr>
                     <div class="input-group">
-                        @Html.EditorFor(model => model.Voucher.Seri, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập mã voucher" } })
-                        <button class="btn btn-primary" type="button" id="button-addon2">Sử dụng</button>
+                        <div class="alert col-12 d-none" role="alert" id="notification">
+                         
+                        </div>
+                        <input class = "form-control" placeholder = "Nhập mã voucher" id="voucherSeri"/>
+                        @Html.EditorFor(model => model.Voucher.Seri, new { htmlAttributes = new { @class = "form-control d-none", @placeholder = "Nhập mã voucher", @id = "voucher" } })
+                        <button class="btn btn-primary" type="button" id="btnCheckVoucher">Sử dụng</button>
                         <span class="text-muted m-0 p-0 mt-2">Hãy ấn sử dụng để kích hoạt mã voucher</span>
                     </div>
                 </div>
@@ -105,12 +109,12 @@
                         </div>
                         <div class="d-flex justify-content-between col-12">
                             <p class="p-0 m-0">Voucher từ shop: </p>
-                            <p class="p-0 m-0">0 đ</p>
+                            <p class="p-0 m-0" id="voucherValue">0 đ</p>
                         </div>
                         <hr>
                         <div class="d-flex justify-content-between col-12">
                             <p class="p-0 m-0">Tổng số tiền: </p>
-                            <p class="p-0 m-0 text-danger fw-bold">@String.Format("{0:0,0}", (int)ViewBag.Total) đ</p>
+                            <p class="p-0 m-0 text-danger fw-bold" id="totalValue">@String.Format("{0:0,0}", (int)ViewBag.Total) đ</p>
                         </div>
                     </div>
                 </div>
@@ -119,3 +123,8 @@
         }
     </div>
 </div>
+@section scripts
+{
+    <script src="~/public/js/Order/Add.js"></script>
+    @Html.Partial("_ValidationScriptsPartial")
+}

@@ -106,18 +106,18 @@
             <strong class="me-auto ms-1">Thông báo</strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        @if (TempData["AddStatus"] != null)
+        @if (TempData["Status"] != null)
         {
-            if ((bool)TempData["AddStatus"] == false)
+            if ((bool)TempData["Status"] == false)
             {
                 <div class="toast-body text-white bg-danger" id="toast_body">
-                    @TempData["AddDetail"]
+                    @TempData["Message"]
                 </div>
             }
             else
             {
                 <div class="toast-body text-white bg-success" id="toast_body">
-                    Thêm sản phẩm thành công
+                    @TempData["Message"]
                 </div>
             }
         }
