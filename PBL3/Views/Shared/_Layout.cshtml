@@ -51,6 +51,7 @@
                 @Html.ActionLink("Trang chủ", "Index", new { controller = "Home", area = string.Empty }, new { @class = "p-2 text-decoration-none" })
                 <a href="" class="p-2 text-decoration-none">Category</a>
                 <a href="@Url.Action("Index", "Cart")" class="p-2 text-decoration-none">Cart</a>
+                <a href="@Url.Action("Index", "Voucher")" class="p-2 text-decoration-none">Voucher</a>
                 @if (Session["User"] == null)
                 {
                     @Html.ActionLink("Đăng nhập", "Login", new { controller = "User", area = string.Empty }, new { @class = "p-2 text-decoration-none" })

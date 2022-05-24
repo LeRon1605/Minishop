@@ -1,4 +1,7 @@
-﻿using Models.BLL;
+﻿using PBL3.Helper;
+using Models.BLL;
+using Models.DTO;
+using Models.BLL;
 using Models.DTO;
 using System;
 using System.Collections.Generic;
@@ -10,6 +13,7 @@ namespace PBL3.Controllers
 {
     public class VoucherController : Controller
     {
+        [HasLogin(Role = "USER")]
         // GET: Voucher
         public ActionResult Index()
         {
