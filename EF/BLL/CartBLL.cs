@@ -30,7 +30,7 @@ namespace Models.BLL
                 Product = context.Products.FirstOrDefault(p => p.ID == cp.ProductID)
             }).Where(cp => cp.CartID == CartID && (isSelected == false || cp.isSelected == isSelected)).ToList();
         }
-        public bool add_Update(int id, int quantity, int CartID)
+        public bool Add_Update(int id, int quantity, int CartID)
         {
             Cart cart = context.Carts.Find(CartID);
             Product product = context.Products.Find(id);

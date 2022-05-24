@@ -24,7 +24,7 @@ namespace PBL3.Controllers
         public ActionResult Add(int productID, int quantity)
         {
             int CartID = Convert.ToInt32(Session["USER"]);
-            bool result = new CartBLL().add_Update(productID, quantity, CartID);
+            bool result = new CartBLL().Add_Update(productID, quantity, CartID);
             if (result)
             {
                 return new JsonResult {

@@ -524,6 +524,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\VoucherController.cs" />
     <Compile Include="Helper\HasLoginAttribute.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\PagingModel.cs" />
@@ -572,6 +573,7 @@
     <Content Include="public\css\Sidebars.css" />
     <Content Include="public\css\Add_Category.css" />
     <Content Include="public\css\table.css" />
+    <Content Include="public\css\Voucher.css" />
     <Content Include="public\icon\eye.svg" />
     <Content Include="public\icon\filter.svg" />
     <Content Include="public\icon\pencil.svg" />
@@ -657,12 +659,12 @@
     <Content Include="Views\Order\View.cshtml" />
     <Content Include="Views\User\Orders.cshtml" />
     <Content Include="Views\Order\Add.cshtml" />
+    <Content Include="Views\Voucher\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\View\" />
     <Folder Include="public\uploads\users\" />
   </ItemGroup>
   <ItemGroup>
