@@ -28,6 +28,12 @@ namespace Models.BLL
                     Note = order.Note,
                     ReceiverAddress = order.ReceiverAddress,
                     Total = order.Total,
+                    Voucher = new Voucher
+                    {
+                        ID = order.Voucher.ID,
+                        Value = order.Voucher.Value,
+                        Seri = order.Voucher.Seri
+                    },
                     ProductOrder = order.ProductOrder.Select(productOrder => new ProductOrder 
                     {
                         ID = productOrder.ID,
@@ -63,6 +69,12 @@ namespace Models.BLL
                     Note = order.Note,
                     ReceiverAddress = order.ReceiverAddress,
                     Total = order.Total,
+                    Voucher = new Voucher
+                    {
+                        ID = order.Voucher.ID,
+                        Value = order.Voucher.Value,
+                        Seri = order.Voucher.Seri
+                    },
                     ProductOrder = order.ProductOrder.Select(productOrder => new ProductOrder
                     {
                         ID = productOrder.ID,
@@ -102,6 +114,12 @@ namespace Models.BLL
                                          Note = order.Note,
                                          ReceiverAddress = order.ReceiverAddress,
                                          Total = order.Total,
+                                         Voucher = new Voucher
+                                         {
+                                             ID = order.Voucher.ID,
+                                             Value = order.Voucher.Value,
+                                             Seri = order.Voucher.Seri
+                                         },
                                          ProductOrder = order.ProductOrder.Select(productOrder => new ProductOrder
                                          {
                                              ID = productOrder.ID,
@@ -155,9 +173,16 @@ namespace Models.BLL
                         }
                         if (productOrders.Count > 0)
                         {
+                            int? voucherID = null;
+                            if (!string.IsNullOrEmpty(order.Voucher.Seri))
+                            {
+                                Voucher voucher = new VoucherBLL().check(order.Voucher.Seri);
+                                voucher.Quantity -= 1;
+                                voucherID = voucher.ID;
+                                new VoucherBLL().Update(voucher);
+                            }    
                             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
                             {
-                                // Find Voucher -> if valid add voucherID else not
                                 Order newOrder = new Order
                                 {
                                     UserID = user.ID,
@@ -169,7 +194,7 @@ namespace Models.BLL
                                     ProductOrder = productOrders,
                                     isCancel = false,
                                     isReceived = false,
-                                    VoucherID = null,
+                                    VoucherID = voucherID,
                                     CreatedAt = DateTime.Now
                                 };
                                 context.Orders.Add(newOrder);
@@ -201,56 +226,127 @@ namespace Models.BLL
             }
             return -1;
         }
-        public bool addState(int orderID, string lastState, string newState, bool isCancel = false, bool isReceived = false)
+        public bool confirm(int orderID)
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
-                Order order = context.Orders.Select(o => new Order { 
+                Order order = context.Orders.Select(o => new Order
+                {
                     ID = o.ID,
                     StateOrder = o.StateOrder.Select(stateOrder => new StateOrder { State = stateOrder.State }).ToList(),
                     isCancel = o.isCancel,
-                    isReceived = o.isReceived
+                    isReceived = o.isReceived,
                 }).FirstOrDefault(o => o.ID == orderID);
-                if (order != null)
+                if (order != null && !order.isCancel && !order.isReceived && order.StateOrder.Last().State.Name == "Đang chờ xác nhận")
                 {
-                    if (!order.isCancel && !order.isReceived && order.StateOrder.Last().State.Name == lastState)
-                    {
-                        if (isCancel)
-                        {
-                            order.isCancel = true;
-                            context.SaveChanges();
-                        }   
-                        if (isReceived)
-                        {
-                            order.isReceived = true;
-                            context.SaveChanges();
-                        }    
-                        new StateBLL().addProductState(orderID, newState);
-                        return true;
-                    }
+                    new StateBLL().addProductState(order.ID, "Đã xác nhận đơn hàng");
+                    new StateBLL().addProductState(order.ID, "Đang chuẩn bị đơn hàng");
+                    return true;
                 }
                 return false;
             }
-        }    
-        public bool confirm(int orderID)
+        }
+        public bool decline(int orderID)
         {
-            return (addState(orderID, "Đang chờ xác nhận", "Đã xác nhận đơn hàng") && addState(orderID, "Đã xác nhận đơn hàng", "Đang chuẩn bị đơn hàng"));
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                Order order = context.Orders.Find(orderID);
+                if (order == null) return false;
+                StateBLL stateBLL = new StateBLL();
+                if (!order.isCancel && !order.isReceived && stateBLL.getCurrentProductState(orderID).Name == "Đang chờ xác nhận")
+                {
+                    stateBLL.addProductState(order.ID, "Đơn hàng bị từ chối");
+                    order.isCancel = true;
+                    context.SaveChanges();
+                    ProductBLL productBLL = new ProductBLL();
+                    List<ProductOrder> productOrders = find(orderID).ProductOrder;
+                    foreach (ProductOrder productOrder in productOrders)
+                    {
+                        Product product = productBLL.find((int)productOrder.ProductID);
+                        if (product != null)
+                        {
+                            product.Stock += productOrder.Quantity;
+                            productBLL.Update(product);
+                        }
+                    }
+                    return true;
+                }
+                return false;
+            }
         }
         public bool deliver(int orderID)
         {
-            return addState(orderID, "Đang chuẩn bị đơn hàng", "Đang giao hàng");
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                Order order = context.Orders.Find(orderID);
+                if (order == null) return false;
+                StateBLL stateBLL = new StateBLL();
+                if (!order.isCancel && !order.isReceived && stateBLL.getCurrentProductState(orderID).Name == "Đang chuẩn bị đơn hàng")
+                {
+                    stateBLL.addProductState(orderID, "Đang giao hàng");
+                    return true;
+                }
+                return false;
+            }
         }
         public bool confirmDeliver(int orderID)
         {
-            return (addState(orderID, "Đang giao hàng", "Đã giao hàng") && addState(orderID, "Đã giao hàng", "Đang chờ xác nhận nhận hàng"));
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                Order order = context.Orders.Find(orderID);
+                if (order == null) return false;
+                StateBLL stateBLL = new StateBLL();
+                if (!order.isCancel && !order.isReceived && stateBLL.getCurrentProductState(orderID).Name == "Đang giao hàng")
+                {
+                    stateBLL.addProductState(orderID, "Đã giao hàng");
+                    stateBLL.addProductState(orderID, "Đang chờ xác nhận nhận hàng");
+                    return true;
+                }
+                return false;
+            }
         }
-        public bool confirmReceived(int orderID)
+        public bool confirmReceived(int orderID, int userID)
         {
-            return addState(orderID, "Đang chờ xác nhận nhận hàng", "Đã nhận hàng", false, true);
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                Order order = context.Orders.FirstOrDefault(o => o.ID == orderID && o.UserID == userID);
+                if (order == null) return false;
+                StateBLL stateBLL = new StateBLL();
+                if (!order.isCancel && !order.isReceived && stateBLL.getCurrentProductState(orderID).Name == "Đang chờ xác nhận nhận hàng")
+                {
+                    order.isReceived = true;
+                    context.SaveChanges();
+                    stateBLL.addProductState(orderID, "Đã nhận hàng");
+                    return true;
+                }
+                return false;
+            }
         }
-        public bool cancel(int orderID)
+        public bool cancel(int orderID, int userID)
         {
-            return addState(orderID, "Đang chờ xác nhận", "Đã hủy đơn hàng", true);
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                Order order = context.Orders.FirstOrDefault(o => o.ID == orderID && o.UserID == userID);
+                if (order == null) return false;
+                StateBLL stateBLL = new StateBLL();
+                if (!order.isCancel && !order.isReceived && stateBLL.getCurrentProductState(orderID).Name == "Đang chờ xác nhận")
+                {
+                    order.isCancel = true;
+                    context.SaveChanges();
+                    stateBLL.addProductState(orderID, "Đơn hàng đã bị hủy");
+                    foreach (ProductOrder productOrder in find(orderID).ProductOrder)
+                    {
+                        Product product = new ProductBLL().find((int)productOrder.ProductID);
+                        if (product != null)
+                        {
+                            product.Stock += productOrder.Quantity;
+                            new ProductBLL().Update(product);
+                        }
+                    }
+                    return true;
+                }
+                return false;
+            }
         }
         public bool delete(int id)
         {

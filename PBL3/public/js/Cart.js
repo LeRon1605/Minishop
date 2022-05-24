@@ -24,6 +24,7 @@ let deleteHandler = (e) => {
         success: function (res) {
             if (res.status) {
                 e.parentElement.parentElement.remove();
+                document.getElementById('total').innerText = Number(res.total).toLocaleString() + ' đ';
             }
             showToast(res.status, res.message);
         }
@@ -49,6 +50,7 @@ let UpdateCartProduct = (e, quantity) => {
                     inputQty.value = parseInt(inputQty.value) + quantity;
                     let money = e.parentElement.parentElement.parentElement.nextElementSibling;
                     money.innerText = (Number(money.innerText.trim().replace(/[^0-9-]+/g, "")) / oldQuantity * parseInt(inputQty.value)).toLocaleString() + ' đ';
+                    document.getElementById('total').innerText = Number(res.total).toLocaleString() + ' đ';
                 }
                 else {
                     showToast(res.status, "Không đủ số lượng sản phẩm trong kho");
@@ -61,6 +63,7 @@ let SelectProduct = (e) => {
     let data = {
         id: e.dataset.id
     };
+    e.classList.add('disabled');
     $.ajax({
         type: "POST",
         url: `/Cart/Select`,
@@ -70,7 +73,10 @@ let SelectProduct = (e) => {
         success: function (res) {
             if (res.status == false) {
                 showToast(res.status, "Xảy ra lỗi");
+            } else {
+                document.getElementById('total').innerText = Number(res.total).toLocaleString() + ' đ';
             }
+            e.classList.remove('disabled');
         }
     })
 };

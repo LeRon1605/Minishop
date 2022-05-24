@@ -4,7 +4,7 @@
     ViewBag.Title = "View";
 }
 
-<div class="row m-auto rounded d-flex justify-content-center" style="width: 77.7em">
+<div class="row m-auto rounded d-flex justify-content-center mt-5">
     <div class="col-7">
         <div class="bg-white p-3 shadow rounded">
             <div class="col-12 d-flex justify-content-between">
@@ -44,10 +44,6 @@
             <div class="d-flex justify-content-between col-12">
                 <p class="m-0 p-0">Lưu ý: </p>
                 <p class="p-0 m-0 text-danger fw-bold">@(string.IsNullOrEmpty(Model.Note) ? "Không có lưu ý từ khách hàng" : Model.Note)</p>
-            </div>
-            <hr>
-            <div class="text-end fw-bold">
-                Cảm ơn đã mua sắm tại shop!
             </div>
         </div>
     </div>
@@ -124,21 +120,33 @@
         }
         @if (state == "Đang chờ xác nhận")
         {
-            using (Html.BeginForm("Cancel", "Order", FormMethod.Post))
+            using (Html.BeginForm("Confirm", "Order", FormMethod.Post))
             {
                 @Html.HiddenFor(model => model.ID)
-                <button class="btn btn-danger mt-3 col-12" type="submit">Hủy đơn hàng</button>
+                <button class="btn btn-primary mt-3 col-12" type="submit">Xác nhận đơn hàng</button>
+            }
+            using (Html.BeginForm("Decline", "Order", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.ID)
+                <button class="btn btn-danger mt-3 col-12" type="submit">Từ chối đơn hàng</button>
             }
         }
-        else if (state == "Đang chờ xác nhận nhận hàng")
+        else if (state == "Đang chuẩn bị đơn hàng")
         {
-            using (Html.BeginForm("ConfirmReceive", "Order", FormMethod.Post))
+            using (Html.BeginForm("Deliver", "Order", FormMethod.Post))
             {
                 @Html.HiddenFor(model => model.ID)
-                <button class="btn btn-primary mt-3 col-12" type="submit">Đã nhận hàng</button>
+                <button class="btn btn-primary mt-3 col-12" type="submit">Giao hàng</button>
             }
         }
-
+        else if (state == "Đang giao hàng")
+        {
+            using (Html.BeginForm("ConfirmDeliver", "Order", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.ID)
+                <button class="btn btn-primary mt-3 col-12" type="submit">Đã Giao hàng</button>
+            }
+        }
     </div>
 </div>
 
@@ -172,11 +180,3 @@
         }
     </div>
 </div>
-@section scripts{
-    <script> 
-        window.addEventListener('load', (e) => {
-            const toast = document.getElementById('toast_body');
-            if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
-        })
-    </script>
-}

@@ -419,6 +419,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -427,7 +428,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
@@ -586,6 +586,7 @@
     <Content Include="public\js\Admin_Home.js" />
     <Content Include="public\js\lightslider.min.js" />
     <Content Include="public\js\Category.js" />
+    <Content Include="public\js\Order\Add.js" />
     <Content Include="public\js\Product.js" />
     <Content Include="public\js\ProductDetail.js" />
     <Content Include="public\js\Sidebar.js" />
@@ -617,6 +618,7 @@
     <Content Include="Areas\Admin\Views\Voucher\View.cshtml" />
     <Content Include="Areas\Admin\Views\Profile\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Reply\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\View.cshtml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -666,6 +668,7 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="public\uploads\users\" />
+    <Folder Include="Views\Voucher\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

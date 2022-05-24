@@ -61,7 +61,7 @@ namespace Models.BLL
         }
         public List<Voucher> getValid()
         {
-            return context.Vouchers.AsNoTracking().Where(voucher => (voucher.EndDate < DateTime.Now)).ToList();
+            return context.Vouchers.AsNoTracking().Where(voucher => (voucher.EndDate > DateTime.Now)).ToList();
         }
         public int Count()
         {
@@ -100,6 +100,10 @@ namespace Models.BLL
                 }
             }
             return null;
+        }
+        public Voucher check(string Seri)
+        {
+            return context.Vouchers.FirstOrDefault(voucher => voucher.Seri == Seri && voucher.EndDate > DateTime.Now);
         }
     }
 }
