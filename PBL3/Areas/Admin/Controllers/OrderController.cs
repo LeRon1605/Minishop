@@ -14,10 +14,12 @@ namespace PBL3.Areas.Admin.Controllers
     public class OrderController : Controller
     {
         // GET: Admin/Order
-        public ActionResult Index(int page = 1, int stateID = 0, string keyword = "")
+        public ActionResult Index(int page = 1, int stateID = 0, string keyword = "", DateTime? startDate = null, DateTime? endDate = null)
         {
             int countPages = 0;
-            List<Order> orders = new OrderBLL().getPage(page, 10, keyword, stateID, out countPages);
+            if (startDate == null) startDate = DateTime.MinValue;
+            if (endDate == null) endDate = DateTime.Now;
+            List<Order> orders = new OrderBLL().getPage(page, 10, keyword, stateID, out countPages, startDate, endDate);
             ViewBag.states = new StateBLL().findAll();
             ViewBag.pagingModel = new PagingModel
             {
@@ -80,7 +82,22 @@ namespace PBL3.Areas.Admin.Controllers
             }
             else
             {
-                TempData["Message"] = "Xác nhận giao hàng thất bại";
+                TempData["Message"] = "Không thể xác nhận giao hàng";
+                TempData["Status"] = false;
+            }
+            return RedirectToAction("View", new { id = ID });
+        }
+        [HttpPost]
+        public ActionResult DeclineDeliver(int ID)
+        {
+            if (new OrderBLL().declineDeliver(ID))
+            {
+                TempData["Message"] = "Đã xác nhận giao hàng thất bại";
+                TempData["Status"] = true;
+            }
+            else
+            {
+                TempData["Message"] = "Không thể xác nhận giao hàng thất bại";
                 TempData["Status"] = false;
             }
             return RedirectToAction("View", new { id = ID });

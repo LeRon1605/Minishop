@@ -33,6 +33,7 @@ namespace Models.BLL
                     Stock = product.Stock,
                     Price = product.Price,
                     Image = product.Image,
+                    Sold = product.Sold,
                     Category = (product.CategoryID == null) ? null : categoryDAO.find((int)product.CategoryID),
                     CategoryID = product.CategoryID
                 }).Where(product => (
@@ -96,6 +97,19 @@ namespace Models.BLL
                 product.MaintenanceTime = entity.MaintenanceTime;
                 product.Producer = entity.Producer;
                 product.Description = entity.Description;
+                product.UpdatedAt = DateTime.Now;
+                context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public bool Sold(int id, int quantity)
+        {
+            Product product = context.Products.Find(id);
+            if (product != null && quantity > 0)
+            {
+                product.Sold += quantity;
                 product.UpdatedAt = DateTime.Now;
                 context.SaveChanges();
                 return true;

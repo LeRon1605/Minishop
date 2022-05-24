@@ -79,10 +79,9 @@
                     {
                         if (Model.isCancel)
                         {
-                            if (Model.StateOrder.Last().State.Name == "Đơn hàng bị từ chối" || Model.StateOrder.Last().State.Name == "Đơn hàng đã bị hủy")
-                            {
-                                <p class="p-0 m-0" style="color: #dc3545"><i class="fa-solid fa-xmark" style="color: red"></i> @Model.StateOrder[i].Date.ToString("HH:mm dd/MM/yyyy"): @Model.StateOrder[i].State.Name</p>
-                            }
+
+                            <p class="p-0 m-0" style="color: #dc3545"><i class="fa-solid fa-xmark" style="color: red"></i> @Model.StateOrder[i].Date.ToString("HH:mm dd/MM/yyyy"): @Model.StateOrder[i].State.Name</p>
+                            
                         }
                         else if (Model.isReceived)
                         {
@@ -137,6 +136,11 @@
                 @Html.HiddenFor(model => model.ID)
                 <button class="btn btn-primary mt-3 col-12" type="submit">Đã nhận hàng</button>
             }
+            using (Html.BeginForm("DeclineReceive", "Order", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.ID)
+                <button class="btn btn-danger mt-3 col-12" type="submit">Nhận hàng thất bại</button>
+            }
         }
 
     </div>
@@ -177,6 +181,6 @@
         window.addEventListener('load', (e) => {
             const toast = document.getElementById('toast_body');
             if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
-        })
+        });
     </script>
 }

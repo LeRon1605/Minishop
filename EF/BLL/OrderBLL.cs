@@ -94,7 +94,7 @@ namespace Models.BLL
                 return orders.Where(order => order.UserID == userID && (stateID == 0 || order.StateOrder.Last().StateID == stateID) && order.ID.ToString().Contains(keyword)).ToList();
             }
         }
-        public List<Order> getPage(int page, int pageSize, string keyword, int stateID, out int totalRow)
+        public List<Order> getPage(int page, int pageSize, string keyword, int stateID, out int totalRow, DateTime? startDate, DateTime? endDate)
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
@@ -117,17 +117,8 @@ namespace Models.BLL
                                          Voucher = new Voucher
                                          {
                                              ID = order.Voucher.ID,
-                                             Value = order.Voucher.Value,
-                                             Seri = order.Voucher.Seri
+                                             Value = order.Voucher.Value
                                          },
-                                         ProductOrder = order.ProductOrder.Select(productOrder => new ProductOrder
-                                         {
-                                             ID = productOrder.ID,
-                                             ProductID = productOrder.ProductID,
-                                             Product = productOrder.Product,
-                                             Price = productOrder.Price,
-                                             Quantity = productOrder.Quantity
-                                         }).ToList(),
                                          StateOrder = order.StateOrder.Select(stateOrder => new StateOrder
                                          {
                                              ID = stateOrder.ID,
@@ -136,7 +127,7 @@ namespace Models.BLL
                                              Date = stateOrder.Date
                                          }).ToList(),
                                      }).ToList();
-                return orders.Where(order => (order.UserID.ToString().Contains(keyword) || order.User.Name.Contains(keyword) || order.ID.ToString().Contains(keyword)) && (stateID == 0 || order.StateOrder.Last().StateID == stateID))
+                return orders.Where(order => (order.UserID.ToString().Contains(keyword) || order.User.Name.Contains(keyword) || order.ID.ToString().Contains(keyword)) && (stateID == 0 || order.StateOrder.Last().StateID == stateID) && (order.CreatedAt >= startDate && order.CreatedAt <= endDate))
                                      .Skip(pageSize * (page - 1)).Take(pageSize).ToList();
             }
         }    
@@ -158,7 +149,6 @@ namespace Models.BLL
                             {
                                 if (productOrder.Quantity <= product.Stock)
                                 {
-                                    product.Stock -= productOrder.Quantity;
                                     productOrders.Add(new ProductOrder
                                     {
                                         ProductID = product.ID,
@@ -166,7 +156,7 @@ namespace Models.BLL
                                         Price = product.Price
                                     });
                                     TotalPrice += productOrder.Quantity * product.Price;
-                                    new ProductBLL().Update(product);
+                                    new ProductBLL().import(product.ID, -productOrder.Quantity);
                                     new CartBLL().DeleteProduct(product.ID, user.ID);
                                 }
                             }
@@ -262,12 +252,7 @@ namespace Models.BLL
                     List<ProductOrder> productOrders = find(orderID).ProductOrder;
                     foreach (ProductOrder productOrder in productOrders)
                     {
-                        Product product = productBLL.find((int)productOrder.ProductID);
-                        if (product != null)
-                        {
-                            product.Stock += productOrder.Quantity;
-                            productBLL.Update(product);
-                        }
+                        productBLL.import((int)productOrder.ProductID, productOrder.Quantity);
                     }
                     return true;
                 }
@@ -284,6 +269,29 @@ namespace Models.BLL
                 if (!order.isCancel && !order.isReceived && stateBLL.getCurrentProductState(orderID).Name == "Đang chuẩn bị đơn hàng")
                 {
                     stateBLL.addProductState(orderID, "Đang giao hàng");
+                    return true;
+                }
+                return false;
+            }
+        }
+        public bool declineDeliver(int orderID)
+        {
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                Order order = context.Orders.Find(orderID);
+                if (order == null) return false;
+                StateBLL stateBLL = new StateBLL();
+                if (!order.isCancel && !order.isReceived && stateBLL.getCurrentProductState(orderID).Name == "Đang giao hàng")
+                {
+                    order.isCancel = true;
+                    context.SaveChanges();
+                    stateBLL.addProductState(orderID, "Giao hàng thất bại");
+                    ProductBLL productBLL = new ProductBLL();
+                    List<ProductOrder> productOrders = find(orderID).ProductOrder;
+                    foreach (ProductOrder productOrder in productOrders)
+                    {
+                        productBLL.import((int)productOrder.ProductID, productOrder.Quantity);
+                    }
                     return true;
                 }
                 return false;
@@ -317,6 +325,35 @@ namespace Models.BLL
                     order.isReceived = true;
                     context.SaveChanges();
                     stateBLL.addProductState(orderID, "Đã nhận hàng");
+                    ProductBLL productBLL = new ProductBLL();
+                    List<ProductOrder> productOrders = find(orderID).ProductOrder;
+                    foreach (ProductOrder productOrder in productOrders)
+                    {
+                        productBLL.Sold((int)productOrder.ProductID, productOrder.Quantity);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        }
+        public bool declineReceived(int orderID, int userID)
+        {
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                Order order = context.Orders.FirstOrDefault(o => o.ID == orderID && o.UserID == userID);
+                if (order == null) return false;
+                StateBLL stateBLL = new StateBLL();
+                if (!order.isCancel && !order.isReceived && stateBLL.getCurrentProductState(orderID).Name == "Đang chờ xác nhận nhận hàng")
+                {
+                    order.isCancel = true;
+                    context.SaveChanges();
+                    stateBLL.addProductState(orderID, "Nhận hàng thất bại");
+                    ProductBLL productBLL = new ProductBLL();
+                    List<ProductOrder> productOrders = find(orderID).ProductOrder;
+                    foreach (ProductOrder productOrder in productOrders)
+                    {
+                        productBLL.import((int)productOrder.ProductID, productOrder.Quantity);
+                    }
                     return true;
                 }
                 return false;
@@ -336,12 +373,7 @@ namespace Models.BLL
                     stateBLL.addProductState(orderID, "Đơn hàng đã bị hủy");
                     foreach (ProductOrder productOrder in find(orderID).ProductOrder)
                     {
-                        Product product = new ProductBLL().find((int)productOrder.ProductID);
-                        if (product != null)
-                        {
-                            product.Stock += productOrder.Quantity;
-                            new ProductBLL().Update(product);
-                        }
+                        new ProductBLL().import((int)productOrder.ProductID, productOrder.Quantity);
                     }
                     return true;
                 }

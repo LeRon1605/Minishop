@@ -58,11 +58,11 @@ namespace PBL3.Areas.Admin.Controllers
                         string fileName = Path.GetFileName(Image.FileName);
                         string path = Path.Combine(Server.MapPath("~/public/uploads/products"), fileName);
                         Image.SaveAs(path);
-                        ProductBLL productDAO = new ProductBLL();
-                        CategoryBLL categoryDAO = new CategoryBLL();
+                        ProductBLL productBLL = new ProductBLL();
+                        CategoryBLL categoryBLL = new CategoryBLL();
                         product.Image = $"/public/uploads/products/{fileName}";
-                        productDAO.Add(product);
-                        product.Category = (product.CategoryID == null) ? null : categoryDAO.find((int)product.CategoryID);
+                        productBLL.Add(product);
+                        product.Category = (product.CategoryID == null) ? null : categoryBLL.find((int)product.CategoryID);
                         TempData["AddStatus"] = true;
                     }
                     else

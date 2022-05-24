@@ -42,13 +42,21 @@
                 <div class="col-sm-8 row">
                     <div class="col-sm-4">
                         <label class="form-label">Trạng thái đơn hàng</label>
-                        <select class="form-select" name="stateID" id="category_search">
+                        <select class="form-select" name="stateID" id="state_search">
                             <option value="0">All</option>
                             @foreach (State state in states)
                             {
                                 <option value="@state.ID">@state.Name</option>
                             }
                         </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="form-label align-items-center">Thời gian tạo đơn hàng</label>
+                        <div class="d-flex align-items-center">
+                            <input name="startDate" type="date" placeholder="Thời gian bắt đầu" class="form-control col-3" id="startDate_search"/>
+                             <span class="p-2 fw-bold">-</span>
+                            <input name="endDate" type="date" placeholder="Thời gian kết thúc" class="form-control col-3" id="endDate_search"/>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-4 p-0">
@@ -81,7 +89,7 @@
                     <td>@Model[i].ID</td>
                     <td>@Model[i].User.Name</td>
                     <td>@Model[i].StateOrder.Last().State.Name</td>
-                    <td>@String.Format("{0:0,0}", Model[i].Total) đ</td>
+                    <td>@String.Format("{0:0,0}", Model[i].Total - Model[i].Voucher.Value) đ</td>
                     <td>@Model[i].CreatedAt.ToString("dd/MM/yyyy")</td>
                     <td>
                         <div class="d-flex">
@@ -129,3 +137,19 @@
         }
     </div>
 </div>
+@section scripts
+{
+    <script>
+        window.addEventListener('load', (e) => {
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            $('#keyword_search').val(params.keyword || '');
+            $('#state_search').val(params.stateID || 0);
+            $('#startDate_search').val(params.startDate || '');
+            $('#endDate').val(params.endDate || '');
+            const toast = document.getElementById('toast_body');
+            if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
+        });
+    </script>    
+}

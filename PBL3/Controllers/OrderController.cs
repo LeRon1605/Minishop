@@ -104,6 +104,21 @@ namespace PBL3.Controllers
             }
             return RedirectToAction("Index", new { id = id });
         }
+        [HttpPost]
+        public ActionResult DeclineReceive(int id)
+        {
+            if (new OrderBLL().declineReceived(id, (int)Session["USER"]))
+            {
+                TempData["Message"] = "Đã xác nhận nhận hàng thất bại";
+                TempData["Status"] = true;
+            }
+            else
+            {
+                TempData["Status"] = false;
+                TempData["Message"] = "Xác nhận không thành công";
+            }
+            return RedirectToAction("Index", new { id = id });
+        }
 
     }
 }

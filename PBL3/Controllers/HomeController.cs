@@ -99,7 +99,8 @@ namespace PBL3.Controllers
                     Image = "/public/uploads/products/agridrone.png",
                     CreatedAt = DateTime.Now,
                     Stock = new Random().Next(3, 50),
-                    Mass = 4
+                    Mass = 4,
+                    Sold = 0
                 });
             }
             context.States.AddRange(new State[]

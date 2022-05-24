@@ -58,6 +58,8 @@ namespace Models.DTO
         [Required(ErrorMessage = "Nhà sản xuất không được để trống")]
 
         public string Producer { get; set; }
+        [Display(Name = "Số lượng đã bán")]
+        public int Sold { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; } = null;
