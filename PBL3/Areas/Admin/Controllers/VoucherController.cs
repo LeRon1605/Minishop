@@ -14,20 +14,21 @@ namespace PBL3.Areas.Admin.Controllers
     public class VoucherController : Controller
     {
         // GET: Admin/View
-        public ActionResult Index(int page = 1, string keyword = "")
+        public ActionResult Index(int page = 1, string keyword = "", string value = "All", string state = "All")
         {
             VoucherBLL voucherDAO = new VoucherBLL();
             int totalPage = 0;
-            ViewBag.Vouchers = voucherDAO.getPage(page, 10, keyword, out totalPage);
+            ViewBag.Vouchers = voucherDAO.getPage(page, 10, keyword, value, state, out totalPage);
             ViewBag.Total = voucherDAO.Count();
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,
                 CurrentPage = page,
-                GenerateURL = (int pageNum) => $"?page={pageNum}&keyword={keyword}"
+                GenerateURL = (int pageNum) => $"?page={pageNum}&keyword={keyword}&value={value}&state={state}"
             };
             return View();
         }
+        [HttpGet]
         public ActionResult View(int? id, bool isEdit = false)
         {
             if (id == null)
@@ -46,6 +47,7 @@ namespace PBL3.Areas.Admin.Controllers
                 return View(voucher);
             }
         }
+        [HttpPost]
         public ActionResult Add(Voucher voucher)
         {
             if (ModelState.IsValid)
@@ -88,6 +90,7 @@ namespace PBL3.Areas.Admin.Controllers
                 };
             }
         }
+        [HttpPost]
         public ActionResult Update(Voucher voucher)
         {
             if (ModelState.IsValid)

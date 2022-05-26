@@ -1,4 +1,6 @@
-﻿let action = document.getElementsByClassName('action_voucher');
+﻿const { param } = require("jquery");
+
+let action = document.getElementsByClassName('action_voucher');
 
 // Content 
 let listVoucher = document.getElementById('list_voucher');

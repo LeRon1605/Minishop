@@ -72,7 +72,7 @@ namespace Models.BLL
             Voucher voucher = context.Vouchers.Find(id);
             return (int)(voucher.EndDate - voucher.StartDate).TotalDays;
         }
-        public List<Voucher> getPage(int page, int pageSize, string keyword, out int totalRow)
+        public List<Voucher> getPage(int page, int pageSize, string keyword, string value, string state,out int totalRow)
         {
             totalRow = 0;
             if (page > 0)
@@ -83,8 +83,13 @@ namespace Models.BLL
                     Value = voucher.Value,
                     Seri = voucher.Seri,
                     Quantity = voucher.Quantity,
-                }).Where(voucher => voucher.Seri.Contains(keyword) || keyword == "").ToList();
-
+                    StartDate = voucher.StartDate,
+                    EndDate = voucher.EndDate,
+                }).Where(voucher => 
+                    (voucher.Seri.Contains(keyword) || keyword == "") &&
+                    (value == "All" || voucher.Value <= int.Parse(value)) &&
+                    (state == "All" || (voucher.EndDate > DateTime.Now)  ==  bool.Parse(state))
+                 ).ToList();    
                 totalRow = (int)Math.Ceiling((double)Vouchers.Count() / pageSize);
                 if (Vouchers.Count() <= pageSize) return Vouchers;
                 else
