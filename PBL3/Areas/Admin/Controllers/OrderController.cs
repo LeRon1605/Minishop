@@ -18,7 +18,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             int countPages = 0;
             if (startDate == null) startDate = DateTime.MinValue;
-            if (endDate == null) endDate = DateTime.Now;
+            if (endDate == null) endDate = DateTime.MaxValue;
             List<Order> orders = new OrderBLL().getPage(page, 10, keyword, stateID, out countPages, startDate, endDate);
             ViewBag.states = new StateBLL().findAll();
             ViewBag.pagingModel = new PagingModel

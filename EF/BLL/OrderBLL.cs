@@ -38,7 +38,7 @@ namespace Models.BLL
                     {
                         ID = productOrder.ID,
                         ProductID = productOrder.ProductID,
-                        Product = productOrder.Product,
+                        Product = productOrder.ProductID == null ? null : productOrder.Product,
                         Price = productOrder.Price,
                         Quantity = productOrder.Quantity
                     }).ToList(),
@@ -99,6 +99,7 @@ namespace Models.BLL
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
                 totalRow = (int)Math.Ceiling((double)context.Orders.AsNoTracking().Count() / pageSize);
+                StateBLL stateBLL = new StateBLL();
                 List<Order> orders = context.Orders.AsNoTracking()
                                      .Select(order => new Order
                                      {
@@ -119,15 +120,12 @@ namespace Models.BLL
                                              ID = order.Voucher.ID,
                                              Value = order.Voucher.Value
                                          },
-                                         StateOrder = order.StateOrder.Select(stateOrder => new StateOrder
+                                         StateOrder = new List<StateOrder>()
                                          {
-                                             ID = stateOrder.ID,
-                                             StateID = stateOrder.StateID,
-                                             State = stateOrder.State,
-                                             Date = stateOrder.Date
-                                         }).ToList(),
+                                             new StateOrder { State = stateBLL.getCurrentProductState(order.ID) }
+                                         }
                                      }).ToList();
-                return orders.Where(order => (order.UserID.ToString().Contains(keyword) || order.User.Name.Contains(keyword) || order.ID.ToString().Contains(keyword)) && (stateID == 0 || order.StateOrder.Last().StateID == stateID) && (order.CreatedAt >= startDate && order.CreatedAt <= endDate))
+                return orders.Where(order => (order.UserID.ToString().Contains(keyword) || order.User.Name.Contains(keyword) || order.ID.ToString().Contains(keyword)) && (stateID == 0 || order.StateOrder.First().State.ID == stateID) && (order.CreatedAt.Date >= ((DateTime)startDate).Date && order.CreatedAt.Date <= ((DateTime)endDate).Date))
                                      .Skip(pageSize * (page - 1)).Take(pageSize).ToList();
             }
         }    
