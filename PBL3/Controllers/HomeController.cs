@@ -22,6 +22,7 @@ namespace PBL3.Controllers
             ViewBag.categories = new CategoryBLL().findAll();
             ViewBag.products = productDAO.getPage(page, 20, "", "All", "All", out totalPage);
             ViewBag.lastedProduct = productDAO.getLasted(5);
+            ViewBag.lastedVoucher = new VoucherBLL().getLasted(5);
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,

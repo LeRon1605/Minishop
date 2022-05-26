@@ -5,6 +5,7 @@
     List<Product> products = ViewBag.products as List<Product>;
     List<Product> lastedProducts = ViewBag.lastedProduct as List<Product>;
     List<Category> categories = ViewBag.categories as List<Category>;
+    List<Voucher> lastedVoucher = ViewBag.lastedVoucher as List<Voucher>;
 }
 @section Styles
 {
@@ -77,23 +78,17 @@
                 <i class="fa-solid fa-ticket"></i> Voucher
             </h4>
             <ul id="voucher" class="cs-hidden">
-                <li>
-                    <a class="m-0 text-center text-decoration-none text-dark" href="">
-                        <p class="m-2">Tên voucher</p>
-                        <p class="m-2">Mã giảm giá <span class="bg-danger p-1 rounded text-white">3CkuDK</span></p>
-                        <p class="m-2">Giảm <span class="bg-success p-1 rounded text-white">30%</span></p>
-                        <p class="m-2">Hạn cuối 03/04/2020</p>
-                    </a>
-                </li>
-                <li>
-                    <div class="m-0 text-center">
-                        <p class="m-2">Tên voucher</p>
-                        <p class="m-2">Mã giảm giá <span class="bg-danger p-1 rounded text-white">3CkuDK</span></p>
-                        <p class="m-2">Giảm <span class="bg-success p-1 rounded text-white">30%</span></p>
-                        <p class="m-2">Hạn cuối 03/04/2020</p>
-                    </div>
-                </li>
-
+                @foreach (Voucher voucher in lastedVoucher)
+                {
+                    <li>
+                        <div class="m-0 text-center">
+                            <p class="m-2">Mã voucher cực sốc</p>
+                            <p class="m-2">Mã giảm giá <span class="bg-danger p-1 rounded text-white">@voucher.Seri</span></p>
+                            <p class="m-2">Giảm <span class="bg-success p-1 rounded text-white">@String.Format("{0:0,0}", voucher.Value) đ</span></p>
+                            <p class="m-2">Hạn cuối @voucher.EndDate.ToString("dd/MM/yyyy")</p>
+                        </div>
+                    </li>
+                }
             </ul>
         </div>
     </div>

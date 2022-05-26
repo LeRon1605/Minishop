@@ -28,7 +28,8 @@ namespace Models.DTO
         public DateTime StartDate { get; set; }
         [Display(Name = "Ngày kết thúc")]
         public DateTime EndDate { get; set; }
-
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? UpdatedAt { get; set; } = null;
         public virtual List<Order> Orders { get; set; }
     }
 }
