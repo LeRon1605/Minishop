@@ -10,6 +10,7 @@
 
 @section Styles
 {
+    <link rel="stylesheet" href="~/public/css/table.css" />
     <link rel="stylesheet" href="~/public/css/Add_Product.css" />
 }
 <div class="row d-flex container-fluid mt-3">
@@ -93,38 +94,38 @@
             <tbody id="table_body">
                 @for (int i = 0; i < products.Count; i++)
                 {
-                <tr>
-                    <td class="STT">@(i + 1)</td>
-                    <td>@products[i].Name</td>
-                    @if (products[i].Category != null)
-                    {
-                        <td>@products[i].Category.Name</td>
-                    }
-                    else
-                    {
-                        <td>NOT</td>
-                    }
-                    <td>@String.Format("{0:0,0}", products[i].Price)</td>
-                    <td class="product_stock_table" data-id="@products[i].ID">@products[i].Stock</td>
-                    <td>@products[i].Sold</td>
-                    <td>
-                        <div class="d-flex">
-                            <a href="@Url.Action("View", "Product", new { id = products[i].ID })" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết sản phẩm" data-toggle="tooltip">
-                                <i class="fa-solid fa-eye" style="color: white"></i>
-                            </a>
-                            <a href="@Url.Action("View", "Product", new { id = products[i].ID, isEdit = true, area = "Admin" })" class="btn bg-primary rounded ms-2" title="Chỉnh sửa sản phẩm">
-                                <i class="fa-solid fa-pen" style="color: white"></i>
-                            </a>
-                            <button type="button" class="btn bg-dark rounded ms-2" title="Nhập hàng" data-bs-toggle="modal" data-bs-target="#importProductModal" data-index="@i" data-id="@products[i].ID" data-name="@products[i].Name" onclick="transferData(this)">
-                                <i class="fa-solid fa-plus" style="color: white"></i>
-                            </button>
+                    <tr>
+                        <td class="STT">@(i + 1)</td>
+                        <td>@products[i].Name</td>
+                        @if (products[i].Category != null)
+                        {
+                            <td>@products[i].Category.Name</td>
+                        }
+                        else
+                        {
+                            <td>NOT</td>
+                        }
+                        <td>@String.Format("{0:0,0}", products[i].Price)</td>
+                        <td class="product_stock_table" data-id="@products[i].ID">@products[i].Stock</td>
+                        <td>@products[i].Sold</td>
+                        <td>
+                            <div class="d-flex">
+                                <a href="@Url.Action("View", "Product", new { id = products[i].ID })" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết sản phẩm" data-toggle="tooltip">
+                                    <i class="fa-solid fa-eye" style="color: white"></i>
+                                </a>
+                                <a href="@Url.Action("View", "Product", new { id = products[i].ID, isEdit = true, area = "Admin" })" class="btn bg-primary rounded ms-2" title="Chỉnh sửa sản phẩm">
+                                    <i class="fa-solid fa-pen" style="color: white"></i>
+                                </a>
+                                <button type="button" class="btn bg-dark rounded ms-2" title="Nhập hàng" data-bs-toggle="modal" data-bs-target="#importProductModal" data-index="@i" data-id="@products[i].ID" data-name="@products[i].Name" onclick="transferData(this)">
+                                    <i class="fa-solid fa-plus" style="color: white"></i>
+                                </button>
 
-                            <button type="submit" class="btn bg-danger rounded ms-2 btnDelete" title="Xóa sản phẩm" data-index="@i" data-id="@products[i].ID" onclick="deleteProduct(this)">
-                                <i class="fa-solid fa-trash-can" style="color: white"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                                <button type="submit" class="btn bg-danger rounded ms-2 btnDelete" title="Xóa sản phẩm" data-index="@i" data-id="@products[i].ID" onclick="deleteProduct(this)">
+                                    <i class="fa-solid fa-trash-can" style="color: white"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -196,7 +197,7 @@
                 </div>
             </div>
             <div class="mb-3">
-             
+
                 @Html.LabelFor(model => model.Power, htmlAttributes: new { @class = "form-label" })
                 <div class="input-group mb-3">
                     @Html.EditorFor(model => model.Power, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập công suất sản phẩm", @id = "power_product" } })
@@ -275,7 +276,7 @@
             @using (Html.BeginForm("Import", "Product", FormMethod.Get, new { @id = "importForm" }))
             {
                 <div class="modal-body">
-                    <input name="id" class="d-none" value="" id="product_id_modal"/>
+                    <input name="id" class="d-none" value="" id="product_id_modal" />
                     <div class="mb-3">
                         <label class="form-label">Tên sản phẩm</label>
                         <input class="form-control" id="product_name_modal" disabled>
@@ -284,14 +285,14 @@
                         <label class="form-label">Số lượng hàng</label>
                         <input class="form-control" id="product_quantity_modal" placeholder="Nhập số lượng hàng muốn nhập thêm">
                     </div>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     <button type="submit" class="btn btn-primary">Xác nhận</button>
                 </div>
             }
-            </div>
+        </div>
     </div>
 </div>
 
