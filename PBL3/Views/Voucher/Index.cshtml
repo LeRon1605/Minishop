@@ -1,10 +1,13 @@
 ﻿@using Models.DTO
+@using PBL3.Models
 @model List<Voucher>
 @{
+    PagingModel pagingData = ViewBag.pagingData as PagingModel;
     ViewBag.Title = "Index";
 }
 @section Styles {
     <link rel="stylesheet" href="~/public/css/Voucher.css">
+
 }
 <div class="container" style="max-width: 1040px;">
     <h1>Voucher</h1>
@@ -29,6 +32,12 @@
             </div>
         }
     </div>
+    @*<div>
+        @using (Html.BeginForm("getLasted", "Voucher", FormMethod.Post))
+        {
+            <button class="btn btn-outline-success" type="submit">6 vouchers mới nhất</button>
+        }
+    </div>*@
     <div class="row">
         @for (int i = 0; i < ((List<Voucher>)Model).Count; i++)
         {
@@ -53,7 +62,19 @@
             </div>
         }
     </div>
+    <div class="clearfix d-flex justify-content-center">
+        @Html.Partial("_Pagination", pagingData)
+    </div>
 </div>
 @section scripts{
-
+    <script>
+        window.addEventListener('load', (e) => {
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            $('#keyword_search').val(params.keyword || '');
+            $('#value_voucher').val(params.Value || 'All');
+            if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
+        });
+    </script>
 }

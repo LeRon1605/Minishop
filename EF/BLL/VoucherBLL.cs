@@ -26,6 +26,7 @@ namespace Models.BLL
         }
         public void Add(Voucher voucher)
         {
+            voucher.CreatedAt = DateTime.Now;
             context.Vouchers.Add(voucher);
             context.SaveChanges();
         }
@@ -110,5 +111,11 @@ namespace Models.BLL
         {
             return context.Vouchers.FirstOrDefault(voucher => voucher.Seri == Seri && voucher.EndDate > DateTime.Now);
         }
+        public List<Voucher> getLasted(int quantity)
+        {
+            return context.Vouchers.AsNoTracking().Where(voucher => voucher.EndDate > DateTime.Now).OrderByDescending(voucher => voucher.Value).Take(5).ToList();
+        }
+
+
     }
 }

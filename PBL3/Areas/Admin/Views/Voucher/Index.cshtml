@@ -187,7 +187,6 @@
             const params = new Proxy(new URLSearchParams(window.location.search), {
                 get: (searchParams, prop) => searchParams.get(prop),
             });
-            console.log(params);
             $('#keyword_search').val(params.keyword || '');
             $('#value_search').val(params.Value || 'All');
             $('#state_search').val(params.State || 'All');
@@ -204,6 +203,21 @@
                 if (!validationMessage.classList.contains('d-none')) validationMessage.classList.add('d-none');
             }
         });
+
+        let action = document.getElementsByClassName('action_voucher');
+        let listVoucher = document.getElementById('list_voucher');
+        let addForm = document.getElementById('add_form');
+
+        for (let i = 0; i < action.length; i++) {
+            action[i].addEventListener('click', (e) => {
+                for (let j = 0; j < action.length; j++) {
+                    action[j].classList.toggle('action_voucher_click');
+                }
+                console.log(listVoucher);
+                listVoucher.classList.toggle('d-none');
+                addForm.classList.toggle('d-none');
+            });
+        }
     </script>
     <script src="~/public/js/Voucher.js"></script>
     <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
