@@ -1,94 +1,177 @@
 ﻿@using Models.DTO
+@model User
 @{
     ViewBag.Title = "Index";
 }
+
 @section Styles
 {
+    <style>
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload {
+            border: 1px solid;
+            color: black;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            position: absolute;
+            bottom: 7%;
+            right: 0;
+        }
+
+        input:focus {
+            outline: none !important;
+            border-color: #719ECE;
+        }
+    </style>
     <link rel="stylesheet" href="~/public/css/Admin_Profile.css" />
 }
 <div class="container-xl px-4 mt-4">
     <!-- Account page navigation-->
     <hr class="mt-0 mb-4">
-    <div class="row">
-        <div class="col-xl-4">
-            <!-- Profile picture card-->
-            <div class="card mb-4 mb-xl-0">
-                <div class="card-header">Profile Picture</div>
-                <div class="card-body text-center">
-                    <!-- Profile picture image-->
-                    <img class="img-account-profile rounded-circle mb-2" src="~/public/images/Logo.jpg" alt="">
-                    <!-- Profile picture help block-->
-                    <div class="small font-italic text-muted mb-4">Admin Profile</div>
-                    <!-- Profile picture upload button-->
-                    <button class="btn btn-primary" type="button">Upload new image</button>
+    <form action="/Admin/profile/update" method="post" enctype = "multipart/form-data">
+        <div class="row">
+            <div class="col-xl-4">
+                <!-- Profile picture card-->
+                <div class="card mb-4 mb-xl-0">
+                    <div class="card-header">Ảnh của người dùng</div>
+                    <div class="card-body text-center">
+                        <div class="d-flex flex-column align-items-center" style="position: relative">
+                            <img src="@Model.Image"
+                                 class="img-fluid rounded-circle" style="width: 200px; height: 200px;object-fit: cover" id="image">
+                            <label class="custom-file-upload mt-3 rounded-circle bg-light">
+                                @Html.HiddenFor(model => model.Image)
+                                <input type="file" id="inputImage" name="file">
+                                <i class="fa-solid fa-camera"></i>
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xl-8">
-            <!-- Account details card-->
-            <div class="card mb-4">
-                <div class="card-header">Account Details</div>
-                <div class="card-body">
-                    <form>
-                        <!-- Form Group (username)-->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="inputUsername">Username (how your name will appear to other users on the site)</label>
-                            <input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" value="Họ và Tên">
+            <div class="col-xl-8">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Thông tin chi tiết</div>
+                    <div class="card-body">
+
+                        @Html.HiddenFor(model => model.ID)
+                        <div class="row d-flex m-3 border-bottom">
+                            <h6 class="m-0 col-4 p-0" style="line-height: normal;">Họ và tên</h6>
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập tên của bạn", @type = "text", @style = "border: none" } })
                         </div>
-                        <!-- Form Row-->
-                        <div class="row gx-3 mb-3">
-                            <!-- Form Group (first name)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputFirstName">First name</label>
-                                <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" value="Họ">
-                            </div>
-                            <!-- Form Group (last name)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputLastName">Last name</label>
-                                <input class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" value="Tên">
+                        <div class="row d-flex m-3 border-bottom">
+                            <h6 class="m-0 col-4 p-0" style="line-height: normal;">Gmail</h6>
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập gmail của bạn", @style = "border: none" } })
+                        </div>
+                        <div class="row d-flex m-3 border-bottom">
+                            <h6 class="m-0 col-4 p-0" style="line-height: normal;">Số điện thoại</h6>
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập số điện thoại của bạn", @type = "text", @style = "border: none" } })
+                        </div>
+                        <div class="row d-flex m-3 border-bottom">
+                            <h6 class="m-0 col-4 p-0" style="line-height: normal;">Địa chỉ</h6>
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập số địa chỉ của bạn", @type = "text", @style = "border: none" } })
+                        </div>
+                        <div class="row d-flex m-3 border-bottom">
+                            <h6 class="m-0 col-4 p-0" style="line-height: normal;">Giới tính</h6>
+                            <div class="col-8 d-flex m-0 p-0">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="Gender" checked value="Nam">
+                                    <label class="form-check-label" for="flexRadioDefault1 m-0">
+                                        Nam
+                                    </label>
+                                </div>
+                                <div class="form-check ms-3">
+                                    @if (Model.Gender == "Nữ")
+                                    {
+                                        <input class="form-check-input" type="radio" name="Gender" checked value="Nữ">
+                                    }
+                                    else
+                                    {
+                                        <input class="form-check-input" type="radio" name="Gender" value="Nữ">
+                                    }
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Nữ
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                        <!-- Form Row        -->
-                        <div class="row gx-3 mb-3">
-                            <!-- Form Group (organization name)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputOrgName">Organization name</label>
-                                <input class="form-control" id="inputOrgName" type="text" placeholder="Enter your organization name" value="Start Bootstrap">
-                            </div>
-                            <!-- Form Group (location)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputLocation">Location</label>
-                                <input class="form-control" id="inputLocation" type="text" placeholder="Enter your location" value="Địa chỉ">
-                            </div>
+                        <div class="row d-flex m-3 border-bottom">
+                            <h6 class="m-0 col-4 p-0" style="line-height: normal;">Ngày sinh</h6>
+                            <input value="@Model.Birth.ToString("yyyy-MM-dd")" style="border: none" class="col-8 m-0 p-0" type="date" name="Birth" />
                         </div>
-                        <!-- Form Group (email address)-->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="inputEmailAddress">Email address</label>
-                            <input class="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" value="name@gmail.com">
+                        <div class="row d-flex m-3 border-bottom">
+                            <h6 class="m-0 col-4 p-0" style="line-height: normal;">Trạng thái</h6>
+                            <input value="@(Model.isActivated ? "Đã kích hoạt" : "Chưa kích hoạt")" style="border: none" class="col-8 m-0 p-0" readonly>
                         </div>
-                        <!-- Form Row-->
-                        <div class="row gx-3 mb-3">
-                            <!-- Form Group (phone number)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputPhone">Phone number</label>
-                                <input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number" value="0xxxxxxxx">
-                            </div>
-                            <!-- Form Group (birthday)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputBirthday">Birthday</label>
-                                <input class="form-control" id="inputBirthday" type="text" name="birthday" placeholder="Enter your birthday" value="dd/mm/yyyy" typeof="date">
-                            </div>
+                        <div class="row d-flex m-3 border-bottom">
+                            <h6 class="m-0 col-4 p-0" style="line-height: normal;">Ngày tham gia</h6>
+                            <input value="@Model.CreatedAt.ToString("hh:mm:ss dd/MM/yyyy")" style="border: none" class="col-8 m-0 p-0" readonly type="text">
+                        </div>
+                        <div class="row d-flex m-3 border-bottom">
+                            <h6 class="m-0 col-4 p-0" style="line-height: normal;">Cập nhật lần cuối</h6>
+                            @if (Model.UpdatedAt != null)
+                            {
+                                <input value="@Convert.ToDateTime(Model.UpdatedAt).ToString("hh:mm:ss dd/MM/yyyy")" style="border: none" class="col-8 m-0 p-0" readonly type="text">
+                            }
+                            else
+                            {
+                                <input value="dd/mm/yyyy" style="border: none" class="col-8 m-0 p-0" readonly type="text">
+                            }
                         </div>
                         <!-- Save changes button-->
-                        <button class="btn btn-primary" type="button">Save changes</button>
-                    </form>
+                        <button class="btn btn-primary" type="submit">Lưu thông tin</button>
+                    </div>
                 </div>
             </div>
         </div>
+     </form>
+</div>
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="notification_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="fa-solid fa-bell"></i>
+            <strong class="me-auto ms-1">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        @if (TempData["Status"] != null)
+        {
+            if ((bool)TempData["Status"] == false)
+            {
+                <div class="toast-body text-white bg-danger" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+            else
+            {
+                <div class="toast-body text-white bg-success" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+        }
+        else
+        {
+            <div class="toast-body text-white bg-success" id="toast_body">
+
+            </div>
+        }
     </div>
 </div>
-
 @section scripts
 {
+    <script>
+        // Image
+        let inputImage = document.getElementById('inputImage');
+        let image = document.getElementById('image');
+        inputImage.onchange = (e) => {
+            image.src = URL.createObjectURL(e.target.files[0]);
+        }
+        window.addEventListener('load', (e) => {
+            const toast = document.getElementById('toast_body');
+            if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
+        })
+    </script>
 
 }
