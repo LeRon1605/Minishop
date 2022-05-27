@@ -70,9 +70,9 @@ namespace Models.BLL
             }
             return false;
         }
-        public bool DeleteProduct(int id)
+        public bool DeleteProduct(int id, int cartID)
         {
-            CartProduct cartProduct = context.CartProduct.Find(id);
+            CartProduct cartProduct = context.CartProduct.FirstOrDefault(c => c.ID == id && c.CartID == cartID);
             if (cartProduct != null)
             {
                 context.Remove(cartProduct);
@@ -84,12 +84,12 @@ namespace Models.BLL
                 return false;
             }
         }
-        public bool DeleteProduct(int productID, int cartID)
+        public bool removeAll(int cartID)
         {
-            CartProduct cartProduct = context.CartProduct.FirstOrDefault(c => c.ProductID == productID && c.CartID == cartID);
-            if (cartProduct != null)
+            List<CartProduct> cartProducts = context.CartProduct.Select(p => new CartProduct { ID = p.ID, CartID = p.CartID }).Where(p => p.CartID == cartID).ToList();
+            if (cartProducts != null)
             {
-                context.Remove(cartProduct);
+                context.CartProduct.RemoveRange(cartProducts);
                 context.SaveChanges();
                 return true;
             }
@@ -98,12 +98,30 @@ namespace Models.BLL
                 return false;
             }
         }
-        public bool select(int id)
+        public bool select(int id, int cartID)
         {
-            CartProduct cartProduct = context.CartProduct.Find(id);
+            CartProduct cartProduct = context.CartProduct.FirstOrDefault(c => c.ID == id && c.CartID == cartID);
             if (cartProduct != null)
             {
                 cartProduct.isSelected = !cartProduct.isSelected;
+                context.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool selectAll(int cartID)
+        {
+            List<CartProduct> cartProducts = context.CartProduct.Where(p => p.CartID == cartID).ToList();
+            if (cartProducts != null)
+            {
+                foreach(CartProduct cartProduct in cartProducts)
+                {
+                    cartProduct.isSelected = true;
+                }
+                context.UpdateRange(cartProducts);
                 context.SaveChanges();
                 return true;
             }
@@ -121,5 +139,6 @@ namespace Models.BLL
             }
             return total;
         }
+       
     }
 }

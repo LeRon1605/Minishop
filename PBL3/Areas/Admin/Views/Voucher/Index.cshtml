@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "Voucher";
     List<Voucher> Vouchers = (List<Voucher>)ViewBag.Vouchers;
+    List<State> states = ViewBag.states as List<State>;
     PagingModel pagingData = ViewBag.pagingData as PagingModel;
 }
 @section Styles
@@ -26,7 +27,23 @@
         {
             <div class="row">
                 <div class="col-sm-8 row">
-
+                    <div class="col-sm-4">
+                        <label class="form-label">Giá trị Voucher</label>
+                        <select class="form-select" name="Value" id="value_search">
+                            <option value="All">All</option>
+                            <option value="100000">Dưới 100.000</option>
+                            <option value="300000">Dưới 300.000</option>
+                            <option value="500000">Dưới 500.000</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="form-label">Trạng thái Voucher</label>
+                        <select class="form-select" name="State" id="state_search">
+                            <option value="All">All</option>
+                            <option value="false">Voucher hết hạn sử dụng</option>
+                            <option value="true">Voucher còn hạn sử dụng</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="col-sm-4 p-0">
                     <label class="form-label">Tìm kiếm</label>
@@ -42,9 +59,12 @@
             <thead>
                 <tr>
                     <th>STT</th>
-                    <th>Giá trị Voucher</th>
                     <th>Seri</th>
+                    <th>Giá trị Voucher</th>
                     <th>Số lượng</th>
+                    <th>Ngày bắt đầu</th>
+                    <th>Ngày Kết thúc</th>
+                    <th>Trạng thái</th>
                     <th>Hành động</th>
                 </tr>
             </thead>
@@ -53,9 +73,19 @@
                 {
                     <tr>
                         <td class="STT">@(i + 1)</td>
-                        <td>@String.Format("{0:0,0}", Vouchers[i].Value) đ</td>
                         <td>@Vouchers[i].Seri</td>
+                        <td>@String.Format("{0:0,0}", Vouchers[i].Value) đ</td>
                         <td>@Vouchers[i].Quantity</td>
+                        <td>@Vouchers[i].StartDate.ToString("dd/MM/yyyy")</td>
+                        <td>@Vouchers[i].EndDate.ToString("dd/MM/yyyy")</td>
+                        @if (@Vouchers[i].EndDate > DateTime.Now)
+                        {
+                            <td>Còn hạn sử dụng</td>
+                        }
+                        else
+                        {
+                            <td>Hết hạn sử dụng</td>
+                        }
                         <td>
                             <div class="d-flex">
                                 <a href="@Url.Action("View", "Voucher", new {id = Vouchers[i].ID})" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết Voucher" data-toggle="tooltip">
@@ -154,6 +184,12 @@
     <script>
         window.addEventListener('load', (e) => {
             const toast = document.getElementById('toast_body');
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            $('#keyword_search').val(params.keyword || '');
+            $('#value_search').val(params.Value || 'All');
+            $('#state_search').val(params.State || 'All');
             if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
         });
         $('#submitBtn').click(e => {
@@ -167,11 +203,25 @@
                 if (!validationMessage.classList.contains('d-none')) validationMessage.classList.add('d-none');
             }
         });
+
+        let action = document.getElementsByClassName('action_voucher');
+        let listVoucher = document.getElementById('list_voucher');
+        let addForm = document.getElementById('add_form');
+
+        for (let i = 0; i < action.length; i++) {
+            action[i].addEventListener('click', (e) => {
+                for (let j = 0; j < action.length; j++) {
+                    action[j].classList.toggle('action_voucher_click');
+                }
+                console.log(listVoucher);
+                listVoucher.classList.toggle('d-none');
+                addForm.classList.toggle('d-none');
+            });
+        }
     </script>
     <script src="~/public/js/Voucher.js"></script>
     <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="/Scripts/jquery.validate.js"></script>
     <script src="/Scripts/jquery.validate.unobtrusive.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 }

@@ -32,112 +32,113 @@
 }
 @using (Html.BeginForm("Update", "User", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "mt-4" }))
 {
+<div class="bg-white p-3 shadow rounded mt-3">
+</div>
     @Html.HiddenFor(model => model.ID)
-    <div class="row m-0 justify-content-center">
-        <div class="col-md-3 rounded d-flex flex-column">
-            <div class="d-flex flex-column align-items-center justify-content-between border rounded bg-white p-2">
-                <div class="d-flex flex-column align-items-center" style="position: relative">
-                    <img src="@Model.Image"
-                         class="img-fluid rounded-circle" style="width: 200px; height: 200px;object-fit: cover" id="image">
-                    <label class="custom-file-upload mt-3 rounded-circle bg-light">
-                        @Html.HiddenFor(model => model.Image)
-                        <input type="file" id="inputImage" name="file" value="/upload/user/Default.png">
-                        <i class="fa-solid fa-camera"></i>
-                    </label>
-                </div>
-                <h4 class="mt-2">@Model.Name</h4>
-                <div class="d-flex d-flex justify-content-around border-top align-items-center p-2" style="width: 100%">
-                    <div class="text-center">
-                        <p class="m-0">Tổng đơn hàng</p>
-                        <p class="m-0">0</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="m-0">Tổng đơn hàng</p>
-                        <p class="m-0">0</p>
-                    </div>
-                </div>
+<div class="row m-0 justify-content-center">
+    
+    <div class="col-md-3 rounded d-flex flex-column">
+        <p class="card-header">Ảnh người dùng</p>
+        <div class="d-flex flex-column align-items-center justify-content-between border rounded bg-white p-2">
+            <div class="d-flex flex-column align-items-center" style="position: relative">
+                <img src="@Model.Image"
+                     class="img-fluid rounded-circle" style="width: 200px; height: 200px;object-fit: cover" id="image">
+                <label class="custom-file-upload mt-3 rounded-circle bg-light">
+                    @Html.HiddenFor(model => model.Image)
+                    <input type="file" id="inputImage" name="file" value="/upload/user/Default.png">
+                    <i class="fa-solid fa-camera"></i>
+                </label>
             </div>
-            <div class="d-flex justify-content-end d-md-block d-none mt-auto">
-                <button class="btn btn-danger col-12" data-bs-toggle="modal" data-bs-target="#changePassword" type="button">Đổi mật khẩu</button>
-                <button class="btn btn-primary col-12 mt-2" type="submit">Lưu thông tin</button>
+            <h4 class="mt-2">@Model.Name</h4>
+            <div class="d-flex d-flex justify-content-around border-top align-items-center p-2" style="width: 100%">
+                <div class="text-center">
+                    <p class="m-0">Tổng đơn hàng</p>
+                    <p class="m-0">0</p>
+                </div>
             </div>
         </div>
-        <div class="col-md-6 mt-md-0 mt-3">
-            <div class="border bg-white rounded">
-                <div class="row d-flex m-3 border-bottom">
-                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">ID người dùng</h6>
-                    @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @readonly = true, @class = "col-8 m-0 p-0", @placeholder = "Nhập gmail của bạn", @type = "text", @style = "border: none" } })
-                </div>
-                <div class="row d-flex m-3 border-bottom">
-                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Họ và tên</h6>
-                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập tên của bạn", @type = "text", @style = "border: none" } })
-                </div>
-                <div class="row d-flex m-3 border-bottom">
-                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Gmail</h6>
-                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập gmail của bạn", @style = "border: none" } })
-                </div>
-                <div class="row d-flex m-3 border-bottom">
-                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Số điện thoại</h6>
-                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập số điện thoại của bạn", @type = "text", @style = "border: none" } })
-                </div>
-                <div class="row d-flex m-3 border-bottom">
-                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Địa chỉ</h6>
-                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập số địa chỉ của bạn", @type = "text", @style = "border: none" } })
-                </div>
-                <div class="row d-flex m-3 border-bottom">
-                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Giới tính</h6>
-                    <div class="col-8 d-flex m-0 p-0">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="Gender" checked value="Nam">
-                            <label class="form-check-label" for="flexRadioDefault1 m-0">
-                                Nam
-                            </label>
-                        </div>
-                        <div class="form-check ms-3">
-                            @if (Model.Gender == "Nữ")
-                            {
-                                <input class="form-check-input" type="radio" name="Gender" checked value="Nữ">
-                            }
-                            else
-                            {
-                                <input class="form-check-input" type="radio" name="Gender" value="Nữ">
-                            }
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                Nữ
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row d-flex m-3 border-bottom">
-                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Ngày sinh</h6>
-                    <input value="@Model.Birth.ToString("yyyy-MM-dd")" style="border: none" class="col-8 m-0 p-0" type="date" name="Birth" />
-                </div>
-                <div class="row d-flex m-3 border-bottom">
-                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Trạng thái</h6>
-                    <input value="@(Model.isActivated ? "Đã kích hoạt" : "Chưa kích hoạt")" style="border: none" class="col-8 m-0 p-0" readonly>
-                </div>
-                <div class="row d-flex m-3 border-bottom">
-                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Ngày tham gia</h6>
-                    <input value="@Model.CreatedAt.ToString("hh:mm:ss dd/MM/yyyy")" style="border: none" class="col-8 m-0 p-0" readonly type="text">
-                </div>
-                <div class="row d-flex m-3 border-bottom">
-                    <h6 class="m-0 col-4 p-0" style="line-height: normal;">Cập nhật lần cuối</h6>
-                    @if (Model.UpdatedAt != null)
-                    {
-                        <input value="@Convert.ToDateTime(Model.UpdatedAt).ToString("hh:mm:ss dd/MM/yyyy")" style="border: none" class="col-8 m-0 p-0" readonly type="text">
-                    }
-                    else
-                    {
-                        <input value="dd/mm/yyyy" style="border: none" class="col-8 m-0 p-0" readonly type="text">
-                    }
-                </div>
-            </div>
-            <div class="d-md-none mt-3">
-                <button class="btn btn-danger col-12" data-bs-toggle="modal" data-bs-target="#changePassword" type="button">Đổi mật khẩu</button>
-                <button class="btn btn-primary col-12 mt-2" type="submit" id="submitBtn">Lưu thông tin</button>
-            </div>
+        <div class="d-flex justify-content-end d-md-block d-none mt-auto">
+            <button class="btn btn-danger col-12" data-bs-toggle="modal" data-bs-target="#changePassword" type="button">Đổi mật khẩu</button>
+            <button class="btn btn-primary col-12 mt-2" type="submit">Lưu thông tin</button>
         </div>
     </div>
+    <div class="col-md-6 mt-md-0 mt-3">
+        <p class="card-header">Thông tin chi tiết</p>
+        <div class="border bg-white rounded">
+            <div class="row d-flex m-3 border-bottom">
+                <h6 class="m-0 col-4 p-0" style="line-height: normal;">ID người dùng</h6>
+                @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @readonly = true, @class = "col-8 m-0 p-0", @placeholder = "Nhập gmail của bạn", @type = "text", @style = "border: none" } })
+            </div>
+            <div class="row d-flex m-3 border-bottom">
+                <h6 class="m-0 col-4 p-0" style="line-height: normal;">Họ và tên</h6>
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập tên của bạn", @type = "text", @style = "border: none" } })
+            </div>
+            <div class="row d-flex m-3 border-bottom">
+                <h6 class="m-0 col-4 p-0" style="line-height: normal;">Gmail</h6>
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập gmail của bạn", @style = "border: none" } })
+            </div>
+            <div class="row d-flex m-3 border-bottom">
+                <h6 class="m-0 col-4 p-0" style="line-height: normal;">Số điện thoại</h6>
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập số điện thoại của bạn", @type = "text", @style = "border: none" } })
+            </div>
+            <div class="row d-flex m-3 border-bottom">
+                <h6 class="m-0 col-4 p-0" style="line-height: normal;">Địa chỉ</h6>
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập số địa chỉ của bạn", @type = "text", @style = "border: none" } })
+            </div>
+            <div class="row d-flex m-3 border-bottom">
+                <h6 class="m-0 col-4 p-0" style="line-height: normal;">Giới tính</h6>
+                <div class="col-8 d-flex m-0 p-0">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Gender" checked value="Nam">
+                        <label class="form-check-label" for="flexRadioDefault1 m-0">
+                            Nam
+                        </label>
+                    </div>
+                    <div class="form-check ms-3">
+                        @if (Model.Gender == "Nữ")
+                        {
+                            <input class="form-check-input" type="radio" name="Gender" checked value="Nữ">
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="radio" name="Gender" value="Nữ">
+                        }
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Nữ
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex m-3 border-bottom">
+                <h6 class="m-0 col-4 p-0" style="line-height: normal;">Ngày sinh</h6>
+                <input value="@Model.Birth.ToString("yyyy-MM-dd")" style="border: none" class="col-8 m-0 p-0" type="date" name="Birth" />
+            </div>
+            <div class="row d-flex m-3 border-bottom">
+                <h6 class="m-0 col-4 p-0" style="line-height: normal;">Trạng thái</h6>
+                <input value="@(Model.isActivated ? "Đã kích hoạt" : "Chưa kích hoạt")" style="border: none" class="col-8 m-0 p-0" readonly>
+            </div>
+            <div class="row d-flex m-3 border-bottom">
+                <h6 class="m-0 col-4 p-0" style="line-height: normal;">Ngày tham gia</h6>
+                <input value="@Model.CreatedAt.ToString("hh:mm:ss dd/MM/yyyy")" style="border: none" class="col-8 m-0 p-0" readonly type="text">
+            </div>
+            <div class="row d-flex m-3 border-bottom">
+                <h6 class="m-0 col-4 p-0" style="line-height: normal;">Cập nhật lần cuối</h6>
+                @if (Model.UpdatedAt != null)
+                {
+                    <input value="@Convert.ToDateTime(Model.UpdatedAt).ToString("hh:mm:ss dd/MM/yyyy")" style="border: none" class="col-8 m-0 p-0" readonly type="text">
+                }
+                else
+                {
+                    <input value="dd/mm/yyyy" style="border: none" class="col-8 m-0 p-0" readonly type="text">
+                }
+            </div>
+        </div>
+        <div class="d-md-none mt-3">
+            <button class="btn btn-danger col-12" data-bs-toggle="modal" data-bs-target="#changePassword" type="button">Đổi mật khẩu</button>
+            <button class="btn btn-primary col-12 mt-2" type="submit" id="submitBtn">Lưu thông tin</button>
+        </div>
+    </div>
+</div>
 }
 
 <div class="position-fixed p-3 d-flex justify-content-end" style="z-index: 11; top: 10%">

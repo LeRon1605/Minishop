@@ -1,19 +1,4 @@
-﻿let action = document.getElementsByClassName('action_voucher');
-
-// Content 
-let listVoucher = document.getElementById('list_voucher');
-let addForm = document.getElementById('add_form');
-
-for (let i = 0; i < action.length; i++) {
-    action[i].addEventListener('click', (e) => {
-        for (let j = 0; j < action.length; j++) {
-            action[j].classList.toggle('action_voucher_click');
-        }
-        console.log(listVoucher);
-        listVoucher.classList.toggle('d-none');
-        addForm.classList.toggle('d-none');
-    });
-}
+﻿
 let showToast = (status, message) => {
     const toastBody = document.getElementById('toast_body');
     if (status) {

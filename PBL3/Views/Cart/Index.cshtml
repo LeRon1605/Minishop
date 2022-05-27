@@ -19,8 +19,18 @@
                     <th class="text-center">Số lượng</th>
                     <th class="text-center">Tổng tiền</th>
                     <th class="text-center">Discount</th>
-                    <th class="text-center"><a class="btn btn-sm btn-danger">Xóa tất cả</a></th>
-                    <th class="text-center"><a class="btn btn-sm btn-success">Chọn</a></th>
+                    <th class="text-center">
+                        @using(Html.BeginForm("removeAll", "Cart",FormMethod.Post))
+                        {
+                            <button class="btn btn-danger" type="submit">Xóa tất cả</button>
+                        }
+                    </th>
+                    <th class="text-center">
+                        @using(Html.BeginForm("selectAll", "Cart", FormMethod.Post))
+                        {
+                            <button class="btn btn-success" type="submit">Chọn tất cả</button>
+                        }
+                    </th>
                 </tr>
             </thead>
             <tbody>

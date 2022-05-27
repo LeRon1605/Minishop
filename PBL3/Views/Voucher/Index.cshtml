@@ -1,174 +1,80 @@
-﻿@model Models.DTO.Voucher
-
+﻿@using Models.DTO
+@using PBL3.Models
+@model List<Voucher>
 @{
+    PagingModel pagingData = ViewBag.pagingData as PagingModel;
     ViewBag.Title = "Index";
 }
 @section Styles {
     <link rel="stylesheet" href="~/public/css/Voucher.css">
+
 }
 <div class="container" style="max-width: 1040px;">
     <h1>Voucher</h1>
-    <div class="row">
-        <div class="card ">
-            <section class="date">
-                <time datetime="23/5">
-                    <span>23</span><span>Feb</span>
-                </time>
-            </section>
-            <section class="card-cont">
-                <h6>
-                    Số lượng voucher còn: 15</h5>
-                    <h1>TheGioiDiDong</h1>
-                    <div class="even-info">
-                        <p>Đơn hàng Thời trang từ 50K</p>
-                    </div>
-                    <div class="even-date">
-                        <p style="color: red ; margin-top: 10px; margin-bottom: 0px;"> Có hiệu lực sau: 1 ngày </p>
-                    </div>
-                    <a href="#" style="background-color: rgb(248, 192, 10);">Dùng Ngay</a>
-            </section>
-        </div>
-        <div class="card">
-            <section class="date">
-                <time datetime="23/5">
-                    <span>23</span><span>Feb</span>
-                </time>
-            </section>
-            <section class="card-cont">
-                <h6>
-                    Số lượng voucher còn: 15</h5>
-                    <h1>TheGioiDiDong</h1>
-                    <div class="even-info">
-                        <p>Đơn hàng Thời trang từ 50K</p>
-                    </div>
-                    <div class="even-date">
-                        <p style="color: red ; margin-top: 10px; margin-bottom: 0px;"> Có hiệu lực sau: 1 ngày </p>
-                    </div>
-                    <a href="#" style="background-color: rgb(248, 192, 10);">Dùng Ngay</a>
-            </section>
-        </div>
+    <div class="row p-2 rounded m-auto border" style="max-width: 1030px; width: 100% ">
+        @using (Html.BeginForm("Index", "Voucher", FormMethod.Get, new { @class = "row" }))
+        {
+            <div class="col-sm-8 d-flex p-0 align-items-center">
+                <div class="col-sm-3">
+                    <select class="form-select" name="Value" id="value_voucher">
+                        <option value="All">Giá trị voucher</option>
+                        <option value="100000">Dưới 100.000</option>
+                        <option value="200000">Dưới 200.000</option>
+                        <option value="300000">Dưới 300.000</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4 p-0 d-flex align-items-center">
+                <div class="input-group m-0">
+                    <input type="text" class="form-control" id="keyword_search" name="keyword" placeholder="Nhập từ khóa tìm kiếm">
+                    <button class="btn btn-primary" type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </div>
+        }
     </div>
+    @*<div>
+        @using (Html.BeginForm("getLasted", "Voucher", FormMethod.Post))
+        {
+            <button class="btn btn-outline-success" type="submit">6 vouchers mới nhất</button>
+        }
+    </div>*@
     <div class="row">
-        <div class="card fl-right">
-            <section class="date">
-                <time datetime="23/5">
-                    <span>23</span><span>Feb</span>
-                </time>
-            </section>
-            <section class="card-cont">
-                <h6>
-                    Số lượng voucher còn: 15</h5>
-                    <h1>TheGioiDiDong</h1>
+        @for (int i = 0; i < ((List<Voucher>)Model).Count; i++)
+        {
+            <div class="card">
+                <section class="date">
+                    <time datetime="">
+                        <span style="font-size: 30px">@Model[i].EndDate.ToString("MMMM")</span>
+                        <span style="font-size: 25px">@Model[i].EndDate.ToString("dd")</span>
+                    </time>
+                </section>
+                <section class="card-cont">
+                    <h6>Số lượng voucher: @Model[i].Quantity</h6>
+                    <h1>@Model[i].Seri</h1>
                     <div class="even-info">
-                        <p>Đơn hàng Thời trang từ 50K</p>
+                        <p>Giá trị voucher: @String.Format("{0:0,0}", Model[i].Value) đ</p>
                     </div>
                     <div class="even-date">
-                        <p style="color: red ; margin-top: 10px; margin-bottom: 0px;"> Có hiệu lực sau: 1 ngày </p>
+                        <p style="color: red ; margin-top: 10px; margin-bottom: 0px;">Ngày bắt đầu: @Model[i].StartDate.ToString("dd/MM/yyyy")</p>
                     </div>
-                    <a href="#" style="background-color: rgb(248, 192, 10);">Dùng Ngay</a>
-            </section>
-        </div>
-        <div class="card fl-right">
-            <section class="date">
-                <time datetime="23/5">
-                    <span>23</span><span>Feb</span>
-                </time>
-            </section>
-            <section class="card-cont">
-                <h6>
-                    Số lượng voucher còn: 15</h5>
-                    <h1>TheGioiDiDong</h1>
-                    <div class="even-info">
-                        <p>Đơn hàng Thời trang từ 50K</p>
-                    </div>
-                    <div class="even-date">
-                        <p style="color: red ; margin-top: 10px; margin-bottom: 0px;"> Có hiệu lực sau: 1 ngày </p>
-                    </div>
-                    <a href="#" style="background-color: rgb(248, 192, 10);">Dùng Ngay</a>
-            </section>
-        </div>
+                    <a href="#" style="background-color: rgb(248, 192, 10);">Lưu</a>
+                </section>
+            </div>
+        }
     </div>
-    <div class="row">
-        <div class="card fl-right">
-            <section class="date">
-                <time datetime="23/5">
-                    <span>23</span><span>Feb</span>
-                </time>
-            </section>
-            <section class="card-cont">
-                <h6>
-                    Số lượng voucher còn: 15</h5>
-                    <h1>TheGioiDiDong</h1>
-                    <div class="even-info">
-                        <p>Đơn hàng Thời trang từ 50K</p>
-                    </div>
-                    <div class="even-date">
-                        <p style="color: red ; margin-top: 10px; margin-bottom: 0px;"> Có hiệu lực sau: 1 ngày </p>
-                    </div>
-                    <a href="#" style="background-color: rgb(248, 192, 10);">Dùng Ngay</a>
-            </section>
-        </div>
-        <div class="card fl-right">
-            <section class="date">
-                <time datetime="23/5">
-                    <span>23</span><span>Feb</span>
-                </time>
-            </section>
-            <section class="card-cont">
-                <h6>
-                    Số lượng voucher còn: 15</h5>
-                    <h1>TheGioiDiDong</h1>
-                    <div class="even-info">
-                        <p>Đơn hàng Thời trang từ 50K</p>
-                    </div>
-                    <div class="even-date">
-                        <p style="color: red ; margin-top: 10px; margin-bottom: 0px;"> Có hiệu lực sau: 1 ngày </p>
-                    </div>
-                    <a href="#" style="background-color: rgb(248, 192, 10);">Dùng Ngay</a>
-            </section>
-        </div>
-    </div>
-    <div class="row">
-        <div class="card fl-right">
-            <section class="date">
-                <time datetime="23/5">
-                    <span>23</span><span>Feb</span>
-                </time>
-            </section>
-            <section class="card-cont">
-                <h6>
-                    Số lượng voucher còn: 15</h5>
-                    <h1>TheGioiDiDong</h1>
-                    <div class="even-info">
-                        <p>Đơn hàng Thời trang từ 50K</p>
-                    </div>
-                    <div class="even-date">
-                        <p style="color: red ; margin-top: 10px; margin-bottom: 0px;"> Có hiệu lực sau: 1 ngày </p>
-                    </div>
-                    <a href="#" style="background-color: rgb(248, 192, 10);">Dùng Ngay</a>
-            </section>
-        </div>
-        <div class="card fl-right">
-            <section class="date">
-                <time datetime="23/5">
-                    <span>23</span><span>Feb</span>
-                </time>
-            </section>
-            <section class="card-cont">
-                <h6>
-                    Số lượng voucher còn: 15</h5>
-                    <h1>TheGioiDiDong</h1>
-                    <div class="even-info">
-                        <p>Đơn hàng Thời trang từ 50K</p>
-                    </div>
-                    <div class="even-date">
-                        <p style="color: red ; margin-top: 10px; margin-bottom: 0px;"> Có hiệu lực sau: 1 ngày </p>
-                    </div>
-                    <a href="#" style="background-color: rgb(248, 192, 10);">Dùng Ngay</a>
-            </section>
-        </div>
+    <div class="clearfix d-flex justify-content-center">
+        @Html.Partial("_Pagination", pagingData)
     </div>
 </div>
 @section scripts{
-
+    <script>
+        window.addEventListener('load', (e) => {
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            $('#keyword_search').val(params.keyword || '');
+            $('#value_voucher').val(params.Value || 'All');
+            if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
+        });
+    </script>
 }

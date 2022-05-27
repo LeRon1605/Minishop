@@ -51,7 +51,8 @@ namespace PBL3.Controllers
         public ActionResult Delete(int id)
         {
             CartBLL cartDAO = new CartBLL();
-            if (cartDAO.DeleteProduct(id) == true)
+            int CartID = Convert.ToInt32(Session["USER"]);
+            if (cartDAO.DeleteProduct(id, CartID) == true )
             {
                 return new JsonResult
                 {
@@ -76,16 +77,46 @@ namespace PBL3.Controllers
             }
         }
         [HasLogin(Role = "USER")]
+        public ActionResult removeAll()
+        {
+            CartBLL cartDAO = new CartBLL();
+            int CartID = Convert.ToInt32(Session["USER"]);
+            if(cartDAO.removeAll(CartID) == true)
+            {
+                return RedirectToAction("Index");
+                
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+        [HasLogin(Role = "USER")]
         public ActionResult Select(int id)
         {
+            int CartID = Convert.ToInt32(Session["USER"]);
             return new JsonResult
             {
                 Data = new
                 {
-                    status = new CartBLL().select(id),
+                    status = new CartBLL().select(id, CartID),
                     total = new CartBLL().getTotal(Convert.ToInt32(Session["USER"]), true)
                 }
             };
+        }
+        [HasLogin(Role = "USER")]
+        public ActionResult selectAll()
+        {
+            CartBLL cartDAO = new CartBLL();
+            int CartID = Convert.ToInt32(Session["USER"]);
+            if (cartDAO.selectAll(CartID) == true)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
 }

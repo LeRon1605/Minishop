@@ -78,6 +78,21 @@
                         @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
                         <span id="validation-message" class="text-danger d-none">Ngày kết thúc không được bé hơn ngày bắt đầu</span>
                     </div>
+                    <div class="form-group mt-3">
+                        @Html.LabelFor(model => model.CreatedAt, htmlAttributes: new { @class = "form-label" })
+                        <input disabled value="@Model.CreatedAt.ToString()" type="text" class="form-control" />
+                    </div>
+                    <div class="form-group mt-3">
+                        @Html.LabelFor(model => model.UpdatedAt, htmlAttributes: new { @class = "form-label" })
+                        @if (Model.UpdatedAt == null)
+                        {
+                            <input disabled value="dd/mm/yyyy" type="text" class="form-control" />
+                        }
+                        else
+                        {
+                            <input disabled value="@Model.UpdatedAt.ToString()" type="text" class="form-control" />
+                        }
+                    </div>
                     <div class="col-12">
                         @if (isEdit == true)
                         {

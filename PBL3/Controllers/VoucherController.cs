@@ -8,16 +8,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PBL3.Models;
 
 namespace PBL3.Controllers
 {
     public class VoucherController : Controller
     {
-        [HasLogin(Role = "USER")]
         // GET: Voucher
-        public ActionResult Index()
+        public ActionResult Index(int page = 1, string keyword = "", string value = "All")
         {
-            return View();
+            VoucherBLL voucherDAO = new VoucherBLL();
+            int totalPage = 0;
+            List<Voucher> voucherList = voucherDAO.getPage(page, 12, keyword, value, "true", out totalPage);
+            ViewBag.Total = voucherDAO.Count();
+            ViewBag.pagingData = new PagingModel
+            {
+                CountPages = totalPage,
+                CurrentPage = page,
+                GenerateURL = (int pageNum) => $"?page={pageNum}&keyword={keyword}&value={value}"
+            };
+            return View(voucherList);
         }
         [HttpPost]
         public ActionResult Check(string Seri)
