@@ -8,8 +8,6 @@ namespace PBL3.Models
 {
     public class ChangePasswordModel
     {
-        [Required]
-        public int UserID { get; set; }
         [Required(ErrorMessage = "Mật khẩu hiện tại không được để trống")]
         [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "Mật khẩu không chứa kí tự đặc biệt")]
         [StringLength(32, MinimumLength = 8, ErrorMessage = "Mật khẩu có độ dài từ 8 - 32")]

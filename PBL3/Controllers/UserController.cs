@@ -220,7 +220,7 @@ namespace PBL3.Controllers
                     file.SaveAs(path);
                     user.Image = $"/public/uploads/users/{fileName}";
                 }
-                bool result = new UserBLL().Update(user);
+                bool result = (user.ID == (int)Session["USER"]) ? new UserBLL().Update(user) : false;
                 if (result)
                 {
                     TempData["Status"] = true;
@@ -277,12 +277,14 @@ namespace PBL3.Controllers
                 };
             }  
         }
+        [HasLogin(Role = "USER")]
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
             if (ModelState.IsValid)
             {
-                bool result = new UserBLL().ChangePassword(model.OldPassword, model.NewPassword, model.UserID);
+
+                bool result = new UserBLL().ChangePassword(model.OldPassword, model.NewPassword, (int)Session["USER"]);
                 if (result)
                 {
                     return new JsonResult
