@@ -90,8 +90,6 @@ $('#importForm').on('submit', (e) => {
                         break;
                     }
                 }
-                console.log(stock);
-                console.log(index);
                 stock[index].innerText = `${parseInt(stock[index].innerText.trim()) + parseInt(data.quantity.trim())}`;
             }
             showToast(res.data.status, res.data.message);
