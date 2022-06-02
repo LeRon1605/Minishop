@@ -105,7 +105,7 @@ namespace PBL3.Controllers
                 });
             }
             context.States.AddRange(new State[]
-                {
+            {
                     new State
                     {
                         Name = "Đang chờ xác nhận",
@@ -116,7 +116,7 @@ namespace PBL3.Controllers
                         Name = "Đang giao",
                         Description = "Đang giao đơn hàng"
                     }
-                });
+            });
             context.Products.AddRange(products);
             context.SaveChanges();
             return RedirectToAction("Index");

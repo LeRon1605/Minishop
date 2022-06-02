@@ -98,7 +98,6 @@ namespace Models.BLL
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
-                totalRow = (int)Math.Ceiling((double)context.Orders.AsNoTracking().Count() / pageSize);
                 StateBLL stateBLL = new StateBLL();
                 List<Order> orders = context.Orders.AsNoTracking()
                                      .Select(order => new Order
@@ -125,6 +124,7 @@ namespace Models.BLL
                                              new StateOrder { State = stateBLL.getCurrentProductState(order.ID) }
                                          }
                                      }).ToList();
+                totalRow = (int)Math.Ceiling((double)orders.Count() / pageSize);
                 return orders.Where(order => (order.UserID.ToString().Contains(keyword) || order.User.Name.Contains(keyword) || order.ID.ToString().Contains(keyword)) && (stateID == 0 || order.StateOrder.First().State.ID == stateID) && (order.CreatedAt.Date >= ((DateTime)startDate).Date && order.CreatedAt.Date <= ((DateTime)endDate).Date))
                                      .Skip(pageSize * (page - 1)).Take(pageSize).ToList();
             }

@@ -1,7 +1,9 @@
-﻿@model Models.DTO.Product
+﻿@using Models.DTO
+@model Product
 
 @{
     ViewBag.Title = "Index";
+    List<Comment> comments = ViewBag.Comments as List<Comment>;
 }
 @section Styles {
     <link rel="stylesheet" href="~/public/css/ProductDetail.css">
@@ -170,28 +172,31 @@
 
             <div class="row justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center mb-5">
-                    <div class="card">
-                        <div class="d-flex">
-                            <div class="">
-                                <img class="profile-pic mt-3"
-                                     src="~/public/images/Logo.jpg">
-                            </div>
-                            <div class="d-flex flex-column" style="text-align: left; width: 100%">
-                                <h3 class="mt-2 mb-0 name_user">Name</h3>
-                                <div>
-                                    <p class="text-left m-0">
-                                        <span class="text-muted">4.0</span> <span class="fa fa-star star-active ml-3"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-inactive"></span>
-                                    </p>
+                    @foreach (Comment comment in comments)
+                    {
+                        <div class="card">
+                            <div class="d-flex">
+                                <div class="">
+                                    <img class="profile-pic mt-3"
+                                         src="@comment.User.Image">
                                 </div>
-                                <div>
-                                    <p class="content">Sản phẩm chỉ đẹp khi người dùng có tiền. Hông có tiền để mua :(((</p>
+                                <div class="d-flex flex-column" style="text-align: left; width: 100%">
+                                    <h3 class="mt-2 mb-0 name_user">@comment.User.Name</h3>
+                                    <div>
+                                        <p class="text-left m-0">
+                                            <span class="text-muted">@comment.Rate</span> <span class="fa fa-star star-active ml-3"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-inactive"></span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="content">@comment.Content</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="" style="text-align: right; width: 100px">
-                                <p class="text-muted pt-5 pt-sm-3">10 Sept</p>
+                                <div class="" style="text-align: right; width: 100px">
+                                    <p class="text-muted pt-5 pt-sm-3">@comment.CreatedAt</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
 

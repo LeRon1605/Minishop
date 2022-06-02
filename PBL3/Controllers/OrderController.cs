@@ -119,6 +119,47 @@ namespace PBL3.Controllers
             }
             return RedirectToAction("Index", new { id = id });
         }
+        [HttpPost]
+        public ActionResult Comment(Comment comment)
+        {
+            if (ModelState.IsValid)
+            {
+                if (new CommentBLL().add((int)Session["USER"], comment))
+                {
+                    return new JsonResult
+                    {
+                        Data = new
+                        {
+                            status = true,
+                            message = "Đánh giá sản phẩm thành công"
+                        }
+                    };
+                }
+                else
+                {
+                    return new JsonResult
+                    {
+                        Data = new
+                        {
+                            status = false,
+                            message = "Đánh giá sản phẩm thất bại"
+                        }
+                    };
+                }
+            }
+            else
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        status = false,
+                        message = "Đánh giá sản phẩm thất bại",
+                        detail = "Dữ liệu không hợp lệ"
+                    }
+                };
+            }
+        }    
 
     }
 }

@@ -11,21 +11,23 @@ namespace Models.DTO
     {
         [Key]
         public int ID { get; set; }
-        [Display(Name ="Điểm đánh giá")]
+        [Display(Name = "Điểm đánh giá")]
         [Required(ErrorMessage ="Điểm đánh giá không được để trống")]
         [Range(0,5)]
         public int Rate { get; set; }
-        [Display(Name ="Nội dung")]
+        [Display(Name = "Nội dung đánh giá")]
+        [StringLength(30, MinimumLength = 30, ErrorMessage = "Nội dung đánh giá có độ dài từ 10 - 30 kí tự.")]
+        [Required(ErrorMessage = "Nội dung đánh giá không được để trống")]
         public string Content { get; set; }
-        [Display(Name ="Phản hồi")]
+        [Display(Name = "Phản hồi")]
         public string ReplyContent { get; set; }
+        public bool isDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public int UserID { get; set; }
         [ForeignKey("UserID")]
         public User User { get; set; }
-        public int ProductID { get; set; }
-        [ForeignKey("ProductID")]
-        public Product Product { get; set; }
+        public virtual ProductOrder ProductOrder { get; set; }
     }
 }

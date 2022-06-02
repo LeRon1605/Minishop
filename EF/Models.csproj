@@ -163,6 +163,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\CommentBLL.cs" />
     <Compile Include="DAO\BaseDAO.cs" />
     <Compile Include="BLL\CartBLL.cs" />
     <Compile Include="BLL\CategoryBLL.cs" />

@@ -58,6 +58,16 @@ namespace Models.DAL
                 entity.HasIndex(productOrder => new { productOrder.ProductID, productOrder.OrderID })
                       .IsUnique();
             });
+
+            builder.Entity<Comment>(entity =>
+            {
+                entity.HasKey(comment => comment.ID);
+
+                entity.HasOne(comment => comment.ProductOrder)
+                      .WithOne(productOrder => productOrder.Comment)
+                      .HasForeignKey<Comment>(comment => comment.ID)
+                      .OnDelete(DeleteBehavior.NoAction);
+            });
         }
 
         public DbSet<User> Users { get; set; }

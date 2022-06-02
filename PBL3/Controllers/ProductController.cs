@@ -25,6 +25,7 @@ namespace PBL3.Controllers
             }
             else
             {
+                ViewBag.Comments = new CommentBLL().getCommentsOfProduct(id);
                 return View(product);
             }
         }
