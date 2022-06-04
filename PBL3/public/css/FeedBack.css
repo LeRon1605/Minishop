@@ -1,0 +1,52 @@
+﻿.form-group {
+    padding: 10px;
+}
+
+.rating {
+    float: left;
+}
+
+    .rating:not(:checked) > input {
+        position: absolute;
+        top: -9999px;
+        clip: rect(0, 0, 0, 0);
+    }
+
+    .rating:not(:checked) > label {
+        float: right;
+        width: 1em;
+        /* padding:0 .1em; */
+        overflow: hidden;
+        white-space: nowrap;
+        cursor: pointer;
+        font-size: 300%;
+        /* line-height:1.2; */
+        color: rgb(221, 205, 205);
+    }
+
+        .rating:not(:checked) > label:before {
+            content: '★ ';
+        }
+
+    .rating > input:checked ~ label {
+        color: rgb(255, 215, 0);
+    }
+
+    .rating:not(:checked) > label:hover,
+    .rating:not(:checked) > label:hover ~ label {
+        color: rgb(255, 215, 0);
+    }
+
+    .rating > input:checked + label:hover,
+    .rating > input:checked + label:hover ~ label,
+    .rating > input:checked ~ label:hover,
+    .rating > input:checked ~ label:hover ~ label,
+    .rating > label:hover ~ input:checked ~ label {
+        color: rgb(255, 215, 0);
+    }
+
+    .rating > label:active {
+        position: relative;
+        top: 2px;
+        left: 2px;
+    }
