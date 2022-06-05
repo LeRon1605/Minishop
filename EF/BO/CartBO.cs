@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Models.BLL
 {
-    public class CartBLL
+    public class CartBO
     {
         private ShopOnlineDbContext context;
-        public CartBLL()
+        public CartBO()
         {
             context = new ShopOnlineDbContext();
         }

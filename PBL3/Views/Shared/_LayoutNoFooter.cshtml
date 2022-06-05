@@ -40,7 +40,7 @@
                         }
                         else
                         {
-                            User user = new UserBLL().find((int)Session["USER"]);
+                            User user = new UserBO().find((int)Session["USER"]);
                             <li>@Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
                             <li>@Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
                         }
@@ -60,7 +60,7 @@
                 else
                 {
 
-                    User user = new UserBLL().find((int)Session["USER"]);
+                    User user = new UserBO().find((int)Session["USER"]);
                     @Html.ActionLink(user.Name, "Index", new { controller = "User", area = string.Empty }, new { @class = "p-2 text-decoration-none" })
                     @Html.ActionLink("Đăng xuất", "Logout", new { controller = "User", area = string.Empty }, new { @class = "p-2 text-decoration-none" })
                 }

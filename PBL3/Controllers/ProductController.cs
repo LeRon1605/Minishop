@@ -15,7 +15,7 @@ namespace PBL3.Controllers
         // GET: Product
         public ActionResult Index(int id)
         {
-            Product product = new ProductBLL().find(id);
+            Product product = new ProductBO().find(id);
             if(product == null)
             {
                 return RedirectToAction("Index", new
@@ -25,16 +25,16 @@ namespace PBL3.Controllers
             }
             else
             {
-                ViewBag.Comments = new CommentBLL().getCommentsOfProduct(id);
+                ViewBag.Comments = new CommentBO().getCommentsOfProduct(id);
                 return View(product);
             }
         }
         public ActionResult Search(string keyword = "", string categoryID = "All", string price = "All", int page = 1)
         {
-            ProductBLL productDAO = new ProductBLL();
+            ProductBO productDAO = new ProductBO();
             int totalPage = 0;
             List<Product> products = productDAO.getPage(page, 20, keyword, categoryID, price, out totalPage);
-            ViewBag.categories = new CategoryBLL().findAll();
+            ViewBag.categories = new CategoryBO().findAll();
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,

@@ -17,7 +17,7 @@ namespace PBL3.Areas.Admin.Controllers
         // GET: Admin/Category
         public ActionResult Index(int page = 1, string keyword = "")
         {
-            CategoryBLL categoryDAO = new CategoryBLL();
+            CategoryBO categoryDAO = new CategoryBO();
             int totalPage = 0;
             ViewBag.categories = categoryDAO.getPage(page, 10, keyword, out totalPage);
             ViewBag.Total = categoryDAO.Count();
@@ -36,7 +36,7 @@ namespace PBL3.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index");
             }
-            Category category = new CategoryBLL().find((int)id);
+            Category category = new CategoryBO().find((int)id);
             if (category == null)
             {
                 TempData["Message"] = "Loại sản phẩm không tồn tại";
@@ -53,7 +53,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                CategoryBLL categoryDAO = new CategoryBLL();
+                CategoryBO categoryDAO = new CategoryBO();
                 categoryDAO.Add(category);
                 TempData["Addstatus"] = true;
             }
@@ -71,7 +71,7 @@ namespace PBL3.Areas.Admin.Controllers
             
             if (ModelState.IsValid)
             {
-                CategoryBLL categoryDAO = new CategoryBLL();
+                CategoryBO categoryDAO = new CategoryBO();
                 if(categoryDAO.Update(category))
                 {
                     TempData["Status"] = true;
@@ -93,7 +93,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            CategoryBLL categoryDAO = new CategoryBLL();
+            CategoryBO categoryDAO = new CategoryBO();
             if(categoryDAO.Delete(id) == true)
             {
                 return new JsonResult

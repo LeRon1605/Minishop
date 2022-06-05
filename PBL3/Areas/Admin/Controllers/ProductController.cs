@@ -17,11 +17,11 @@ namespace PBL3.Areas.Admin.Controllers
         // GET: Admin/Product
         public ActionResult Index(int page = 1, string keyword = "", string CategoryID = "All", string Price = "All")
         {
-            ProductBLL productDAO = new ProductBLL();
+            ProductBO productDAO = new ProductBO();
             int totalPage = 0;
             ViewBag.products = productDAO.getPage(page, 10, keyword, CategoryID, Price, out totalPage);
             ViewBag.Total = productDAO.Count();
-            ViewBag.categories = new CategoryBLL().findAll();
+            ViewBag.categories = new CategoryBO().findAll();
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,
@@ -33,8 +33,8 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult View(int id, bool isEdit = false)
         {
-            CategoryBLL categoryDAO = new CategoryBLL();
-            ProductBLL productDAO = new ProductBLL();
+            CategoryBO categoryDAO = new CategoryBO();
+            ProductBO productDAO = new ProductBO();
             ViewBag.isEdit = isEdit;
             ViewBag.categories = categoryDAO.findAll();
             Product product = productDAO.find(id, true);
@@ -58,11 +58,11 @@ namespace PBL3.Areas.Admin.Controllers
                         string fileName = Path.GetFileName(Image.FileName);
                         string path = Path.Combine(Server.MapPath("~/public/uploads/products"), fileName);
                         Image.SaveAs(path);
-                        ProductBLL productBLL = new ProductBLL();
-                        CategoryBLL categoryBLL = new CategoryBLL();
+                        ProductBO ProductBO = new ProductBO();
+                        CategoryBO CategoryBO = new CategoryBO();
                         product.Image = $"/public/uploads/products/{fileName}";
-                        productBLL.Add(product);
-                        product.Category = (product.CategoryID == null) ? null : categoryBLL.find((int)product.CategoryID);
+                        ProductBO.Add(product);
+                        product.Category = (product.CategoryID == null) ? null : CategoryBO.find((int)product.CategoryID);
                         TempData["AddStatus"] = true;
                     }
                     else
@@ -90,7 +90,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                ProductBLL productDAO = new ProductBLL();
+                ProductBO productDAO = new ProductBO();
                 if (file != null && file.ContentLength > 0)
                 {
                     string fileName = Path.GetFileName(file.FileName);
@@ -121,7 +121,7 @@ namespace PBL3.Areas.Admin.Controllers
 
         public ActionResult Import(int id, int quantity)
         {
-            ProductBLL productDAO = new ProductBLL();
+            ProductBO productDAO = new ProductBO();
             if (productDAO.import(id, quantity))
             {
                 return new JsonResult
@@ -149,7 +149,7 @@ namespace PBL3.Areas.Admin.Controllers
 
         public ActionResult Delete(int id)
         {
-            ProductBLL productDAO = new ProductBLL();
+            ProductBO productDAO = new ProductBO();
             if (productDAO.Delete(id))
             {
                 return new JsonResult{

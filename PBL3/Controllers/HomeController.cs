@@ -15,14 +15,14 @@ namespace PBL3.Controllers
     {
         public ActionResult Index(int page = 1)
         {
-            List<Category> categories = new CategoryBLL().findAll();
-            ProductBLL productDAO = new ProductBLL();
+            List<Category> categories = new CategoryBO().findAll();
+            ProductBO productDAO = new ProductBO();
             int totalPage = 0;
             ViewBag.Total = productDAO.Count();
-            ViewBag.categories = new CategoryBLL().findAll();
+            ViewBag.categories = new CategoryBO().findAll();
             ViewBag.products = productDAO.getPage(page, 20, "", "All", "All", out totalPage);
             ViewBag.lastedProduct = productDAO.getLasted(5);
-            ViewBag.lastedVoucher = new VoucherBLL().getLasted(5);
+            ViewBag.lastedVoucher = new VoucherBO().getLasted(5);
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,

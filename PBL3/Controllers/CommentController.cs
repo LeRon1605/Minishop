@@ -13,7 +13,7 @@ namespace PBL3.Controllers
         // GET: Comment
         public ActionResult Index(int id)
         {
-            Comment comment = new CommentBLL().find(id);
+            Comment comment = new CommentBO().find(id);
             if (comment == null)
             {
                 return HttpNotFound();
@@ -25,11 +25,11 @@ namespace PBL3.Controllers
         {
             if (ModelState.IsValid)
             {
-                CommentBLL commentBLL = new CommentBLL();
-                Comment comment = commentBLL.find(cmt.ID);
+                CommentBO CommentBO = new CommentBO();
+                Comment comment = CommentBO.find(cmt.ID);
                 if (comment == null)
                 {
-                    if (new CommentBLL().add((int)Session["USER"], cmt))
+                    if (new CommentBO().add((int)Session["USER"], cmt))
                     {
                         return new JsonResult
                         {
@@ -56,7 +56,7 @@ namespace PBL3.Controllers
                 {
                     if (comment.UserID == (int)Session["USER"])
                     {
-                        if (commentBLL.update(cmt))
+                        if (CommentBO.update(cmt))
                         {
                             return new JsonResult
                             {

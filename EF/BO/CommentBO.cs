@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Models.BLL
 {
-    public class CommentBLL
+    public class CommentBO
     {
         private ShopOnlineDbContext context;
-        public CommentBLL()
+        public CommentBO()
         {
             context = new ShopOnlineDbContext();
         }

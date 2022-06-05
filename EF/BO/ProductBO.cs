@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Models.BLL
 {
-    public class ProductBLL
+    public class ProductBO
     {
         private ShopOnlineDbContext context;
-        public ProductBLL()
+        public ProductBO()
         {
             context = new ShopOnlineDbContext();
         }
@@ -25,7 +25,7 @@ namespace Models.BLL
             totalRow = 0;
             if (page > 0)
             {
-                CategoryBLL categoryDAO = new CategoryBLL();
+                CategoryBO categoryDAO = new CategoryBO();
                 List<Product> products = context.Products.AsNoTracking().Select(product => new Product
                 {
                     ID = product.ID,

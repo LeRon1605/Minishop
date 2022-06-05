@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Models.BLL
 {
-    public class OrderBLL
+    public class OrderBO
     {
         public Order find(int id)
         {
@@ -99,7 +99,7 @@ namespace Models.BLL
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
-                StateBLL stateBLL = new StateBLL();
+                StateBO StateBO = new StateBO();
                 List<Order> orders = context.Orders.AsNoTracking()
                                      .Select(order => new Order
                                      {
@@ -122,7 +122,7 @@ namespace Models.BLL
                                          },
                                          StateOrder = new List<StateOrder>()
                                          {
-                                             new StateOrder { State = stateBLL.getCurrentProductState(order.ID) }
+                                             new StateOrder { State = StateBO.getCurrentProductState(order.ID) }
                                          }
                                      }).ToList();
                 totalRow = (int)Math.Ceiling((double)orders.Count() / pageSize);
@@ -132,7 +132,7 @@ namespace Models.BLL
         }    
         public int add(Order order, int UserID, out string message)
         {
-            User user = new UserBLL().find(UserID);
+            User user = new UserBO().find(UserID);
             if (user != null)
             {
                 List<ProductOrder> productOrders = new List<ProductOrder>();
@@ -143,7 +143,7 @@ namespace Models.BLL
                     {
                         foreach (ProductOrder productOrder in order.ProductOrder)
                         {
-                            Product product = new ProductBLL().find((int)productOrder.ProductID);
+                            Product product = new ProductBO().find((int)productOrder.ProductID);
                             if (product != null)
                             {
                                 if (productOrder.Quantity <= product.Stock)
@@ -156,8 +156,8 @@ namespace Models.BLL
                                         isComment = false
                                     });
                                     TotalPrice += productOrder.Quantity * product.Price;
-                                    new ProductBLL().import(product.ID, -productOrder.Quantity);
-                                    new CartBLL().DeleteProduct(product.ID, user.ID);
+                                    new ProductBO().import(product.ID, -productOrder.Quantity);
+                                    new CartBO().DeleteProduct(product.ID, user.ID);
                                 }
                             }
                         }
@@ -166,10 +166,10 @@ namespace Models.BLL
                             int? voucherID = null;
                             if (!string.IsNullOrEmpty(order.Voucher.Seri))
                             {
-                                Voucher voucher = new VoucherBLL().check(order.Voucher.Seri);
+                                Voucher voucher = new VoucherBO().check(order.Voucher.Seri);
                                 voucher.Quantity -= 1;
                                 voucherID = voucher.ID;
-                                new VoucherBLL().Update(voucher);
+                                new VoucherBO().Update(voucher);
                             }    
                             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
                             {
@@ -189,8 +189,8 @@ namespace Models.BLL
                                 };
                                 context.Orders.Add(newOrder);
                                 context.SaveChanges();
-                                new StateBLL().addProductState(newOrder.ID, "Đặt đơn hàng thành công");
-                                new StateBLL().addProductState(newOrder.ID, "Đang chờ xác nhận");
+                                new StateBO().addProductState(newOrder.ID, "Đặt đơn hàng thành công");
+                                new StateBO().addProductState(newOrder.ID, "Đang chờ xác nhận");
                                 message = "Tạo đơn hàng thành công";
                                 return newOrder.ID;
                             }
@@ -229,8 +229,8 @@ namespace Models.BLL
                 }).FirstOrDefault(o => o.ID == orderID);
                 if (order != null && !order.isCancel && !order.isReceived && order.StateOrder.Last().State.Name == "Đang chờ xác nhận")
                 {
-                    new StateBLL().addProductState(order.ID, "Đã xác nhận đơn hàng");
-                    new StateBLL().addProductState(order.ID, "Đang chuẩn bị đơn hàng");
+                    new StateBO().addProductState(order.ID, "Đã xác nhận đơn hàng");
+                    new StateBO().addProductState(order.ID, "Đang chuẩn bị đơn hàng");
                     return true;
                 }
                 return false;
@@ -242,17 +242,17 @@ namespace Models.BLL
             {
                 Order order = context.Orders.Find(orderID);
                 if (order == null) return false;
-                StateBLL stateBLL = new StateBLL();
-                if (!order.isCancel && !order.isReceived && stateBLL.getCurrentProductState(orderID).Name == "Đang chờ xác nhận")
+                StateBO StateBO = new StateBO();
+                if (!order.isCancel && !order.isReceived && StateBO.getCurrentProductState(orderID).Name == "Đang chờ xác nhận")
                 {
-                    stateBLL.addProductState(order.ID, "Đơn hàng bị từ chối");
+                    StateBO.addProductState(order.ID, "Đơn hàng bị từ chối");
                     order.isCancel = true;
                     context.SaveChanges();
-                    ProductBLL productBLL = new ProductBLL();
+                    ProductBO ProductBO = new ProductBO();
                     List<ProductOrder> productOrders = find(orderID).ProductOrder;
                     foreach (ProductOrder productOrder in productOrders)
                     {
-                        productBLL.import((int)productOrder.ProductID, productOrder.Quantity);
+                        ProductBO.import((int)productOrder.ProductID, productOrder.Quantity);
                     }
                     return true;
                 }
@@ -265,10 +265,10 @@ namespace Models.BLL
             {
                 Order order = context.Orders.Find(orderID);
                 if (order == null) return false;
-                StateBLL stateBLL = new StateBLL();
-                if (!order.isCancel && !order.isReceived && stateBLL.getCurrentProductState(orderID).Name == "Đang chuẩn bị đơn hàng")
+                StateBO StateBO = new StateBO();
+                if (!order.isCancel && !order.isReceived && StateBO.getCurrentProductState(orderID).Name == "Đang chuẩn bị đơn hàng")
                 {
-                    stateBLL.addProductState(orderID, "Đang giao hàng");
+                    StateBO.addProductState(orderID, "Đang giao hàng");
                     return true;
                 }
                 return false;
@@ -280,17 +280,17 @@ namespace Models.BLL
             {
                 Order order = context.Orders.Find(orderID);
                 if (order == null) return false;
-                StateBLL stateBLL = new StateBLL();
-                if (!order.isCancel && !order.isReceived && stateBLL.getCurrentProductState(orderID).Name == "Đang giao hàng")
+                StateBO StateBO = new StateBO();
+                if (!order.isCancel && !order.isReceived && StateBO.getCurrentProductState(orderID).Name == "Đang giao hàng")
                 {
                     order.isCancel = true;
                     context.SaveChanges();
-                    stateBLL.addProductState(orderID, "Giao hàng thất bại");
-                    ProductBLL productBLL = new ProductBLL();
+                    StateBO.addProductState(orderID, "Giao hàng thất bại");
+                    ProductBO ProductBO = new ProductBO();
                     List<ProductOrder> productOrders = find(orderID).ProductOrder;
                     foreach (ProductOrder productOrder in productOrders)
                     {
-                        productBLL.import((int)productOrder.ProductID, productOrder.Quantity);
+                        ProductBO.import((int)productOrder.ProductID, productOrder.Quantity);
                     }
                     return true;
                 }
@@ -303,11 +303,11 @@ namespace Models.BLL
             {
                 Order order = context.Orders.Find(orderID);
                 if (order == null) return false;
-                StateBLL stateBLL = new StateBLL();
-                if (!order.isCancel && !order.isReceived && stateBLL.getCurrentProductState(orderID).Name == "Đang giao hàng")
+                StateBO StateBO = new StateBO();
+                if (!order.isCancel && !order.isReceived && StateBO.getCurrentProductState(orderID).Name == "Đang giao hàng")
                 {
-                    stateBLL.addProductState(orderID, "Đã giao hàng");
-                    stateBLL.addProductState(orderID, "Đang chờ xác nhận nhận hàng");
+                    StateBO.addProductState(orderID, "Đã giao hàng");
+                    StateBO.addProductState(orderID, "Đang chờ xác nhận nhận hàng");
                     return true;
                 }
                 return false;
@@ -319,17 +319,17 @@ namespace Models.BLL
             {
                 Order order = context.Orders.FirstOrDefault(o => o.ID == orderID && o.UserID == userID);
                 if (order == null) return false;
-                StateBLL stateBLL = new StateBLL();
-                if (!order.isCancel && !order.isReceived && stateBLL.getCurrentProductState(orderID).Name == "Đang chờ xác nhận nhận hàng")
+                StateBO StateBO = new StateBO();
+                if (!order.isCancel && !order.isReceived && StateBO.getCurrentProductState(orderID).Name == "Đang chờ xác nhận nhận hàng")
                 {
                     order.isReceived = true;
                     context.SaveChanges();
-                    stateBLL.addProductState(orderID, "Đã nhận hàng");
-                    ProductBLL productBLL = new ProductBLL();
+                    StateBO.addProductState(orderID, "Đã nhận hàng");
+                    ProductBO ProductBO = new ProductBO();
                     List<ProductOrder> productOrders = find(orderID).ProductOrder;
                     foreach (ProductOrder productOrder in productOrders)
                     {
-                        productBLL.Sold((int)productOrder.ProductID, productOrder.Quantity);
+                        ProductBO.Sold((int)productOrder.ProductID, productOrder.Quantity);
                     }
                     return true;
                 }
@@ -342,17 +342,17 @@ namespace Models.BLL
             {
                 Order order = context.Orders.FirstOrDefault(o => o.ID == orderID && o.UserID == userID);
                 if (order == null) return false;
-                StateBLL stateBLL = new StateBLL();
-                if (!order.isCancel && !order.isReceived && stateBLL.getCurrentProductState(orderID).Name == "Đang chờ xác nhận nhận hàng")
+                StateBO StateBO = new StateBO();
+                if (!order.isCancel && !order.isReceived && StateBO.getCurrentProductState(orderID).Name == "Đang chờ xác nhận nhận hàng")
                 {
                     order.isCancel = true;
                     context.SaveChanges();
-                    stateBLL.addProductState(orderID, "Nhận hàng thất bại");
-                    ProductBLL productBLL = new ProductBLL();
+                    StateBO.addProductState(orderID, "Nhận hàng thất bại");
+                    ProductBO ProductBO = new ProductBO();
                     List<ProductOrder> productOrders = find(orderID).ProductOrder;
                     foreach (ProductOrder productOrder in productOrders)
                     {
-                        productBLL.import((int)productOrder.ProductID, productOrder.Quantity);
+                        ProductBO.import((int)productOrder.ProductID, productOrder.Quantity);
                     }
                     return true;
                 }
@@ -365,15 +365,15 @@ namespace Models.BLL
             {
                 Order order = context.Orders.FirstOrDefault(o => o.ID == orderID && o.UserID == userID);
                 if (order == null) return false;
-                StateBLL stateBLL = new StateBLL();
-                if (!order.isCancel && !order.isReceived && stateBLL.getCurrentProductState(orderID).Name == "Đang chờ xác nhận")
+                StateBO StateBO = new StateBO();
+                if (!order.isCancel && !order.isReceived && StateBO.getCurrentProductState(orderID).Name == "Đang chờ xác nhận")
                 {
                     order.isCancel = true;
                     context.SaveChanges();
-                    stateBLL.addProductState(orderID, "Đơn hàng đã bị hủy");
+                    StateBO.addProductState(orderID, "Đơn hàng đã bị hủy");
                     foreach (ProductOrder productOrder in find(orderID).ProductOrder)
                     {
-                        new ProductBLL().import((int)productOrder.ProductID, productOrder.Quantity);
+                        new ProductBO().import((int)productOrder.ProductID, productOrder.Quantity);
                     }
                     return true;
                 }

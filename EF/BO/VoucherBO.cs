@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Models.BLL
 {
-    public class VoucherBLL
+    public class VoucherBO
     {
         private ShopOnlineDbContext context;
-        public VoucherBLL()
+        public VoucherBO()
         {
             context = new ShopOnlineDbContext();
         }

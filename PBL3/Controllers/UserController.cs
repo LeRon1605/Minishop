@@ -19,7 +19,7 @@ namespace PBL3.Controllers
         [HasLogin(Role = "USER")]
         public ActionResult Index()
         {
-             User user = new UserBLL().find((int)Session["USER"]);
+             User user = new UserBO().find((int)Session["USER"]);
              return View(user);
         }
         [HttpGet]
@@ -36,11 +36,11 @@ namespace PBL3.Controllers
         {
             if (Session["USER"] == null)
             {
-                User user = new UserBLL().Login(data.Email, Encryptor.MD5Hash(data.Password));
+                User user = new UserBO().Login(data.Email, Encryptor.MD5Hash(data.Password));
                 if (user != null)
                 {
                     Session["USER"] = user.ID;
-                    Role role = new RoleBLL().find((int)user.RoleID);
+                    Role role = new RoleBO().find((int)user.RoleID);
                     if (role.Name == "ADMIN") return RedirectToAction("Index", "Home", new { area = "Admin" });
                     else return RedirectToAction("Index", "Home");
                 }
@@ -74,7 +74,7 @@ namespace PBL3.Controllers
                 if (ModelState.IsValid)
                 {
                     user.Password = Encryptor.MD5Hash(user.Password);
-                    bool result = await new UserBLL().Add(user);
+                    bool result = await new UserBO().Add(user);
                     if (result)
                     {
                         // TempData["Message"] = "Đăng kí thành viên thành công";
@@ -105,7 +105,7 @@ namespace PBL3.Controllers
             if (Session["User"] == null) return RedirectToAction("Index", "Home");
             else
             {
-                User user = new UserBLL().find((int)Session["USER"]);
+                User user = new UserBO().find((int)Session["USER"]);
                 if (user.isActivated)
                 {
                     // Đã kích hoạt rồi
@@ -132,7 +132,7 @@ namespace PBL3.Controllers
             {
                 if (DateTime.Now < data.Date.AddMinutes(3))
                 {
-                    UserBLL userDAO = new UserBLL();
+                    UserBO userDAO = new UserBO();
                     await userDAO.Activate(data.userID);
                     return RedirectToAction("Index", "Home");
                 }
@@ -220,7 +220,7 @@ namespace PBL3.Controllers
                     file.SaveAs(path);
                     user.Image = $"/public/uploads/users/{fileName}";
                 }
-                bool result = (user.ID == (int)Session["USER"]) ? new UserBLL().Update(user) : false;
+                bool result = (user.ID == (int)Session["USER"]) ? new UserBO().Update(user) : false;
                 if (result)
                 {
                     TempData["Status"] = true;
@@ -251,7 +251,7 @@ namespace PBL3.Controllers
         [HttpPost]
         public async Task<ActionResult> ResetPassword(string email)
         {
-            string password = new UserBLL().ResetPasssword(email);
+            string password = new UserBO().ResetPasssword(email);
             if (password == null)
             {
                 return new JsonResult
@@ -284,7 +284,7 @@ namespace PBL3.Controllers
             if (ModelState.IsValid)
             {
 
-                bool result = new UserBLL().ChangePassword(model.OldPassword, model.NewPassword, (int)Session["USER"]);
+                bool result = new UserBO().ChangePassword(model.OldPassword, model.NewPassword, (int)Session["USER"]);
                 if (result)
                 {
                     return new JsonResult
@@ -326,8 +326,8 @@ namespace PBL3.Controllers
         [HasLogin(Role = "USER")]
         public ActionResult Orders(int stateID = 0, string keyword = "")
         {
-            List<Order> orders = new OrderBLL().getUserOrders((int)Session["USER"], stateID, keyword);
-            ViewBag.States = new StateBLL().findAll();
+            List<Order> orders = new OrderBO().getUserOrders((int)Session["USER"], stateID, keyword);
+            ViewBag.States = new StateBO().findAll();
             return View(orders);
         }
     }

@@ -16,7 +16,7 @@ namespace PBL3.Areas.Admin.Controllers
         public ActionResult Index(int page = 1, string keyword = "")
         {
             int countPages = 0;
-            List<User> list = new UserBLL().getPage(page, 10, keyword, out countPages);
+            List<User> list = new UserBO().getPage(page, 10, keyword, out countPages);
             ViewBag.PagingData = new PagingModel
             {
                 CountPages = countPages,
@@ -27,11 +27,11 @@ namespace PBL3.Areas.Admin.Controllers
         }
         public ActionResult View(int id)
         {
-            return View(new UserBLL().find(id));
+            return View(new UserBO().find(id));
         }
         public ActionResult Delete(int id)
         {
-            if(new UserBLL().Delete(id))
+            if(new UserBO().Delete(id))
             {
                 return new JsonResult
                 {

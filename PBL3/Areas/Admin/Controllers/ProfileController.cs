@@ -17,7 +17,7 @@ namespace PBL3.Areas.Admin.Controllers
         
         public ActionResult Index()
         {
-            User user = new UserBLL().find((int)Session["USER"]);
+            User user = new UserBO().find((int)Session["USER"]);
             return View(user);
         }
         public ActionResult Update([Bind(Exclude ="Password")]User user, HttpPostedFileBase file)
@@ -32,7 +32,7 @@ namespace PBL3.Areas.Admin.Controllers
                     file.SaveAs(path);
                     user.Image = $"/public/uploads/users/{fileName}";
                 }
-                bool users = new UserBLL().Update(user);
+                bool users = new UserBO().Update(user);
                 if (users)
                 {
                     TempData["Status"] = true;

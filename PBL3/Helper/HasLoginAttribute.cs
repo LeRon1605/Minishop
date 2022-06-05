@@ -23,7 +23,7 @@ namespace PBL3.Helper
             }
             else
             {
-                User user = new UserBLL().find((int)userID);
+                User user = new UserBO().find((int)userID);
                 if (user == null)
                 {
                     Message = "Người dùng không tồn tại";
@@ -32,7 +32,7 @@ namespace PBL3.Helper
                 else
                 {
                     if (Role == "ALL") return true;
-                    Role userRole = new RoleBLL().find((int)user.RoleID);
+                    Role userRole = new RoleBO().find((int)user.RoleID);
                     if (userRole == null)
                     {
                         Message = "Lỗi hệ thống";

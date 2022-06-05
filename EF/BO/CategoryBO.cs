@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Models.BLL
 {
-    public class CategoryBLL
+    public class CategoryBO
     {
         private ShopOnlineDbContext context;
-        public CategoryBLL()
+        public CategoryBO()
         {
             context = new ShopOnlineDbContext();
         }

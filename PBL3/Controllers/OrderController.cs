@@ -15,7 +15,7 @@ namespace PBL3.Controllers
         // GET: Order
         public ActionResult Index(int id)
         {           
-            Order order = new OrderBLL().find(id);
+            Order order = new OrderBO().find(id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -36,11 +36,11 @@ namespace PBL3.Controllers
         [HttpGet]
         public ActionResult Add()
         {
-            List<CartProduct> item = new CartBLL().GetProductCart((int)Session["USER"], true);
+            List<CartProduct> item = new CartBO().GetProductCart((int)Session["USER"], true);
             if (item.Count > 0)
             {
                 ViewBag.Items = item;
-                ViewBag.Total = new CartBLL().getTotal((int)Session["USER"], true);
+                ViewBag.Total = new CartBO().getTotal((int)Session["USER"], true);
                 return View();
             }
             else
@@ -57,7 +57,7 @@ namespace PBL3.Controllers
             if (ModelState.IsValid)
             {
                 string message;
-                int orderID = new OrderBLL().add(order, (int)Session["USER"], out message);
+                int orderID = new OrderBO().add(order, (int)Session["USER"], out message);
                 if (orderID != -1)
                 {
                     return RedirectToAction("Index", new { id = orderID });
@@ -77,7 +77,7 @@ namespace PBL3.Controllers
         [HttpPost]
         public ActionResult Cancel(int id)
         {
-            if (new OrderBLL().cancel(id, (int)Session["USER"]))
+            if (new OrderBO().cancel(id, (int)Session["USER"]))
             {
                 TempData["Message"] = "Hủy đơn hàng thành công";
                 TempData["Status"] = true;
@@ -92,7 +92,7 @@ namespace PBL3.Controllers
         [HttpPost]
         public ActionResult ConfirmReceive(int id)
         {
-            if (new OrderBLL().confirmReceived(id, (int)Session["USER"]))
+            if (new OrderBO().confirmReceived(id, (int)Session["USER"]))
             {
                 TempData["Message"] = "Xác nhận nhận hàng thành công";
                 TempData["Status"] = true;
@@ -107,7 +107,7 @@ namespace PBL3.Controllers
         [HttpPost]
         public ActionResult DeclineReceive(int id)
         {
-            if (new OrderBLL().declineReceived(id, (int)Session["USER"]))
+            if (new OrderBO().declineReceived(id, (int)Session["USER"]))
             {
                 TempData["Message"] = "Đã xác nhận nhận hàng thất bại";
                 TempData["Status"] = true;
@@ -122,7 +122,7 @@ namespace PBL3.Controllers
         [HttpPost]
         public ActionResult OrderDetail(int id)
         {
-            ProductOrder productOrder = new OrderBLL().getOrderDetail(id);
+            ProductOrder productOrder = new OrderBO().getOrderDetail(id);
             if (productOrder == null)
             {
                 return new JsonResult

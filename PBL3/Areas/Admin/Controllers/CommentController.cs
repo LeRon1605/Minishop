@@ -21,9 +21,9 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                CommentBLL commentBLL = new CommentBLL();
-                if (commentBLL.find(comment.ID) == null) return HttpNotFound();
-                commentBLL.update(comment);
+                CommentBO CommentBO = new CommentBO();
+                if (CommentBO.find(comment.ID) == null) return HttpNotFound();
+                CommentBO.update(comment);
             }
             return View();
         }
