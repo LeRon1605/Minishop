@@ -120,32 +120,19 @@ namespace PBL3.Controllers
             return RedirectToAction("Index", new { id = id });
         }
         [HttpPost]
-        public ActionResult Comment(Comment comment)
+        public ActionResult OrderDetail(int id)
         {
-            if (ModelState.IsValid)
+            ProductOrder productOrder = new OrderBLL().getOrderDetail(id);
+            if (productOrder == null)
             {
-                if (new CommentBLL().add((int)Session["USER"], comment))
+                return new JsonResult
                 {
-                    return new JsonResult
+                    Data = new
                     {
-                        Data = new
-                        {
-                            status = true,
-                            message = "Đánh giá sản phẩm thành công"
-                        }
-                    };
-                }
-                else
-                {
-                    return new JsonResult
-                    {
-                        Data = new
-                        {
-                            status = false,
-                            message = "Đánh giá sản phẩm thất bại"
-                        }
-                    };
-                }
+                        status = false,
+                        message = "Not found"
+                    },
+                };
             }
             else
             {
@@ -153,13 +140,14 @@ namespace PBL3.Controllers
                 {
                     Data = new
                     {
-                        status = false,
-                        message = "Đánh giá sản phẩm thất bại",
-                        detail = "Dữ liệu không hợp lệ"
+                        status = true,
+                        data = productOrder
                     }
                 };
             }
-        }    
+        }
+
+      
 
     }
 }

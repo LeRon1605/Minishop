@@ -35,10 +35,10 @@ namespace PBL3.Helper
 
                 SmtpClient client = new SmtpClient
                 {
+                    Port = 587,
+                    EnableSsl = true,
                     Credentials = new NetworkCredential(fromEmailAddress, fromEmailPassword),
                     Host = smtpHost,
-                    EnableSsl = enabledSsl,
-                    Port = !string.IsNullOrEmpty(smtpPort) ? Convert.ToInt32(smtpPort) : 0
                 };
                 await client.SendMailAsync(message);
                 return true;

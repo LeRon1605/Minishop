@@ -24,7 +24,7 @@ namespace Models.BLL
             ProductOrder productOrder = context.ProductOrder.Find(comment.ID);
             context.Entry(productOrder).Reference(p => p.Order).Load();
             context.Entry(productOrder).Reference(p => p.Comment).Load();
-            if (productOrder != null && productOrder.Comment == null && productOrder.Order.UserID == userID && productOrder.Order.isReceived)
+            if (productOrder != null && productOrder.Comment == null && productOrder.Order.UserID == userID && productOrder.Order.isReceived && productOrder.isComment == false)
             {
                 productOrder.Comment = new Comment
                 {
@@ -37,6 +37,7 @@ namespace Models.BLL
                     DeletedAt = null,
                     isDeleted = false
                 };
+                productOrder.isComment = true;
                 context.SaveChanges();
                 return true;
             }
@@ -55,6 +56,7 @@ namespace Models.BLL
                 UpdatedAt = comment.UpdatedAt,
                 DeletedAt = comment.DeletedAt,
                 CreatedAt = comment.CreatedAt,
+                ProductOrder = comment.ProductOrder,
                 Rate = comment.Rate
             }).Where(comment => comment.ProductOrder.ProductID == productID).OrderBy(comment => comment.CreatedAt).ToList();
         }

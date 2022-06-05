@@ -13,10 +13,10 @@ namespace Models.DTO
         public int ID { get; set; }
         [Display(Name = "Điểm đánh giá")]
         [Required(ErrorMessage ="Điểm đánh giá không được để trống")]
-        [Range(0,5)]
+        [Range(1, 5)]
         public int Rate { get; set; }
         [Display(Name = "Nội dung đánh giá")]
-        [StringLength(30, MinimumLength = 30, ErrorMessage = "Nội dung đánh giá có độ dài từ 10 - 30 kí tự.")]
+        [StringLength(30, MinimumLength = 10, ErrorMessage = "Nội dung đánh giá có độ dài từ 10 - 30 kí tự.")]
         [Required(ErrorMessage = "Nội dung đánh giá không được để trống")]
         public string Content { get; set; }
         [Display(Name = "Phản hồi")]

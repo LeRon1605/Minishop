@@ -5,7 +5,7 @@
     List<State> states = ViewBag.States as List<State>;
 }
 @section Styles{
-    <link rel="stylesheet" href="~/public/css/FeedBack.css">
+    @*<link rel="stylesheet" href="~/public/css/FeedBack.css">*@
     <style>
         .order-header:hover {
             color: #dc3545 !important;
@@ -57,69 +57,15 @@
                                     <p class="p-0 m-0 text-danger fw-bold text-end">@String.Format("{0:0,0}", productOrder.Price) đ</p>
                                     @if (order.isReceived)
                                     {
-                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">Đánh giá</button>
-                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="container mt-4 shadow-lg"></div>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="col-md-10" style="margin: 10px;">
-                                                                <h5>
-                                                                    <button type="button" class="btn btn-outline-light text-black"
-                                                                            data-bs-dismiss="modal">
-                                                                        <i class="fa-solid fa-arrow-left-long"></i>
-                                                                    </button>
-                                                                    Đánh giá sản phẩm
-                                                                </h5>
-                                                            </div>
-                                                            <hr>
-                                                            <form>
-                                                                <div class="row">
-                                                                    <div class="form-group col-md-2">
-                                                                        <img src="images/img.jpg" class="" style="padding-left:10px" alt="" width="100px">
-                                                                    </div>
-                                                                    <div class="form-group col-md-10">
-                                                                        <h2>Tên sản phẩm</h2>
-                                                                        <p>Phân loại hàng</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="rating col-md-8">
-                                                                        <input type="radio" id="star5" name="rating" value="5" /><label for="star5"
-                                                                                                                                        title="Meh">
-                                                                            5
-                                                                            stars
-                                                                        </label>
-                                                                        <input type="radio" id="star4" name="rating" value="4" /><label for="star4"
-                                                                                                                                        title="Kinda bad">4 stars</label>
-                                                                        <input type="radio" id="star3" name="rating" value="3" /><label for="star3"
-                                                                                                                                        title="Kinda bad">3 stars</label>
-                                                                        <input type="radio" id="star2" name="rating" value="2" /><label for="star2"
-                                                                                                                                        title="Sucks big tim">2 stars</label>
-                                                                        <input type="radio" id="star1" name="rating" value="1" /><label for="star1"
-                                                                                                                                        title="Sucks big time">1 star</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="content">Nhận xét</label>
-                                                                    <textarea class="form-control" id="content" rows="3"
-                                                                              placeholder="Hãy chia sẻ những điều bạn thích về sản phẩm này"></textarea>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="chose"> <i class="fa-solid fa-camera"></i> Ảnh minh họa</label>
-                                                                    <input type="file" class="form-control-file" id="chose">
-                                                                </div>
-                                                                <div class="form-group text-end">
-                                                                    <button type="submit" class="btn btn-secondary">Trở lại</button>
-                                                                    <button type="submit" class="btn btn-primary">Hoàn thành</button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        if (productOrder.isComment)
+                                        {
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#commentModal" data-id="@productOrder.ID" onclick="loadOrderDetail(this)">Xem đánh giá</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#commentModal" data-id="@productOrder.ID" onclick="loadOrderDetail(this)">Đánh giá</button>
+                                        }
+
                                     }
                                 </div>
                             </div>
@@ -149,15 +95,109 @@
         }
         else
         {
-            <script src="@("https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js")">
-                var myModal = document.getElementById('myModal')
-                var myInput = document.getElementById('myInput')
-                myModal.addEventListener('shown.bs.modal', function () {
-                myInput.focus()
-                })
-            </script>
+            <script src="@("https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js")"></script>
             <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_3qzrm0wa.json" background="transparent" speed="1" style="width: 400px; height: 400px;" loop autoplay class="m-auto"></lottie-player>
             <h3 class="text-center">Không tìm thấy đơn hàng</h3>
         }
     </div>
 </div>
+
+<div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header p-2 d-flex align-items-center justify-content-between">
+                <h5 class="m-0 d-flex align-items-center">
+                    Đánh giá sản phẩm
+                </h5>
+                <button type="button" class="btn close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="notification">
+
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <img src="~/public/images/Default.jpg" class="" style="width:100%;object-fit:cover;" alt="" id="product_Image">
+                        </div>
+                        <div class="form-group col-md-8">
+                            <input value="" id="productOrder_ID" class="d-none"/>
+                            <h2 id="product_Name"></h2>
+                            <p id="order_Quantity"></p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                            <div class="mb-3">
+                                <label class="form-label">Rating</label>
+                                <input type="number" max="5" min="1" class="form-control" id="rating" placeholder="Nhập điểm đánh giá">
+                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="content">Nhận xét</label>
+                        <textarea class="form-control" id="content" rows="3" placeholder="Hãy chia sẻ những điều bạn thích về sản phẩm này" name="content"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                <button type="button" class="btn btn-primary" id="btnSubmit">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $('#btnSubmit').click(e => {
+            const notification = document.getElementById('notification');
+            notification.innerHTML = '';
+            $.ajax({
+                type: "POST",
+                url: `/Comment/Comment`,
+                data: JSON.stringify({
+                    ID: $('#productOrder_ID').val(),
+                    Content: $('#content').val(),
+                    Rate: $("#rating").val()
+                }),
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function (res) {
+                    notification.innerHTML = `<div class="alert ${res.status ? 'alert-success' : 'alert-danger'}" role="alert">` +
+                        res.message +
+                    '</div>';
+                }
+            })
+        });
+        const loadOrderDetail = (e) => {
+            $.ajax({
+                type: "POST",
+                url: `/Order/OrderDetail`,
+                data: JSON.stringify({
+                    ID: e.dataset.id,
+                }),
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function (res) {
+                    if (res.status) {
+                        const name = document.getElementById('product_Name');
+                        const image = document.getElementById('product_Image');
+                        const quantity = document.getElementById('order_Quantity');
+
+                        name.innerText = res.data.Product.Name;
+                        image.src = res.data.Product.Image;
+                        quantity.innerText = 'Số lượng: ' + res.data.Quantity;
+
+                        if (res.data.Comment != null) {
+                            $('#content').val(res.data.Comment.Content);
+                            $("#rating").val(res.data.Comment.Rate);
+                        }
+                        $('#productOrder_ID').val(res.data.ID);
+                    }
+                }
+            })
+        };
+    </script>
+}

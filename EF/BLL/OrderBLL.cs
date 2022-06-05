@@ -81,7 +81,8 @@ namespace Models.BLL
                         ProductID = productOrder.ProductID,
                         Product = productOrder.Product,
                         Price = productOrder.Price,
-                        Quantity = productOrder.Quantity
+                        Quantity = productOrder.Quantity,
+                        isComment = productOrder.isComment
                     }).ToList(),
                     StateOrder = order.StateOrder.Select(stateOrder => new StateOrder
                     {
@@ -151,7 +152,8 @@ namespace Models.BLL
                                     {
                                         ProductID = product.ID,
                                         Quantity = productOrder.Quantity,
-                                        Price = product.Price
+                                        Price = product.Price,
+                                        isComment = false
                                     });
                                     TotalPrice += productOrder.Quantity * product.Price;
                                     new ProductBLL().import(product.ID, -productOrder.Quantity);
@@ -389,5 +391,36 @@ namespace Models.BLL
                 return true;
             }    
         }    
+
+        public ProductOrder getOrderDetail(int id)
+        {
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                return context.ProductOrder.Select(p => new ProductOrder
+                {
+                    ID = p.ID,
+                    Quantity = p.Quantity,
+                    Price = p.Price,
+                    Comment = new Comment
+                    {
+                        ID = p.Comment.ID,
+                        Content = p.Comment.Content,
+                        CreatedAt = p.Comment.CreatedAt,
+                        ReplyContent = p.Comment.ReplyContent,
+                        UpdatedAt = p.Comment.UpdatedAt,
+                        DeletedAt = p.Comment.DeletedAt,
+                        isDeleted = p.Comment.isDeleted,
+                        Rate = p.Comment.Rate,
+                        UserID = p.Comment.UserID
+                    },
+                    Product = new Product
+                    {
+                        Name = p.Product.Name,
+                        ID = p.Product.ID,
+                        Image = p.Product.Image
+                    }
+                }).FirstOrDefault(p => p.ID == id);
+            }
+        }
     }
 }
