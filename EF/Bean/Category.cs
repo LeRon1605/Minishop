@@ -8,6 +8,10 @@ namespace Models.DTO
 {
     public class Category
     {
+        public Category()
+        {
+            Products = new HashSet<Product>();
+        }
         [Key]
         public int ID { get; set; }
         [Display(Name = "Loại sản phẩm")]
@@ -20,7 +24,7 @@ namespace Models.DTO
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }
 
-        public List<Product> Products { get; set; }
+        public ICollection<Product> Products { get; set; }
 
 
     }

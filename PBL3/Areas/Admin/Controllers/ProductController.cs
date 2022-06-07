@@ -37,6 +37,7 @@ namespace PBL3.Areas.Admin.Controllers
             ProductBO productDAO = new ProductBO();
             ViewBag.isEdit = isEdit;
             ViewBag.categories = categoryDAO.findAll();
+            ViewBag.importBills = new ImportBillBO().getBillsOfProduct(id);
             Product product = productDAO.find(id, true);
             if (product == null)
             {
@@ -119,19 +120,34 @@ namespace PBL3.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult Import(int id, int quantity)
+        public ActionResult Import(int id, ImportBill bill)
         {
-            ProductBO productDAO = new ProductBO();
-            if (productDAO.import(id, quantity))
+            if (ModelState.IsValid)
             {
-                return new JsonResult
+                ProductBO productDAO = new ProductBO();
+                if (productDAO.import(id, bill))
                 {
-                    Data = new
+                    return new JsonResult
                     {
-                        status = true,
-                        message = "Nhập hàng vào kho thành công"
-                    }
-                };
+                        Data = new
+                        {
+                            status = true,
+                            message = "Nhập hàng vào kho thành công"
+                        }
+                    };
+                }
+                else
+                {
+                    return new JsonResult
+                    {
+                        Data = new
+                        {
+                            status = false,
+                            message = "Nhập hàng vào kho thất bại",
+                            detail = "Sản phẩm không tồn tại"
+                        }
+                    };
+                }
             }
             else
             {
@@ -141,7 +157,7 @@ namespace PBL3.Areas.Admin.Controllers
                     {
                         status = false,
                         message = "Nhập hàng vào kho thất bại",
-                        detail = "Sản phẩm không tồn tại"
+                        detail = ModelState.Values.SelectMany(v => v.Errors).ToList()[0].ErrorMessage
                     }
                 };
             }

@@ -4,6 +4,7 @@
     ViewBag.Title = "Edit";
     bool editable = ViewBag.isEdit;
     List<Category> categories = ViewBag.categories;
+    List<ImportBill> bills = ViewBag.importBills;
 }
 
 @section Styles
@@ -111,7 +112,7 @@
 
 
                         </select>
-</div>
+                    </div>
                     <div class="mb-3">
                         @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "form-label" })
                         <div class="input-group mb-3">
@@ -234,6 +235,34 @@
             </div>
         </div>
     </div>
+    <div class="fw-bold fs-5 primary mt-5">
+        <i class="fa-solid fa-list"></i> Danh sách đơn hàng nhập
+    </div>
+    foreach (ImportBill bill in bills)
+    {
+        <div class="bg-white p-3 shadow rounded mt-3">
+            <div class="col-12 d-flex justify-content-between">
+                <h6 class="p-0 m-0 fw-bold">ID đơn hàng: @bill.ID</h6>
+                <p class="p-0 m-0 fw-bold">Nhập hàng thành công</p>
+            </div>
+            <hr>
+            <div class="col-12 d-flex">
+                <div class="col-1 border" style="height: 10vh">
+                    <img src="@Model.Image" alt="" style="width: 100%;height: 100%;object-fit:cover">
+                </div>
+                <div class="col-11 d-flex justify-content-between">
+                    <div class="ms-3">
+                        <p class="p-0 m-0 fw-bold">@Model.Name</p>
+                        <p class="p-0 m-0 text-muted">Số lượng: @bill.Quantity</p>
+                    </div>
+                    <div class="d-flex flex-column justify-content-between">
+                        <p class="p-0 m-0 text-danger fw-bold text-end">@String.Format("{0:0,0}", bill.TotalPrice) đ</p>
+                        <button class="btn btn-danger">Chỉnh sửa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 }
 
 <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">

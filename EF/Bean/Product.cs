@@ -10,6 +10,12 @@ namespace Models.DTO
 {
     public class Product
     {
+        public Product()
+        {
+            CartProduct = new HashSet<CartProduct>();
+            ProductOrder = new HashSet<ProductOrder>();
+            ImportBills = new HashSet<ImportBill>();
+        }
         [Key]
         public int ID { get; set; }
 
@@ -67,7 +73,8 @@ namespace Models.DTO
         public int? CategoryID { get; set; }
         public virtual Category Category { get; set; }
         // public List<Comment> Comments { get; set; }
-        public List<ProductOrder> ProductOrder { get; set; }
-        public virtual List<CartProduct> CartProduct { get; set; }
+        public virtual ICollection<ProductOrder> ProductOrder { get; set; }
+        public virtual ICollection<CartProduct> CartProduct { get; set; }
+        public virtual ICollection<ImportBill> ImportBills { get; set; }
     }
 }

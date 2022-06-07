@@ -75,6 +75,7 @@ namespace Models.DAL
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ImportBill> ImportBills { get; set; }
         // public DbSet<ProductDetail> ProductDetails { get; set; }
         public DbSet<ProductOrder> ProductOrder { get; set; }
         public DbSet<Voucher> Vouchers { get; set; }

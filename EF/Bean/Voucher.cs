@@ -10,6 +10,10 @@ namespace Models.DTO
 {     
     public class Voucher
     {
+        public Voucher()
+        {
+            Orders = new HashSet<Order>();
+        }
         [Key]
         public int ID { get; set; }
         [Display(Name ="Giá trị voucher")]
@@ -30,6 +34,6 @@ namespace Models.DTO
         public DateTime EndDate { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; } = null;
-        public virtual List<Order> Orders { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

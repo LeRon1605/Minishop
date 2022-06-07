@@ -78,6 +78,7 @@ $('#importForm').on('submit', (e) => {
     const data = {
         id: $('#product_id_modal').val(),
         quantity: $('#product_quantity_modal').val(),
+        totalprice: $('#product_total_modal').val(),
     };
     axios.post('/admin/product/import', data)
         .then(res => {
@@ -91,13 +92,18 @@ $('#importForm').on('submit', (e) => {
                     }
                 }
                 stock[index].innerText = `${parseInt(stock[index].innerText.trim()) + parseInt(data.quantity.trim())}`;
+                $('#product_name_modal').val('');
+                $('#product_id_modal').val('');
+                $('#product_quantity_modal').val('');
+                $('#importProductModal').modal('toggle');
+                showToast(res.data.status, res.data.message);
+            } else {
+                const notification = document.querySelector("#notification");
+                notification.innerHTML = `<div class="alert alert-danger col-12 p-2" role="alert">`
+                    + data.detail +
+                `</div>`;
             }
-            showToast(res.data.status, res.data.message);
         })
-    $('#product_name_modal').val('');
-    $('#product_id_modal').val('');
-    $('#product_quantity_modal').val('');
-    $('#importProductModal').modal('toggle');
 })
 
 window.addEventListener('load', (e) => {

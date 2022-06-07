@@ -249,7 +249,7 @@ namespace Models.BLL
                     order.isCancel = true;
                     context.SaveChanges();
                     ProductBO ProductBO = new ProductBO();
-                    List<ProductOrder> productOrders = find(orderID).ProductOrder;
+                    List<ProductOrder> productOrders = find(orderID).ProductOrder as List<ProductOrder>;
                     foreach (ProductOrder productOrder in productOrders)
                     {
                         ProductBO.import((int)productOrder.ProductID, productOrder.Quantity);
@@ -287,7 +287,7 @@ namespace Models.BLL
                     context.SaveChanges();
                     StateBO.addProductState(orderID, "Giao hàng thất bại");
                     ProductBO ProductBO = new ProductBO();
-                    List<ProductOrder> productOrders = find(orderID).ProductOrder;
+                    List<ProductOrder> productOrders = find(orderID).ProductOrder as List<ProductOrder>;
                     foreach (ProductOrder productOrder in productOrders)
                     {
                         ProductBO.import((int)productOrder.ProductID, productOrder.Quantity);
@@ -326,7 +326,7 @@ namespace Models.BLL
                     context.SaveChanges();
                     StateBO.addProductState(orderID, "Đã nhận hàng");
                     ProductBO ProductBO = new ProductBO();
-                    List<ProductOrder> productOrders = find(orderID).ProductOrder;
+                    List<ProductOrder> productOrders = find(orderID).ProductOrder as List<ProductOrder>;
                     foreach (ProductOrder productOrder in productOrders)
                     {
                         ProductBO.Sold((int)productOrder.ProductID, productOrder.Quantity);
@@ -349,7 +349,7 @@ namespace Models.BLL
                     context.SaveChanges();
                     StateBO.addProductState(orderID, "Nhận hàng thất bại");
                     ProductBO ProductBO = new ProductBO();
-                    List<ProductOrder> productOrders = find(orderID).ProductOrder;
+                    List<ProductOrder> productOrders = find(orderID).ProductOrder as List<ProductOrder>;
                     foreach (ProductOrder productOrder in productOrders)
                     {
                         ProductBO.import((int)productOrder.ProductID, productOrder.Quantity);

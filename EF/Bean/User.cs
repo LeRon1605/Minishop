@@ -11,6 +11,11 @@ namespace Models.DTO
     [Serializable]
     public class User
     {
+        public User()
+        {
+            Comments = new HashSet<Comment>();
+            Orders = new HashSet<Order>();
+        }
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
@@ -52,8 +57,8 @@ namespace Models.DTO
 
         public int? RoleID { get; set; }
         public Role Role { get; set; }
-        public List<Order> Orders { get; set; }
-        public List<Comment> Comments { get; set; }
+        public ICollection<Order> Orders { get; set; }
+        public ICollection<Comment> Comments { get; set; }
         public Cart Cart { get; set; }
     }
 }

@@ -276,16 +276,22 @@
             @using (Html.BeginForm("Import", "Product", FormMethod.Get, new { @id = "importForm" }))
             {
                 <div class="modal-body">
+                    <div id="notification">
+
+                    </div>
                     <input name="id" class="d-none" value="" id="product_id_modal" />
                     <div class="mb-3">
                         <label class="form-label">Tên sản phẩm</label>
                         <input class="form-control" id="product_name_modal" disabled>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Số lượng hàng</label>
+                        <label class="form-label">Số lượng</label>
                         <input class="form-control" id="product_quantity_modal" placeholder="Nhập số lượng hàng muốn nhập thêm">
                     </div>
-
+                    <div class="mb-3">
+                        <label class="form-label">Tổng giá trị đơn hàng</label>
+                        <input class="form-control" id="product_total_modal" placeholder="Nhập tổng giá trị đơn hàng">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>

@@ -163,9 +163,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bean\ImportBill.cs" />
     <Compile Include="BO\CommentBO.cs" />
     <Compile Include="BO\CartBO.cs" />
     <Compile Include="BO\CategoryBO.cs" />
+    <Compile Include="BO\ImportBillBO.cs" />
     <Compile Include="BO\OrderBO.cs" />
     <Compile Include="BO\ProductBO.cs" />
     <Compile Include="BO\RoleBO.cs" />

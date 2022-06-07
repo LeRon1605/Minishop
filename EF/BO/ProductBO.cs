@@ -132,17 +132,35 @@ namespace Models.BLL
             return context.Products.AsNoTracking().Count();
         }
 
-        public bool import(int id, int quantity)
+        public bool import(int id, ImportBill importBill)
         {
             Product product = context.Products.Find(id);
             if (product == null) return false;
             else
+            {
+                product.ImportBills.Add(new ImportBill { 
+                    Quantity = importBill.Quantity,
+                    TotalPrice = importBill.TotalPrice,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = null
+                });
+                product.Stock += importBill.Quantity;
+                product.UpdatedAt = DateTime.Now;
+                context.SaveChanges();
+                return true;
+            }
+        }
+        public bool import(int id, int quantity)
+        {
+            Product product = context.Products.Find(id);
+            if (product != null && quantity > 0)
             {
                 product.Stock += quantity;
                 product.UpdatedAt = DateTime.Now;
                 context.SaveChanges();
                 return true;
             }
+            return false;
         }
     }   
 }

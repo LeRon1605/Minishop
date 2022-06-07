@@ -9,6 +9,11 @@ namespace Models.DTO
 {
     public class Order
     {
+        public Order()
+        {
+            ProductOrder = new List<ProductOrder>();
+            StateOrder = new List<StateOrder>();
+        }
         [Key]
         public int ID { get; set; }
         [Display(Name ="Địa chỉ nhận")]
