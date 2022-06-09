@@ -80,3 +80,7 @@ let SelectProduct = (e) => {
         }
     })
 };
+window.addEventListener('load', (e) => {
+    const toast = document.getElementById('toast_body');
+    if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
+})

@@ -207,7 +207,13 @@ namespace Models.BLL
                 }
             }    
         }
-
+        public int Count(bool isActivated = false)
+        {
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                return context.Users.Count(u => !isActivated || u.isActivated);
+            }
+        }    
         public bool ChangePassword(string oldPassword, string newPassword, int ID)
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())

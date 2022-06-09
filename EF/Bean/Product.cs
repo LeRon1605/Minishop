@@ -29,7 +29,6 @@ namespace Models.DTO
         public int Price { get; set; }
 
         [Display(Name = "Số lượng hàng hóa")]
-        [Required(ErrorMessage = "Số lượng hàng hóa không được để trống")]
         [Range(0, int.MaxValue)]
         public int Stock { get; set; }
 

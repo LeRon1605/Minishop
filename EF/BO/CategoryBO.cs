@@ -67,7 +67,7 @@ namespace Models.BLL
 
         public List<Product> ListProducts(int id)
         {
-            List<Product> list = context.Products.AsNoTracking().Where(product => product.CategoryID == id).ToList() as List<Product>;
+            List<Product> list = context.Products.AsNoTracking().Where(product => product.CategoryID == id).ToList();
             return list;
         }
 

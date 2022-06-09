@@ -531,8 +531,6 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\VoucherController.cs" />
     <Compile Include="Helper\HasLoginAttribute.cs" />
-    <Compile Include="Models\ChangePasswordModel.cs" />
-    <Compile Include="Models\PagingModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -540,9 +538,6 @@
     </Compile>
     <Compile Include="Helper\Encryptor.cs" />
     <Compile Include="Helper\Mail.cs" />
-    <Compile Include="Models\ActivateAccountModel.cs" />
-    <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\ProductOrderModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -668,6 +663,7 @@
     <Content Include="Views\User\Orders.cshtml" />
     <Content Include="Views\Order\Add.cshtml" />
     <Content Include="Views\Voucher\Index.cshtml" />
+    <Content Include="Views\Shared\_RowStatistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -422,5 +422,12 @@ namespace Models.BLL
                 }).FirstOrDefault(p => p.ID == id);
             }
         }
+        public int Count()
+        {
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                return context.Orders.Count();
+            }
+        }
     }
 }
