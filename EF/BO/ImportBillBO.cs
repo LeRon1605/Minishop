@@ -43,14 +43,35 @@ namespace Models.BLL
 
         public bool Update(ImportBill bill)
         {
-            // 
-            return false;
+            
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                ImportBill importBill = context.ImportBills.Find(bill.ID);
+                if(importBill == null) return false;
+                else
+                {
+                    bill.Quantity = bill.Quantity;
+                    bill.TotalPrice = bill.TotalPrice;
+                    bill.UpdatedAt = bill.UpdatedAt;
+                    context.SaveChanges();
+                    return true;
+                }
+            }
         }
 
-        public bool Remove(ImportBill bill)
+        public bool Delete(int id)
         {
-            // 
-            return false;
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                ImportBill importBill = context.ImportBills.Find(id);
+                if( importBill != null)
+                {
+                    context.ImportBills.Remove(importBill);
+                    context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }     
         }
     }
 }
