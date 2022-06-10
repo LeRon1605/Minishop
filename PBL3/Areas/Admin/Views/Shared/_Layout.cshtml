@@ -53,18 +53,14 @@
                             <span class="fa-solid fa-tachograph-digital subicon"></span>
                             <span class="menu-collapsed">Quản Lí Voucher</span>
                         </a>
-                        <div id="submenu1" class="collapse sidebar-submenu">
-                            <a href="@Url.Action("Index", "Order", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
-                                <span class="fa-solid fa-cart-shopping subicon"></span>
-                                <span class="menu-collapsed">Quản Lí Đơn Hàng</span>
-                            </a>
-                        </div>
-                        <div id="submenu1" class="collapse sidebar-submenu">
-                            <a href="@Url.Action("Index", "ImportBill", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
-                                <span class="fa-solid fa-cart-shopping subicon"></span>
-                                <span class="menu-collapsed">Quản Lí Đơn Nhập</span>
-                            </a>
-                        </div>
+                        <a href="@Url.Action("Index", "Order", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
+                            <span class="fa-solid fa-tachograph-digital subicon"></span>
+                            <span class="menu-collapsed">Quản Lí Đơn hàng</span>
+                        </a>
+                        <a href="@Url.Action("Index", "ImportBill", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
+                            <span class="fa-solid fa-cart-shopping subicon"></span>
+                            <span class="menu-collapsed">Quản Lí Đơn Nhập</span>
+                        </a>
                     </div>
 
                     <a href="@Url.Action("Index", "Home", new { area = "Admin" })" class="bg-dark list-group-item list-group-item-action">

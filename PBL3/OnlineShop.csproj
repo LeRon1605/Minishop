@@ -585,6 +585,7 @@
     <Content Include="public\images\Logo.jpg" />
     <Content Include="public\js\Cart.js" />
     <Content Include="public\js\Admin_Home.js" />
+    <Content Include="public\js\ImportBill.js" />
     <Content Include="public\js\lightslider.min.js" />
     <Content Include="public\js\Category.js" />
     <Content Include="public\js\Order\Add.js" />
@@ -620,6 +621,8 @@
     <Content Include="Areas\Admin\Views\Profile\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Comment\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Order\View.cshtml" />
+    <Content Include="Areas\Admin\Views\ImportBill\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ImportBill\View.cshtml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -669,7 +672,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\ImportBill\" />
     <Folder Include="public\uploads\users\" />
     <Folder Include="Views\Comment\" />
   </ItemGroup>

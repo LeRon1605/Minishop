@@ -13,19 +13,12 @@ namespace Models.DTO
     {
         [Key]
         public int ID { get; set; }
-        [DisplayName("Số lượng")]
-        [Required(ErrorMessage = "Số lượng không được để trống")]
-        [Range(0, int.MaxValue, ErrorMessage = "Số lượng sản phẩm không được bé hơn 0.")]
-        public int Quantity { get; set; }
         [DisplayName("Tổng giá trị đơn hàng")]
         [Required(ErrorMessage = "Không được để trống giá trị đơn hàng")]
         [Range(0, int.MaxValue, ErrorMessage = "Tổng giá trị đơn hàng không được bé hơn 0.")]
         public int TotalPrice { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        [ForeignKey("Product")]
-        [Required]
-        public int ProductID { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual List<ImportBillDetail> ImportBillDetails { get; set; }
     }
 }

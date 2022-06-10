@@ -25,7 +25,7 @@ namespace PBL3.Areas.Admin.Controllers
             {
                 CountPages = countPages,
                 CurrentPage = page,
-                GenerateURL = (pageNum) => $"?page={pageNum}&stateID={stateID}&keyword={keyword}"
+                GenerateURL = (pageNum) => $"?page={pageNum}&stateID={stateID}&keyword={keyword}&startDate={((DateTime)startDate).ToString("yyyy-MM-dd")}&endDate={((DateTime)endDate).ToString("yyyy-MM-dd")}"
             };
             return View(orders);
         }

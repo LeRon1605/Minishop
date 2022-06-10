@@ -164,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bean\ImportBill.cs" />
+    <Compile Include="Bean\ImportBillDetail.cs" />
     <Compile Include="BO\CommentBO.cs" />
     <Compile Include="BO\CartBO.cs" />
     <Compile Include="BO\CategoryBO.cs" />
