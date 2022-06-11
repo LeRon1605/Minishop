@@ -63,7 +63,6 @@ for (let i = 0; i < action.length; i++) {
         for (let j = 0; j < action.length; j++) {
             action[j].classList.toggle('action_product_click');
         }
-        console.log(listProduct);
         listProduct.classList.toggle('d-none');
         addForm.classList.toggle('d-none');
     });
@@ -86,7 +85,7 @@ $('#importForm').on('submit', (e) => {
                 const stock = document.getElementsByClassName('product_stock_table');
                 let index;
                 for (let i = 0; i < stock.length; i++) {
-                    if (stock[i].dataset.id == data.id) {
+                    if (stock[i].dataset.id == data.productID) {
                         index = i;
                         break;
                     }

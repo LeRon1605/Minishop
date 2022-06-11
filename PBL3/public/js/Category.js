@@ -1,15 +1,14 @@
-﻿let action = document.getElementsByClassName('action_category');
+﻿let action = document.getElementsByClassName('action_product');
 
 // Content 
-let listCategory = document.getElementById('list_category');
+let listCategory = document.getElementById('list_product');
 let addForm = document.getElementById('add_form');
 
 for (let i = 0; i < action.length; i++) {
     action[i].addEventListener('click', (e) => {
         for (let j = 0; j < action.length; j++) {
-            action[j].classList.toggle('action_category_click');
+            action[j].classList.toggle('action_product_click');
         }
-        console.log(listCategory);
         listCategory.classList.toggle('d-none');
         addForm.classList.toggle('d-none');
     });

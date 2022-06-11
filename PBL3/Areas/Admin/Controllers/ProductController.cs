@@ -148,17 +148,17 @@ namespace PBL3.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult Import(int id, int quantity, int totalPrice)
+        public ActionResult Import(int productID, int quantity, int totalPrice)
         {
             if (ModelState.IsValid)
             {
                 ProductBO productDAO = new ProductBO();
-                if (productDAO.exist(id) && quantity > 0 && totalPrice > 0)
+                if (productDAO.exist(productID) && quantity > 0 && totalPrice > 0)
                 {
                     ImportBill bill = new ImportBill
                     {
                         TotalPrice = totalPrice,
-                        ImportBillDetails = new List<ImportBillDetail> { new ImportBillDetail { ProductID = id, Quantity = quantity } }
+                        ImportBillDetails = new List<ImportBillDetail> { new ImportBillDetail { ProductID = productID, Quantity = quantity } }
                     };
                     new ImportBillBO().Add(bill);
                     return new JsonResult

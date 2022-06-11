@@ -43,7 +43,8 @@ namespace PBL3.Controllers
                 {
                     if (product.Quantity > new ProductBO().find(product.ID).Stock)
                     {
-                        TempData["Message"] = "Sản phẩm hết hàng.";
+                        TempData["Status"] = false;
+                        TempData["Message"] = "Số lượng trong kho không đủ.";
                         return RedirectToAction("Index", "Cart");
                     }    
                 }    
@@ -53,6 +54,7 @@ namespace PBL3.Controllers
             }
             else
             {
+                TempData["Status"] = false;
                 TempData["Message"] = "Phải chọn ít nhất một sản phẩm";
                 return RedirectToAction("Index", "Cart");
             }

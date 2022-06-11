@@ -8,6 +8,12 @@
 {
     <link rel="stylesheet" href="~/public/css/Cart.css">
     <link rel="stylesheet" href="~/public/uploads/products">
+    <style>
+        input:focus {
+            outline: none !important;
+            border-color: #719ECE;
+        }
+    </style>
 }
 <div class="container" style="width: 73.7em">
     <!-- Shopping Cart-->
@@ -106,9 +112,27 @@
             <strong class="me-auto ms-1">Thông báo</strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body text-white bg-success" id="toast_body">
+        @if (TempData["Status"] != null)
+        {
+            if ((bool)TempData["Status"] == false)
+            {
+                <div class="toast-body text-white bg-danger" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+            else
+            {
+                <div class="toast-body text-white bg-success" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+        }
+        else
+        {
+            <div class="toast-body text-white bg-success" id="toast_body">
 
-        </div>
+            </div>
+        }
     </div>
 </div>
 @section scripts{

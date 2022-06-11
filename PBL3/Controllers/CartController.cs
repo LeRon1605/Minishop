@@ -42,7 +42,7 @@ namespace PBL3.Controllers
                     Data = new
                     {
                         status = false,
-                        message = "Thêm sản phẩm vào giỏ hàng thất bại"
+                        message = "Số lượng trong kho không đủ"
                     }
                 };
             }

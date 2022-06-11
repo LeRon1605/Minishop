@@ -13,7 +13,6 @@ const findProduct = (e) => {
     const idField = document.getElementsByClassName('product-info');
     let result = false;
     for (let i = 0; i < idField.length; i++) {
-        console.log(idField[i].value);
         if (idField[i].value == id) {
             result = true;
             break;
@@ -105,16 +104,20 @@ let showToast = (status, message) => {
 let deleteLineItem = (e) => {
     const btnAdd = document.getElementById('btnAdd');
     if (parseInt(btnAdd.dataset.i) > 0) {
+        if (e.parentElement.parentElement.parentElement.nextElementSibling)
+            e.parentElement.parentElement.parentElement.nextElementSibling.remove();
+        if (e.parentElement.parentElement.parentElement)
+            e.parentElement.parentElement.parentElement.remove();
         btnAdd.dataset.i = parseInt(btnAdd.dataset.i) - 1;
         let index = parseInt(btnAdd.dataset.i);
         const idField = document.getElementsByClassName('product-info');
         const qty = document.getElementsByClassName('qty');
-        for (let i = 0; i < index; i++) {
+        console.log(idField);
+        console.log(qty);
+        for (let i = 0; i <= index; i++) {
             idField[i].name = `ImportBillDetails[${i}].ProductID`;
             qty[i].name = `ImportBillDetails[${i}].Quantity`;
         }
-        e.parentElement.parentElement.parentElement.previousElementSibling.remove();
-        e.parentElement.parentElement.parentElement.remove();
     } else {
         showToast(false, 'Số lượng sản phẩm không được để trống');
     }

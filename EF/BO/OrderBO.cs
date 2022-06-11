@@ -156,8 +156,8 @@ namespace Models.BLL
                                         isComment = false
                                     });
                                     TotalPrice += productOrder.Quantity * product.Price;
-                                    new ProductBO().import(product.ID, -productOrder.Quantity);
-                                    new CartBO().DeleteProduct(product.ID, user.ID);
+                                    new ProductBO().export(product.ID, -productOrder.Quantity);
+                                    new CartBO().save(product.ID, -productOrder.Quantity, user.ID);
                                 }
                             }
                         }
