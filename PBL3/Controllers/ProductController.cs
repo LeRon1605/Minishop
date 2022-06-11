@@ -26,7 +26,25 @@ namespace PBL3.Controllers
             else
             {
                 ViewBag.Comments = new CommentBO().getCommentsOfProduct(id);
+                ViewBag.Rates = new
+                {
+                     rating = (ViewBag.Comments as List<Comment>).GroupBy(i => i.Rate).Select(x => new
+                     {
+                         rate = x.Key,
+                         quantity = x.Count()
+                     }).ToList(),
+                };
+                //dynamic o = new
+                //{
+                //    rating = (ViewBag.Comments as List<Comment>).GroupBy(i => i.Rate).Select(x => new
+                //    {
+                //        rate = x.Key,
+                //        quantity = x.Count()
+                //    }),
+                //};
                 return View(product);
+                
+
             }
         }
         public ActionResult Search(string keyword = "", string categoryID = "All", string price = "All", int page = 1)

@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "Index";
     List<Comment> comments = ViewBag.Comments as List<Comment>;
+    dynamic rate = ViewBag.Rates;
 }
 @section Styles {
     <link rel="stylesheet" href="~/public/css/ProductDetail.css">
@@ -32,15 +33,21 @@
                             <input type="radio" id="star1" name="rate" value="1" />
                             <label for="star1" title="text">1 Sao</label>
                         </div>
-                        <span>150 Reviews</span>
+                        <p><span id="total_review">0</span> Reviews</p>
                     </div>
                     <div class="product-price-discount">
-                        <span>@String.Format("{0:0,0}", Model.Price)</span><span class="line-through">15000000 VNĐ</span>
+                        <span>@String.Format("{0:0,0}", Model.Price) đ</span>
                     </div>
                 </div>
-                <div>
-                    <label for="size">Voucher dành cho sản phẩm</label>
+
+                <div class="Product_decription" style="padding: 10px 0px">
+                    Mô tả sản phẩm
                 </div>
+                <div class="tab-pane fade show active" id="description" role="tabpanel"
+                     aria-labelledby="description-tab">
+                    @Model.Description
+                </div>
+
                 <div class="information" style="padding: 15px 0;">
                     <div class="row product_mass" style="padding: 0 15px; margin-top: 15px">
                         <label class="col-md-4 name_spec" for="size">Khối lượng</label>
@@ -65,37 +72,26 @@
                 </div>
                 @using (Html.BeginForm("Add", "Cart", FormMethod.Post, new { @enctype = "multipart/form-data" }))
                 {
-                <div class="row">
-                    @Html.HiddenFor(model => model.ID, new { @id = "productID" })
-                    <div class="col-md-6">
-                        <div class="product-count">
-                            <label for="size">Số lượng</label>
-                            <div class="d-flex p-1">
-                                <button id="qtyminus" class="qtyminus" type="button">-</button>
-                                <input type="text" name="quantity" value="0" id="qty" class="qty">
-                                <button id="qtyplus" class="qtyplus" type="button">+</button>
+                    <div class="row">
+                        @Html.HiddenFor(model => model.ID, new { @id = "productID" })
+                        <div class="col-md-6">
+                            <div class="product-count">
+                                <label for="size">Số lượng</label>
+                                <div class="d-flex p-1">
+                                    <button id="qtyminus" class="qtyminus" type="button">-</button>
+                                    <input type="text" name="quantity" value="1" min="1" id="qty" class="qty">
+                                    <button id="qtyplus" class="qtyplus" type="button">+</button>
+                                </div>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <button class="round-black-btn col-md-4 margin_width" type="submit" id="btnSubmit">
+                                <i class="fa-solid fa-cart-plus"></i>
+                                Thêm vào giỏ hàng
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <button class="round-black-btn col-md-4 margin_width" type="submit" id="btnSubmit">
-                            <i class="fa-solid fa-cart-plus"></i>
-                            Thêm vào giỏ hàng
-                        </button>
-                    </div>
-                </div>
                 }
-                </div>
-            </div>
-        <div class="product-info-tabs">
-            <div class="tab-content">
-                <div class="Product_decription">
-                    Mô tả sản phẩm
-                </div>
-                <div class="tab-pane fade show active" id="description" role="tabpanel"
-                     aria-labelledby="description-tab">
-                    @Model.Description
-                </div>
             </div>
         </div>
         <div class="container-fluid px-1 py-5 mx-auto">
@@ -107,7 +103,7 @@
                         <div class="row justify-content-left d-flex">
                             <div class="col-md-4 d-flex flex-column">
                                 <div class="rating-box">
-                                    <h1 class="pt-4">4.0</h1>
+                                    <h1 class="pt-4" id="avg_rating">0.0</h1>
                                     <p class="">out of 5</p>
                                 </div>
                                 <div>
@@ -115,52 +111,67 @@
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <div class="rating-bar0 justify-content-center">
+                                <div class="rating-bar justify-content-center">
                                     <table class="text-left mx-auto">
                                         <tr>
-                                            <td class="rating-label">Excellent</td>
+                                            <td class="rating-label" style="width: 50px">5 <i class="fa fa-star star-active"></i></td>
                                             <td class="rating-bar">
                                                 <div class="bar-container">
-                                                    <div class="bar-5"></div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar bg-warning" role="progressbar" id="five_star_progress"
+                                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
                                                 </div>
                                             </td>
-                                            <td class="text-right">123</td>
+                                            <td class="text-right"><span id="total_five_star_review">@rate.rating.FirstOrDefault(x => x.rate == 5)</span></td>
                                         </tr>
                                         <tr>
-                                            <td class="rating-label">Good</td>
+                                            <td class="rating-label" style="width: 50px">4 <i class="fa fa-star star-active mx-1"></i></td>
                                             <td class="rating-bar">
                                                 <div class="bar-container">
-                                                    <div class="bar-4"></div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar bg-warning" role="progressbar" id="four_star_progress"
+                                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
                                                 </div>
                                             </td>
-                                            <td class="text-right">23</td>
+                                            <td class="text-right"><span id="total_four_star_review">0</span></td>
                                         </tr>
                                         <tr>
-                                            <td class="rating-label">Average</td>
+                                            <td class="rating-label" style="width: 50px">3 <i class="fa fa-star star-active mx-1"></i></td>
                                             <td class="rating-bar">
                                                 <div class="bar-container">
-                                                    <div class="bar-3"></div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar bg-warning" role="progressbar" id="three_star_progress"
+                                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
                                                 </div>
                                             </td>
-                                            <td class="text-right">10</td>
+                                            <td class="text-right"><span id="total_three_star_review">0</span></td>
                                         </tr>
                                         <tr>
-                                            <td class="rating-label">Poor</td>
+                                            <td class="rating-label" style="width: 50px">2 <i class="fa fa-star star-active mx-1"></i></td>
                                             <td class="rating-bar">
                                                 <div class="bar-container">
-                                                    <div class="bar-2"></div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar bg-warning" role="progressbar" id="two_star_progress"
+                                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
                                                 </div>
                                             </td>
-                                            <td class="text-right">3</td>
+                                            <td class="text-right"><span id="total_two_star_review">0</span></td>
                                         </tr>
                                         <tr>
-                                            <td class="rating-label">Terrible</td>
+                                            <td class="rating-label" style="width: 50px">1 <i class="fa fa-star star-active mx-1"></i></td>
                                             <td class="rating-bar">
                                                 <div class="bar-container">
-                                                    <div class="bar-1"></div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar bg-warning" role="progressbar" id="one_star_progress"
+                                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
                                                 </div>
                                             </td>
-                                            <td class="text-right">0</td>
+                                            <td class="text-right"><span id="total_one_star_review">0</span></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -259,5 +270,21 @@
                 }
             })
         });
+
+        const loadRating = (e) => {
+            $.ajax({
+                type: "POST",
+                url: `/Product/Index`,
+                data: JSON.stringify({
+                    ID: $('#productID').val(),
+                    Content: $('#content').val(),
+                    Rate: $("#rating").val()
+                }),
+                dataType: 'json',
+                success: function (res) { }
+            })
+        }
+
+        
     </script>
 }
