@@ -531,8 +531,6 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\VoucherController.cs" />
     <Compile Include="Helper\HasLoginAttribute.cs" />
-    <Compile Include="Models\ChangePasswordModel.cs" />
-    <Compile Include="Models\PagingModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -540,9 +538,6 @@
     </Compile>
     <Compile Include="Helper\Encryptor.cs" />
     <Compile Include="Helper\Mail.cs" />
-    <Compile Include="Models\ActivateAccountModel.cs" />
-    <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\ProductOrderModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -590,6 +585,7 @@
     <Content Include="public\images\Logo.jpg" />
     <Content Include="public\js\Cart.js" />
     <Content Include="public\js\Admin_Home.js" />
+    <Content Include="public\js\ImportBill.js" />
     <Content Include="public\js\lightslider.min.js" />
     <Content Include="public\js\Category.js" />
     <Content Include="public\js\Order\Add.js" />
@@ -625,6 +621,8 @@
     <Content Include="Areas\Admin\Views\Profile\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Comment\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Order\View.cshtml" />
+    <Content Include="Areas\Admin\Views\ImportBill\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ImportBill\View.cshtml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -668,12 +666,12 @@
     <Content Include="Views\User\Orders.cshtml" />
     <Content Include="Views\Order\Add.cshtml" />
     <Content Include="Views\Voucher\Index.cshtml" />
+    <Content Include="Views\Shared\_RowStatistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\ImportBill\" />
     <Folder Include="public\uploads\users\" />
     <Folder Include="Views\Comment\" />
   </ItemGroup>

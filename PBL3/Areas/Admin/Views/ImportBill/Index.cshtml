@@ -1,0 +1,190 @@
+﻿@using Models.DTO
+@using PBL3.Models
+@model ImportBill
+@{
+    ViewBag.Title = "Index";
+    List<ImportBill> list = ViewBag.bills as List<ImportBill>;
+    PagingModel pagingData = ViewBag.pagingData as PagingModel;
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/public/css/table.css" />
+    <link rel="stylesheet" href="~/public/css/Add_Product.css" />
+}
+<div class="row d-flex container-fluid mt-3">
+    <div class="col-3 row p-4 bg-success text-white rounded shadow">
+        <div class="col-3 d-flex align-items-center justify-content-start">
+            <i class="fa-solid fa-chart-pie" style="font-size: 50px"></i>
+        </div>
+        <div class="col-9">
+            <div class="text-end" id="total_product">@ViewBag.Total</div>
+            <div class="text-end">Tổng đơn hàng nhập</div>
+        </div>
+    </div>
+    <div class="col-4 row p-4 bg-primary text-white rounded shadow ms-4">
+        <div class="col-3 d-flex align-items-center justify-content-start">
+            <i class="fa-solid fa-chart-pie" style="font-size: 50px"></i>
+        </div>
+        <div class="col-9">
+            <div class="text-end">0</div>
+            <div class="text-end">Tổng sản phẩm được bán</div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex mt-3 p-2">
+    <div class="btn m-0 btn-outline-none action_product action_product_click">
+        <i class="fa-solid fa-list"></i>
+        Danh sách đơn hàng nhập
+    </div>
+    <div class="btn m-0 action_product">
+        <i class="fa-solid fa-plus"></i>
+        Nhập hàng
+    </div>
+</div>
+<div class="table-responsive mt-3 shadow" id="list_product">
+    <div class="table-wrapper">
+        @using (Html.BeginForm("Index", "ImportBill", FormMethod.Get))
+        {
+            <div class="row">
+                <div class="col-sm-8 row">
+                    <div class="col-sm-4">
+                        <label class="form-label align-items-center">Thời gian tạo đơn hàng</label>
+                        <div class="d-flex align-items-center">
+                            <input name="startDate" type="date" placeholder="Thời gian bắt đầu" class="form-control col-3" id="startDate_search" />
+                            <span class="p-2 fw-bold">-</span>
+                            <input name="endDate" type="date" placeholder="Thời gian kết thúc" class="form-control col-3" id="endDate_search" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 p-0">
+                    <label class="form-label">Tìm kiếm</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="keyword_search" name="keyword" placeholder="Nhập ID đơn hàng tìm kiếm">
+                        <button class="btn btn-primary" type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        }
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>ID đơn hàng</th>
+                    <th>Tổng giá trị đơn hàng</th>
+                    <th>Ngày tạo đơn hàng</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="table_body">
+                @for (int i = 0; i < list.Count; i++)
+                {
+                    <tr>
+                        <td class="STT">@(i + 1)</td>
+                        <td>@list[i].ID</td>
+                        <td>@String.Format("{0:0,0}", list[i].TotalPrice)</td>
+                        <td class="product_stock_table">@list[i].CreatedAt.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            <div class="d-flex">
+                                <a href="@Url.Action("View", "ImportBill", new { id = list[i].ID })" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết đơn hàng" data-toggle="tooltip">
+                                    <i class="fa-solid fa-eye" style="color: white"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="clearfix">
+            @Html.Partial("_Pagination", pagingData)
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("Add", "ImportBill", FormMethod.Post, new { @class = "d-none", @id = "add_form" }))
+{
+    <div id="notification" class="mt-2">
+
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="row m-auto rounded mt-3">
+            <div class="col-7 p-3">
+                <div class="bg-white p-3 shadow rounded">
+                    <div class="col-12 d-flex justify-content-between">
+                        <h6 class="p-0 m-0 fw-bold">Thông tin đơn hàng</h6>
+                    </div>
+                    <hr>
+                    <div id="items">
+                        <div>
+                            <div class="input-group mb-3 col-12">
+                                <input type="text" class="form-control id_product" placeholder="Nhập ID sản phẩm" value="">
+                                <button class="btn btn-primary" type="button" onclick="findProduct(this)">Kiểm tra</button>
+                                <input name="ImportBillDetails[0].ProductID" class="d-none product-info" />
+                            </div>
+                            <div class="col-12 d-flex">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button data-i="0" onclick="addLineItem(this)" type="button" id="btnAdd" class="btn btn-primary mt-3">Thêm sản phẩm</button>
+            </div>
+            <div class="col-4 ms-5 rounded p-3">
+                <div class="bg-white p-3 shadow rounded">
+                    <div class="col-12">
+                        <p class="p-0 m-0 fw-bold"><i class="fa-solid fa-wallet"></i> Hóa đơn</p>
+                    </div>
+                    <hr>
+                    <div class="col-12">
+                        <div class="d-flex border-bottom col-12 align-items-center">
+                            <label class="col-5 m-0 p-0">Tổng tiền hàng: </label>
+                            @Html.EditorFor(model => model.TotalPrice, new { htmlAttributes = new { @class = "col-7", @style = "border: none", @placeholder = "Nhập giá trị đơn hàng", type = "number", @min = "1" } })
+                            @Html.ValidationMessageFor(model => model.TotalPrice, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary col-12 mt-3" type="submit">Nhập hàng</button>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="notification_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="fa-solid fa-bell"></i>
+            <strong class="me-auto ms-1">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        @if (TempData["Status"] != null)
+        {
+            if ((bool)TempData["Status"] == false)
+            {
+                <div class="toast-body text-white bg-danger" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+            else
+            {
+                <div class="toast-body text-white bg-success" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+        }
+        else
+        {
+            <div class="toast-body text-white bg-success" id="toast_body">
+
+            </div>
+        }
+    </div>
+</div>
+@section scripts {
+    <script src="~/public/js/ImportBill.js"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="/Scripts/jquery.validate.js"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}

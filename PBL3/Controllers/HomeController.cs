@@ -85,7 +85,7 @@ namespace PBL3.Controllers
                 });
             }
             context.Categories.AddRange(categories);
-            for (int i = 1;i <= 500;i++)
+            for (int i = 1;i <= 15;i++)
             {
                 products.Add(new Product
                 {
@@ -96,10 +96,10 @@ namespace PBL3.Controllers
                     Producer = "Nhà sản xuất",
                     ProducerDate = DateTime.Now,
                     CategoryID = (i % 10) + 1,
-                    Price = new Random().Next(1000, 9999) * 30000 / i,
+                    Price = i * 100000,
                     Image = "/public/uploads/products/agridrone.png",
                     CreatedAt = DateTime.Now,
-                    Stock = new Random().Next(3, 50),
+                    Stock = 0,
                     Mass = 4,
                     Sold = 0
                 });

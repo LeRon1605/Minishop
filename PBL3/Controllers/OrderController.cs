@@ -39,6 +39,14 @@ namespace PBL3.Controllers
             List<CartProduct> item = new CartBO().GetProductCart((int)Session["USER"], true);
             if (item.Count > 0)
             {
+                foreach (CartProduct product in item)
+                {
+                    if (product.Quantity > new ProductBO().find(product.ID).Stock)
+                    {
+                        TempData["Message"] = "Sản phẩm hết hàng.";
+                        return RedirectToAction("Index", "Cart");
+                    }    
+                }    
                 ViewBag.Items = item;
                 ViewBag.Total = new CartBO().getTotal((int)Session["USER"], true);
                 return View();

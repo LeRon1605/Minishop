@@ -1,70 +1,103 @@
-﻿@{
+﻿@using PBL3.Models
+@{
     ViewBag.Title = "Admin Page";
+    List<StatisticsModel> list = ViewBag.statistics as List<StatisticsModel>;
+    StatisticsModel statisticsInDay = ViewBag.statisticsInDay;
 }
 @section Styles
 {
     <link rel="stylesheet" href="~/public/css/Admin_Home.css" />
 }
 <div class="container-xxl position-relative bg-white d-flex p-0">
-    <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
-    <!-- Spinner End -->
-    <!-- Content Start -->
     <div class="content">
-        <!-- Sale & Revenue Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="row g-4">
-                <div class="col-sm-6 col-xl-3">
+                <div class="col-xl-6">
                     <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                         <i class="fa fa-chart-line fa-3x text-primary"></i>
                         <div class="ms-3">
-                            <p class="mb-2">Today Sale</p>
-                            <h6 class="mb-0">$1234</h6>
+                            <p class="mb-2">Lợi nhuận trong ngày</p>
+                            <h6 class="mb-0">@(statisticsInDay.Benifit == 0 ? "0" : String.Format("{0:0,0}", statisticsInDay.Benifit)) đ</h6>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-3">
+                <div class="col-xl-6">
                     <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                         <i class="fa fa-chart-bar fa-3x text-primary"></i>
                         <div class="ms-3">
-                            <p class="mb-2">Total Sale</p>
-                            <h6 class="mb-0">$1234</h6>
+                            <p class="mb-2">Tổng lợi nhuận</p>
+                            <h6 class="mb-0">@String.Format("{0:0,0}", ViewBag.totalBenifit) đ</h6>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-3">
+                <div class="col-xl-6">
                     <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                         <i class="fa fa-chart-area fa-3x text-primary"></i>
                         <div class="ms-3">
-                            <p class="mb-2">Today Revenue</p>
-                            <h6 class="mb-0">$1234</h6>
+                            <p class="mb-2">Đơn hàng trong ngày</p>
+                            <h6 class="mb-0">@(statisticsInDay.OrderCount + statisticsInDay.OrderInProcess + statisticsInDay.OrderCancelCount)</h6>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-3">
+                <div class="col-xl-6">
                     <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                         <i class="fa fa-chart-pie fa-3x text-primary"></i>
                         <div class="ms-3">
-                            <p class="mb-2">Total Revenue</p>
-                            <h6 class="mb-0">$1234</h6>
+                            <p class="mb-2">Tổng đơn hàng</p>
+                            <h6 class="mb-0">@ViewBag.totalOrder</h6>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Sale & Revenue End -->
-        <!-- Sales Chart Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="mb-0">Doanh thu</h6>
+                    <div class="d-flex">
+                        <div class="mb-3 me-3 d-flex flex-column align-items-start">
+                            <label class="form-label">Ngày bắt đầu</label>
+                            <input type="date" class="form-control" id="startDate" />
+                        </div>
+                        <div class="mb-3 me-3 d-flex flex-column align-items-start">
+                            <label class="form-label">Ngày kết thúc</label>
+                            <input type="date" class="form-control" id="endDate" />
+                        </div>
+                        <div class="mb-3 mt-auto">
+                            <button id="btnSubmit" class="btn btn-primary">Thống kê</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive p-3 rounded">
+                    <table class="table text-start align-middle table-hover mb-0">
+                        <thead>
+                            <tr class="text-dark">
+                                <th scope="col">STT</th>
+                                <th scope="col">Thời gian</th>
+                                <th scope="col">Tổng đơn hàng</th>
+                                <th scope="col">Tiền nhập hàng</th>
+                                <th scope="col">Doanh thu bán hàng</th>
+                                <th scope="col">Lợi nhuận</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data">
+                            @Html.Partial("_RowStatistics", list)
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         <div class="container-fluid pt-4 px-4">
             <div class="row g-4">
                 <div class="col-sm-12 col-xl-6">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Worldwide Sales</h6>
-                            <a href="">Show All</a>
+                            <h6 class="mb-0">Đơn hàng</h6>
                         </div>
                         <canvas id="worldwide-sales"></canvas>
                     </div>
@@ -72,206 +105,185 @@
                 <div class="col-sm-12 col-xl-6">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Salse & Revenue</h6>
-                            <a href="">Show All</a>
+                            <h6 class="mb-0">Lợi nhuận</h6>
                         </div>
                         <canvas id="salse-revenue"></canvas>
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- Sales Chart End -->
-        <!-- Recent Sales Start -->
-        <div class="container-fluid pt-4 px-4">
-            <div class="bg-light text-center rounded p-4">
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Recent Salse</h6>
-                    <a href="">Show All</a>
-                </div>
-                <div class="table-responsive">
-                    <table class="table text-start align-middle table-bordered table-hover mb-0">
-                        <thead>
-                            <tr class="text-dark">
-                                <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Invoice</th>
-                                <th scope="col">Customer</th>
-                                <th scope="col">Amount</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>01 Jan 2045</td>
-                                <td>INV-0123</td>
-                                <td>Jhon Doe</td>
-                                <td>$123</td>
-                                <td>Paid</td>
-                                <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>01 Jan 2045</td>
-                                <td>INV-0123</td>
-                                <td>Jhon Doe</td>
-                                <td>$123</td>
-                                <td>Paid</td>
-                                <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>01 Jan 2045</td>
-                                <td>INV-0123</td>
-                                <td>Jhon Doe</td>
-                                <td>$123</td>
-                                <td>Paid</td>
-                                <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>01 Jan 2045</td>
-                                <td>INV-0123</td>
-                                <td>Jhon Doe</td>
-                                <td>$123</td>
-                                <td>Paid</td>
-                                <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>01 Jan 2045</td>
-                                <td>INV-0123</td>
-                                <td>Jhon Doe</td>
-                                <td>$123</td>
-                                <td>Paid</td>
-                                <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <!-- Recent Sales End -->
-        <!-- Widgets Start -->
-        <div class="container-fluid pt-4 px-4">
-            <div class="row g-4">
-                <div class="col-sm-12 col-md-6 col-xl-6">
-                    <div class="h-100 bg-light rounded p-4">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <h6 class="mb-0">Messages</h6>
-                            <a href="">Show All</a>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-3">
-                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-0">Jhon Doe</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
-                                <span>Short message goes here...</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-3">
-                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-0">Jhon Doe</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
-                                <span>Short message goes here...</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-3">
-                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-0">Jhon Doe</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
-                                <span>Short message goes here...</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center pt-3">
-                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-0">Jhon Doe</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
-                                <span>Short message goes here...</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-xl-6">
-                    <div class="h-100 bg-light rounded p-4">
+                <div class="col-sm-12 col-xl-6">
+                    <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">To Do List</h6>
-                            <a href="">Show All</a>
+                            <h6 class="mb-0">Người dùng</h6>
                         </div>
-                        <div class="d-flex mb-2">
-                            <input class="form-control bg-transparent" type="text" placeholder="Enter task">
-                            <button type="button" class="btn btn-primary ms-2">Add</button>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-2">
-                            <input class="form-check-input m-0" type="checkbox">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                    <span>Short task goes here...</span>
-                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-2">
-                            <input class="form-check-input m-0" type="checkbox">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                    <span>Short task goes here...</span>
-                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-2">
-                            <input class="form-check-input m-0" type="checkbox" checked>
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                    <span><del>Short task goes here...</del></span>
-                                    <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-2">
-                            <input class="form-check-input m-0" type="checkbox">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                    <span>Short task goes here...</span>
-                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center pt-2">
-                            <input class="form-check-input m-0" type="checkbox">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                    <span>Short task goes here...</span>
-                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                        </div>
+                        <canvas id="newuser"></canvas>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Widgets End -->
     </div>
-    <!-- Content End -->
-    <!-- Back to Top -->
-
 </div>
 @section scripts
-{
+                            {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/3.0.0/jquery.waypoints.min.js" integrity="sha512-f/gxy4xAjuGEIf/ujexcNI906CTS+kfw40QCyG/rEMKELvCIFaTOY+dfdn7M/eNsiMreG3SStjgFr9q8Me9Baw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="~/public/js/Admin_Home.js"></script>
+    @*<script src="~/public/js/Admin_Home.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+            var spinner = function () {
+                setTimeout(function () {
+                    if ($('#spinner').length > 0) {
+                        $('#spinner').removeClass('show');
+                    }
+                }, 1);
+            };
+            spinner();
+
+
+            // Back to top button
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 300) {
+                    $('.back-to-top').fadeIn('slow');
+                } else {
+                    $('.back-to-top').fadeOut('slow');
+                }
+            });
+            $('.back-to-top').click(function () {
+                $('html, body').animate({ scrollTop: 0 }, 1500, 'easeInOutExpo');
+                return false;
+            });
+
+            // Progress Bar
+            $('.pg-bar').waypoint(function () {
+                $('.progress .progress-bar').each(function () {
+                    $(this).css("width", $(this).attr("aria-valuenow") + '%');
+                });
+            }, { offset: '80%' });
+            var ctx1 = $("#worldwide-sales").get(0).getContext("2d");
+            var myChart1 = new Chart(ctx1, {
+                type: "bar",
+                data: {
+                    labels: '@string.Join(", ", list.Select(x => $"{x.Date.ToString(x.Format)}"))'.split(', '),
+                    datasets: [{
+                        label: "Nhận hàng thành công",
+                        data: [@string.Join(", ", list.Select(x => $"{x.OrderCount}"))],
+                        backgroundColor: '#22CFCF'
+                    },{
+                        label: "Đang xử lí",
+                        data: [@string.Join(", ", list.Select(x => $"{x.OrderInProcess}"))],
+                        backgroundColor: '#059BFF'
+                    }, {
+                        label: "Đã hủy",
+                        data: [@string.Join(", ", list.Select(x => $"{x.OrderCancelCount}"))],
+                        backgroundColor: '#FF4069'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            stacked: true,
+                        },
+                        y: {
+                            stacked: true
+                        }
+                    }
+                }
+            });
+
+            var ctx2 = $("#newuser").get(0).getContext("2d");
+            var myChart2 = new Chart(ctx2, {
+                type: "line",
+                data: {
+                    labels: '@string.Join(", ", list.Select(x => $"{x.Date.ToString(x.Format)}"))'.split(', '),
+                    datasets: [{
+                        label: "Người dùng mới",
+                        data: [@string.Join(", ", list.Select(x => $"{x.NewUser}"))],
+                        backgroundColor: "rgba(0, 156, 255, .5)",
+                        borderColor: "rgba(0, 156, 255, .5)"
+                    }
+                    ]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+            var ctx3 = $("#salse-revenue").get(0).getContext("2d");
+            var myChart3 = new Chart(ctx3, {
+                type: "line",
+                data: {
+                    labels: '@string.Join(", ", list.Select(x => $"{x.Date.ToString(x.Format)}"))'.split(', '),
+                    datasets: [{
+                        label: "Lợi nhuận",
+                        data: [@string.Join(", ", list.Select(x => $"{x.Benifit}"))],
+                        backgroundColor: "rgba(0, 156, 255, .5)",
+                        borderColor: "rgba(0, 156, 255, .5)"
+                    },{
+                        label: "Doanh thu",
+                        data: [@string.Join(", ", list.Select(x => $"{x.Revenue}"))],
+                        backgroundColor: '#FF4069',
+                        borderColor: '#FF4069'
+                    }
+                    ]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+            $('#btnSubmit').click(e => {
+                axios({
+                    method: 'get',
+                    url: `/Admin/Home/GetStatisticsRows?startDate=${$('#startDate').val()}&endDate=${$('#endDate').val()}`,
+                }).then(res => {
+                    const table = document.getElementById('data');
+                    table.innerHTML = res.data;
+                })
+                axios({
+                    method: 'get',
+                    url: `/Admin/Home/GetStatistics?startDate=${$('#startDate').val()}&endDate=${$('#endDate').val()}`,
+                }).then(res => {
+                    myChart3.data = {
+                        labels: res.data.data.map(x => x.Date),
+                        datasets: [{
+                            label: "Lợi nhuận",
+                            data: res.data.data.map(x => x.Benifit),
+                            backgroundColor: "rgba(0, 156, 255, .5)",
+                            borderColor: "rgba(0, 156, 255, .5)"
+                        }, {
+                                label: "Doanh thu",
+                                data: res.data.data.map(x => x.Revenue),
+                            backgroundColor: '#FF4069',
+                            borderColor: '#FF4069'
+                            }]
+                    };
+                    myChart2.data = {
+                        labels: res.data.data.map(x => x.Date),
+                        datasets: [{
+                            label: "Người dùng mới",
+                            data: res.data.data.map(x => x.NewUser),
+                            backgroundColor: "rgba(0, 156, 255, .5)",
+                            borderColor: "rgba(0, 156, 255, .5)"
+                        }]
+                    };
+                    myChart1.data = {
+                        labels: res.data.data.map(x => x.Date),
+                        datasets: [{
+                            label: "Nhận hàng thành công",
+                            data: res.data.data.map(x => x.OrderCount),
+                            backgroundColor: '#22CFCF'
+                        }, {
+                            label: "Đang xử lí",
+                            data: res.data.data.map(x => x.OrderInProcess),
+                            backgroundColor: '#059BFF'
+                        }, {
+                            label: "Đã hủy",
+                            data: res.data.data.map(x => x.OrderCancelCount),
+                            backgroundColor: '#FF4069'
+                        }]
+                    };
+                    myChart1.update();
+                    myChart2.update();
+                    myChart3.update();
+                })
+            });
+    </script>
 }

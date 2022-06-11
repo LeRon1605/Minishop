@@ -76,7 +76,7 @@ inputImage.onchange = (e) => {
 $('#importForm').on('submit', (e) => {
     e.preventDefault();
     const data = {
-        id: $('#product_id_modal').val(),
+        productID: $('#product_id_modal').val(),
         quantity: $('#product_quantity_modal').val(),
         totalprice: $('#product_total_modal').val(),
     };

@@ -164,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bean\ImportBill.cs" />
+    <Compile Include="Bean\ImportBillDetail.cs" />
     <Compile Include="BO\CommentBO.cs" />
     <Compile Include="BO\CartBO.cs" />
     <Compile Include="BO\CategoryBO.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="BO\ProductBO.cs" />
     <Compile Include="BO\RoleBO.cs" />
     <Compile Include="BO\StateBO.cs" />
+    <Compile Include="BO\StatisticsBO.cs" />
     <Compile Include="BO\UserBO.cs" />
     <Compile Include="BO\VoucherBO.cs" />
     <Compile Include="Helper\DateGreaterThanAttribute.cs" />
@@ -191,6 +193,13 @@
     <Compile Include="Bean\StateOrder.cs" />
     <Compile Include="Bean\User.cs" />
     <Compile Include="Bean\Voucher.cs" />
+    <Compile Include="Helper\QueryHelper.cs" />
+    <Compile Include="ViewModel\ActivateAccountModel.cs" />
+    <Compile Include="ViewModel\ChangePasswordModel.cs" />
+    <Compile Include="ViewModel\LoginModel.cs" />
+    <Compile Include="ViewModel\PagingModel.cs" />
+    <Compile Include="ViewModel\ProductOrderModel.cs" />
+    <Compile Include="ViewModel\StatisticsModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

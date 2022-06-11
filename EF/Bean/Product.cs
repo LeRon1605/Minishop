@@ -14,9 +14,10 @@ namespace Models.DTO
         {
             CartProduct = new HashSet<CartProduct>();
             ProductOrder = new HashSet<ProductOrder>();
-            ImportBills = new HashSet<ImportBill>();
+            ImportBillDetails = new List<ImportBillDetail>();
         }
         [Key]
+        [Display(Name = "Mã sản phẩm")]
         public int ID { get; set; }
 
         [Display(Name = "Tên Sản Phẩm")]
@@ -29,7 +30,6 @@ namespace Models.DTO
         public int Price { get; set; }
 
         [Display(Name = "Số lượng hàng hóa")]
-        [Required(ErrorMessage = "Số lượng hàng hóa không được để trống")]
         [Range(0, int.MaxValue)]
         public int Stock { get; set; }
 
@@ -75,6 +75,6 @@ namespace Models.DTO
         // public List<Comment> Comments { get; set; }
         public virtual ICollection<ProductOrder> ProductOrder { get; set; }
         public virtual ICollection<CartProduct> CartProduct { get; set; }
-        public virtual ICollection<ImportBill> ImportBills { get; set; }
+        public virtual List<ImportBillDetail> ImportBillDetails { get; set; }
     }
 }

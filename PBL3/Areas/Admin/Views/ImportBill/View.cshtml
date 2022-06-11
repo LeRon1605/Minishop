@@ -1,0 +1,114 @@
+﻿@using Models.DTO
+@model ImportBill
+@{
+    ViewBag.Title = "View";
+}
+
+<div class="row m-auto rounded d-flex justify-content-center mt-3">
+    <a href="@Url.Action("Index", "ImportBill", new { area = "Admin" })" class="text-decoration-none m-auto">
+        <i class="fa-solid fa-arrow-left"></i>
+        Trở về
+    </a>
+    <div class="col-7 p-3">
+        <div class="bg-white p-3 shadow rounded">
+            <div class="col-12 d-flex justify-content-between">
+                <h6 class="p-0 m-0 fw-bold">Thông tin đơn hàng</h6>
+                <p class="p-0 m-0 fw-bold">ID đơn hàng: @Model.ID</p>
+            </div>
+            @foreach (ImportBillDetail detail in Model.ImportBillDetails)
+            {
+                <hr>
+                <div class="col-12 d-flex">
+                    <div class="col-2 border" style="height: 15vh">
+                        <img src="@(detail.Product == null ? "" : detail.Product.Image)" alt="" style="width: 100%;height: 100%;object-fit:cover">
+                    </div>
+                    <div class="col-10 d-flex justify-content-between">
+                        <div class="ms-3">
+                            @if (detail.Product == null)
+                            {
+                                <p class="p-0 m-0 text-decoration-none text-dark fw-bold">Sản phẩm đã bị xóa</p>
+                            }
+                            else
+                            {
+                                <a class="p-0 m-0 text-decoration-none text-dark fw-bold" href="@Url.Action("View", "Product", new { id = detail.ProductID })">@detail.Product.Name</a>
+                            }
+
+                            <p class="p-0 m-0">Số lượng: @detail.Quantity</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-4 ms-5 rounded p-3">
+        <div class="bg-white p-3 shadow rounded">
+            <div class="col-12">
+                <p class="p-0 m-0 fw-bold"><i class="fa-solid fa-wallet"></i> Hóa đơn</p>
+            </div>
+            <hr>
+            <div class="col-12">
+                <div class="d-flex justify-content-between col-12">
+                    <p class="p-0 m-0">Tổng tiền hàng: </p>
+                    <p class="p-0 m-0">@String.Format("{0:0,0}", Model.TotalPrice) đ</p>
+                </div>
+                <div class="d-flex justify-content-between col-12">
+                    <p class="p-0 m-0">Ngày tạo: </p>
+                    <p class="p-0 m-0">@Model.CreatedAt.ToString("dd/MM/yyyy")</p>
+                </div>
+                @if (Model.UpdatedAt != null)
+                {
+                    <div class="d-flex justify-content-between col-12">
+                        <p class="p-0 m-0">Ngày cập nhật: </p>
+                        <p class="p-0 m-0 text-danger fw-bold">@((DateTime)Model.UpdatedAt).ToString("dd/MM/yyyy")</p>
+                    </div>
+                }
+            </div>
+        </div>
+        @using (Html.BeginForm("Delete", "ImportBill", FormMethod.Post))
+        {
+            @Html.HiddenFor(model => model.ID)
+            <button class="btn btn-danger mt-3 col-12" type="submit">Xóa đơn hàng</button>
+        }
+    </div>
+</div>
+
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="notification_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="fa-solid fa-bell"></i>
+            <strong class="me-auto ms-1">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        @if (TempData["Status"] != null)
+        {
+            if ((bool)TempData["Status"] == false)
+            {
+                <div class="toast-body text-white bg-danger" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+            else
+            {
+                <div class="toast-body text-white bg-success" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+        }
+        else
+        {
+            <div class="toast-body text-white bg-success" id="toast_body">
+
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        window.addEventListener('load', (e) => {
+            const toast = document.getElementById('toast_body');
+            if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
+        });
+    </script>
+}

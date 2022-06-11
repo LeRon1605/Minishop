@@ -49,29 +49,42 @@
                             <span class="fa-solid fa-cart-shopping subicon"></span>
                             <span class="menu-collapsed">Quản Lí Loại Sản Phẩm</span>
                         </a>
-                        <a href="@Url.Action("Index", "Order", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
-                            <span class="fa-solid fa-cart-shopping subicon"></span>
-                            <span class="menu-collapsed">Quản Lí Đơn Hàng</span>
-                        </a>
                         <a href="@Url.Action("Index", "Voucher", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
                             <span class="fa-solid fa-tachograph-digital subicon"></span>
                             <span class="menu-collapsed">Quản Lí Voucher</span>
                         </a>
+                        <a href="@Url.Action("Index", "Order", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
+                            <span class="fa-solid fa-tachograph-digital subicon"></span>
+                            <span class="menu-collapsed">Quản Lí Đơn hàng</span>
+                        </a>
+                        <a href="@Url.Action("Index", "ImportBill", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
+                            <span class="fa-solid fa-cart-shopping subicon"></span>
+                            <span class="menu-collapsed">Quản Lí Đơn Nhập</span>
+                        </a>
                     </div>
+
+                    <a href="@Url.Action("Index", "Home", new { area = "Admin" })" class="bg-dark list-group-item list-group-item-action">
+                        <div class="d-flex w-10d fa-ballot-check0 justify-content-start align-items-center">
+                            <span class="fa-solid fa-check icon"></span>
+                            <span class="menu-collapsed">Thống kê</span>
+                        </div>
+                    </a>
+                    <!-- Separator with title -->
+                    <!-- /END Separator -->
+                    <a href="@Url.Action("Index", "Comment", new { area = "Admin" })" class="bg-dark list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                            <span class="fa-solid fa-comment icon"></span>
+                            <span class="menu-collapsed">
+                                Bình luận
+                            </span>
+                        </div>
+                    </a>
                     <a href="@Url.Action("Index", "Profile", new { area = "Admin" })" aria-expanded="false"
                        class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-start align-items-center">
                             <span class="fa-solid fa-user icon"></span>
                             <span class="menu-collapsed">Thông tin</span>
                             <span class="submenu-icon ml-auto"></span>
-                        </div>
-                    </a>
-                    <a href="@Url.Action("Index", "Comment", new { area = "Admin" })" class="bg-dark list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-start align-items-center">
-                            <span class="fa-solid fa-comment icon"></span>
-                            <span class="menu-collapsed">
-                                Phản hồi
-                            </span>
                         </div>
                     </a>
                     <a href="@Url.Action("Logout", "User", new { area = "" })" class="bg-dark list-group-item list-group-item-action">

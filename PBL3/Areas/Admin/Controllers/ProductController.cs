@@ -37,7 +37,7 @@ namespace PBL3.Areas.Admin.Controllers
             ProductBO productDAO = new ProductBO();
             ViewBag.isEdit = isEdit;
             ViewBag.categories = categoryDAO.findAll();
-            ViewBag.importBills = new ImportBillBO().getBillsOfProduct(id);
+            ViewBag.importBills = new ImportBillBO().getBillOfProduct(id);
             Product product = productDAO.find(id, true);
             if (product == null)
             {
@@ -120,13 +120,47 @@ namespace PBL3.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult Import(int id, ImportBill bill)
+        [HttpPost]
+        public ActionResult Find(int id)
+        {
+            Product product = new ProductBO().find(id);
+            if (product != null)
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        status = true,
+                        data = product
+                    }
+                };
+            }
+            else
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        status = false,
+                        message = "Sản phẩm không tồn tại"
+                    }
+                };
+            }
+        }
+
+        public ActionResult Import(int id, int quantity, int totalPrice)
         {
             if (ModelState.IsValid)
             {
                 ProductBO productDAO = new ProductBO();
-                if (productDAO.import(id, bill))
+                if (productDAO.exist(id) && quantity > 0 && totalPrice > 0)
                 {
+                    ImportBill bill = new ImportBill
+                    {
+                        TotalPrice = totalPrice,
+                        ImportBillDetails = new List<ImportBillDetail> { new ImportBillDetail { ProductID = id, Quantity = quantity } }
+                    };
+                    new ImportBillBO().Add(bill);
                     return new JsonResult
                     {
                         Data = new

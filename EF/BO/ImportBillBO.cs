@@ -11,46 +11,121 @@ namespace Models.BLL
 {
     public class ImportBillBO
     {
-        public List<ImportBill> getBillsOfProduct(int productID)
+        public List<ImportBillDetail> getBillOfProduct(int productID)
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
-                return context.ImportBills.Where(bill => bill.ProductID == productID).ToList();
+                return context.ImportBillDetails.AsNoTracking().Where(x => x.ProductID == productID).OrderByDescending(x => x.ImportBill.CreatedAt).ToList();
             }    
         }
-        public List<ImportBill> findAll(int page, int pageSize, string keyword, DateTime startDate, DateTime endDate, out int totalRow)
+        public ImportBill find(int id)
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
-                List<ImportBill> list = context.ImportBills.AsNoTracking().Include(bill => bill.Product)
-                                                           .Where(bill => (bill.Product.Name.Contains(keyword) || bill.ID.ToString().Equals(keyword)) && (bill.CreatedAt.Date >= startDate && bill.CreatedAt.Date <= endDate))
+                return context.ImportBills.AsNoTracking().Select(x => new ImportBill
+                {
+                    ID = x.ID,
+                    TotalPrice = x.TotalPrice,
+                    ImportBillDetails = x.ImportBillDetails.Select(detail => new ImportBillDetail { 
+                        ID = detail.ID,
+                        ProductID = detail.ProductID,
+                        ImportBillID = detail.ImportBillID,
+                        Product = (detail.ProductID == null) ? null : detail.Product,
+                        Quantity = detail.Quantity
+                    }).ToList(),
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt
+                }).FirstOrDefault(x => x.ID == id);
+            }    
+        }
+        public List<ImportBill> getPage(int page, int pagesize, string keyword, DateTime startdate, DateTime enddate, out int totalrow)
+        {
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                List<ImportBill> list = context.ImportBills.AsNoTracking()
+                                                           .Where(bill => (bill.ID.ToString().Equals(keyword) || keyword == "") && (bill.CreatedAt.Date >= startdate && bill.CreatedAt.Date <= enddate))
+                                                           .OrderByDescending(bill => bill.CreatedAt)
                                                            .ToList();
-                totalRow = (int)Math.Ceiling((double)list.Count() / pageSize);
-                if (list.Count() <= pageSize) return list;
+                totalrow = (int)Math.Ceiling((double)list.Count() / pagesize);
+                if (list.Count() <= pagesize) return list;
                 else
                 {
                     try
                     {
-                        return list.GetRange((page - 1) * pageSize, pageSize);
+                        return list.GetRange((page - 1) * pagesize, pagesize);
                     }
                     catch (Exception e)
                     {
-                        return list.GetRange((page - 1) * pageSize, list.Count() - (page - 1) * pageSize);
+                        return list.GetRange((page - 1) * pagesize, list.Count() - (page - 1) * pagesize);
                     }
                 }
             }
         }
 
-        public bool Update(ImportBill bill)
+        public void Add(ImportBill bill)
         {
-            // 
-            return false;
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                bill.CreatedAt = DateTime.Now;
+                context.ImportBills.Add(bill);
+                context.SaveChanges();
+                ProductBO productBO = new ProductBO();
+                foreach (ImportBillDetail detail in bill.ImportBillDetails)
+                {
+                    productBO.import((int)detail.ProductID, detail.Quantity);
+                }
+            }    
         }
 
-        public bool Remove(ImportBill bill)
+        //public bool Update(ImportBill bill)
+        //{
+
+        //    using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+        //    {
+        //        ImportBill importBill = context.ImportBills.Find(bill.ID);
+        //        if (importBill == null) return false;
+        //        else
+        //        {
+        //            ProductBO productBO = new ProductBO();
+        //            for (int i = 0;i < importBill.ImportBillDetails.Count;i++)
+        //            {
+
+        //                productBO.export(importBill.ImportBillDetails[i].ProductID, -importBill.ImportBillDetails[i].Quantity);
+        //                productBO.import(bill.ImportBillDetails[i].ProductID, bill.ImportBillDetails[i].Quantity);
+        //                importBill.ImportBillDetails[i].Quantity = bill.ImportBillDetails[i].Quantity;
+        //            }
+        //            importBill.TotalPrice = bill.TotalPrice;
+        //            importBill.UpdatedAt = DateTime.Now;
+        //            context.SaveChanges();
+        //            return true;
+        //        }
+        //    }
+        //}
+
+        public bool delete(int id)
         {
-            // 
-            return false;
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                ImportBill importbill = context.ImportBills.Select(x => new ImportBill { 
+                    ID = x.ID,
+                    ImportBillDetails = x.ImportBillDetails
+                }).FirstOrDefault(x => x.ID == id);
+                if (importbill != null)
+                {
+                    ProductBO productBO = new ProductBO();
+                    foreach (ImportBillDetail detail in importbill.ImportBillDetails)
+                    {
+                        if (detail.ProductID != null)
+                        {
+                            productBO.export((int)detail.ProductID, -detail.Quantity);
+                        }    
+                    }
+                    context.ImportBills.Remove(importbill);
+                    context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
         }
     }
 }
