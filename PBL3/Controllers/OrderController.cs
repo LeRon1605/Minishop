@@ -41,7 +41,7 @@ namespace PBL3.Controllers
             {
                 foreach (CartProduct product in item)
                 {
-                    if (product.Quantity > new ProductBO().find(product.ID).Stock)
+                    if (product.Quantity > new ProductBO().find(product.ProductID).Stock)
                     {
                         TempData["Message"] = "Sản phẩm hết hàng.";
                         return RedirectToAction("Index", "Cart");

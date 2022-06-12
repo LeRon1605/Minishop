@@ -65,7 +65,6 @@ namespace Models.BLL
             List<Comment> comments = context.Comments.Where(comment => (isReply == "All" || !string.IsNullOrEmpty(comment.ReplyContent) == Convert.ToBoolean(isReply)) && (comment.CreatedAt.Date >= startDate.Date && comment.CreatedAt.Date <= endDate.Date)).ToList();
             totalRow = (int)Math.Ceiling((double)comments.Count() / pageSize);
             return comments.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
         }
         public bool delete(int id)
         {

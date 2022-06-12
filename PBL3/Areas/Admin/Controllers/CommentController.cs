@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace PBL3.Areas.Admin.Controllers
 {
-    [HasLogin(Role = "ADMIN")]
+    //[HasLogin(Role = "ADMIN")]
     public class CommentController : Controller
     {
         // GET: Admin/Reply

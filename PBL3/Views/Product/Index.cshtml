@@ -1,10 +1,11 @@
 ﻿@using Models.DTO
+@using Models.ViewModel
 @model Product
 
 @{
     ViewBag.Title = "Index";
     List<Comment> comments = ViewBag.Comments as List<Comment>;
-    dynamic rate = ViewBag.Rates;
+    List<Rating> rates = ViewBag.Rates;
 }
 @section Styles {
     <link rel="stylesheet" href="~/public/css/ProductDetail.css">
@@ -21,19 +22,29 @@
                 <div class="product-info">
                     <div class="product-name">@Model.Name</div>
                     <div class="reviews-counter">
-                        <div class="rate">
-                            <input type="radio" id="star5" name="rate" value="5" checked />
-                            <label for="star5" title="text">5 Sao</label>
-                            <input type="radio" id="star4" name="rate" value="4" checked />
-                            <label for="star4" title="text">4 Sao</label>
-                            <input type="radio" id="star3" name="rate" value="3" />
-                            <label for="star3" title="text">3 Sao</label>
-                            <input type="radio" id="star2" name="rate" value="2" />
-                            <label for="star2" title="text">2 Sao</label>
-                            <input type="radio" id="star1" name="rate" value="1" />
-                            <label for="star1" title="text">1 Sao</label>
+                        <div>
+                            @if (ViewBag.AvgRating > 0 && ViewBag.AvgRating <= 1)
+                            {
+                                <span class="fa fa-star star-active"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span>
+                            }
+                            else if (ViewBag.AvgRating > 1 && ViewBag.AvgRating <= 2)
+                            {
+                                <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span>
+                            }
+                            else if (ViewBag.AvgRating > 2 && ViewBag.AvgRating <= 3)
+                            {
+                                <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span>
+                            }
+                            else if (ViewBag.AvgRating > 3 && ViewBag.AvgRating <= 4)
+                            {
+                                <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-inactive"></span>
+                            }
+                            else if (ViewBag.AvgRating > 4 && ViewBag.AvgRating <= 5)
+                            {
+                                <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span>
+                            }
                         </div>
-                        <p><span id="total_review">0</span> Reviews</p>
+                        <p><span id="total_review">@comments.Count()</span> Reviews</p>
                     </div>
                     <div class="product-price-discount">
                         <span>@String.Format("{0:0,0}", Model.Price) đ</span>
@@ -52,6 +63,10 @@
                     <div class="row product_mass" style="padding: 0 15px; margin-top: 15px">
                         <label class="col-md-4 name_spec" for="size">Khối lượng</label>
                         <label class="col-md-8 spec" for="size">@Model.Mass</label>
+                    </div>
+                    <div class="row product_mass" style="padding: 0 15px; margin-top: 15px">
+                        <label class="col-md-4 name_spec" for="size">Số lượng sản phẩm</label>
+                        <label class="col-md-8 spec" for="size">@Model.Stock</label>
                     </div>
                     <div class="row product_power" style="padding: 0 15px; margin-top: 15px">
                         <label class="col-md-4 name_spec" for="size">Công suất</label>
@@ -97,19 +112,40 @@
         <div class="container-fluid px-1 py-5 mx-auto">
             <div class="comments">Đánh giá sản phẩm</div>
 
-            <div class="row justify-content-center">
+            <div class="row justify-content-center" >
                 <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center mb-5">
                     <div class="card">
                         <div class="row justify-content-left d-flex">
-                            <div class="col-md-4 d-flex flex-column">
+                            <div class="col-md-4 d-flex flex-column" style="margin-top: 50px">
                                 <div class="rating-box">
-                                    <h1 class="pt-4" id="avg_rating">0.0</h1>
+                                    <h1 class="pt-4" id="avg_rating">@ViewBag.AvgRating</h1>
                                     <p class="">out of 5</p>
                                 </div>
                                 <div>
-                                    <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span>
+                                    @if (ViewBag.AvgRating > 0 && ViewBag.AvgRating <= 1)
+                                    {
+                                        <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span>
+                                    }
+                                    else if (ViewBag.AvgRating > 1 && ViewBag.AvgRating <= 2)
+                                    {
+                                        <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span>
+                                    }
+                                    else if (ViewBag.AvgRating > 2 && ViewBag.AvgRating <= 3)
+                                    {
+                                        <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span>
+                                    }
+                                    else if (ViewBag.AvgRating > 3 && ViewBag.AvgRating <= 4)
+                                    {
+                                        <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span>
+                                    }
+                                    else if (ViewBag.AvgRating > 4 && ViewBag.AvgRating <= 5)
+                                    {
+                                        <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span>
+                                    }
                                 </div>
                             </div>
+
+          
                             <div class="col-md-8">
                                 <div class="rating-bar justify-content-center">
                                     <table class="text-left mx-auto">
@@ -118,60 +154,60 @@
                                             <td class="rating-bar">
                                                 <div class="bar-container">
                                                     <div class="progress">
-                                                        <div class="progress-bar bg-warning" role="progressbar" id="five_star_progress"
+                                                        <div class="progress-bar bg-warning" role="progressbar" id="five_star_progress" style="width: @rates[4].percent%"
                                                              aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
-                                                </div>
+                                                </div
                                             </td>
-                                            <td class="text-right"><span id="total_five_star_review">@rate.rating.FirstOrDefault(x => x.rate == 5)</span></td>
+                                            <td class="text-right"><span id="total_five_star_review">@rates[4].quantity</span></td>
                                         </tr>
                                         <tr>
                                             <td class="rating-label" style="width: 50px">4 <i class="fa fa-star star-active mx-1"></i></td>
                                             <td class="rating-bar">
                                                 <div class="bar-container">
                                                     <div class="progress">
-                                                        <div class="progress-bar bg-warning" role="progressbar" id="four_star_progress"
+                                                        <div class="progress-bar bg-warning" role="progressbar" id="four_star_progress" style="width: @rates[3].percent%"
                                                              aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="text-right"><span id="total_four_star_review">0</span></td>
+                                            <td class="text-right"><span id="total_four_star_review">@rates[3].quantity</span></td>
                                         </tr>
                                         <tr>
                                             <td class="rating-label" style="width: 50px">3 <i class="fa fa-star star-active mx-1"></i></td>
                                             <td class="rating-bar">
                                                 <div class="bar-container">
                                                     <div class="progress">
-                                                        <div class="progress-bar bg-warning" role="progressbar" id="three_star_progress"
+                                                        <div class="progress-bar bg-warning" role="progressbar" id="three_star_progress" style="width: @rates[2].percent%"
                                                              aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="text-right"><span id="total_three_star_review">0</span></td>
+                                            <td class="text-right"><span id="total_three_star_review">@rates[2].quantity</span></td>
                                         </tr>
                                         <tr>
                                             <td class="rating-label" style="width: 50px">2 <i class="fa fa-star star-active mx-1"></i></td>
                                             <td class="rating-bar">
                                                 <div class="bar-container">
                                                     <div class="progress">
-                                                        <div class="progress-bar bg-warning" role="progressbar" id="two_star_progress"
+                                                        <div class="progress-bar bg-warning" role="progressbar" id="two_star_progress" style="width: @rates[1].percent%"
                                                              aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="text-right"><span id="total_two_star_review">0</span></td>
+                                            <td class="text-right"><span id="total_two_star_review">@rates[1].quantity</span></td>
                                         </tr>
                                         <tr>
                                             <td class="rating-label" style="width: 50px">1 <i class="fa fa-star star-active mx-1"></i></td>
                                             <td class="rating-bar">
                                                 <div class="bar-container">
                                                     <div class="progress">
-                                                        <div class="progress-bar bg-warning" role="progressbar" id="one_star_progress"
+                                                        <div class="progress-bar bg-warning" role="progressbar" id="one_star_progress" style="width: @rates[0].percent%"
                                                              aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="text-right"><span id="total_one_star_review">0</span></td>
+                                            <td class="text-right"><span id="total_one_star_review">@rates[0].quantity</span></td>
                                         </tr>
                                     </table>
                                 </div>

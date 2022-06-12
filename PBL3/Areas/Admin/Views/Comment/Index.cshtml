@@ -6,21 +6,41 @@
 {
     <link rel="stylesheet" href="~/public/css/ProductDetail.css" />
 }
-<div class="container">
+<div class="container" style="padding-top: 50px">
     <div class="wraper bootstrap snippets bootdeys bootdey">
-        <div class="page-title">
-            <h3 class="title">Comment</h3>
-        </div>
         <div class="row">
+            @using (Html.BeginForm("Index", "Comment", FormMethod.Get))
+            {
+                <div class="row">
+                    <div class="col-sm-8 row">
+                        <div class="col-sm-4">
+                            <label class="form-label align-items-center" style="width: 280px">Khoảng thời gian hiển thị Comment</label>
+                            <div class="d-flex align-items-center">
+                                <input name="startDate" type="date" placeholder="Ngày bắt đầu" class="form-control col-3" id="startDate_search" />
+                                <span class="p-2 fw-bold">-</span>
+                                <input name="endDate" type="date" placeholder="Ngày kết thúc" class="form-control col-3" id="endDate_search" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 p-0">
+                        <label class="form-label">Tìm kiếm</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="keyword_search" name="keyword" placeholder="Nhập tên sản phẩm">
+                            <button class="btn btn-primary" type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            }
 
             <div class="col-md-12">
                 <div class="row" style="margin: 20px; 0px">
                     <div class="col-lg-12">
                         <div class="btn-toolbar">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-outline-success" style="width: auto; padding: 0px 20px; margin: 0px 10px "><i class="fa fa-inbox"></i></button>
-                                <button type="button" class="btn btn-outline-success" style="width: auto; padding: 0px 20px; margin: 0px 10px"><i class="fa fa-exclamation-circle"></i></button>
-                                <button type="button" class="btn btn-outline-success" style="width: auto; padding: 0px 20px; margin: 0px 10px"><i class="fa-solid fa-trash-can"></i></button>
+                                <button type="button" class="btn bg-danger rounded ms-2" style="width: auto; padding: 10px 20px">
+                                    <i class="fa-solid fa-trash-can" style="color: white"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -40,7 +60,7 @@
                                         <p>Tên sản phẩm</p>
                                     </td>
                                     <td class="mail-user col-md-2">
-                                        <a href="">Tên user</a>
+                                        <p>Tên user</p>
                                     </td>
                                     <td class="mail-comment col-md-7">
                                         <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</p>
@@ -68,7 +88,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-5" style=" padding-top: 30px;">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-12" style=" padding-top: 30px;">
                         <div class="card">
                             <div class="d-flex">
                                 <div class="">
@@ -111,4 +131,16 @@
 @section scripts
 {
     <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        window.addEventListener('load', (e) => {
+            const toast = document.getElementById('toast_body');
+            if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            $('#keyword_search').val(params.keyword || '');
+            $('#startDate_search').val(params.startDate || '');
+            $('#endDate_search').val(params.endDate || '');
+        });
+    </script>
 }

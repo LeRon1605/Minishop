@@ -1,6 +1,7 @@
 ﻿using Models.BLL;
 using Models.DAL;
 using Models.DTO;
+using Models.ViewModel;
 using PBL3.Models;
 using System;
 using System.Collections.Generic;
@@ -25,26 +26,38 @@ namespace PBL3.Controllers
             }
             else
             {
-                ViewBag.Comments = new CommentBO().getCommentsOfProduct(id);
-                ViewBag.Rates = new
+                List<Comment> comments = new CommentBO().getCommentsOfProduct(id);
+                List<Rating> rates = new List<Rating>();
+               
+                if ( comments.Count() > 0)
                 {
-                     rating = (ViewBag.Comments as List<Comment>).GroupBy(i => i.Rate).Select(x => new
-                     {
-                         rate = x.Key,
-                         quantity = x.Count()
-                     }).ToList(),
-                };
-                //dynamic o = new
-                //{
-                //    rating = (ViewBag.Comments as List<Comment>).GroupBy(i => i.Rate).Select(x => new
-                //    {
-                //        rate = x.Key,
-                //        quantity = x.Count()
-                //    }),
-                //};
+                    ViewBag.AvgRating = comments.Sum(x => x.Rate) / comments.Count();
+                    for (int i = 1; i <= 5; i++)
+                    {
+                        rates.Add(new Rating
+                        {
+                            key = i,
+                            quantity = comments.Where(x => x.Rate == i).Count(),
+                            percent = (Convert.ToSingle(comments.Where(x => x.Rate == i).Count() * i) / comments.Sum(x => x.Rate)) * 100,
+                        });
+                    }
+                }   
+                else if(comments.Count() == 0)
+                {
+                    ViewBag.AvgRating = 0;
+                    for (int i = 1; i <= 5; i++)
+                    {
+                        rates.Add(new Rating
+                        {
+                            key = i,
+                            quantity = comments.Where(x => x.Rate == i).Count(),
+                            percent = 0
+                        });
+                    }
+                } 
+                ViewBag.Comments = comments;
+                ViewBag.Rates = rates;
                 return View(product);
-                
-
             }
         }
         public ActionResult Search(string keyword = "", string categoryID = "All", string price = "All", int page = 1)

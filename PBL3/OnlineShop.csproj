@@ -567,7 +567,6 @@
     <Content Include="public\css\Admin_Home.css" />
     <Content Include="public\css\Admin_Reply.css" />
     <Content Include="public\css\Cart.css" />
-    <Content Include="public\css\FeedBack.css" />
     <Content Include="public\css\lightslider.min.css" />
     <Content Include="public\css\ProductDetail.css" />
     <Content Include="public\css\Admin_Profile.css" />

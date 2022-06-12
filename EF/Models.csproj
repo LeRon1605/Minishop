@@ -196,6 +196,7 @@
     <Compile Include="Helper\QueryHelper.cs" />
     <Compile Include="ViewModel\ActivateAccountModel.cs" />
     <Compile Include="ViewModel\ChangePasswordModel.cs" />
+    <Compile Include="ViewModel\Rating.cs" />
     <Compile Include="ViewModel\LoginModel.cs" />
     <Compile Include="ViewModel\PagingModel.cs" />
     <Compile Include="ViewModel\ProductOrderModel.cs" />
