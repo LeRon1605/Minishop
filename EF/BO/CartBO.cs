@@ -64,9 +64,8 @@ namespace Models.BLL
                         context.CartProduct.Add(cartProduct);
                         context.SaveChanges();
                         return true;
-                    } 
+                    }
                 }
-                return false;
             }
             return false;
         }

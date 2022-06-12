@@ -1,5 +1,4 @@
-﻿
-let showToast = (status, message) => {
+﻿let showToast = (status, message) => {
     const toastBody = document.getElementById('toast_body');
     if (status) {
         if (toastBody.classList.contains('bg-danger')) toastBody.classList.remove('bg-danger');
@@ -33,3 +32,20 @@ let deleteVoucher = (e) => {
     })
 }
 
+// Button action group
+let action = document.getElementsByClassName('action_product');
+
+// Content 
+let listProduct = document.getElementById('list_voucher');
+let addForm = document.getElementById('add_form');
+
+for (let i = 0; i < action.length; i++) {
+    action[i].addEventListener('click', (e) => {
+        for (let j = 0; j < action.length; j++) {
+            action[j].classList.toggle('action_voucher_click);
+        }
+        console.log(listProduct);
+        listProduct.classList.toggle('d-none');
+        addForm.classList.toggle('d-none');
+    });
+}

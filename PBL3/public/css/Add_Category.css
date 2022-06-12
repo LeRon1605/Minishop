@@ -8,9 +8,9 @@ width-table{
     border: none
 }
 
-    .action_product:hover {
-        color: #0D6EFD
-    }
+.action_product:hover {
+    color: #0D6EFD
+}
 
 .action_product_click {
     color: #0D6EFD;

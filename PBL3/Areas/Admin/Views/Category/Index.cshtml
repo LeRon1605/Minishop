@@ -12,16 +12,16 @@
     <link rel="stylesheet" href="~/public/css/Add_Category.css" />
 }
 <div class="d-flex mt-3 p-2">
-    <div class="btn m-0 btn-outline-none action_category action_category_click">
+    <div class="btn m-0 btn-outline-none action_product action_product_click">
         <i class="fa-solid fa-list"></i>
         Danh sách loại sản phẩm
     </div>
-    <div class="btn m-0 action_category">
+    <div class="btn m-0 action_product">
         <i class="fa-solid fa-plus"></i>
         Thêm loại sản phẩm
     </div>
 </div>
-<div class="table-responsive mt-3 shadow" id="list_category">
+<div class="table-responsive mt-3 shadow" id="list_product">
     <div class="table-wrapper">
         @using (Html.BeginForm("Index", "Category", FormMethod.Get))
         {
