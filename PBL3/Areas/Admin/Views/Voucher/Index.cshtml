@@ -150,12 +150,13 @@
                         @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "form-label" })
                         @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "startDate_voucher" } })
                         @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                        <span id="validation-startDate-message" class="text-danger d-none">Ngày bắt đầu không được bé hơn ngày hiện tại</span>
                     </div>
                     <div class="mb-3">
                         @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "form-label" })
                         @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "endDate_voucher" } })
                         @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger", @id = "endDate_validation" })
-                        <span id="validation-message" class="text-danger d-none">Ngày kết thúc không được bé hơn ngày bắt đầu</span>
+                        <span id="validation-endDate-message" class="text-danger d-none">Ngày kết thúc không được bé hơn ngày bắt đầu</span>
                     </div>
                     <div class="col-12">
                         <button class="btn btn-primary col-12 mt-3" id="submitBtn" type="submit">Thêm Voucher</button>
@@ -210,13 +211,22 @@
         $('#submitBtn').click(e => {
             let startDate = document.getElementById('startDate_voucher');
             let endDate = document.getElementById('endDate_voucher');
-            let validationMessage = document.getElementById('validation-message');
-            if (new Date(endDate.value).getTime() < new Date(startDate.value).getTime()) {
-                if (validationMessage.classList.contains('d-none')) validationMessage.classList.remove('d-none');
+            let validationEndMessage = document.getElementById('validation-endDate-message');
+            let validationStartMessage = document.getElementById('validation-startDate-message');
+            if (new Date(startDate.value).getTime() < new Date().getTime()) {
+                if (validationStartMessage.classList.contains('d-none')) validationStartMessage.classList.remove('d-none');
                 e.preventDefault();
             } else {
-                if (!validationMessage.classList.contains('d-none')) validationMessage.classList.add('d-none');
+                if (!validationStartMessage.classList.contains('d-none')) validationStartMessage.classList.add('d-none');
             }
+
+            if (new Date(endDate.value).getTime() < new Date(startDate.value).getTime()) {
+                if (validationEndMessage.classList.contains('d-none')) validationEndMessage.classList.remove('d-none');
+                e.preventDefault();
+            } else {
+                if (!validationEndMessage.classList.contains('d-none')) validationEndMessage.classList.add('d-none');
+            }
+            
         });
 
         let action = document.getElementsByClassName('action_voucher');

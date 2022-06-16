@@ -32,17 +32,50 @@
                 </div>
 
             }
-
-            <div class="col-md-12">
-                <div class="row" style="margin: 20px; 0px">
-                    <div class="col-lg-12">
-                        <div class="btn-toolbar">
-                            <div class="btn-group">
-                                <button type="button" class="btn bg-danger rounded ms-2" style="width: auto; padding: 10px 20px">
-                                    <i class="fa-solid fa-trash-can" style="color: white"></i>
-                                </button>
-                            </div>
+            <div class="row" style="margin: 20px 0px; float: right">
+                <div class="col-lg-12">
+                    <div class="btn-toolbar">
+                        <div class="btn-group">
+                            <button type="button" class="btn bg-danger rounded ms-2" style="width: auto; padding: 10px 20px">
+                                <i class="fa-solid fa-trash-can" style="color: white"></i>
+                            </button>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 rounded" style="background-color: white">
+
+
+                <div class="panel panel-default m-t-20" style="padding-top: 20  px">
+                    <div class="panel-body">
+                        <table class="table table-hover mails">
+                            <tbody>
+                                <tr>
+                                    <td class="mail-select col-md-1">
+                                        <p>Chọn</p>
+                                    </td>
+                                    <td class="mail-product col-md-2">
+                                        <p>Tên sản phẩm</p>
+                                    </td>
+                                    <td class="mail-user col-md-1">
+                                        <p>Tên user</p>
+                                    </td>
+                                    <td class="mail-comment col-md-4">
+                                        <p>Bình luận</p>
+                                    </td>
+                                    <td class="mail-rating col-md-1">
+                                        <p>Rating</p>
+                                    </td>
+                                    <td class="mail-time text-right col-md-2">
+                                        <p>Time</p>
+                                    </td>
+                                    <td class="mail-show">
+                                        <p>Xem chi tiết</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -51,7 +84,7 @@
                         <table class="table table-hover mails">
                             <tbody>
                                 <tr>
-                                    <td class="mail-select">
+                                    <td class="mail-select col-md-1">
                                         <label class="cr-styled">
                                             <input type="checkbox"><i class="fa"></i>
                                         </label>
@@ -59,13 +92,16 @@
                                     <td class="mail-product col-md-2">
                                         <p>Tên sản phẩm</p>
                                     </td>
-                                    <td class="mail-user col-md-2">
+                                    <td class="mail-user col-md-1">
                                         <p>Tên user</p>
                                     </td>
-                                    <td class="mail-comment col-md-7">
+                                    <td class="mail-comment col-md-4">
                                         <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</p>
                                     </td>
-                                    <td class="mail-time text-right col-md-1">
+                                    <td class="mail-rating col-md-1">
+                                        <p>5</p>
+                                    </td>
+                                    <td class="mail-time text-right col-md-2">
                                         <p> 07:23 AM</p>
                                     </td>
                                     <td class="mail-show">
@@ -81,6 +117,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fadeInDown" id="commentShowModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="">
         <div class="" style="margin-left: 300px; margin-top: 100px; margin-right: 100px; max-width: 1200px ">
             <div class="modal-content">

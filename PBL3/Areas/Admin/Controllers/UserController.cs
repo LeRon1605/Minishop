@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
 
 namespace PBL3.Areas.Admin.Controllers
 {
@@ -28,6 +29,38 @@ namespace PBL3.Areas.Admin.Controllers
         public ActionResult View(int id)
         {
             return View(new UserBO().find(id));
+        }
+        [HttpPost]
+        public ActionResult Update(User user, HttpPostedFileBase file)
+        {
+            if (ModelState["Password"] != null) ModelState["Password"].Errors.Clear();
+            if (ModelState.IsValid)
+            {
+                if (file != null && file.ContentLength > 0)
+                {
+                    string fileName = Path.GetFileName(file.FileName);
+                    string path = Path.Combine(Server.MapPath("~/public/uploads/users"), fileName);
+                    file.SaveAs(path);
+                    user.Image = $"/public/uploads/users/{fileName}";
+                }
+                bool result =new UserBO().Update(user) ;
+                if (result)
+                {
+                    TempData["Status"] = true;
+                    TempData["Message"] = "Cập nhật tài khoản công";
+                }
+                else
+                {
+                    TempData["Status"] = false;
+                    TempData["Message"] = "Cập nhật tài khoản thất bại";
+                }
+            }
+            else
+            {
+                TempData["Status"] = false;
+                TempData["Message"] = "Dữ liệu không hợp lệ";
+            }
+            return RedirectToAction("View", new { id =user.ID});
         }
         public ActionResult Delete(int id)
         {
@@ -51,6 +84,49 @@ namespace PBL3.Areas.Admin.Controllers
                     {
                         status = false,
                         message = "Xóa thất bại tài khoản"
+                    }
+                };
+            }
+        }
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordModel model, int userID)
+        {
+            if (ModelState.IsValid)
+            {
+                bool result = new UserBO().ChangePassword(model.OldPassword, model.NewPassword, userID);
+                if (result)
+                {
+                    return new JsonResult
+                    {
+                        Data = new
+                        {
+                            status = true,
+                            message = "Thay đổi mật khẩu thành công"
+                        }
+                    };
+                }
+                else
+                {
+                    return new JsonResult
+                    {
+                        Data = new
+                        {
+                            status = false,
+                            message = "Thay đổi mật khẩu thất bại",
+                            detail = "Mật khẩu không chính xác"
+                        }
+                    };
+                }
+            }
+            else
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        status = false,
+                        message = "Thay đổi mật khẩu thất bại",
+                        detail = ModelState.Values.SelectMany(v => v.Errors).ToList()[0].ErrorMessage
                     }
                 };
             }

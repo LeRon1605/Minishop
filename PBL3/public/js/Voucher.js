@@ -42,7 +42,7 @@ let addForm = document.getElementById('add_form');
 for (let i = 0; i < action.length; i++) {
     action[i].addEventListener('click', (e) => {
         for (let j = 0; j < action.length; j++) {
-            action[j].classList.toggle('action_voucher_click);
+            action[j].classList.toggle('action_voucher_click');
         }
         console.log(listProduct);
         listProduct.classList.toggle('d-none');
