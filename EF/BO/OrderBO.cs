@@ -406,7 +406,7 @@ namespace Models.BLL
                         ID = p.Comment.ID,
                         Content = p.Comment.Content,
                         CreatedAt = p.Comment.CreatedAt,
-                        ReplyContent = p.Comment.ReplyContent,
+                        Reply = p.Comment.Reply,
                         UpdatedAt = p.Comment.UpdatedAt,
                         DeletedAt = p.Comment.DeletedAt,
                         isDeleted = p.Comment.isDeleted,

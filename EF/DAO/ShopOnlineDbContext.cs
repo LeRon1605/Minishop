@@ -102,5 +102,6 @@ namespace Models.DAL
         public DbSet<Comment> Comments { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<StateOrder> StateOrder { get; set; }
+        public DbSet<Reply> Replies { get; set; }
     }
 }

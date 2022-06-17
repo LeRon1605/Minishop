@@ -64,11 +64,6 @@
                 }
             </div>
         </div>
-        @using (Html.BeginForm("Delete", "ImportBill", FormMethod.Post))
-        {
-            @Html.HiddenFor(model => model.ID)
-            <button class="btn btn-danger mt-3 col-12" type="submit">Xóa đơn hàng</button>
-        }
     </div>
 </div>
 

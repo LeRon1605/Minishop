@@ -2,6 +2,7 @@
 using Models.DTO;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,13 @@ namespace Models.BLL
         }
         public Comment find(int id)
         {
-            return context.Comments.Find(id);
+            Comment comment = context.Comments.Find(id);
+            if (comment == null) return null;
+            context.Entry(comment).Reference(x => x.User).Load();
+            context.Entry(comment).Reference(x => x.ProductOrder).Load();
+            context.Entry(comment.ProductOrder).Reference(x => x.Product).Load();
+            context.Entry(comment).Reference(x => x.Reply).Load();
+            return comment;
         }
         public bool add(int userID, Comment comment)
         {
@@ -29,7 +36,6 @@ namespace Models.BLL
                 productOrder.Comment = new Comment
                 {
                     Content = comment.Content,
-                    ReplyContent = "",
                     UserID = userID,
                     Rate = comment.Rate,
                     CreatedAt = DateTime.Now,
@@ -43,13 +49,35 @@ namespace Models.BLL
             }
             return false;
         }
+        public bool reply(int ID, Reply reply)
+        {
+            Comment comment = context.Comments.Find(ID);
+            if (comment == null) return false;
+            if (comment.Reply == null)
+            {
+                comment.Reply = new Reply
+                {
+                    Content = reply.Content,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = null
+                };
+            }
+            else
+            {
+                comment.UpdatedAt = DateTime.Now;
+                comment.Reply.Content = reply.Content;
+                comment.Reply.UpdatedAt = DateTime.Now;
+            }
+            context.SaveChanges();
+            return true;
+        }
         public List<Comment> getCommentsOfProduct(int productID)
         {
             return context.Comments.Select(comment => new Comment
             {
                 ID = comment.ID,
                 Content = comment.Content,
-                ReplyContent = comment.Content,
+                Reply = comment.Reply,
                 isDeleted = comment.isDeleted,
                 UserID = comment.UserID,
                 User = comment.User,
@@ -58,21 +86,36 @@ namespace Models.BLL
                 CreatedAt = comment.CreatedAt,
                 ProductOrder = comment.ProductOrder,
                 Rate = comment.Rate
-            }).Where(comment => comment.ProductOrder.ProductID == productID).OrderBy(comment => comment.CreatedAt).ToList();
+            }).Where(comment => comment.ProductOrder.ProductID == productID && comment.isDeleted == false).OrderBy(comment => comment.CreatedAt).ToList();
         }
-        public List<Comment> getPage(int page, int pageSize, string isReply, DateTime startDate, DateTime endDate, out int totalRow)
+        public List<Comment> getPage(int page, int pageSize, bool? isDeleted, bool? isReply, string keyword, DateTime startDate, DateTime endDate, out int totalRow)
         {
-            List<Comment> comments = context.Comments.Where(comment => (isReply == "All" || !string.IsNullOrEmpty(comment.ReplyContent) == Convert.ToBoolean(isReply)) && (comment.CreatedAt.Date >= startDate.Date && comment.CreatedAt.Date <= endDate.Date)).ToList();
+            List<Comment> comments = context.Comments.Select(comment => new Comment { 
+                ID = comment.ID,
+                Content = comment.Content,
+                Rate = comment.Rate,
+                ProductOrder = new ProductOrder
+                {
+                    Product = comment.ProductOrder.Product
+                },
+                isDeleted = comment.isDeleted,
+                CreatedAt = comment.CreatedAt,
+                User = comment.User,
+                UserID = comment.UserID
+            }).Where(comment => (((isReply == null || comment.isReply == isReply)) && (isDeleted == null || isDeleted == comment.isDeleted) && (comment.CreatedAt.Date >= startDate.Date && comment.CreatedAt.Date <= endDate.Date) && comment.ID.ToString().Contains(keyword))).ToList();
             totalRow = (int)Math.Ceiling((double)comments.Count() / pageSize);
             return comments.Skip((page - 1) * pageSize).Take(pageSize).ToList();
         }
-        public bool delete(int id)
+        public bool show(bool isDeleted, int id)
         {
             Comment comment = context.Comments.Find(id);
             if (comment == null) return false;
-            comment.isDeleted = true;
+            comment.isDeleted = isDeleted;
             comment.UpdatedAt = DateTime.Now;
-            comment.DeletedAt = DateTime.Now;
+            if (isDeleted)
+            {
+                comment.DeletedAt = DateTime.Now;
+            }
             context.SaveChanges();
             return true;
         }
@@ -83,7 +126,6 @@ namespace Models.BLL
             if (comment == null) return false;
             comment.Content = cmt.Content;
             comment.Rate = cmt.Rate;
-            comment.ReplyContent = cmt.ReplyContent;
             comment.UpdatedAt = DateTime.Now;
             context.SaveChanges();
             return true;

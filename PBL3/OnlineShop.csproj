@@ -622,6 +622,7 @@
     <Content Include="Areas\Admin\Views\Order\View.cshtml" />
     <Content Include="Areas\Admin\Views\ImportBill\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ImportBill\View.cshtml" />
+    <Content Include="Areas\Admin\Views\Comment\View.cshtml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />

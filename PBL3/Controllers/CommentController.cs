@@ -100,7 +100,7 @@ namespace PBL3.Controllers
                     Data = new
                     {
                         status = false,
-                        message = "Cập nhật thất bại",
+                        message = ModelState.Values.SelectMany(v => v.Errors).ToList()[0].ErrorMessage,
                         detail = "Dữ liệu không hợp lệ"
                     }
                 };

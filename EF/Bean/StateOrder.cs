@@ -7,6 +7,7 @@ using System.Web;
 
 namespace Models.DTO
 {
+    [Table("OrderHistoric")]
     public class StateOrder
     {
         [Key]

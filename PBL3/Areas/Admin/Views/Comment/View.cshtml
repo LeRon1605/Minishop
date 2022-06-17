@@ -1,0 +1,149 @@
+﻿@using Models.DTO
+@model Models.DTO.Comment
+
+@{
+    ViewBag.Title = "View";
+}
+<div class="mt-4 ms-4">
+    <a href="@Url.Action("Index", "Comment", new { area = "Admin" })" class="text-decoration-none">
+        <i class="fa-solid fa-arrow-left"></i>
+        Trở về
+    </a>
+</div>
+<div class="row m-auto rounded p-4">
+    <div class="col-7 rounded">
+        <div class="bg-white p-3 shadow rounded">
+            <div class="col-12 d-flex justify-content-between">
+                <h6 class="p-0 m-0 fw-bold">Thông tin sản phẩm</h6>
+            </div>
+            <hr>
+            <div class="col-12 d-flex">
+                <div class="col-2 border" style="height: 20vh">
+                    <img src="@Model.ProductOrder.Product.Image" alt="" style="width: 100%;height: 100%;object-fit:cover">
+                </div>
+                <div class="col-10 d-flex justify-content-between">
+                    <div class="ms-3">
+                        <p class="p-0 m-0 fw-bold">@Model.ProductOrder.Product.Name</p>
+                    </div>
+                    <div class="">
+                        <p class="p-0 m-0 fw-bold text-danger">@String.Format("{0:0,0}", Model.ProductOrder.Product.Price) đ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white p-3 shadow rounded mt-3">
+            <div class="col-12 d-flex justify-content-between">
+                <h6 class="p-0 m-0 fw-bold">Thông tin đánh giá của khách hàng</h6>
+                <h6 class="p-0 m-0 fw-bold text-danger">@(Model.isDeleted ? "Đã ẩn" : "Được hiển thị")</h6>
+            </div>
+            <hr>
+            <div class="col-12 d-flex">
+                <div class="col-2 border" style="height: 20vh">
+                    <img src="@Model.User.Image" alt="" style="width: 100%;height: 100%;object-fit:cover">
+                </div>
+                <div class="col-10 d-flex flex-column">
+                    <div class="ms-3">
+                        <p class="p-0 m-0 fw-bold">@Model.User.Name</p>
+                        <p class="p-0 m-0">Điểm đánh giá: @Model.Rate</p>
+                        <p class="p-0 m-0">Đánh giá: @Model.Content</p>
+                    </div>
+                    <div class="ms-3 mt-auto text-end">
+                        <p class="p-0 m-0 text-muted">Thời gian bình luận: @Model.CreatedAt.ToString("HH:mm dd/MM/yyyy")</p>
+                        @if (Model.UpdatedAt != null)
+                        {
+                            <p class="p-0 m-0 text-muted">Thời gian chỉnh sửa: @Convert.ToDateTime(Model.UpdatedAt).ToString("HH:mm dd/MM/yyyy")</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4 ms-5 rounded">
+        @using (Html.BeginForm("Reply", "Comment", FormMethod.Post))
+        {
+            @Html.HiddenFor(model => model.ID)
+            <div class="bg-white p-3 shadow rounded">
+                <div class="col-12">
+                    <p class="p-0 m-0 fw-bold"><i class="fa-solid fa-address-card"></i> Phản hồi</p>
+                </div>
+                <hr>
+                <div class="col-12">
+                    <div class="mb-3">
+                        @Html.TextAreaFor(model => model.Reply.Content, new { @class = "form-control", @placeholder = "Nhập phản hồi tại đây", @rows = "8" })
+                        @Html.ValidationMessageFor(model => model.Reply.Content, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="text-end">
+                        @if (Model.Reply != null)
+                        {
+                            <p class="m-0 p-0 text-muted d-flex justify-content-between">Phản hồi vào lúc: <span>@Model.Reply.CreatedAt.ToString("HH:mm dd/MM/yyyy")</span></p>
+                            if (Model.Reply.UpdatedAt != null)
+                            {
+                                <p class="m-0 p-0 text-muted d-flex justify-content-between">Chỉnh sửa vào lúc: <span>@Convert.ToDateTime(Model.Reply.UpdatedAt).ToString("HH:mm dd/MM/yyyy")</span></p>
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary mt-3 col-12" type="submit">Lưu thông tin</button>
+        }
+        @if (Model.isDeleted)
+        {
+            using (Html.BeginForm("Show", "Comment", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.ID)
+                <button class="btn btn-success mt-3 col-12" type="submit">Hiện bình luận</button>
+            }
+        }
+        else
+        {
+            using (Html.BeginForm("Delete", "Comment", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.ID)
+                <button class="btn btn-danger mt-3 col-12" type="submit">Ẩn bình luận</button>
+            }
+        }
+    </div>
+</div>
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="notification_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="fa-solid fa-bell"></i>
+            <strong class="me-auto ms-1">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        @if (TempData["Status"] != null)
+        {
+            if ((bool)TempData["Status"] == false)
+            {
+                <div class="toast-body text-white bg-danger" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+            else
+            {
+                <div class="toast-body text-white bg-success" id="toast_body">
+                    @TempData["Message"]
+                </div>
+            }
+        }
+        else
+        {
+            <div class="toast-body text-white bg-success" id="toast_body">
+
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    @Html.Partial("_ValidationScriptsPartial")
+    <script>
+        window.addEventListener('load', (e) => {
+            const toast = document.getElementById('toast_body');
+            if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
+        })
+    </script>
+}

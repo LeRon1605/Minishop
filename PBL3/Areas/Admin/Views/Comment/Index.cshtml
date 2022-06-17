@@ -1,169 +1,94 @@
 ﻿@using Models.DTO
+@using PBL3.Models
+@model List<Comment> 
 @{
     ViewBag.Title = "Index";
+    PagingModel pagingData = ViewBag.pagingData as PagingModel;
 }
 @section Styles
 {
-    <link rel="stylesheet" href="~/public/css/ProductDetail.css" />
+    <link rel="stylesheet" href="~/public/css/table.css" />
+    <link rel="stylesheet" href="~/public/css/Add_Product.css" />
 }
-<div class="container" style="padding-top: 50px">
-    <div class="wraper bootstrap snippets bootdeys bootdey">
-        <div class="row">
-            @using (Html.BeginForm("Index", "Comment", FormMethod.Get))
-            {
-                <div class="row">
-                    <div class="col-sm-8 row">
-                        <div class="col-sm-4">
-                            <label class="form-label align-items-center" style="width: 280px">Khoảng thời gian hiển thị Comment</label>
-                            <div class="d-flex align-items-center">
-                                <input name="startDate" type="date" placeholder="Ngày bắt đầu" class="form-control col-3" id="startDate_search" />
-                                <span class="p-2 fw-bold">-</span>
-                                <input name="endDate" type="date" placeholder="Ngày kết thúc" class="form-control col-3" id="endDate_search" />
-                            </div>
-                        </div>
+
+<div class="table-responsive mt-3 shadow" id="list_voucher">
+    <div class="table-wrapper">
+        @using (Html.BeginForm("Index", "Comment", FormMethod.Get))
+        {
+            <div class="row">
+                <div class="col-sm-8 row">
+                    <div class="col-sm-4">
+                        <label class="form-label">Trạng thái Comment</label>
+                        <select class="form-select" name="isDeleted" id="state_search">
+                            <option>All</option>
+                            <option value="false">Được hiển thị</option>
+                            <option value="true">Đã ẩn</option>
+                        </select>
                     </div>
-                    <div class="col-sm-4 p-0">
-                        <label class="form-label">Tìm kiếm</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" id="keyword_search" name="keyword" placeholder="Nhập tên sản phẩm">
-                            <button class="btn btn-primary" type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <div class="col-sm-4">
+                        <label class="form-label align-items-center">Thời gian</label>
+                        <div class="d-flex align-items-center">
+                            <input name="startDate" type="date" placeholder="Thời gian bắt đầu" class="form-control col-3" id="startDate_search" />
+                            <span class="p-2 fw-bold">-</span>
+                            <input name="endDate" type="date" placeholder="Thời gian kết thúc" class="form-control col-3" id="endDate_search" />
                         </div>
                     </div>
                 </div>
-
-            }
-            <div class="row" style="margin: 20px 0px; float: right">
-                <div class="col-lg-12">
-                    <div class="btn-toolbar">
-                        <div class="btn-group">
-                            <button type="button" class="btn bg-danger rounded ms-2" style="width: auto; padding: 10px 20px">
-                                <i class="fa-solid fa-trash-can" style="color: white"></i>
-                            </button>
-                        </div>
+                <div class="col-sm-4 p-0">
+                    <label class="form-label">Tìm kiếm</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="keyword_search" name="keyword" placeholder="Nhập từ khóa tìm kiếm">
+                        <button class="btn btn-primary" type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </div>
             </div>
+        }
 
-            <div class="col-md-12 rounded" style="background-color: white">
-
-
-                <div class="panel panel-default m-t-20" style="padding-top: 20  px">
-                    <div class="panel-body">
-                        <table class="table table-hover mails">
-                            <tbody>
-                                <tr>
-                                    <td class="mail-select col-md-1">
-                                        <p>Chọn</p>
-                                    </td>
-                                    <td class="mail-product col-md-2">
-                                        <p>Tên sản phẩm</p>
-                                    </td>
-                                    <td class="mail-user col-md-1">
-                                        <p>Tên user</p>
-                                    </td>
-                                    <td class="mail-comment col-md-4">
-                                        <p>Bình luận</p>
-                                    </td>
-                                    <td class="mail-rating col-md-1">
-                                        <p>Rating</p>
-                                    </td>
-                                    <td class="mail-time text-right col-md-2">
-                                        <p>Time</p>
-                                    </td>
-                                    <td class="mail-show">
-                                        <p>Xem chi tiết</p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="panel panel-default m-t-20">
-                    <div class="panel-body">
-                        <table class="table table-hover mails">
-                            <tbody>
-                                <tr>
-                                    <td class="mail-select col-md-1">
-                                        <label class="cr-styled">
-                                            <input type="checkbox"><i class="fa"></i>
-                                        </label>
-                                    </td>
-                                    <td class="mail-product col-md-2">
-                                        <p>Tên sản phẩm</p>
-                                    </td>
-                                    <td class="mail-user col-md-1">
-                                        <p>Tên user</p>
-                                    </td>
-                                    <td class="mail-comment col-md-4">
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</p>
-                                    </td>
-                                    <td class="mail-rating col-md-1">
-                                        <p>5</p>
-                                    </td>
-                                    <td class="mail-time text-right col-md-2">
-                                        <p> 07:23 AM</p>
-                                    </td>
-                                    <td class="mail-show">
-                                        <button type="button" class="btn btn-toolbar" id="btnShowCommen " title="Chi tiết comment" data-toggle="modal" data-target="#commentShowModal" data-index="" data-id="" data-name="">
-                                            <i class="fa-solid fa-eye "></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fadeInDown" id="commentShowModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="">
-        <div class="" style="margin-left: 300px; margin-top: 100px; margin-right: 100px; max-width: 1200px ">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-12" style=" padding-top: 30px;">
-                        <div class="card">
-                            <div class="d-flex">
-                                <div class="">
-                                    <img class="profile-pic mt-3"
-                                         src="~/public/images/Logo.jpg">
-                                </div>
-                                <div class="d-flex flex-column" style="text-align: left; width: 100%">
-                                    <h3 class="mt-2 mb-0 name_user">Name</h3>
-                                    <div>
-                                        <p class="text-left m-0">
-                                            <span class="text-muted">4.0</span> <span class="fa fa-star star-active ml-3"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-inactive"></span>
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p class="content">Sản phẩm chỉ đẹp khi người dùng có tiền. Hông có tiền để mua :(((</p>
-                                    </div>
-                                </div>
-                                <div class="" style="text-align: right; width: 100px">
-                                    <p class="text-muted pt-5 pt-sm-3">10 Sept</p>
-                                </div>
-                            </div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Tên người dùng</th>
+                    <th>Điểm đánh giá</th>
+                    <th>Trạng thái</th>
+                    <th>Thời gian</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="table_body">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                <tr>
+                    <td class="STT">@(i + 1)</td>
+                    <td>@Model[i].ProductOrder.Product.Name</td>
+                    <td>@Model[i].User.Name</td>
+                    <td>@Model[i].Rate</td>
+                    @if (Model[i].isDeleted)
+                    {
+                        <td>Đã ẩn</td>
+                    }
+                    else
+                    {
+                        <td>Được hiển thị</td>
+                    }
+                    <td>@Model[i].CreatedAt.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <div class="d-flex">
+                            <a href="@Url.Action("View", "Comment", new {id = Model[i].ID})" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết bình luận" data-toggle="tooltip">
+                                <i class="fa-solid fa-eye" style="color: white"></i>
+                            </a>
                         </div>
-                        <div class="form-group mt-1 mb-1 card">
-                            <h5>Phản hồi</h5>
-                            <textarea class="form-control" rows="3"></textarea>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success" style="max-width: 200px">Gửi phản hồi</button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <div class="clearfix">
+            @Html.Partial("_Pagination", pagingData)
         </div>
     </div>
 </div>
-
-
 
 @section scripts
 {

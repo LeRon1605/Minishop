@@ -88,21 +88,21 @@ namespace PBL3.Areas.Admin.Controllers
         //    return RedirectToAction("View");
         //}
 
-        public ActionResult Delete(int id)
-        {
-            ImportBillBO importBillBO = new ImportBillBO();
-            if (importBillBO.delete(id))
-            {
-                TempData["Status"] = true;
-                TempData["Message"] = "Xóa đơn hàng thành công";
-            }
-            else
-            {
-                TempData["Status"] = false;
-                TempData["Message"] = "Xóa đơn hàng thất bại";
-            }
-            return RedirectToAction("Index");
-        }
+        //public ActionResult Delete(int id)
+        //{
+        //    ImportBillBO importBillBO = new ImportBillBO();
+        //    if (importBillBO.delete(id))
+        //    {
+        //        TempData["Status"] = true;
+        //        TempData["Message"] = "Xóa đơn hàng thành công";
+        //    }
+        //    else
+        //    {
+        //        TempData["Status"] = false;
+        //        TempData["Message"] = "Xóa đơn hàng thất bại";
+        //    }
+        //    return RedirectToAction("Index");
+        //}
 
     }
 }

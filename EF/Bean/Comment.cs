@@ -19,8 +19,7 @@ namespace Models.DTO
         [StringLength(30, MinimumLength = 10, ErrorMessage = "Nội dung đánh giá có độ dài từ 10 - 30 kí tự.")]
         [Required(ErrorMessage = "Nội dung đánh giá không được để trống")]
         public string Content { get; set; }
-        [Display(Name = "Phản hồi")]
-        public string ReplyContent { get; set; }
+        public bool isReply { get; set; }
         public bool isDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
@@ -28,6 +27,7 @@ namespace Models.DTO
         public int UserID { get; set; }
         [ForeignKey("UserID")]
         public User User { get; set; }
+        public virtual Reply Reply { get; set; }
         public virtual ProductOrder ProductOrder { get; set; }
     }
 }
