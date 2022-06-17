@@ -221,38 +221,43 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center mb-5">
                     @foreach (Comment comment in comments)
                     {
-                        <div class="card">
-                            <div class="d-flex">
-                                <div class="">
-                                    <img class="profile-pic mt-3"
-                                         src="@comment.User.Image">
-                                </div>
-                                <div class="d-flex flex-column" style="text-align: left; width: 100%">
-                                    <h3 class="mt-2 mb-0 name_user">@comment.User.Name</h3>
-                                    <div>
-                                        <p class="text-left m-0">
-                                            @for (int i = 1; i <= 5; i++)
+                    <div class="card">
+                        <div class="d-flex">
+                            <div class="">
+                                <img class="profile-pic mt-3"
+                                     src="@comment.User.Image">
+                            </div>
+                            <div class="d-flex flex-column" style="text-align: left; width: 100%">
+                                <h3 class="mt-2 mb-0 name_user">@comment.User.Name</h3>
+                                <div>
+                                    <p class="text-left m-0">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= comment.Rate)
                                             {
-                                                if (i <= comment.Rate)
-                                                {
-                                                    <span class="fa fa-star star-active ml-3"></span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="fa fa-star star-inactive"></span>
-                                                }
+                                                <span class="fa fa-star star-active ml-3"></span>
                                             }
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p class="content">@comment.Content</p>
-                                    </div>
+                                            else
+                                            {
+                                                <span class="fa fa-star star-inactive"></span>
+                                            }
+                                        }
+                                    </p>
                                 </div>
-                                <div class="" style="text-align: right; width: 100px">
-                                    <p class="text-muted pt-5 pt-sm-3">@comment.CreatedAt</p>
+                                <div>
+                                    <p class="content">@comment.Content</p>
+                                    @if (comment.isReply)
+                                    {
+                                        <p class="content"><i class="fa-solid fa-comment-dots"></i>Phản hồi: @comment.Reply.Content</p>
+                                    }
+
                                 </div>
                             </div>
+                            <div class="" style="text-align: right; width: 100px">
+                                <p class="text-muted pt-5 pt-sm-3">@comment.CreatedAt.ToString("HH:mm dd/MM/yyyy")</p>
+                            </div>
                         </div>
+                    </div>
                     }
                 </div>
             </div>

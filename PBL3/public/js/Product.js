@@ -111,6 +111,7 @@ window.addEventListener('load', (e) => {
     });
     const toast = document.getElementById('toast_body');
     $('#keyword_search').val(params.keyword || '');
+    $('#state_search').val(params.state || '');
     $('#category_search').val(params.CategoryID || 'All');
     $('#price_search').val(params.Price || 'All');
     if (toast.innerText.trim() != '') $("#notification_toast").toast('show');

@@ -95,11 +95,10 @@
     <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script>
         window.addEventListener('load', (e) => {
-            const toast = document.getElementById('toast_body');
-            if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
             const params = new Proxy(new URLSearchParams(window.location.search), {
                 get: (searchParams, prop) => searchParams.get(prop),
             });
+            $('#state_search').val(params.isDeleted || '');
             $('#keyword_search').val(params.keyword || '');
             $('#startDate_search').val(params.startDate || '');
             $('#endDate_search').val(params.endDate || '');

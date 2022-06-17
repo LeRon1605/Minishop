@@ -60,17 +60,17 @@ namespace PBL3.Controllers
                 return View(product);
             }
         }
-        public ActionResult Search(string keyword = "", string categoryID = "All", string price = "All", int page = 1)
+        public ActionResult Search(string keyword = "", bool? state = null, string categoryID = "All", string price = "All", int page = 1)
         {
             ProductBO productDAO = new ProductBO();
             int totalPage = 0;
-            List<Product> products = productDAO.getPage(page, 20, keyword, categoryID, price, out totalPage);
+            List<Product> products = productDAO.getPage(page, 20, state, keyword, categoryID, price, out totalPage);
             ViewBag.categories = new CategoryBO().findAll();
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,
                 CurrentPage = page,
-                GenerateURL = (int pageNum) => $"?page={pageNum}&keyword={keyword}&CategoryID={categoryID}&Price={price}"
+                GenerateURL = (int pageNum) => $"?page={pageNum}&state={state}&keyword={keyword}&CategoryID={categoryID}&Price={price}"
             };
             return View(products);
         }

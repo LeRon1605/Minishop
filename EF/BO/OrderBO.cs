@@ -130,6 +130,14 @@ namespace Models.BLL
                                      .Skip(pageSize * (page - 1)).Take(pageSize).ToList();
             }
         }    
+
+        public int getUserOrderCount(int userID)
+        {
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                return context.Orders.Where(order => order.UserID == userID).Count();
+            }    
+        }
         public int add(Order order, int UserID, out string message)
         {
             User user = new UserBO().find(UserID);

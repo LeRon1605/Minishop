@@ -15,18 +15,18 @@ namespace PBL3.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         // GET: Admin/Product
-        public ActionResult Index(int page = 1, string keyword = "", string CategoryID = "All", string Price = "All")
+        public ActionResult Index(int page = 1, bool? state = null, string keyword = "", string CategoryID = "All", string Price = "All")
         {
             ProductBO productDAO = new ProductBO();
             int totalPage = 0;
-            ViewBag.products = productDAO.getPage(page, 10, keyword, CategoryID, Price, out totalPage);
+            ViewBag.products = productDAO.getPage(page, 10, state, keyword, CategoryID, Price, out totalPage);
             ViewBag.Total = productDAO.Count();
             ViewBag.categories = new CategoryBO().findAll();
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,
                 CurrentPage = page,
-                GenerateURL = (int pageNum) => $"?page={pageNum}&keyword={keyword}&CategoryID={CategoryID}&Price={Price}"
+                GenerateURL = (int pageNum) => $"?page={pageNum}&state={state}&keyword={keyword}&CategoryID={CategoryID}&Price={Price}"
             };
             return View();
         }

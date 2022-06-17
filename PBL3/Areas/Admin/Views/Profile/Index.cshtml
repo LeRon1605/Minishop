@@ -30,9 +30,7 @@
     <link rel="stylesheet" href="~/public/css/Admin_Profile.css" />
 }
 <div class="container-xl px-4 mt-4">
-    <!-- Account page navigation-->
-    <hr class="mt-0 mb-4">
-    <form action="/Admin/profile/update" method="post" enctype = "multipart/form-data">
+    <form action="/Admin/profile/update" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-xl-4">
                 <!-- Profile picture card-->
@@ -48,6 +46,7 @@
                                 <i class="fa-solid fa-camera"></i>
                             </label>
                         </div>
+                        <h4 class="mt-2">@Model.Name</h4>
                     </div>
                 </div>
             </div>
@@ -56,15 +55,14 @@
                 <div class="card mb-4">
                     <div class="card-header">Thông tin chi tiết</div>
                     <div class="card-body">
-
                         @Html.HiddenFor(model => model.ID)
                         <div class="row d-flex m-3 border-bottom">
                             <h6 class="m-0 col-4 p-0" style="line-height: normal;">Họ và tên</h6>
-                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập tên của bạn", @type = "text", @style = "border: none" } })
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "col -8 m-0 p-0", @placeholder = "Nhập tên của bạn", @type = "text", @style = "border: none" } })
                         </div>
                         <div class="row d-flex m-3 border-bottom">
                             <h6 class="m-0 col-4 p-0" style="line-height: normal;">Gmail</h6>
-                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập gmail của bạn", @style = "border: none" } })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @readonly = "true", @class = "col-8 m-0 p-0", @placeholder = "Nhập gmail của bạn", @style = "border: none" } })
                         </div>
                         <div class="row d-flex m-3 border-bottom">
                             <h6 class="m-0 col-4 p-0" style="line-height: normal;">Số điện thoại</h6>
@@ -122,12 +120,13 @@
                             }
                         </div>
                         <!-- Save changes button-->
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                         <button class="btn btn-primary" type="submit">Lưu thông tin</button>
                     </div>
                 </div>
             </div>
         </div>
-     </form>
+    </form>
 </div>
 <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
     <div id="notification_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -161,6 +160,7 @@
 </div>
 @section scripts
 {
+    @Html.Partial("_ValidationScriptsPartial")
     <script>
         // Image
         let inputImage = document.getElementById('inputImage');

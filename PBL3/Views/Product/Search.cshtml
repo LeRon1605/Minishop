@@ -7,36 +7,43 @@
     List<Product> lastedProducts = ViewBag.lastedProduct as List<Product>;
     List<Category> categories = ViewBag.categories as List<Category>;
 }
-
+@section Styles
+{
+    <style>
+        .product_hover:hover {
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        }
+    </style>
+}
 <div class="row m-auto" style="width: 77em">
     <div class="row p-2 rounded m-auto border" style="width: 73.7em">
-        @using (Html.BeginForm("Search", "Product", FormMethod.Get, new {@class="row"}))
+        @using (Html.BeginForm("Search", "Product", FormMethod.Get, new { @class = "row" }))
         {
-            <div class="col-sm-8 d-flex p-0 align-items-center">
-                <div class="col-sm-3">
-                    <select class="form-select" name="Price" id="price_search">
-                        <option value="All">Giá sản phẩm</option>
-                        <option value="100000">Dưới 100.000</option>
-                        <option value="1000000">Dưới 1.000.000</option>
-                    </select>
-                </div>
-                <div class="col-sm-3 ms-3">
-                    <select class="form-select" name="CategoryID">
-                        <option value="All">Loại sản phẩm</option>
-                        @foreach (Category category in categories)
-                        {
-                            <option value="@category.ID">@category.Name</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-sm-3 ms-3">
-                    <select class="form-select" id="price_search">
-                        <option value="All">Sắp xếp</option>
-                        <option value="100000">Tên sản phẩm</option>
-                        <option value="1000000">Giá sản phẩm</option>
-                    </select>
-                </div>
+        <div class="col-sm-8 d-flex p-0 align-items-center">
+            <div class="col-sm-3">
+                <select class="form-select" name="Price" id="price_search">
+                    <option value="All">Giá sản phẩm</option>
+                    <option value="100000">Dưới 100.000</option>
+                    <option value="1000000">Dưới 1.000.000</option>
+                </select>
             </div>
+            <div class="col-sm-3 ms-3">
+                <select class="form-select" name="CategoryID">
+                    <option value="All">Loại sản phẩm</option>
+                    @foreach (Category category in categories)
+                    {
+                        <option value="@category.ID">@category.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-sm-3 ms-3">
+                <select class="form-select" name="state" id="state_search">
+                    <option>All</option>
+                    <option value="true">Còn hàng</option>
+                    <option value="false">Hết hàng</option>
+                </select>
+            </div>
+        </div>
             <div class="col-sm-4 p-0 d-flex align-items-center">
                 <div class="input-group m-0">
                     <input type="text" class="form-control" id="keyword_search" name="keyword" placeholder="Nhập từ khóa tìm kiếm">
@@ -44,7 +51,7 @@
                 </div>
             </div>
         }
-        </div>
+    </div>
     <div class="p-0 justify-content-md-center m-auto mt-3" style="display: inline-block;width: 73.7em">
         @foreach (Product product in Model)
         {
@@ -56,14 +63,22 @@
                 </a>
                 <figcaption class="text-start p-2 m-0">
                     <a class="m-0 fw-bold text-dark text-decoration-none" href="" @Url.Action("Index", "Product", new { id = product.ID }) "">@product.Name</a>
-                    <p class="m-0 text-danger">@product.Price đ</p>
+                    <p class="m-0 text-danger">@String.Format("{0:0,0}", product.Price) đ</p>
                     <div class="m-0 d-flex justify-content-between align-items-center">
-                        <div>
-                            3.5
-                            <i class="fa-solid fa-star checked" style="color: yellow"></i>
-                        </div>
+                        @if (product.Stock > 0)
+                        {
+                            <div class="text-white bg-success rounded p-1">
+                                Còn hàng
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-white bg-danger rounded p-1">
+                                Hết hàng
+                            </div>
+                        }
                         <div class="fs-6">
-                            Đã bán 3.5k
+                            Đã bán @product.Sold
                         </div>
                     </div>
                 </figcaption>
@@ -75,3 +90,19 @@
     </div>
 </div>
 
+@section scripts
+{
+    <script>
+        window.addEventListener('load', (e) => {
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            const toast = document.getElementById('toast_body');
+            $('#keyword_search').val(params.keyword || '');
+            $('#state_search').val(params.state || '');
+            $('#category_search').val(params.CategoryID || 'All');
+            $('#price_search').val(params.Price || 'All');
+            if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
+        })
+    </script>
+}

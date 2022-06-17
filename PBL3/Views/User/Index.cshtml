@@ -45,13 +45,9 @@
                 </div>
                 <h4 class="mt-2">@Model.Name</h4>
                 <div class="d-flex d-flex justify-content-around border-top align-items-center p-2" style="width: 100%">
-                    @*<div class="text-center">
-                        <p class="m-0">Tổng đơn hàng</p>
-                        <p class="m-0">0</p>
-                    </div>*@
                     <div class="text-center ">
                         <p class="m-0">Tổng đơn hàng</p>
-                        <p class="m-0">0</p>
+                        <a class="m-0 text-decoration-none text-dark" href="@Url.Action("Orders", "User")">@ViewBag.totalOrder</a>
                     </div>
                 </div>
             </div>

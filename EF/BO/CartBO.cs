@@ -41,9 +41,22 @@ namespace Models.BLL
                 {
                     if (productInCart.Quantity + quantity <= product.Stock)
                     {
-                        productInCart.Quantity += quantity;
-                        productInCart.UpdatedAt = DateTime.Now;
-                        context.SaveChanges();
+                        if (productInCart.Quantity + quantity <= 0)
+                        {
+                            if (product.Stock >= 1) productInCart.Quantity = 1;
+                            else
+                            {
+                                context.CartProduct.Remove(productInCart);
+                                context.SaveChanges();
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            productInCart.Quantity += quantity;
+                            productInCart.UpdatedAt = DateTime.Now;
+                            context.SaveChanges();
+                        }
                         return true;
                     }
                 }

@@ -20,7 +20,7 @@ namespace PBL3.Controllers
             int totalPage = 0;
             ViewBag.Total = productDAO.Count();
             ViewBag.categories = new CategoryBO().findAll();
-            ViewBag.products = productDAO.getPage(page, 20, "", "All", "All", out totalPage);
+            ViewBag.products = productDAO.getPage(page, 20, null, "", "All", "All", out totalPage);
             ViewBag.lastedProduct = productDAO.getLasted(5);
             ViewBag.lastedVoucher = new VoucherBO().getLasted(5);
             ViewBag.pagingData = new PagingModel
@@ -66,8 +66,8 @@ namespace PBL3.Controllers
             context.Roles.Add(adminRole);
             context.Users.Add(new User
             {
-                Name = "Admin",
-                Email = "admin",
+                Name = "Minishop3",
+                Email = "minishop.pbl3@gmail.com",
                 Phone = "0905857760",
                 Password = Encryptor.MD5Hash("admin"),
                 Image = "~/public/images/Default.jpg",

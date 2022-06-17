@@ -20,6 +20,7 @@ namespace PBL3.Controllers
         public ActionResult Index()
         {
              User user = new UserBO().find((int)Session["USER"]);
+             ViewBag.totalOrder = new OrderBO().getUserOrderCount((int)Session["USER"]);
              return View(user);
         }
         [HttpGet]

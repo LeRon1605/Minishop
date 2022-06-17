@@ -61,6 +61,7 @@ namespace Models.BLL
                     CreatedAt = DateTime.Now,
                     UpdatedAt = null
                 };
+                comment.isReply = true;
             }
             else
             {

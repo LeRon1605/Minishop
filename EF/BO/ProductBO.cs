@@ -20,7 +20,7 @@ namespace Models.BLL
         {
             return context.Products.AsNoTracking().ToList();
         }
-        public List<Product> getPage(int page, int pageSize, string keyword, string categoryID, string price, out int totalRow)
+        public List<Product> getPage(int page, int pageSize, bool? state, string keyword, string categoryID, string price, out int totalRow)
         {
             totalRow = 0;
             if (page > 0)
@@ -38,8 +38,8 @@ namespace Models.BLL
                     CategoryID = product.CategoryID
                 }).Where(product => (
                     (product.Name.Contains(keyword) || keyword == "") &&
-                    (categoryID == "All" || categoryID == null ||product.CategoryID == int.Parse(categoryID)) &&
-                    (price == "All" || product.Price <= int.Parse(price))
+                    (categoryID == "All" || categoryID == null || product.CategoryID == int.Parse(categoryID)) &&
+                    (price == "All" || product.Price <= int.Parse(price)) && (state == null || (bool)state == (product.Stock > 0))
                 )).ToList();
                 totalRow = (int)Math.Ceiling((double)products.Count() / pageSize);
                 if (pageSize >= products.Count()) return products;
