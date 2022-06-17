@@ -20,9 +20,16 @@
         <div class="col-md-6">
             <div class="product-dtl">
                 <div class="product-info">
-                    <div class="product-name">@Model.Name</div>
+                    <div class="row">
+                        <div class="product-name col-md-9">@Model.Name</div>
+                        @if(Model.Stock == 0) {
+                        <div class="product-state col-md-3 bg-danger text-white rounded p-1 text-center" style="width: 100px">Hết hàng</div>
+                        }
+                    </div>
+                    
                     <div class="reviews-counter">
                         <div>
+
                             @if (ViewBag.AvgRating > 0 && ViewBag.AvgRating <= 1)
                             {
                                 <span class="fa fa-star star-active"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span>
@@ -42,6 +49,10 @@
                             else if (ViewBag.AvgRating > 4 && ViewBag.AvgRating <= 5)
                             {
                                 <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span>
+                            }
+                            else
+                            {
+                                <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span>
                             }
                         </div>
                         <p><span id="total_review">@comments.Count()</span> Reviews</p>
@@ -141,6 +152,10 @@
                                     else if (ViewBag.AvgRating > 4 && ViewBag.AvgRating <= 5)
                                     {
                                         <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span>
                                     }
                                 </div>
                             </div>

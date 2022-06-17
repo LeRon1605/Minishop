@@ -28,8 +28,9 @@
                     <div class="mb-3 row d-flex align-items-center">
                         <div class="col-7">
                             @Html.LabelFor(model => model.Birth, htmlAttributes: new { @class = "form-label" })
-                            @Html.EditorFor(model => model.Birth, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                            @Html.EditorFor(model => model.Birth, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", @type = "date", @id="birth" } })
                             @Html.ValidationMessageFor(model => model.Birth, "", new { @class = "text-danger" })
+                            <span id="validation-message" class="text-danger d-none">Ngày sinh không được lớn hơn ngày hiện tại</span>
                         </div>
                         <div class="col-5">
                             @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "form-label" })
@@ -65,7 +66,7 @@
                         @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password", @placeholder = "Nhập mật khẩu của bạn" } })
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     </div>
-                    <button type="submit" class="btn btn-primary col-12">Đăng kí</button>
+                    <button type="submit" class="btn btn-primary col-12" id="submitBtn">Đăng kí</button>
                     <p class="mt-3 mb-0">
                         Bạn đã có tài khoản?
                         @Html.ActionLink("Đăng nhập", "Login", "User", new { @class = "text-decoration-none" })
@@ -80,4 +81,17 @@
 </section>
 @section scripts{
     @Html.Partial("_ValidationScriptsPartial")
+    <script>
+        $('#submitBtn').click(e => {
+            let Birth = document.getElementById('birth');
+            let validationMessage = document.getElementById('validation-message');
+            if (new Date(Birth.value).getTime() > new Date().getTime()) {
+                if (validationMessage.classList.contains('d-none')) validationMessage.classList.remove('d-none');
+                e.preventDefault();
+            } else {
+                if (!validationMessage.classList.contains('d-none')) validationMessage.classList.add('d-none');
+            }
+            console.log()
+        });
+    </script>
 }

@@ -141,8 +141,8 @@
                         <div class="d-flex border-bottom col-12 align-items-center">
                             <label class="col-5 m-0 p-0">Tổng tiền hàng: </label>
                             @Html.EditorFor(model => model.TotalPrice, new { htmlAttributes = new { @class = "col-7", @style = "border: none", @placeholder = "Nhập giá trị đơn hàng", type = "number", @min = "1" } })
-                            @Html.ValidationMessageFor(model => model.TotalPrice, "", new { @class = "text-danger" })
                         </div>
+                        @Html.ValidationMessageFor(model => model.TotalPrice, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <button class="btn btn-primary col-12 mt-3" type="submit">Nhập hàng</button>

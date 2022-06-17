@@ -108,7 +108,8 @@
                 </div>
                 <div class="row d-flex m-3 border-bottom">
                     <h6 class="m-0 col-4 p-0" style="line-height: normal;">Ngày sinh</h6>
-                    <input value="@Model.Birth.ToString("yyyy-MM-dd")" style="border: none" class="col-8 m-0 p-0" type="date" name="Birth" />
+                    <input value="@Model.Birth.ToString("yyyy-MM-dd")" style="border: none" class="col-8 m-0 p-0" type="date" name="Birth" id="birth"/>
+                    <span id="validation-message" class="text-danger d-none text-center" style="padding-left: 70px">Ngày sinh không được lớn hơn ngày hiện tại</span>
                 </div>
                 <div class="row d-flex m-3 border-bottom">
                     <h6 class="m-0 col-4 p-0" style="line-height: normal;">Trạng thái</h6>
@@ -138,7 +139,7 @@
     </div>
 }
 
-<div class="position-fixed p-3 d-flex justify-content-end" style="z-index: 11; top: 10%">
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
     <div id="notification_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
             <i class="fa-solid fa-bell"></i>
@@ -168,6 +169,7 @@
         }
     </div>
 </div>
+
 
 <div class="modal fade" id="changePassword">
     <div class="modal-dialog modal-dialog-centered">
@@ -208,6 +210,14 @@
     <script>
         let inputImage = document.getElementById('inputImage');
         let image = document.getElementById('image');
+        let Birth = document.getElementById('birth');
+        let validationMessage = document.getElementById('validation-message');
+        if (new Date(Birth.value).getTime() > new Date().getTime()) {
+            if (validationMessage.classList.contains('d-none')) validationMessage.classList.remove('d-none');
+            e.preventDefault();
+        } else {
+            if (!validationMessage.classList.contains('d-none')) validationMessage.classList.add('d-none');
+        }
         inputImage.onchange = (e) => {
             image.src = URL.createObjectURL(e.target.files[0]);
         };
