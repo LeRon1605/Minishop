@@ -114,11 +114,7 @@ namespace PBL3.Controllers
                 }
                 else
                 {
-                    ActivateAccountModel data = Session["ActivateAccount"] as ActivateAccountModel;
-                    if (data == null)
-                    {
-                        await SendActiveKey(user.ID, user.Email);
-                    }
+                    await SendActiveKey(user.ID, user.Email);
                     return View((ActivateAccountModel)Session["ActivateAccount"]);
                 }
             }

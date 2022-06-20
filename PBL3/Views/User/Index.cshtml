@@ -28,7 +28,7 @@
         }
     </style>
 }
-@using (Html.BeginForm("Update", "User", FormMethod.Post, new { @enctype = "multipart/form-data", @class="mt-4" }))
+@using (Html.BeginForm("Update", "User", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "mt-4" }))
 {
     @Html.HiddenFor(model => model.ID)
     <div class="row m-0 justify-content-center">
@@ -53,7 +53,7 @@
             </div>
             <div class="d-flex justify-content-end d-md-block d-none mt-auto">
                 <button class="btn btn-danger col-12" data-bs-toggle="modal" data-bs-target="#changePassword" type="button">Đổi mật khẩu</button>
-                <button class="btn btn-primary col-12 mt-2" type="submit">Lưu thông tin</button>
+                <button class="btn btn-primary col-12 mt-2" type="submit" id="btnSave">Lưu thông tin</button>
             </div>
         </div>
         <div class="col-md-6 mt-md-0 mt-3">
@@ -65,18 +65,22 @@
                 <div class="row d-flex m-3 border-bottom">
                     <h6 class="m-0 col-4 p-0" style="line-height: normal;">Họ và tên</h6>
                     @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập tên của bạn", @type = "text", @style = "border: none" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger p-0" })
                 </div>
                 <div class="row d-flex m-3 border-bottom">
                     <h6 class="m-0 col-4 p-0" style="line-height: normal;">Gmail</h6>
                     @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập gmail của bạn", @style = "border: none" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger p-0" })
                 </div>
                 <div class="row d-flex m-3 border-bottom">
                     <h6 class="m-0 col-4 p-0" style="line-height: normal;">Số điện thoại</h6>
                     @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập số điện thoại của bạn", @type = "text", @style = "border: none" } })
+                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger p-0" })
                 </div>
                 <div class="row d-flex m-3 border-bottom">
                     <h6 class="m-0 col-4 p-0" style="line-height: normal;">Địa chỉ</h6>
                     @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập số địa chỉ của bạn", @type = "text", @style = "border: none" } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger p-0" })
                 </div>
                 <div class="row d-flex m-3 border-bottom">
                     <h6 class="m-0 col-4 p-0" style="line-height: normal;">Giới tính</h6>
@@ -104,8 +108,8 @@
                 </div>
                 <div class="row d-flex m-3 border-bottom">
                     <h6 class="m-0 col-4 p-0" style="line-height: normal;">Ngày sinh</h6>
-                    <input value="@Model.Birth.ToString("yyyy-MM-dd")" style="border: none" class="col-8 m-0 p-0" type="date" name="Birth" id="birth"/>
-                    <span id="validation-message" class="text-danger d-none text-center" style="padding-left: 70px">Ngày sinh không được lớn hơn ngày hiện tại</span>
+                    <input value="@Model.Birth.ToString("yyyy-MM-dd")" style="border: none" class="col-8 m-0 p-0" type="date" name="Birth" id="birth" />
+                    <span id="validation-message" class="text-danger p-0 d-none">Ngày sinh không được lớn hơn ngày hiện tại</span>
                 </div>
                 <div class="row d-flex m-3 border-bottom">
                     <h6 class="m-0 col-4 p-0" style="line-height: normal;">Trạng thái</h6>
@@ -177,18 +181,18 @@
                 <div id="notification">
 
                 </div>
-                    <div class="mb-3">
-                        <label class="form-label">Mật khẩu hiện tại</label>
-                        <input type="password" class="form-control" name="oldPassword" placeholder="Nhập mật khẩu hiện tại">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Mật khẩu mới</label>
-                        <input type="password" class="form-control" name="newPassword" placeholder="Nhập mật khẩu mới">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Xác nhận mật khẩu mới</label>
-                        <input type="password" class="form-control" name="confirmPassword" placeholder="Xác nhận mật khẩu mới">
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label">Mật khẩu hiện tại</label>
+                    <input type="password" class="form-control" name="oldPassword" placeholder="Nhập mật khẩu hiện tại">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Mật khẩu mới</label>
+                    <input type="password" class="form-control" name="newPassword" placeholder="Nhập mật khẩu mới">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Xác nhận mật khẩu mới</label>
+                    <input type="password" class="form-control" name="confirmPassword" placeholder="Xác nhận mật khẩu mới">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -200,17 +204,20 @@
 
 @section scripts
 {
+    @Html.Partial("_ValidationScriptsPartial")
     <script>
         let inputImage = document.getElementById('inputImage');
         let image = document.getElementById('image');
-        let Birth = document.getElementById('birth');
-        let validationMessage = document.getElementById('validation-message');
-        if (new Date(Birth.value).getTime() > new Date().getTime()) {
-            if (validationMessage.classList.contains('d-none')) validationMessage.classList.remove('d-none');
-            e.preventDefault();
-        } else {
-            if (!validationMessage.classList.contains('d-none')) validationMessage.classList.add('d-none');
-        }
+        $("#btnSave").click(function (e) {
+            let Birth = document.getElementById('birth');
+            let validationMessage = document.getElementById('validation-message');
+            if (new Date(Birth.value).getTime() > new Date().getTime()) {
+                if (validationMessage.classList.contains('d-none')) validationMessage.classList.remove('d-none');
+                e.preventDefault();
+            } else {
+                if (!validationMessage.classList.contains('d-none')) validationMessage.classList.add('d-none');
+            }
+        })
         inputImage.onchange = (e) => {
             image.src = URL.createObjectURL(e.target.files[0]);
         };
@@ -229,7 +236,7 @@
             if (data.NewPassword !== data.ConfirmPassword) {
                 const notification = document.querySelector("#notification");
                 notification.innerHTML = `<div class="alert alert-danger col-12 p-2" role="alert">`
-                     +'Mật khẩu xác nhận sai'+  
+                     +'Mật khẩu xác nhận sai'+
                     `</div>`
                     ;
                 return false;
@@ -262,6 +269,6 @@
             });
         });
 
-       
+
     </script>
 }

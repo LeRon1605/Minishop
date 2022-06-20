@@ -65,7 +65,6 @@ namespace Models.BLL
             }
             else
             {
-                comment.UpdatedAt = DateTime.Now;
                 comment.Reply.Content = reply.Content;
                 comment.Reply.UpdatedAt = DateTime.Now;
             }
@@ -79,6 +78,7 @@ namespace Models.BLL
                 ID = comment.ID,
                 Content = comment.Content,
                 Reply = comment.Reply,
+                isReply = comment.isReply,
                 isDeleted = comment.isDeleted,
                 UserID = comment.UserID,
                 User = comment.User,

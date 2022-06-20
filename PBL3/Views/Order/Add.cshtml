@@ -123,6 +123,18 @@
         }
     </div>
 </div>
+<div class="position-fixed p-3 d-flex justify-content-end" style="z-index: 11; top: 10%">
+    <div id="notification_toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="fa-solid fa-bell"></i>
+            <strong class="me-auto ms-1">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+                <div class="toast-body text-white bg-success" id="toast_body">
+                    @TempData["Message"]
+                </div>
+    </div>
+</div>
 @section scripts
 {
     <script src="~/public/js/Order/Add.js"></script>
