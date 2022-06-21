@@ -39,6 +39,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Add(ImportBill bill)
         {
+
             if (ModelState.IsValid)
             {
                 ProductBO productBO = new ProductBO();
@@ -58,7 +59,7 @@ namespace PBL3.Areas.Admin.Controllers
             else
             {
                 TempData["Status"] = false;
-                TempData["Message"] = "Dữ liệu không hợp lệ";
+                TempData["Message"] = ModelState.Values.SelectMany(v => v.Errors).ToList()[0].ErrorMessage;
             }
             return RedirectToAction("Index");
         }

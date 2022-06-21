@@ -14,6 +14,7 @@ namespace Models.DTO
         [Key]
         public int ID { get; set; }
         [ForeignKey("Product")]
+        [Required(ErrorMessage = "Mã sản phẩm không được")]
         public int? ProductID { get; set; }
         [ForeignKey("ImportBill")]
         public int ImportBillID { get; set; }

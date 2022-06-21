@@ -26,7 +26,7 @@
                         <input type="text" class="form-control" size="4" name="Key" maxlength="4" placeholder="Nhập mã xác nhận" pattern="\d*">
                         @Html.ValidationMessageFor(model => model.Key, "", new { @class = "text-danger" })
                     </div>
-                    <button type="submit" class="btn btn-primary col-sm-12 col-md-10">Xác nhận</button>
+                    <button type="submit" class="btn btn-primary col-sm-12 col-md-10" id="btnSubmit">Xác nhận</button>
                 }
                 <p class="mt-3">Bạn chưa nhận được mã? <a href="" class="text-decoration-none" id="btnActive">Gửi lại mã</a></p>
             </div>
@@ -38,6 +38,9 @@
     <script>
         $("#btnActive").click(function (e) {
             e.preventDefault();
+            let btnSubmit = document.getElementById('btnSubmit');
+            btnSubmit.innerText = 'Đang gửi mã';
+            btnSubmit.classList.add('disabled');
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("SendActiveKey")',
@@ -55,6 +58,8 @@
                                 + data.message +
                             `</div>`;
                     }
+                    btnSubmit.innerText = 'Xác nhận';
+                    btnSubmit.classList.remove('disabled');
                 },
                 error: function () {
                     

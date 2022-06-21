@@ -61,21 +61,7 @@ namespace Models.BLL
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
-                return context.Users.Select(user => new User 
-                { 
-                    ID = user.ID,
-                    Name = user.Name, 
-                    Email = user.Email,
-                    Birth = user.Birth,
-                    Address = user.Address,
-                    Gender = user.Gender,
-                    Phone = user.Phone,
-                    isActivated = user.isActivated,
-                    Image = user.Image,
-                    CreatedAt = user.CreatedAt,
-                    RoleID = user.RoleID,
-                    UpdatedAt = user.UpdatedAt
-                }).FirstOrDefault(user => user.ID == id);
+                return context.Users.AsNoTracking().FirstOrDefault(user => user.ID == id);
             }    
         }
         public User findByEmail(string email)
@@ -214,7 +200,7 @@ namespace Models.BLL
                 return context.Users.Count(u => !isActivated || u.isActivated);
             }
         }    
-        public bool ChangePassword(string oldPassword, string newPassword, int ID)
+        public bool ChangePassword(string newPassword, int ID)
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
@@ -222,17 +208,10 @@ namespace Models.BLL
                 if (user == null) return false;
                 else
                 {
-                    if (Encryptor.MD5Hash(oldPassword) == user.Password)
-                    {
-                        user.Password = Encryptor.MD5Hash(newPassword);
-                        user.UpdatedAt = DateTime.Now;
-                        context.SaveChanges();
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    user.Password = Encryptor.MD5Hash(newPassword);
+                    user.UpdatedAt = DateTime.Now;
+                    context.SaveChanges();
+                    return true;
                 }
             }
         }

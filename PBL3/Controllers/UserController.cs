@@ -280,18 +280,33 @@ namespace PBL3.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                bool result = new UserBO().ChangePassword(model.OldPassword, model.NewPassword, (int)Session["USER"]);
-                if (result)
+                User user = new UserBO().find((int)Session["USER"]);
+                if (user != null)
                 {
-                    return new JsonResult
+                    if (Encryptor.MD5Hash(model.OldPassword) == user.Password)
                     {
-                        Data = new
+                        bool result = new UserBO().ChangePassword(model.NewPassword, (int)Session["USER"]);
+                        return new JsonResult
                         {
-                            status = true,
-                            message = "Thay đổi mật khẩu thành công"
-                        }
-                    };
+                            Data = new
+                            {
+                                status = true,
+                                message = "Thay đổi mật khẩu thành công"
+                            }
+                        };
+                    }
+                    else
+                    {
+                        return new JsonResult
+                        {
+                            Data = new
+                            {
+                                status = false,
+                                message = "Thay đổi mật khẩu thất bại",
+                                detail = "Mật khẩu không chính xác"
+                            }
+                        };
+                    }
                 }
                 else
                 {
@@ -301,7 +316,7 @@ namespace PBL3.Controllers
                         {
                             status = false,
                             message = "Thay đổi mật khẩu thất bại",
-                            detail = "Mật khẩu không chính xác"
+                            detail = "Người dùng không tồn tại"
                         }
                     };
                 }

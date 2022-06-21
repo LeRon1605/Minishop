@@ -1,0 +1,136 @@
+﻿@using Models.DTO;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/public/css/Sidebars.css" />
+    @RenderSection("Styles", false)
+    <style>
+        body {
+            background-color: #F0F2F5;
+            margin-top: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <div class="row" id="body-row">
+            <div id="sidebar-container" class="sidebar-expanded d-md-block">
+                <ul class="list-group">
+                    <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed padding">
+                        <a href="@Url.Action("Index", "Home", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
+                            <small class="text">MINI SHOP</small>
+                        </a>
+                    </li>
+                    <a href="#submenu1" data-toggle="collapse" aria-expanded="false"
+                       class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                            <span class="fa-solid fa-layer-group icon"></span>
+                            <span class="menu-collapsed">Quản Lí</span>
+                            <span class="submenu-icon me-auto"></span>
+                            <i class="fa-solid fa-angle-down submenu-icon"></i>
+                        </div>
+                    </a>
+                    <div id="submenu1" class="collapse sidebar-submenu">
+                        <a href="@Url.Action("Index", "User", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
+                            <span class="fa-solid fa-store subicon"></span>
+                            <span class="menu-collapsed">Quản Lí Người Dùng</span>
+                        </a>
+                        <a href="@Url.Action("Index", "Product", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
+                            <span class="fa-solid fa-store subicon"></span>
+                            <span class="menu-collapsed">Quản Lí Sản Phẩm</span>
+                        </a>
+                        <a href="@Url.Action("Index", "Category", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
+                            <span class="fa-solid fa-cart-shopping subicon"></span>
+                            <span class="menu-collapsed">Quản Lí Loại Sản Phẩm</span>
+                        </a>
+                        <a href="@Url.Action("Index", "Voucher", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
+                            <span class="fa-solid fa-tachograph-digital subicon"></span>
+                            <span class="menu-collapsed">Quản Lí Voucher</span>
+                        </a>
+                        <a href="@Url.Action("Index", "Order", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
+                            <span class="fa-solid fa-tachograph-digital subicon"></span>
+                            <span class="menu-collapsed">Quản Lí Đơn hàng</span>
+                        </a>
+                        <a href="@Url.Action("Index", "ImportBill", new { area = "Admin" })" class="list-group-item list-group-item-action bg-dark text-white">
+                            <span class="fa-solid fa-cart-shopping subicon"></span>
+                            <span class="menu-collapsed">Quản Lí Đơn Nhập</span>
+                        </a>
+                    </div>
+
+                    <a href="@Url.Action("Index", "Home", new { area = "Admin" })" class="bg-dark list-group-item list-group-item-action">
+                        <div class="d-flex w-10d fa-ballot-check0 justify-content-start align-items-center">
+                            <span class="fa-solid fa-check icon"></span>
+                            <span class="menu-collapsed">Thống kê</span>
+                        </div>
+                    </a>
+                    <!-- Separator with title -->
+                    <!-- /END Separator -->
+                    <a href="@Url.Action("Index", "Comment", new { area = "Admin" })" class="bg-dark list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                            <span class="fa-solid fa-comment icon"></span>
+                            <span class="menu-collapsed">
+                                Bình luận
+                            </span>
+                        </div>
+                    </a>
+                    <a href="@Url.Action("Index", "Profile", new { area = "Admin" })" aria-expanded="false"
+                       class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                            <span class="fa-solid fa-user icon"></span>
+                            <span class="menu-collapsed">Thông tin</span>
+                            <span class="submenu-icon ml-auto"></span>
+                        </div>
+                    </a>
+                    <a href="@Url.Action("Logout", "User", new { area = "" })" class="bg-dark list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                            <i class="fa-solid fa-arrow-right-from-bracket icon"></i>
+                            <span class="menu-collapsed">
+                                Đăng xuất
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- /END Separator -->
+                    <!-- Separator without title -->
+                    <li class="list-group-item sidebar-separator menu-collapsed"></li>
+                    <a href="#" data-toggle="sidebar-colapse"
+                       class="bg-dark list-group-item list-group-item-action d-flex align-items-center">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                            <span id="collapse-icon" class="fa mr-3"></span>
+                        </div>
+                    </a>
+
+
+                </ul><!-- List Group END-->
+            </div><!-- sidebar-container END -->
+            <!-- MAIN -->
+            <div class="col" , style="overflow-y: scroll; max-height: 100vh">
+                @RenderBody()
+            </div>
+        </div><!-- body-row END -->
+
+    </div><!-- container -->
+
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <script src="~/public/js/Sidebar.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

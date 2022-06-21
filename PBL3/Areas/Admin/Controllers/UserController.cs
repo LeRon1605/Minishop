@@ -93,7 +93,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool result = new UserBO().ChangePassword(model.OldPassword, model.NewPassword, userID);
+                bool result = new UserBO().ChangePassword(model.NewPassword, userID);
                 if (result)
                 {
                     return new JsonResult
