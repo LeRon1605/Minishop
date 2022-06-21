@@ -184,10 +184,6 @@
                 </div>
                 <form>
                     <div class="mb-3">
-                        <label class="form-label">Mật khẩu hiện tại</label>
-                        <input type="password" class="form-control" name="oldPassword">
-                    </div>
-                    <div class="mb-3">
                         <label class="form-label">Mật khẩu mới</label>
                         <input type="password" class="form-control" name="newPassword">
                     </div>
@@ -233,7 +229,6 @@
             e.preventDefault();
             const data = {
                 UserID: $("#UserID").val(),
-                OldPassword: $("input[name='oldPassword']").val(),
                 NewPassword: $("input[name='newPassword']").val(),
                 ConfirmPassword: $("input[name='confirmPassword']").val()
             };
@@ -252,7 +247,6 @@
                         notification.innerHTML = `<div class="alert alert-success col-12 p-2" role="alert">`
                             + res.data.message +
                             `</div>`;
-                        $("input[name='oldPassword']").val("");
                         $("input[name='newPassword']").val("");
                         $("input[name='confirmPassword']").val("");
                     } else {

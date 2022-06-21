@@ -30,30 +30,17 @@
                     <div class="reviews-counter">
                         <div>
 
-                            @if (ViewBag.AvgRating > 0 && ViewBag.AvgRating <= 1)
+                            @for(int i = 1; i <= 5 ; i++)
                             {
-                                <span class="fa fa-star star-active"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span>
+                                if(i <= ViewBag.AvgRating)
+                                {
+                                     <span class="fa fa-star star-active"></span>
+                                }
+                                else{
+                                     <span class="fa fa-star star-inactive"></span>
+                                }
                             }
-                            else if (ViewBag.AvgRating > 1 && ViewBag.AvgRating <= 2)
-                            {
-                                <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span>
-                            }
-                            else if (ViewBag.AvgRating > 2 && ViewBag.AvgRating <= 3)
-                            {
-                                <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span>
-                            }
-                            else if (ViewBag.AvgRating > 3 && ViewBag.AvgRating <= 4)
-                            {
-                                <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-inactive"></span>
-                            }
-                            else if (ViewBag.AvgRating > 4 && ViewBag.AvgRating <= 5)
-                            {
-                                <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span>
-                            }
-                            else
-                            {
-                                <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span>
-                            }
+                         
                         </div>
                         <p><span id="total_review">@comments.Count()</span> Reviews</p>
                     </div>
@@ -133,29 +120,16 @@
                                     <p class="">out of 5</p>
                                 </div>
                                 <div>
-                                    @if (ViewBag.AvgRating > 0 && ViewBag.AvgRating <= 1)
+                                    @for (int i = 1; i <= 5; i++)
                                     {
-                                        <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span>
-                                    }
-                                    else if (ViewBag.AvgRating > 1 && ViewBag.AvgRating <= 2)
-                                    {
-                                        <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span>
-                                    }
-                                    else if (ViewBag.AvgRating > 2 && ViewBag.AvgRating <= 3)
-                                    {
-                                        <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span>
-                                    }
-                                    else if (ViewBag.AvgRating > 3 && ViewBag.AvgRating <= 4)
-                                    {
-                                        <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span>
-                                    }
-                                    else if (ViewBag.AvgRating > 4 && ViewBag.AvgRating <= 5)
-                                    {
-                                        <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span>
-                                    }
-                                    else
-                                    {
-                                        <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span> <span class="fa fa-star star-inactive"></span>
+                                        if (i <= ViewBag.AvgRating)
+                                        {
+                                            <span class="fa fa-star star-active"></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="fa fa-star star-inactive"></span>
+                                        }
                                     }
                                 </div>
                             </div>

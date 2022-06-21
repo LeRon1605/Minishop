@@ -91,9 +91,10 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model, int userID)
         {
+            if (ModelState["OldPassword"] != null) ModelState["OldPassword"].Errors.Clear();
             if (ModelState.IsValid)
             {
-                bool result = new UserBO().ChangePassword(model.OldPassword, model.NewPassword, userID);
+                bool result = new UserBO().AdminChangePassword(model.NewPassword, userID);
                 if (result)
                 {
                     return new JsonResult

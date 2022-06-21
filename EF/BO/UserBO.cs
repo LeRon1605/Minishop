@@ -236,5 +236,20 @@ namespace Models.BLL
                 }
             }
         }
+        public bool AdminChangePassword(string newPassword, int ID)
+        {
+            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
+            {
+                User user = context.Users.FirstOrDefault(u => u.ID == ID);
+                if (user == null) return false;
+                else
+                {
+                    user.Password = Encryptor.MD5Hash(newPassword);
+                    user.UpdatedAt = DateTime.Now;
+                    context.SaveChanges();
+                    return true;   
+                }
+            }
+        }
     }
 }

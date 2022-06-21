@@ -32,12 +32,7 @@
             </div>
         }
     </div>
-    @*<div>
-        @using (Html.BeginForm("getLasted", "Voucher", FormMethod.Post))
-        {
-            <button class="btn btn-outline-success" type="submit">6 vouchers mới nhất</button>
-        }
-    </div>*@
+
     <div class="row">
         @for (int i = 0; i < ((List<Voucher>)Model).Count; i++)
         {
