@@ -12,7 +12,7 @@ using System.IO;
 namespace PBL3.Areas.Admin.Controllers
 {
     [HasLogin(Role = "ADMIN")]
-    public class UserController: Controller
+    public class UserController : Controller
     {
         public ActionResult Index(int page = 1, string keyword = "")
         {
@@ -43,7 +43,7 @@ namespace PBL3.Areas.Admin.Controllers
                     file.SaveAs(path);
                     user.Image = $"/public/uploads/users/{fileName}";
                 }
-                bool result =new UserBO().Update(user) ;
+                bool result = new UserBO().Update(user);
                 if (result)
                 {
                     TempData["Status"] = true;
@@ -60,11 +60,11 @@ namespace PBL3.Areas.Admin.Controllers
                 TempData["Status"] = false;
                 TempData["Message"] = "Dữ liệu không hợp lệ";
             }
-            return RedirectToAction("View", new { id =user.ID});
+            return RedirectToAction("View", new { id = user.ID });
         }
         public ActionResult Delete(int id)
         {
-            if(new UserBO().Delete(id))
+            if (new UserBO().Delete(id))
             {
                 return new JsonResult
                 {
