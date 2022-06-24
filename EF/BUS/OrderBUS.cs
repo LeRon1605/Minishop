@@ -71,6 +71,7 @@ namespace Models.BLL
                     Note = order.Note,
                     ReceiverAddress = order.ReceiverAddress,
                     Total = order.Total,
+                    VoucherID = order.VoucherID,
                     Voucher = new Voucher
                     {
                         ID = order.Voucher.ID,
@@ -179,10 +180,13 @@ namespace Models.BLL
                             if (!string.IsNullOrEmpty(order.Voucher.Seri))
                             {
                                 Voucher voucher = new VoucherBUS().check(order.Voucher.Seri);
-                                voucher.Quantity -= 1;
-                                voucherID = voucher.ID;
-                                sale = voucher.Value;
-                                new VoucherBUS().Update(voucher);
+                                if (voucher != null)
+                                {
+                                    voucher.Quantity -= 1;
+                                    voucherID = voucher.ID;
+                                    sale = voucher.Value;
+                                    new VoucherBUS().Update(voucher);
+                                }    
                             }
                             if (sale > TotalPrice) sale = TotalPrice;
                             using (ShopOnlineDbContext context = new ShopOnlineDbContext())

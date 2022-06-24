@@ -78,9 +78,8 @@ namespace PBL3.Controllers
                     bool result = await new UserBUS().Add(user);
                     if (result)
                     {
-                        // TempData["Message"] = "Đăng kí thành viên thành công";
                         Session["User"] = user.ID;
-                        return RedirectToAction("ActivateAccount");
+                        return RedirectToAction("Index", "Home");
                     }
                     else
                     {
@@ -109,7 +108,6 @@ namespace PBL3.Controllers
                 User user = new UserBUS().find((int)Session["USER"]);
                 if (user.isActivated)
                 {
-                    // Đã kích hoạt rồi
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -217,17 +215,24 @@ namespace PBL3.Controllers
                     file.SaveAs(path);
                     user.Image = $"/public/uploads/users/{fileName}";
                 }
-                bool result = (user.ID == (int)Session["USER"]) ? new UserBUS().Update(user) : false;
-                if (result)
+                if (user.ID == (int)Session["USER"])
                 {
-                    TempData["Status"] = true;
-                    TempData["Message"] = "Cập nhật tài khoản công";
+                    if (new UserBUS().Update(user))
+                    {
+                        TempData["Status"] = true;
+                        TempData["Message"] = "Cập nhật tài khoản công";
+                    }
+                    else
+                    {
+                        TempData["Status"] = false;
+                        TempData["Message"] = "Cập nhật tài khoản thất bại";
+                    }
                 }
                 else
                 {
-                    TempData["Status"] = false;
-                    TempData["Message"] = "Cập nhật tài khoản thất bại";
-                }
+                    ViewBag.Message = "Bạn không có quyền thực hiện hành động này";
+                    return View("~/Views/Shared/UnAuthorize.cshtml");
+                } 
             }
             else
             {
@@ -248,8 +253,23 @@ namespace PBL3.Controllers
         [HttpPost]
         public async Task<ActionResult> ResetPassword(string email)
         {
-            string password = new UserBUS().ResetPasssword(email);
-            if (password == null)
+            UserBUS userBUS = new UserBUS();
+            User user = userBUS.findByEmail(email);
+            if (user != null)
+            {
+                string password = new Random().Next(10000000, 99999999).ToString();
+                userBUS.ChangePassword(password, user.ID);
+                await Mail.SendMail(email, "Đặt lại mật khẩu", Mail.GetMailResetPasswordContent(password));
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        status = true,
+                        message = "Vui lòng kiểm tra email để tiếp tục đăng nhập"
+                    }
+                };
+            }
+            else
             {
                 return new JsonResult
                 {
@@ -261,18 +281,6 @@ namespace PBL3.Controllers
                     }
                 };
             }
-            else
-            {
-                await Mail.SendMail(email, "Đặt lại mật khẩu", Mail.GetMailResetPasswordContent(password));
-                return new JsonResult
-                {
-                    Data = new
-                    {
-                        status = true,
-                        message = "Vui lòng kiểm tra email để tiếp tục đăng nhập"
-                    }
-                };
-            }  
         }
         [HasLogin(Role = "USER")]
         [HttpPost]

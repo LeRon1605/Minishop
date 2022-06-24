@@ -21,8 +21,6 @@ namespace PBL3.Areas.Admin.Controllers
             ViewBag.statisticsInDay = new StatisticsBUS().GetStatisticsInDay(DateTime.Now, "dd/MM");
             ViewBag.totalOrder = new OrderBUS().Count();
             ViewBag.totalBenifit = new StatisticsBUS().getTotalBenifit();
-            ViewBag.totalUser = new UserBUS().Count();
-            ViewBag.totalActivatedUser = new UserBUS().Count(true);
             return View();
         }
 

@@ -33,16 +33,15 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult View(int id, bool isEdit = false)
         {
-            CategoryBUS categoryDAO = new CategoryBUS();
-            ProductBUS productDAO = new ProductBUS();
+            CategoryBUS categoryBUS = new CategoryBUS();
+            ProductBUS productBUS = new ProductBUS();
             ViewBag.isEdit = isEdit;
-            ViewBag.categories = categoryDAO.findAll();
+            ViewBag.categories = categoryBUS.findAll();
             ViewBag.importBills = new ImportBillBUS().getBillOfProduct(id);
-            Product product = productDAO.find(id, true);
+            Product product = productBUS.find(id, true);
             if (product == null)
             {
-                TempData["Message"] = "Sản phẩm không tồn tại";
-                return RedirectToAction("Index");
+                return HttpNotFound();
             }    
             return View(product);
         }
@@ -60,10 +59,8 @@ namespace PBL3.Areas.Admin.Controllers
                         string path = Path.Combine(Server.MapPath("~/public/uploads/products"), fileName);
                         Image.SaveAs(path);
                         ProductBUS ProductBUS = new ProductBUS();
-                        CategoryBUS CategoryBUS = new CategoryBUS();
                         product.Image = $"/public/uploads/products/{fileName}";
                         ProductBUS.Add(product);
-                        product.Category = (product.CategoryID == null) ? null : CategoryBUS.find((int)product.CategoryID);
                         TempData["AddStatus"] = true;
                     }
                     else
@@ -152,8 +149,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                ProductBUS productDAO = new ProductBUS();
-                if (productDAO.exist(productID) && quantity > 0 && totalPrice > 0)
+                if (new ProductBUS().exist(productID) && quantity > 0 && totalPrice > 0)
                 {
                     ImportBill bill = new ImportBill
                     {
@@ -199,8 +195,7 @@ namespace PBL3.Areas.Admin.Controllers
 
         public ActionResult Delete(int id)
         {
-            ProductBUS productDAO = new ProductBUS();
-            if (productDAO.Delete(id))
+            if (new ProductBUS().Delete(id))
             {
                 return new JsonResult{
                     Data = new

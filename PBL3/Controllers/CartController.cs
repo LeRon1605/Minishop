@@ -15,23 +15,23 @@ namespace PBL3.Controllers
         [HasLogin(Role = "USER")]
         public ActionResult Index()
         {
-            int CartID = Convert.ToInt32(Session["USER"]);
-            ViewBag.Total = new CartBUS().getTotal(CartID, true);
-            return View(new CartBUS().GetProductCart(CartID));
+            CartBUS cartBUS = new CartBUS();
+            ViewBag.Total = cartBUS.getTotal((int)Session["USER"], true);
+            return View(cartBUS.GetProductCart((int)Session["USER"]));
         }
         [HttpPost]
         [HasLogin(Role = "USER", ContentType = "json")]
         public ActionResult Add(int productID, int quantity)
         {
-            int CartID = Convert.ToInt32(Session["USER"]);
-            bool result = new CartBUS().save(productID, quantity, CartID);
+            CartBUS cartBUS = new CartBUS();
+            bool result = cartBUS.save(productID, quantity, (int)Session["USER"]);
             if (result)
             {
                 return new JsonResult {
                     Data = new {
                         status = true,
                         message = "Thêm sản phẩm vào giỏ hàng thành công",
-                        total = new CartBUS().getTotal(Convert.ToInt32(Session["USER"]), true)
+                        total = cartBUS.getTotal((int)Session["USER"], true)
                     }
                 };
             }
@@ -47,12 +47,12 @@ namespace PBL3.Controllers
                 };
             }
         }
+        [HttpPost]
         [HasLogin(Role = "USER")]
         public ActionResult Delete(int id)
         {
-            CartBUS cartDAO = new CartBUS();
-            int CartID = Convert.ToInt32(Session["USER"]);
-            if (cartDAO.DeleteProduct(id, CartID) == true )
+            CartBUS cartBUS = new CartBUS();
+            if (cartBUS.DeleteProduct(id, (int)Session["USER"]))
             {
                 return new JsonResult
                 {
@@ -60,7 +60,7 @@ namespace PBL3.Controllers
                     {
                         status = true,
                         message = "Xóa thành công sản phẩm trong giỏ hàng",
-                        total = new CartBUS().getTotal(Convert.ToInt32(Session["USER"]), true)
+                        total = cartBUS.getTotal((int)Session["USER"], true)
                     }
                 };
             }
@@ -79,12 +79,10 @@ namespace PBL3.Controllers
         [HasLogin(Role = "USER")]
         public ActionResult removeAll()
         {
-            CartBUS cartDAO = new CartBUS();
-            int CartID = Convert.ToInt32(Session["USER"]);
-            if(cartDAO.removeAll(CartID) == true)
+            CartBUS cartBUS = new CartBUS();
+            if(cartBUS.removeAll((int)Session["USER"]))
             {
-                return RedirectToAction("Index");
-                
+                return RedirectToAction("Index");   
             }
             else
             {
@@ -94,22 +92,20 @@ namespace PBL3.Controllers
         [HasLogin(Role = "USER")]
         public ActionResult Select(int id)
         {
-            int CartID = Convert.ToInt32(Session["USER"]);
+            CartBUS cartBUS = new CartBUS();
             return new JsonResult
             {
                 Data = new
                 {
-                    status = new CartBUS().select(id, CartID),
-                    total = new CartBUS().getTotal(Convert.ToInt32(Session["USER"]), true)
+                    status = cartBUS.select(id, (int)Session["USER"]),
+                    total = cartBUS.getTotal((int)Session["USER"], true)
                 }
             };
         }
         [HasLogin(Role = "USER")]
         public ActionResult selectAll()
         {
-            CartBUS cartDAO = new CartBUS();
-            int CartID = Convert.ToInt32(Session["USER"]);
-            if (cartDAO.selectAll(CartID) == true)
+            if (new CartBUS().selectAll((int)Session["USER"]))
             {
                 return RedirectToAction("Index");
             }

@@ -15,13 +15,12 @@ namespace PBL3.Controllers
     {
         public ActionResult Index(int page = 1)
         {
-            List<Category> categories = new CategoryBUS().findAll();
-            ProductBUS productDAO = new ProductBUS();
+            ProductBUS productBUS = new ProductBUS();
             int totalPage = 0;
-            ViewBag.Total = productDAO.Count();
+            ViewBag.Total = productBUS.Count();
             ViewBag.categories = new CategoryBUS().findAll();
-            ViewBag.products = productDAO.getPage(page, 20, null, "", "All", "All", out totalPage);
-            ViewBag.lastedProduct = productDAO.getLasted(5);
+            ViewBag.products = productBUS.getPage(page, 20, null, "", "All", "All", out totalPage);
+            ViewBag.lastedProduct = productBUS.getLasted(5);
             ViewBag.lastedVoucher = new VoucherBUS().getLasted(5);
             ViewBag.pagingData = new PagingModel
             {
@@ -29,20 +28,6 @@ namespace PBL3.Controllers
                 CurrentPage = page,
                 GenerateURL = (int pageNum) => $"?page={pageNum}"
             };
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
 

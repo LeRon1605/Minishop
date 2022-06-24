@@ -28,7 +28,9 @@ namespace PBL3.Areas.Admin.Controllers
         }
         public ActionResult View(int id)
         {
-            return View(new UserBUS().find(id));
+            User user = new UserBUS().find(id);
+            if (user == null) return HttpNotFound();
+            return View(user);
         }
         [HttpPost]
         public ActionResult Update(User user, HttpPostedFileBase file)
@@ -43,8 +45,7 @@ namespace PBL3.Areas.Admin.Controllers
                     file.SaveAs(path);
                     user.Image = $"/public/uploads/users/{fileName}";
                 }
-                bool result = new UserBUS().Update(user);
-                if (result)
+                if (new UserBUS().Update(user))
                 {
                     TempData["Status"] = true;
                     TempData["Message"] = "Cập nhật tài khoản công";

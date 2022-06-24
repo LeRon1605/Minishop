@@ -21,7 +21,8 @@ btnCheckVoucher.addEventListener('click', (e) => {
                 notification.innerHTML = data.message;
                 $('#voucher').val($('#voucherSeri').val());
                 voucherValue.innerText = '-' + Number(data.value.Value).toLocaleString() + ' đ';
-                totalValue.innerText = (Number(total.innerText.trim().replace(/[^0-9-]+/g, "")) - data.value.Value).toLocaleString() + ' đ';
+                let money = Number(total.innerText.trim().replace(/[^0-9-]+/g, "")) - data.value.Value;
+                totalValue.innerText = ((money < 0) ? '0' : money.toLocaleString()) + ' đ';
             } else {
                 notification.classList.add('alert-danger');
                 if (notification.classList.contains('alert-success'))
@@ -31,6 +32,7 @@ btnCheckVoucher.addEventListener('click', (e) => {
                 notification.innerHTML = data.message;
                 totalValue.innerText = (Number(total.innerText.trim().replace(/[^0-9-]+/g, ""))).toLocaleString() + ' đ';
             }
+
             if (notification.classList.contains('d-none')) {
                 notification.classList.remove('d-none');
                 notification.classList.add('d-block');

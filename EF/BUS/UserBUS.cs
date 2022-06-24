@@ -68,21 +68,7 @@ namespace Models.BLL
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
-                return context.Users.AsNoTracking().Select(user => new User
-                {
-                    ID = user.ID,
-                    Name = user.Name,
-                    Email = user.Email,
-                    Birth = user.Birth,
-                    Address = user.Address,
-                    Gender = user.Gender,
-                    Phone = user.Phone,
-                    isActivated = user.isActivated,
-                    Image = user.Image,
-                    CreatedAt = user.CreatedAt,
-                    RoleID = user.RoleID,
-                    UpdatedAt = user.UpdatedAt
-                }).FirstOrDefault(user => user.Email == email);
+                return context.Users.AsNoTracking().FirstOrDefault(user => user.Email == email);
             }    
         }
         public List<User> findAll()
@@ -91,11 +77,6 @@ namespace Models.BLL
             {
                 return context.Users.AsNoTracking().ToList();
             }
-        }
-
-        public void add(User user)
-        {
-
         }
         public async Task<bool> Add(User newUser, bool isAdmin = false)
         {
@@ -165,41 +146,13 @@ namespace Models.BLL
                     user.Gender = entity.Gender;
                     user.Address = entity.Address;
                     user.Image = entity.Image;
-                    if (user.Email != entity.Email)
-                    {
-                        user.Email = entity.Email;
-                        user.isActivated = false;
-                    }
+                    user.Email = user.Email;
                     user.UpdatedAt = DateTime.Now;
                     context.SaveChanges();
                     return true;
                 }
             }
         }
-
-        public string ResetPasssword(string email)
-        {
-            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
-            {
-                User user = context.Users.FirstOrDefault(u => u.Email == email);
-                if (user == null) return null;
-                else
-                {
-                    string password = new Random().Next(10000000, 99999999).ToString();
-                    user.Password = Encryptor.MD5Hash(password);
-                    user.UpdatedAt = DateTime.Now;
-                    context.SaveChanges();
-                    return password;
-                }
-            }    
-        }
-        public int Count(bool isActivated = false)
-        {
-            using (ShopOnlineDbContext context = new ShopOnlineDbContext())
-            {
-                return context.Users.Count(u => !isActivated || u.isActivated);
-            }
-        }    
         public bool ChangePassword(string newPassword, int ID)
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())

@@ -526,7 +526,6 @@
     <Compile Include="Areas\Admin\Controllers\VoucherController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
-    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\VoucherController.cs" />

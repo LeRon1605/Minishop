@@ -51,7 +51,7 @@ namespace Models.BLL
         {
             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
             {
-                return context.Orders.Where(x => x.isReceived).Sum(x => x.Total) - context.ImportBills.Sum(x => x.TotalPrice);
+                return context.Orders.Where(x => x.isReceived).Sum(x => x.Total - x.Sale) - context.ImportBills.Sum(x => x.TotalPrice);
             }
         }
 

@@ -18,8 +18,7 @@ namespace PBL3.Areas.Admin.Controllers
         
         public ActionResult Index()
         {
-            User user = new UserBUS().find((int)Session["USER"]);
-            return View(user);
+            return View(new UserBUS().find((int)Session["USER"]));
         }
         public ActionResult Update([Bind(Exclude ="Password")]User user, HttpPostedFileBase file)
         {

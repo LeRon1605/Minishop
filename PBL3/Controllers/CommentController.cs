@@ -29,7 +29,7 @@ namespace PBL3.Controllers
                 Comment comment = CommentBUS.find(cmt.ID);
                 if (comment == null)
                 {
-                    if (new CommentBUS().add((int)Session["USER"], cmt))
+                    if (CommentBUS.add((int)Session["USER"], cmt))
                     {
                         return new JsonResult
                         {

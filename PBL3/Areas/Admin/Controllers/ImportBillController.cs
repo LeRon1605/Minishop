@@ -45,7 +45,7 @@ namespace PBL3.Areas.Admin.Controllers
                 ProductBUS ProductBUS = new ProductBUS();
                 foreach (ImportBillDetail detail in bill.ImportBillDetails)
                 {
-                    if (detail.ProductID != null && ProductBUS.exist((int)detail.ProductID) == false)
+                    if (detail.ProductID != null && !ProductBUS.exist((int)detail.ProductID))
                     {
                         TempData["Status"] = false;
                         TempData["Message"] = "Sản phẩm không tồn tại";
@@ -63,47 +63,5 @@ namespace PBL3.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
-
-        //public ActionResult Update(ImportBill bill)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        ImportBillBUS ImportBillBUS = new ImportBillBUS();
-        //        if (ImportBillBUS.Update(bill) == true)
-        //        {
-        //            TempData["Status"] = true;
-        //            TempData["Message"] = "Cập nhật hóa đơn thành công";
-        //        }
-        //        else
-        //        {
-        //            TempData["Status"] = true;
-        //            TempData["Message"] = "Cập nhật hóa đơn thất bại";
-        //        }
-        //    }
-        //    else
-        //    {
-        //        TempData["Status"] = false;
-        //        TempData["Message"] = "Cập nhật hóa đơn thất bại";
-
-        //    }
-        //    return RedirectToAction("View");
-        //}
-
-        //public ActionResult Delete(int id)
-        //{
-        //    ImportBillBUS ImportBillBUS = new ImportBillBUS();
-        //    if (ImportBillBUS.delete(id))
-        //    {
-        //        TempData["Status"] = true;
-        //        TempData["Message"] = "Xóa đơn hàng thành công";
-        //    }
-        //    else
-        //    {
-        //        TempData["Status"] = false;
-        //        TempData["Message"] = "Xóa đơn hàng thất bại";
-        //    }
-        //    return RedirectToAction("Index");
-        //}
-
     }
 }

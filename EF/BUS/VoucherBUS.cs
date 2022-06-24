@@ -96,7 +96,7 @@ namespace Models.BLL
                 }).Where(voucher => 
                     (voucher.Seri.Contains(keyword) || keyword == "") &&
                     (value == "All" || voucher.Value <= int.Parse(value)) &&
-                    (state == "All" || (DateTime.Now.Date < voucher.StartDate.Date && state.Contains("inActivated")) || (DateTime.Now.Date >= voucher.StartDate.Date && DateTime.Now.Date <= voucher.EndDate.Date && state.Contains("valid") || (DateTime.Now.Date > voucher.EndDate.Date && state.Contains("invalid"))))
+                    (state == "All" || (DateTime.Now.Date < voucher.StartDate.Date && state.Contains("inActivated")) || (DateTime.Now.Date >= voucher.StartDate.Date && DateTime.Now.Date <= voucher.EndDate.Date && state.Contains("valid") && voucher.Quantity > 0) || (DateTime.Now.Date > voucher.EndDate.Date && state.Contains("invalid")))
                  ).ToList();    
                 totalRow = (int)Math.Ceiling((double)Vouchers.Count() / pageSize);
                 if (Vouchers.Count() <= pageSize) return Vouchers;
@@ -116,11 +116,11 @@ namespace Models.BLL
         }
         public Voucher check(string Seri)
         {
-            return context.Vouchers.FirstOrDefault(voucher => voucher.Seri == Seri && voucher.EndDate.Date >= DateTime.Now.Date && voucher.StartDate.Date <= DateTime.Now.Date);
+            return context.Vouchers.FirstOrDefault(voucher => voucher.Seri == Seri && voucher.EndDate.Date >= DateTime.Now.Date && voucher.StartDate.Date <= DateTime.Now.Date && voucher.Quantity > 0);
         }
         public List<Voucher> getLasted(int quantity)
         {
-            return context.Vouchers.AsNoTracking().Where(voucher => voucher.EndDate.Date >= DateTime.Now.Date && voucher.StartDate.Date >= DateTime.Now.Date).OrderByDescending(voucher => voucher.Value).Take(5).ToList();
+            return context.Vouchers.AsNoTracking().Where(voucher => voucher.EndDate.Date >= DateTime.Now.Date && voucher.StartDate.Date >= DateTime.Now.Date && voucher.Quantity > 0).OrderByDescending(voucher => voucher.Value).Take(quantity).ToList();
         }
 
 

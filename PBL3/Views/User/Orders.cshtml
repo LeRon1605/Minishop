@@ -81,7 +81,7 @@
                         <div class="col-3 ms-auto">
                             <div class="col-12 d-flex justify-content-between">
                                 <div>Voucher</div>
-                                <div class="text-danger fw-bold">-@(order.VoucherID == null ? "0" : String.Format("{ 0:0,0}", order.Sale)) đ</div>
+                                <div class="text-danger fw-bold">-@String.Format("{0:0,0}", order.Sale) đ</div>
                             </div>
                             <div class="col-12 d-flex justify-content-between">
                                 <div>Tổng số tiền</div>

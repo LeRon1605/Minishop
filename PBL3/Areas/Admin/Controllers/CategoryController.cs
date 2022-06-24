@@ -17,10 +17,9 @@ namespace PBL3.Areas.Admin.Controllers
         // GET: Admin/Category
         public ActionResult Index(int page = 1, string keyword = "")
         {
-            CategoryBUS categoryDAO = new CategoryBUS();
+            CategoryBUS categoryBUS = new CategoryBUS();
             int totalPage = 0;
-            ViewBag.categories = categoryDAO.getPage(page, 10, keyword, out totalPage);
-            ViewBag.Total = categoryDAO.Count();
+            ViewBag.categories = categoryBUS.getPage(page, 10, keyword, out totalPage);
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,
@@ -53,8 +52,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                CategoryBUS categoryDAO = new CategoryBUS();
-                categoryDAO.Add(category);
+                new CategoryBUS().Add(category);
                 TempData["Addstatus"] = true;
             }
             else
@@ -68,11 +66,9 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Update(Category category)
         {
-            
             if (ModelState.IsValid)
             {
-                CategoryBUS categoryDAO = new CategoryBUS();
-                if(categoryDAO.Update(category))
+                if(new CategoryBUS().Update(category))
                 {
                     TempData["Status"] = true;
                     TempData["Message"] = "Cập nhật loại sản phẩm thành công";
@@ -93,8 +89,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            CategoryBUS categoryDAO = new CategoryBUS();
-            if(categoryDAO.Delete(id) == true)
+            if(new CategoryBUS().Delete(id) == true)
             {
                 return new JsonResult
                 {

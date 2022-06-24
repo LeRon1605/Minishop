@@ -47,7 +47,7 @@ namespace PBL3.Controllers
                         if (product.Quantity > new ProductBUS().find(product.ProductID).Stock)
                         {
                             TempData["Status"] = false;
-                            TempData["Message"] = "Số lượng trong kho không đủ.";
+                            TempData["Message"] = "Số lượng sản phẩm trong kho không đủ.";
                             return RedirectToAction("Index", "Cart");
                         }
                     }
@@ -80,16 +80,20 @@ namespace PBL3.Controllers
                 int orderID = new OrderBUS().add(order, (int)Session["USER"], out message);
                 if (orderID != -1)
                 {
+                    TempData["Status"] = true;
+                    TempData["Message"] = "Đặt hàng thành công";
                     return RedirectToAction("Index", new { id = orderID });
                 }
                 else
                 {
+                    TempData["Status"] = false;
                     TempData["Message"] = message;
                     return RedirectToAction("Add");
                 }
             }
             else
             {
+                TempData["Status"] = false;
                 TempData["Message"] = "Dữ liệu không hợp lệ";
                 return RedirectToAction("Add");
             }

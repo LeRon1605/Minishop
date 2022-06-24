@@ -26,7 +26,7 @@ namespace Models.BLL
                 Quantity = cp.Quantity,
                 InsertedAt = cp.InsertedAt,
                 isSelected = cp.isSelected,
-                Product = context.Products.FirstOrDefault(p => p.ID == cp.ProductID)
+                Product = cp.Product
             }).Where(cp => cp.CartID == CartID && (isSelected == false || cp.isSelected == isSelected)).ToList();
         }
         public bool save(int id, int quantity, int CartID)
@@ -35,7 +35,7 @@ namespace Models.BLL
             Product product = context.Products.Find(id);
             if (product != null && cart != null)
             {
-                CartProduct productInCart = context.CartProduct.Where(e => e.CartID == CartID && e.ProductID == id).FirstOrDefault();
+                CartProduct productInCart = context.CartProduct.FirstOrDefault(e => e.CartID == CartID && e.ProductID == id);
                 if (productInCart != null)
                 {
                     if (productInCart.Quantity + quantity <= product.Stock)
@@ -96,7 +96,7 @@ namespace Models.BLL
         }
         public bool removeAll(int cartID)
         {
-            List<CartProduct> cartProducts = context.CartProduct.Select(p => new CartProduct { ID = p.ID, CartID = p.CartID }).Where(p => p.CartID == cartID).ToList();
+            List<CartProduct> cartProducts = context.CartProduct.Where(p => p.CartID == cartID).ToList();
             if (cartProducts != null)
             {
                 context.CartProduct.RemoveRange(cartProducts);
@@ -142,12 +142,7 @@ namespace Models.BLL
         }
         public int getTotal(int userID, bool isSelected = false)
         {
-            int total = 0;
-            foreach (CartProduct cartProduct in GetProductCart(userID, isSelected))
-            {
-                total += cartProduct.Product.Price * cartProduct.Quantity;
-            }
-            return total;
+            return context.CartProduct.Where(cp => cp.CartID == userID && (isSelected == false || cp.isSelected == isSelected)).Sum(x => x.Product.Price * x.Quantity);
         }
        
     }

@@ -16,10 +16,10 @@ namespace PBL3.Areas.Admin.Controllers
         // GET: Admin/View
         public ActionResult Index(int page = 1, string keyword = "", string value = "All", string state = "All")
         {
-            VoucherBUS voucherDAO = new VoucherBUS();
+            VoucherBUS voucherBUS = new VoucherBUS();
             int totalPage = 0;
-            ViewBag.Vouchers = voucherDAO.getPage(page, 10, keyword, value, state, out totalPage);
-            ViewBag.Total = voucherDAO.Count();
+            ViewBag.Vouchers = voucherBUS.getPage(page, 10, keyword, value, state, out totalPage);
+            ViewBag.Total = voucherBUS.Count();
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,
@@ -52,8 +52,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                VoucherBUS voucherBUS = new VoucherBUS();
-                if (voucherBUS.Add(voucher))
+                if (new VoucherBUS().Add(voucher))
                 {
                     TempData["Status"] = true;
                 }
@@ -72,9 +71,7 @@ namespace PBL3.Areas.Admin.Controllers
         }
         public ActionResult Delete(int id)
         {
-
-            VoucherBUS voucherDAO = new VoucherBUS();
-            if (voucherDAO.Delete(id) == true)
+            if (new VoucherBUS().Delete(id) == true)
             {
                 return new JsonResult
                 {
@@ -102,8 +99,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                VoucherBUS voucherDAO = new VoucherBUS();
-                if (voucherDAO.Update(voucher) == true)
+                if (new VoucherBUS().Update(voucher) == true)
                 {
                     TempData["Status"] = true;
                     TempData["Message"] = "Cập nhật voucher thành công";
