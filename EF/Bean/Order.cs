@@ -31,6 +31,7 @@ namespace Models.DTO
         [Required(ErrorMessage ="Không dược để trống")]
         [Range(0,int.MaxValue)]
         public int Total { get; set; }
+        public int Sale { get; set; }
         public int UserID { get; set; }
         public int? VoucherID { get; set; }
         public bool isCancel { get; set; }

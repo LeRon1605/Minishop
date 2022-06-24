@@ -36,26 +36,36 @@ namespace PBL3.Controllers
         [HttpGet]
         public ActionResult Add()
         {
-            List<CartProduct> item = new CartBUS().GetProductCart((int)Session["USER"], true);
-            if (item.Count > 0)
+            User user = new UserBUS().find((int)Session["USER"]);
+            if (user.isActivated)
             {
-                foreach (CartProduct product in item)
+                List<CartProduct> item = new CartBUS().GetProductCart((int)Session["USER"], true);
+                if (item.Count > 0)
                 {
-                    if (product.Quantity > new ProductBUS().find(product.ProductID).Stock)
+                    foreach (CartProduct product in item)
                     {
-                        TempData["Status"] = false;
-                        TempData["Message"] = "Số lượng trong kho không đủ.";
-                        return RedirectToAction("Index", "Cart");
-                    }    
-                }    
-                ViewBag.Items = item;
-                ViewBag.Total = new CartBUS().getTotal((int)Session["USER"], true);
-                return View();
+                        if (product.Quantity > new ProductBUS().find(product.ProductID).Stock)
+                        {
+                            TempData["Status"] = false;
+                            TempData["Message"] = "Số lượng trong kho không đủ.";
+                            return RedirectToAction("Index", "Cart");
+                        }
+                    }
+                    ViewBag.Items = item;
+                    ViewBag.Total = new CartBUS().getTotal((int)Session["USER"], true);
+                    return View();
+                }
+                else
+                {
+                    TempData["Status"] = false;
+                    TempData["Message"] = "Phải chọn ít nhất một sản phẩm";
+                    return RedirectToAction("Index", "Cart");
+                }
             }
             else
             {
                 TempData["Status"] = false;
-                TempData["Message"] = "Phải chọn ít nhất một sản phẩm";
+                TempData["Message"] = "Tài khoản chưa kích hoạt";
                 return RedirectToAction("Index", "Cart");
             }
         }

@@ -91,6 +91,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model, int userID)
         {
+            if (ModelState["OldPassword"] != null) ModelState["OldPassword"].Errors.Clear();
             if (ModelState.IsValid)
             {
                 bool result = new UserBUS().ChangePassword(model.NewPassword, userID);

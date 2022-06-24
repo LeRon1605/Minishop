@@ -1,4 +1,37 @@
-﻿let showToast = (status, message) => {
+﻿window.addEventListener('load', (e) => {
+    const toast = document.getElementById('toast_body');
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+    });
+    $('#keyword_search').val(params.keyword || '');
+    $('#value_search').val(params.Value || 'All');
+    $('#state_search').val(params.State || 'All');
+    if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
+});
+$('#submitBtn').click(e => {
+    let startDate = document.getElementById('startDate_voucher');
+    let endDate = document.getElementById('endDate_voucher');
+    let validationEndMessage = document.getElementById('validation-endDate-message');
+    let validationStartMessage = document.getElementById('validation-startDate-message');
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    if (new Date(startDate.value).getTime() < now.getTime()) {
+        if (validationStartMessage.classList.contains('d-none')) validationStartMessage.classList.remove('d-none');
+        e.preventDefault();
+    } else {
+        if (!validationStartMessage.classList.contains('d-none')) validationStartMessage.classList.add('d-none');
+    }
+
+    if (new Date(endDate.value).getTime() < new Date(startDate.value).getTime()) {
+        if (validationEndMessage.classList.contains('d-none')) validationEndMessage.classList.remove('d-none');
+        e.preventDefault();
+    } else {
+        if (!validationEndMessage.classList.contains('d-none')) validationEndMessage.classList.add('d-none');
+    }
+
+});
+
+let showToast = (status, message) => {
     const toastBody = document.getElementById('toast_body');
     if (status) {
         if (toastBody.classList.contains('bg-danger')) toastBody.classList.remove('bg-danger');
@@ -33,7 +66,7 @@ let deleteVoucher = (e) => {
 }
 
 // Button action group
-let action = document.getElementsByClassName('action_product');
+let action = document.getElementsByClassName('action_voucher');
 
 // Content 
 let listProduct = document.getElementById('list_voucher');

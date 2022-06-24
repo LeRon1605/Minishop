@@ -52,9 +52,16 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                VoucherBUS voucherDAO = new VoucherBUS();
-                voucherDAO.Add(voucher);
-                TempData["Status"] = true;
+                VoucherBUS voucherBUS = new VoucherBUS();
+                if (voucherBUS.Add(voucher))
+                {
+                    TempData["Status"] = true;
+                }
+                else
+                {
+                    TempData["Status"] = false;
+                    TempData["Message"] = "Trùng mã";
+                }
             }
             else
             {

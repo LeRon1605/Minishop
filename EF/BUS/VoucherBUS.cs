@@ -24,11 +24,27 @@ namespace Models.BLL
         {
             return context.Vouchers.AsNoTracking().ToList();
         }
-        public void Add(Voucher voucher)
+        public bool Add(Voucher entity)
         {
-            voucher.CreatedAt = DateTime.Now;
-            context.Vouchers.Add(voucher);
-            context.SaveChanges();
+            Voucher voucher = context.Vouchers.FirstOrDefault(x => x.Seri == entity.Seri);
+            if (voucher != null)
+            {
+                if (entity.EndDate.Date < entity.StartDate.Date || entity.StartDate.Date > voucher.EndDate.Date)
+                {
+                    entity.CreatedAt = DateTime.Now;
+                    context.Vouchers.Add(entity);
+                    context.SaveChanges();
+                    return true;
+                }    
+            }
+            else
+            {
+                entity.CreatedAt = DateTime.Now;
+                context.Vouchers.Add(entity);
+                context.SaveChanges();
+                return true;
+            }
+            return false;
         }
         public bool Delete(int id)
         {

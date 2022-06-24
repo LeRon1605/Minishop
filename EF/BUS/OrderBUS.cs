@@ -25,6 +25,7 @@ namespace Models.BLL
                     UserID = order.UserID,
                     ReceiverName = order.ReceiverName,
                     ReceiverPhone = order.ReceiverPhone,
+                    Sale = order.Sale,
                     Note = order.Note,
                     ReceiverAddress = order.ReceiverAddress,
                     Total = order.Total,
@@ -64,6 +65,7 @@ namespace Models.BLL
                     CreatedAt = order.CreatedAt,
                     UpdatedAt = order.UpdatedAt,
                     UserID = order.UserID,
+                    Sale = order.Sale,
                     ReceiverName = order.ReceiverName,
                     ReceiverPhone = order.ReceiverPhone,
                     Note = order.Note,
@@ -107,6 +109,7 @@ namespace Models.BLL
                                          isCancel = order.isCancel,
                                          isReceived = order.isReceived,
                                          CreatedAt = order.CreatedAt,
+                                         Sale = order.Sale,
                                          UpdatedAt = order.UpdatedAt,
                                          UserID = order.UserID,
                                          User = order.User,
@@ -172,13 +175,16 @@ namespace Models.BLL
                         if (productOrders.Count > 0)
                         {
                             int? voucherID = null;
+                            int sale = 0;
                             if (!string.IsNullOrEmpty(order.Voucher.Seri))
                             {
                                 Voucher voucher = new VoucherBUS().check(order.Voucher.Seri);
                                 voucher.Quantity -= 1;
                                 voucherID = voucher.ID;
+                                sale = voucher.Value;
                                 new VoucherBUS().Update(voucher);
-                            }    
+                            }
+                            if (sale > TotalPrice) sale = TotalPrice;
                             using (ShopOnlineDbContext context = new ShopOnlineDbContext())
                             {
                                 Order newOrder = new Order
@@ -193,6 +199,7 @@ namespace Models.BLL
                                     isCancel = false,
                                     isReceived = false,
                                     VoucherID = voucherID,
+                                    Sale = sale,
                                     CreatedAt = DateTime.Now
                                 };
                                 context.Orders.Add(newOrder);
@@ -334,7 +341,7 @@ namespace Models.BLL
                     context.SaveChanges();
                     StateBUS.addProductState(orderID, "Đã nhận hàng");
                     ProductBUS ProductBUS = new ProductBUS();
-                    List<ProductOrder> productOrders = find(orderID).ProductOrder as List<ProductOrder>;
+                    List<ProductOrder> productOrders = find(orderID).ProductOrder;
                     foreach (ProductOrder productOrder in productOrders)
                     {
                         ProductBUS.Sold((int)productOrder.ProductID, productOrder.Quantity);

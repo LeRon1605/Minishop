@@ -69,7 +69,7 @@
                     <td>@Model[i].ID</td>
                     <td>@Model[i].User.Name</td>
                     <td>@Model[i].StateOrder.Last().State.Name</td>
-                    <td>@String.Format("{0:0,0}", Model[i].Total - Model[i].Voucher.Value) đ</td>
+                    <td>@String.Format("{0:0,0}", Model[i].Total - Model[i].Sale) đ</td>
                     <td>@Model[i].CreatedAt.ToString("dd/MM/yyyy")</td>
                     <td>
                         <div class="d-flex">

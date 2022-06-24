@@ -48,11 +48,18 @@ let UpdateCartProduct = (e, quantity) => {
                 if (res.status) {
                     let oldQuantity = parseInt(inputQty.value);
                     inputQty.value = parseInt(inputQty.value) + quantity;
-                    let money = e.parentElement.parentElement.parentElement.nextElementSibling;
+                    let money = e.parentElement.parentElement.parentElement.nextElementSibling.nextElementSibling;
                     money.innerText = (Number(money.innerText.trim().replace(/[^0-9-]+/g, "")) / oldQuantity * parseInt(inputQty.value)).toLocaleString() + ' đ';
                     document.getElementById('total').innerText = Number(res.total).toLocaleString() + ' đ';
                 }
                 else {
+                    if (quantity < 0) {
+                        let oldQuantity = parseInt(inputQty.value);
+                        inputQty.value = parseInt(inputQty.value) + quantity;
+                        let money = e.parentElement.parentElement.parentElement.nextElementSibling.nextElementSibling;
+                        money.innerText = (Number(money.innerText.trim().replace(/[^0-9-]+/g, "")) / oldQuantity * parseInt(inputQty.value)).toLocaleString() + ' đ';
+                        document.getElementById('total').innerText = Number(res.total).toLocaleString() + ' đ';
+                    }
                     showToast(res.status, "Không đủ số lượng sản phẩm trong kho");
                 }
             }

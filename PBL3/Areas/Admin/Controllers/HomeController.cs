@@ -16,7 +16,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            List<StatisticsModel> list = new StatisticsBUS().GetStatistics(DateTime.Now.AddDays(-6), DateTime.Now, "dd/MM");
+            List<StatisticsModel> list = new StatisticsBUS().GetStatistics(DateTime.Now.AddDays(-4), DateTime.Now, "dd/MM");
             ViewBag.statistics = list;
             ViewBag.statisticsInDay = new StatisticsBUS().GetStatisticsInDay(DateTime.Now, "dd/MM");
             ViewBag.totalOrder = new OrderBUS().Count();

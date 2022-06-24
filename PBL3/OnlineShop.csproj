@@ -670,8 +670,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="public\uploads\users\" />
     <Folder Include="Views\Comment\" />
   </ItemGroup>

@@ -109,12 +109,12 @@
                 </div>
                 <div class="d-flex justify-content-between col-12">
                     <p class="p-0 m-0">Voucher từ shop: </p>
-                    <p class="p-0 m-0">-@String.Format("{0:0,0}", Model.Voucher.Value) đ</p>
+                    <p class="p-0 m-0">-@String.Format("{0:0,0}", Model.Sale) đ</p>
                 </div>
                 <hr>
                 <div class="d-flex justify-content-between col-12">
                     <p class="p-0 m-0">Tổng số tiền: </p>
-                    <p class="p-0 m-0 text-danger fw-bold">@String.Format("{0:0,0}", Model.Total - Model.Voucher.Value) đ</p>
+                    <p class="p-0 m-0 text-danger fw-bold">@String.Format("{0:0,0}", Model.Total - Model.Sale) đ</p>
                 </div>
             </div>
         </div>

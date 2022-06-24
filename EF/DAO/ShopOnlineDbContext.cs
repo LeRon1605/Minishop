@@ -75,6 +75,14 @@ namespace Models.DAL
                       .IsUnique();
             });
 
+            builder.Entity<Order>(entity =>
+            {
+                entity.HasOne(order => order.Voucher)
+                      .WithMany(voucher => voucher.Orders)
+                      .HasForeignKey(order => order.VoucherID)
+                      .OnDelete(DeleteBehavior.SetNull);
+            });
+
             builder.Entity<Comment>(entity =>
             {
                 entity.HasKey(comment => comment.ID);

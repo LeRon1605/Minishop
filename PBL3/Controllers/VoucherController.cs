@@ -1,8 +1,6 @@
 ﻿using PBL3.Helper;
 using Models.BLL;
 using Models.DTO;
-using Models.BLL;
-using Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +17,7 @@ namespace PBL3.Controllers
         {
             VoucherBUS voucherDAO = new VoucherBUS();
             int totalPage = 0;
-            List<Voucher> voucherList = voucherDAO.getPage(page, 12, keyword, value, "true", out totalPage);
+            List<Voucher> voucherList = voucherDAO.getPage(page, 12, keyword, value, "valid", out totalPage);
             ViewBag.Total = voucherDAO.Count();
             ViewBag.pagingData = new PagingModel
             {

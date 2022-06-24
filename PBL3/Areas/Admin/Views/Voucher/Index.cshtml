@@ -87,35 +87,39 @@
             <tbody id="table_body">
                 @for (int i = 0; i < Vouchers.Count; i++)
                 {
-                    <tr>
-                        <td class="STT">@(i + 1)</td>
-                        <td>@Vouchers[i].Seri</td>
-                        <td>@String.Format("{0:0,0}", Vouchers[i].Value) đ</td>
-                        <td>@Vouchers[i].Quantity</td>
-                        <td>@Vouchers[i].StartDate.ToString("dd/MM/yyyy")</td>
-                        <td>@Vouchers[i].EndDate.ToString("dd/MM/yyyy")</td>
-                        @if (@Vouchers[i].EndDate > DateTime.Now)
-                        {
-                            <td>Còn hạn sử dụng</td>
-                        }
-                        else
-                        {
-                            <td>Hết hạn sử dụng</td>
-                        }
-                        <td>
-                            <div class="d-flex">
-                                <a href="@Url.Action("View", "Voucher", new {id = Vouchers[i].ID})" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết Voucher" data-toggle="tooltip">
-                                    <i class="fa-solid fa-eye" style="color: white"></i>
-                                </a>
-                                <a href="@Url.Action("View", "Voucher", new {id = Vouchers[i].ID, isEdit = true})" class="btn bg-primary rounded ms-2" title="Chỉnh sửa Voucher">
-                                    <i class="fa-solid fa-pen" style="color: white"></i>
-                                </a>
-                                <button type="submit" class="btn bg-danger rounded ms-2" title="Xóa Voucher" data-index="@i" data-id="@Vouchers[i].ID" onclick="deleteVoucher(this)">
-                                    <i class="fa-solid fa-trash-can" style="color: white"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                <tr>
+                    <td class="STT">@(i + 1)</td>
+                    <td>@Vouchers[i].Seri</td>
+                    <td>@String.Format("{0:0,0}", Vouchers[i].Value) đ</td>
+                    <td>@Vouchers[i].Quantity</td>
+                    <td>@Vouchers[i].StartDate.ToString("dd/MM/yyyy")</td>
+                    <td>@Vouchers[i].EndDate.ToString("dd/MM/yyyy")</td>
+                    @if (Vouchers[i].EndDate.Date >= DateTime.Now.Date && Vouchers[i].StartDate.Date <= DateTime.Now.Date)
+                    {
+                        <td>Còn hạn sử dụng</td>
+                    }
+                    else if (Vouchers[i].EndDate.Date < DateTime.Now.Date)
+                    {
+                        <td>Hết hạn sử dụng</td>
+                    }
+                    else
+                    {
+                        <td>Chưa kích hoạt</td>
+                    }
+                    <td>
+                        <div class="d-flex">
+                            <a href="@Url.Action("View", "Voucher", new {id = Vouchers[i].ID})" class="btn bg-success rounded m-0 ms-2" title="Xem chi tiết Voucher" data-toggle="tooltip">
+                                <i class="fa-solid fa-eye" style="color: white"></i>
+                            </a>
+                            <a href="@Url.Action("View", "Voucher", new {id = Vouchers[i].ID, isEdit = true})" class="btn bg-primary rounded ms-2" title="Chỉnh sửa Voucher">
+                                <i class="fa-solid fa-pen" style="color: white"></i>
+                            </a>
+                            <button type="submit" class="btn bg-danger rounded ms-2" title="Xóa Voucher" data-index="@i" data-id="@Vouchers[i].ID" onclick="deleteVoucher(this)">
+                                <i class="fa-solid fa-trash-can" style="color: white"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
@@ -197,53 +201,6 @@
     </div>
 </div>
 @section scripts {
-    <script>
-        window.addEventListener('load', (e) => {
-            const toast = document.getElementById('toast_body');
-            const params = new Proxy(new URLSearchParams(window.location.search), {
-                get: (searchParams, prop) => searchParams.get(prop),
-            });
-            $('#keyword_search').val(params.keyword || '');
-            $('#value_search').val(params.Value || 'All');
-            $('#state_search').val(params.State || 'All');
-            if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
-        });
-        $('#submitBtn').click(e => {
-            let startDate = document.getElementById('startDate_voucher');
-            let endDate = document.getElementById('endDate_voucher');
-            let validationEndMessage = document.getElementById('validation-endDate-message');
-            let validationStartMessage = document.getElementById('validation-startDate-message');
-            if (new Date(startDate.value).getTime() < new Date().getTime()) {
-                if (validationStartMessage.classList.contains('d-none')) validationStartMessage.classList.remove('d-none');
-                e.preventDefault();
-            } else {
-                if (!validationStartMessage.classList.contains('d-none')) validationStartMessage.classList.add('d-none');
-            }
-
-            if (new Date(endDate.value).getTime() < new Date(startDate.value).getTime()) {
-                if (validationEndMessage.classList.contains('d-none')) validationEndMessage.classList.remove('d-none');
-                e.preventDefault();
-            } else {
-                if (!validationEndMessage.classList.contains('d-none')) validationEndMessage.classList.add('d-none');
-            }
-            
-        });
-
-        let action = document.getElementsByClassName('action_voucher');
-        let listVoucher = document.getElementById('list_voucher');
-        let addForm = document.getElementById('add_form');
-
-        for (let i = 0; i < action.length; i++) {
-            action[i].addEventListener('click', (e) => {
-                for (let j = 0; j < action.length; j++) {
-                    action[j].classList.toggle('action_voucher_click');
-                }
-                console.log(listVoucher);
-                listVoucher.classList.toggle('d-none');
-                addForm.classList.toggle('d-none');
-            });
-        }
-    </script>
     <script src="~/public/js/Voucher.js"></script>
     <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="/Scripts/jquery.validate.js"></script>

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models.DAL;
 using Models.DTO;
-using Models.Helper;
 using PBL3.Models;
 using System;
 using System.Collections.Generic;
@@ -33,7 +32,7 @@ namespace Models.BLL
                 var listImport = context.ImportBills.Where(bill => bill.CreatedAt.Date == date.Date);
                 int orderCount = listOrder.Count();
                 int orderCancelCount = context.Orders.Where(order => order.isCancel && order.CreatedAt.Date == date.Date).Count();
-                int revenue = (orderCount == 0) ? 0 : listOrder.Sum(o => o.VoucherID == null ? o.Total : o.Total - context.Vouchers.Find(o.VoucherID).Value);
+                int revenue = (orderCount == 0) ? 0 : listOrder.Sum(o => o.Total - o.Sale);
                 int benifit = revenue - (listImport.Count() == 0 ? 0 : listImport.Sum(bill => bill.TotalPrice));
                 return new StatisticsModel
                 {
