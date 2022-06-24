@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Models.BLL
 {
-    public class CartBO
+    public class CartBUS
     {
         private ShopOnlineDbContext context;
-        public CartBO()
+        public CartBUS()
         {
             context = new ShopOnlineDbContext();
         }
@@ -23,7 +23,6 @@ namespace Models.BLL
                 ID = cp.ID,
                 CartID = cp.CartID,
                 ProductID = cp.ProductID,
-                Status = cp.Status,
                 Quantity = cp.Quantity,
                 InsertedAt = cp.InsertedAt,
                 isSelected = cp.isSelected,
@@ -69,7 +68,6 @@ namespace Models.BLL
                             CartID = CartID,
                             ProductID = id,
                             Quantity = quantity,
-                            Status = true,
                             InsertedAt = DateTime.Now,
                             UpdatedAt = null,
                             isSelected = false

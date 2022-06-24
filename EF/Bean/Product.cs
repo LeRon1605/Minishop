@@ -26,11 +26,11 @@ namespace Models.DTO
 
         [Display(Name = "Giá sản phẩm")]
         [Required(ErrorMessage = "Giá sản phẩm không được để trống")]
-        [Range(0, int.MaxValue)]
+        [Range(0, int.MaxValue, ErrorMessage = "Không nhận giá trị âm")]
         public int Price { get; set; }
 
         [Display(Name = "Số lượng hàng hóa")]
-        [Range(0, int.MaxValue)]
+        [Range(0, int.MaxValue, ErrorMessage = "Không nhận giá trị âm")]
         public int Stock { get; set; }
 
         [Display(Name = "Khối lượng")]
@@ -72,7 +72,6 @@ namespace Models.DTO
 
         public int? CategoryID { get; set; }
         public virtual Category Category { get; set; }
-        // public List<Comment> Comments { get; set; }
         public virtual ICollection<ProductOrder> ProductOrder { get; set; }
         public virtual ICollection<CartProduct> CartProduct { get; set; }
         public virtual List<ImportBillDetail> ImportBillDetails { get; set; }

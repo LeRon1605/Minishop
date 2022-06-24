@@ -17,7 +17,7 @@ namespace PBL3.Areas.Admin.Controllers
         public ActionResult Index(int page = 1, string keyword = "")
         {
             int countPages = 0;
-            List<User> list = new UserBO().getPage(page, 10, keyword, out countPages);
+            List<User> list = new UserBUS().getPage(page, 10, keyword, out countPages);
             ViewBag.PagingData = new PagingModel
             {
                 CountPages = countPages,
@@ -28,7 +28,7 @@ namespace PBL3.Areas.Admin.Controllers
         }
         public ActionResult View(int id)
         {
-            return View(new UserBO().find(id));
+            return View(new UserBUS().find(id));
         }
         [HttpPost]
         public ActionResult Update(User user, HttpPostedFileBase file)
@@ -43,7 +43,7 @@ namespace PBL3.Areas.Admin.Controllers
                     file.SaveAs(path);
                     user.Image = $"/public/uploads/users/{fileName}";
                 }
-                bool result = new UserBO().Update(user);
+                bool result = new UserBUS().Update(user);
                 if (result)
                 {
                     TempData["Status"] = true;
@@ -64,7 +64,7 @@ namespace PBL3.Areas.Admin.Controllers
         }
         public ActionResult Delete(int id)
         {
-            if (new UserBO().Delete(id))
+            if (new UserBUS().Delete(id))
             {
                 return new JsonResult
                 {
@@ -93,7 +93,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool result = new UserBO().ChangePassword(model.NewPassword, userID);
+                bool result = new UserBUS().ChangePassword(model.NewPassword, userID);
                 if (result)
                 {
                     return new JsonResult

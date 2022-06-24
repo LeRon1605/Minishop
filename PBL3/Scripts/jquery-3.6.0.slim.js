@@ -6563,7 +6563,7 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 				trStyle = window.getComputedStyle( tr );
 				reliableTrDimensionsVal = ( parseInt( trStyle.height, 10 ) +
 					parseInt( trStyle.borderTopWidth, 10 ) +
-					parseInt( trStyle.borderBottomWidth, 10 ) ) === tr.offsetHeight;
+					parseInt( trStyle.bOrderBUSttomWidth, 10 ) ) === tr.offsetHeight;
 
 				documentElement.removeChild( table );
 			}
@@ -6704,13 +6704,13 @@ function setPositiveNumber( _elem, value, subtract ) {
 		value;
 }
 
-function boxModelAdjustment( elem, dimension, box, isBorderBox, styles, computedVal ) {
+function boxModelAdjustment( elem, dimension, box, isBOrderBUSx, styles, computedVal ) {
 	var i = dimension === "width" ? 1 : 0,
 		extra = 0,
 		delta = 0;
 
 	// Adjustment may not be necessary
-	if ( box === ( isBorderBox ? "border" : "content" ) ) {
+	if ( box === ( isBOrderBUSx ? "border" : "content" ) ) {
 		return 0;
 	}
 
@@ -6722,7 +6722,7 @@ function boxModelAdjustment( elem, dimension, box, isBorderBox, styles, computed
 		}
 
 		// If we get here with a content-box, we're seeking "padding" or "border" or "margin"
-		if ( !isBorderBox ) {
+		if ( !isBOrderBUSx ) {
 
 			// Add padding
 			delta += jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
@@ -6753,7 +6753,7 @@ function boxModelAdjustment( elem, dimension, box, isBorderBox, styles, computed
 	}
 
 	// Account for positive content-box scroll gutter when requested by providing computedVal
-	if ( !isBorderBox && computedVal >= 0 ) {
+	if ( !isBOrderBUSx && computedVal >= 0 ) {
 
 		// offsetWidth/offsetHeight is a rounded sum of content, padding, scroll gutter, and border
 		// Assuming integer scroll gutter, subtract the rest and round down
@@ -6780,9 +6780,9 @@ function getWidthOrHeight( elem, dimension, extra ) {
 		// To avoid forcing a reflow, only fetch boxSizing if we need it (gh-4322).
 		// Fake content-box until we know it's needed to know the true value.
 		boxSizingNeeded = !support.boxSizingReliable() || extra,
-		isBorderBox = boxSizingNeeded &&
+		isBOrderBUSx = boxSizingNeeded &&
 			jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
-		valueIsBorderBox = isBorderBox,
+		valueIsBOrderBUSx = isBOrderBUSx,
 
 		val = curCSS( elem, dimension, styles ),
 		offsetProp = "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 );
@@ -6800,7 +6800,7 @@ function getWidthOrHeight( elem, dimension, extra ) {
 	// Support: IE 9 - 11 only
 	// Use offsetWidth/offsetHeight for when box sizing is unreliable.
 	// In those cases, the computed value can be trusted to be border-box.
-	if ( ( !support.boxSizingReliable() && isBorderBox ||
+	if ( ( !support.boxSizingReliable() && isBOrderBUSx ||
 
 		// Support: IE 10 - 11+, Edge 15 - 18+
 		// IE/Edge misreport `getComputedStyle` of table rows with width/height
@@ -6819,13 +6819,13 @@ function getWidthOrHeight( elem, dimension, extra ) {
 		// Make sure the element is visible & connected
 		elem.getClientRects().length ) {
 
-		isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box";
+		isBOrderBUSx = jQuery.css( elem, "boxSizing", false, styles ) === "border-box";
 
 		// Where available, offsetWidth/offsetHeight approximate border box dimensions.
 		// Where not available (e.g., SVG), assume unreliable box-sizing and interpret the
 		// retrieved value as a content box dimension.
-		valueIsBorderBox = offsetProp in elem;
-		if ( valueIsBorderBox ) {
+		valueIsBOrderBUSx = offsetProp in elem;
+		if ( valueIsBOrderBUSx ) {
 			val = elem[ offsetProp ];
 		}
 	}
@@ -6838,8 +6838,8 @@ function getWidthOrHeight( elem, dimension, extra ) {
 		boxModelAdjustment(
 			elem,
 			dimension,
-			extra || ( isBorderBox ? "border" : "content" ),
-			valueIsBorderBox,
+			extra || ( isBOrderBUSx ? "border" : "content" ),
+			valueIsBOrderBUSx,
 			styles,
 
 			// Provide the current computed size to request scroll gutter calculation (gh-3589)
@@ -7045,21 +7045,21 @@ jQuery.each( [ "height", "width" ], function( _i, dimension ) {
 
 				// To avoid forcing a reflow, only fetch boxSizing if we need it (gh-3991)
 				boxSizingNeeded = scrollboxSizeBuggy || extra,
-				isBorderBox = boxSizingNeeded &&
+				isBOrderBUSx = boxSizingNeeded &&
 					jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
 				subtract = extra ?
 					boxModelAdjustment(
 						elem,
 						dimension,
 						extra,
-						isBorderBox,
+						isBOrderBUSx,
 						styles
 					) :
 					0;
 
 			// Account for unreliable border-box dimensions by comparing offset* to computed and
 			// faking a content-box to get border and padding (gh-3699)
-			if ( isBorderBox && scrollboxSizeBuggy ) {
+			if ( isBOrderBUSx && scrollboxSizeBuggy ) {
 				subtract -= Math.ceil(
 					elem[ "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 ) ] -
 					parseFloat( styles[ dimension ] ) -

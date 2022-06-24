@@ -19,7 +19,7 @@ namespace PBL3.Areas.Admin.Controllers
             int totalPage = 0;
             if (startDate == null) startDate = DateTime.MinValue;
             if (endDate == null) endDate = DateTime.MaxValue;
-            List<Comment> comments = new CommentBO().getPage(page, 10, isDeleted, isReply, keyword, (DateTime)startDate, (DateTime)endDate, out totalPage);
+            List<Comment> comments = new CommentBUS().getPage(page, 10, isDeleted, isReply, keyword, (DateTime)startDate, (DateTime)endDate, out totalPage);
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,
@@ -30,13 +30,13 @@ namespace PBL3.Areas.Admin.Controllers
         }
         public ActionResult View(int id)
         {
-            Comment comment = new CommentBO().find(id);
+            Comment comment = new CommentBUS().find(id);
             if (comment == null) return HttpNotFound();
             return View(comment);
         }
         public ActionResult Delete(int id)
         {
-            if (new CommentBO().show(true, id))
+            if (new CommentBUS().show(true, id))
             {
                 TempData["Status"] = true;
                 TempData["Message"] = "Ẩn bình luận thành công";
@@ -50,7 +50,7 @@ namespace PBL3.Areas.Admin.Controllers
         }
         public ActionResult Show(int id)
         {
-            if (new CommentBO().show(false, id))
+            if (new CommentBUS().show(false, id))
             {
                 TempData["Status"] = true;
                 TempData["Message"] = "Hiện bình luận thành công";
@@ -68,10 +68,10 @@ namespace PBL3.Areas.Admin.Controllers
             if (ModelState["Content"] != null) ModelState["Content"].Errors.Clear();
             if (ModelState.IsValid)
             {
-                CommentBO commentBO = new CommentBO();
-                Comment comment = commentBO.find(cmt.ID);
+                CommentBUS CommentBUS = new CommentBUS();
+                Comment comment = CommentBUS.find(cmt.ID);
                 if (comment == null) return HttpNotFound();
-                commentBO.reply(cmt.ID, cmt.Reply);
+                CommentBUS.reply(cmt.ID, cmt.Reply);
                 TempData["Status"] = true;
                 TempData["Message"] = "Phản hồi bình luận thành công";
             }

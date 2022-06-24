@@ -14,8 +14,8 @@ namespace Models.DTO
         public int? ProductID { get; set; }
         public int OrderID { get; set; }
         [Display(Name ="Số lượng")]
-        [Required(ErrorMessage ="Số lượng không được để trống")]
-        [Range(0,int.MaxValue)]
+        [Required(ErrorMessage = "Số lượng không được để trống")]
+        [Range(0, int.MaxValue, ErrorMessage = "Không nhận giá trị âm")]
         public int Quantity { get; set; }
         public int Price { get; set; }
         public bool isComment { get; set; }

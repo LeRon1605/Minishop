@@ -25,6 +25,7 @@ namespace Models.DTO
         [Required(ErrorMessage = "Mã voucher không được bỏ trống")]
         public string Seri { get; set; }
         [Display(Name = "Số lượng")]
+        [Range(0, int.MaxValue, ErrorMessage = "Không nhận giá trị âm")]
         [Required(ErrorMessage ="Số lượng không được bỏ trống")]
         public int Quantity { get; set; }
         [Display(Name = "Ngày bắt đầu")]

@@ -15,7 +15,6 @@ namespace Models.DTO
         public Cart Cart { get; set; }
         public int ProductID { get; set; }
         public Product Product { get; set; }
-        public bool Status { get; set; }
         public int Quantity { get; set; }
         public bool isSelected { get; set; }
         public DateTime InsertedAt { get; set; }

@@ -81,7 +81,7 @@
                         <div class="col-3 ms-auto">
                             <div class="col-12 d-flex justify-content-between">
                                 <div>Voucher</div>
-                                <div class="text-danger fw-bold">-@String.Format("{0:0,0}", order.Voucher.Value) đ</div>
+                                <div class="text-danger fw-bold">-@(order.VoucherID == null ? "0" : String.Format("{ 0:0,0}", order.Voucher.Value)) đ</div>
                             </div>
                             <div class="col-12 d-flex justify-content-between">
                                 <div>Tổng số tiền</div>
@@ -118,16 +118,13 @@
                 </div>
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="form-group col-md-4">
-                            <img src="~/public/images/Default.jpg" class="" style="width:100%;object-fit:cover;" alt="" id="product_Image">
-                        </div>
-                        <div class="form-group col-md-8">
-                            <input value="" id="productOrder_ID" class="d-none"/>
-                            <h2 id="product_Name"></h2>
-                            <p id="order_Quantity"></p>
+                        <input value="" id="productOrder_ID" class="d-none" />
+                        <div class="mb-3">
+                            <label class="form-label">Tên sản phẩm</label>
+                            <input type="text" class="form-control" id="product_Name" disabled>
                         </div>
                     </div>
-                    <div class="row mt-3">
+                    <div class="row">
                             <div class="mb-3">
                                 <label class="form-label">Rating</label>
                                 <input type="number" max="5" min="1" class="form-control" id="rating" placeholder="Nhập điểm đánh giá">
@@ -137,6 +134,8 @@
                         <label for="content">Nhận xét</label>
                         <textarea class="form-control" id="content" rows="3" placeholder="Hãy chia sẻ những điều bạn thích về sản phẩm này" name="content"></textarea>
                     </div>
+                    <p id="createdAt"></p>
+                    <p id="updatedAt"></p>
                 </div>
             </div>
             <div class="modal-footer">
@@ -182,13 +181,7 @@
                 success: function (res) {
                     if (res.status) {
                         const name = document.getElementById('product_Name');
-                        const image = document.getElementById('product_Image');
-                        const quantity = document.getElementById('order_Quantity');
-
-                        name.innerText = res.data.Product.Name;
-                        image.src = res.data.Product.Image;
-                        quantity.innerText = 'Số lượng: ' + res.data.Quantity;
-
+                        name.value = res.data.Product.Name;
                         if (res.data.Comment != null) {
                             $('#content').val(res.data.Comment.Content);
                             $("#rating").val(res.data.Comment.Rate);

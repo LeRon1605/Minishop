@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Models.BLL
 {
-    public class ImportBillBO
+    public class ImportBillBUS
     {
         public List<ImportBillDetail> getBillOfProduct(int productID)
         {
@@ -69,10 +69,10 @@ namespace Models.BLL
                 bill.CreatedAt = DateTime.Now;
                 context.ImportBills.Add(bill);
                 context.SaveChanges();
-                ProductBO productBO = new ProductBO();
+                ProductBUS ProductBUS = new ProductBUS();
                 foreach (ImportBillDetail detail in bill.ImportBillDetails)
                 {
-                    productBO.import((int)detail.ProductID, detail.Quantity);
+                    ProductBUS.import((int)detail.ProductID, detail.Quantity);
                 }
             }    
         }
@@ -86,12 +86,12 @@ namespace Models.BLL
         //        if (importBill == null) return false;
         //        else
         //        {
-        //            ProductBO productBO = new ProductBO();
+        //            ProductBUS ProductBUS = new ProductBUS();
         //            for (int i = 0;i < importBill.ImportBillDetails.Count;i++)
         //            {
 
-        //                productBO.export(importBill.ImportBillDetails[i].ProductID, -importBill.ImportBillDetails[i].Quantity);
-        //                productBO.import(bill.ImportBillDetails[i].ProductID, bill.ImportBillDetails[i].Quantity);
+        //                ProductBUS.export(importBill.ImportBillDetails[i].ProductID, -importBill.ImportBillDetails[i].Quantity);
+        //                ProductBUS.import(bill.ImportBillDetails[i].ProductID, bill.ImportBillDetails[i].Quantity);
         //                importBill.ImportBillDetails[i].Quantity = bill.ImportBillDetails[i].Quantity;
         //            }
         //            importBill.TotalPrice = bill.TotalPrice;
@@ -112,12 +112,12 @@ namespace Models.BLL
                 }).FirstOrDefault(x => x.ID == id);
                 if (importbill != null)
                 {
-                    ProductBO productBO = new ProductBO();
+                    ProductBUS ProductBUS = new ProductBUS();
                     foreach (ImportBillDetail detail in importbill.ImportBillDetails)
                     {
                         if (detail.ProductID != null)
                         {
-                            productBO.export((int)detail.ProductID, -detail.Quantity);
+                            ProductBUS.export((int)detail.ProductID, -detail.Quantity);
                         }    
                     }
                     context.ImportBills.Remove(importbill);

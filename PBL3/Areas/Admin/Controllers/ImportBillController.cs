@@ -19,7 +19,7 @@ namespace PBL3.Areas.Admin.Controllers
             int totalPage = 0;
             if (startDate == null) startDate = DateTime.MinValue;
             if (endDate == null) endDate = DateTime.MaxValue;
-            ViewBag.bills = new ImportBillBO().getPage(page, 10, keyword, (DateTime)startDate, (DateTime)endDate, out totalPage);
+            ViewBag.bills = new ImportBillBUS().getPage(page, 10, keyword, (DateTime)startDate, (DateTime)endDate, out totalPage);
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,
@@ -31,7 +31,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult View(int id)
         {
-            ImportBill bill = new ImportBillBO().find(id);
+            ImportBill bill = new ImportBillBUS().find(id);
             if (bill == null) return HttpNotFound();
             return View(bill);
         }
@@ -42,17 +42,17 @@ namespace PBL3.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                ProductBO productBO = new ProductBO();
+                ProductBUS ProductBUS = new ProductBUS();
                 foreach (ImportBillDetail detail in bill.ImportBillDetails)
                 {
-                    if (detail.ProductID != null && productBO.exist((int)detail.ProductID) == false)
+                    if (detail.ProductID != null && ProductBUS.exist((int)detail.ProductID) == false)
                     {
                         TempData["Status"] = false;
                         TempData["Message"] = "Sản phẩm không tồn tại";
                         return RedirectToAction("Index");
                     };
                 }
-                new ImportBillBO().Add(bill);
+                new ImportBillBUS().Add(bill);
                 TempData["Status"] = true;
                 TempData["Message"] = "Nhập hàng thành công";
             }
@@ -68,8 +68,8 @@ namespace PBL3.Areas.Admin.Controllers
         //{
         //    if (ModelState.IsValid)
         //    {
-        //        ImportBillBO importBillBO = new ImportBillBO();
-        //        if (importBillBO.Update(bill) == true)
+        //        ImportBillBUS ImportBillBUS = new ImportBillBUS();
+        //        if (ImportBillBUS.Update(bill) == true)
         //        {
         //            TempData["Status"] = true;
         //            TempData["Message"] = "Cập nhật hóa đơn thành công";
@@ -91,8 +91,8 @@ namespace PBL3.Areas.Admin.Controllers
 
         //public ActionResult Delete(int id)
         //{
-        //    ImportBillBO importBillBO = new ImportBillBO();
-        //    if (importBillBO.delete(id))
+        //    ImportBillBUS ImportBillBUS = new ImportBillBUS();
+        //    if (ImportBillBUS.delete(id))
         //    {
         //        TempData["Status"] = true;
         //        TempData["Message"] = "Xóa đơn hàng thành công";

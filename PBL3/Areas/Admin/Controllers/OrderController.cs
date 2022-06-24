@@ -19,8 +19,8 @@ namespace PBL3.Areas.Admin.Controllers
             int countPages = 0;
             if (startDate == null) startDate = DateTime.MinValue;
             if (endDate == null) endDate = DateTime.MaxValue;
-            List<Order> orders = new OrderBO().getPage(page, 10, keyword, stateID, out countPages, startDate, endDate);
-            ViewBag.states = new StateBO().findAll();
+            List<Order> orders = new OrderBUS().getPage(page, 10, keyword, stateID, out countPages, startDate, endDate);
+            ViewBag.states = new StateBUS().findAll();
             ViewBag.pagingModel = new PagingModel
             {
                 CountPages = countPages,
@@ -32,7 +32,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult View(int ID)
         {
-            Order order = new OrderBO().find(ID);
+            Order order = new OrderBUS().find(ID);
             if (order == null)
             {
                 return HttpNotFound();
@@ -45,7 +45,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Decline(int ID)
         {
-            if (new OrderBO().decline(ID))
+            if (new OrderBUS().decline(ID))
             {
                 TempData["Message"] = "Từ chối đơn hàng thành công";
                 TempData["Status"] = true;
@@ -60,7 +60,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Confirm(int id)
         {
-            if (new OrderBO().confirm(id))
+            if (new OrderBUS().confirm(id))
             {
                 TempData["Message"] = "Xác nhận đơn hàng thành công";
                 TempData["Status"] = true;
@@ -75,7 +75,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Deliver(int ID)
         {
-            if (new OrderBO().deliver(ID))
+            if (new OrderBUS().deliver(ID))
             {
                 TempData["Message"] = "Xác nhận giao hàng thành công";
                 TempData["Status"] = true;
@@ -90,7 +90,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult DeclineDeliver(int ID)
         {
-            if (new OrderBO().declineDeliver(ID))
+            if (new OrderBUS().declineDeliver(ID))
             {
                 TempData["Message"] = "Đã xác nhận giao hàng thất bại";
                 TempData["Status"] = true;
@@ -105,7 +105,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult ConfirmDeliver(int ID)
         {
-            if (new OrderBO().confirmDeliver(ID))
+            if (new OrderBUS().confirmDeliver(ID))
             {
                 TempData["Message"] = "Xác nhận đã giao hàng thành công";
                 TempData["Status"] = true;

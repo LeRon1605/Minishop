@@ -17,7 +17,7 @@ namespace PBL3.Controllers
         // GET: Voucher
         public ActionResult Index(int page = 1, string keyword = "", string value = "All")
         {
-            VoucherBO voucherDAO = new VoucherBO();
+            VoucherBUS voucherDAO = new VoucherBUS();
             int totalPage = 0;
             List<Voucher> voucherList = voucherDAO.getPage(page, 12, keyword, value, "true", out totalPage);
             ViewBag.Total = voucherDAO.Count();
@@ -32,7 +32,7 @@ namespace PBL3.Controllers
         [HttpPost]
         public ActionResult Check(string Seri)
         {
-            Voucher voucher = new VoucherBO().check(Seri);
+            Voucher voucher = new VoucherBUS().check(Seri);
             if (voucher != null)
             {
                 return new JsonResult

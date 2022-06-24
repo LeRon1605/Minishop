@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Models.BLL
 {
-    public class StatisticsBO
+    public class StatisticsBUS
     {
         public List<StatisticsModel> GetStatistics(DateTime startDate, DateTime endDate, string format)
         {

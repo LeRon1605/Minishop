@@ -10,6 +10,6 @@ namespace Models.ViewModel
     {
         public int key { get; set; }
         public int quantity { get; set; }
-        public float percent { get; set; }
+        public double percent { get; set; }
     }
 }

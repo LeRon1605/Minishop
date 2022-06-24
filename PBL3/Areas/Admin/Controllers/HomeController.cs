@@ -16,13 +16,13 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            List<StatisticsModel> list = new StatisticsBO().GetStatistics(DateTime.Now.AddDays(-6), DateTime.Now, "dd/MM");
+            List<StatisticsModel> list = new StatisticsBUS().GetStatistics(DateTime.Now.AddDays(-6), DateTime.Now, "dd/MM");
             ViewBag.statistics = list;
-            ViewBag.statisticsInDay = new StatisticsBO().GetStatisticsInDay(DateTime.Now, "dd/MM");
-            ViewBag.totalOrder = new OrderBO().Count();
-            ViewBag.totalBenifit = new StatisticsBO().getTotalBenifit();
-            ViewBag.totalUser = new UserBO().Count();
-            ViewBag.totalActivatedUser = new UserBO().Count(true);
+            ViewBag.statisticsInDay = new StatisticsBUS().GetStatisticsInDay(DateTime.Now, "dd/MM");
+            ViewBag.totalOrder = new OrderBUS().Count();
+            ViewBag.totalBenifit = new StatisticsBUS().getTotalBenifit();
+            ViewBag.totalUser = new UserBUS().Count();
+            ViewBag.totalActivatedUser = new UserBUS().Count(true);
             return View();
         }
 
@@ -30,7 +30,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (startDate == null) startDate = DateTime.Now;
             if (endDate == null) endDate = DateTime.Now;
-            return PartialView("_RowStatistics", new StatisticsBO().GetStatistics((DateTime)startDate, (DateTime)endDate, "dd/MM")); 
+            return PartialView("_RowStatistics", new StatisticsBUS().GetStatistics((DateTime)startDate, (DateTime)endDate, "dd/MM")); 
         }
 
         public ActionResult GetStatistics(DateTime? startDate, DateTime? endDate)
@@ -40,7 +40,7 @@ namespace PBL3.Areas.Admin.Controllers
             return new JsonResult {
                 Data = new
                 {
-                    data = new StatisticsBO().GetStatistics((DateTime)startDate, (DateTime)endDate, "dd/MM").Select(x => new
+                    data = new StatisticsBUS().GetStatistics((DateTime)startDate, (DateTime)endDate, "dd/MM").Select(x => new
                     {
                         Date = x.Date.ToString(x.Format),
                         OrderCount = x.OrderCount,

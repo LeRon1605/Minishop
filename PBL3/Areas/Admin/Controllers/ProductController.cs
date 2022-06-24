@@ -17,11 +17,11 @@ namespace PBL3.Areas.Admin.Controllers
         // GET: Admin/Product
         public ActionResult Index(int page = 1, bool? state = null, string keyword = "", string CategoryID = "All", string Price = "All")
         {
-            ProductBO productDAO = new ProductBO();
+            ProductBUS productDAO = new ProductBUS();
             int totalPage = 0;
             ViewBag.products = productDAO.getPage(page, 10, state, keyword, CategoryID, Price, out totalPage);
             ViewBag.Total = productDAO.Count();
-            ViewBag.categories = new CategoryBO().findAll();
+            ViewBag.categories = new CategoryBUS().findAll();
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,
@@ -33,11 +33,11 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult View(int id, bool isEdit = false)
         {
-            CategoryBO categoryDAO = new CategoryBO();
-            ProductBO productDAO = new ProductBO();
+            CategoryBUS categoryDAO = new CategoryBUS();
+            ProductBUS productDAO = new ProductBUS();
             ViewBag.isEdit = isEdit;
             ViewBag.categories = categoryDAO.findAll();
-            ViewBag.importBills = new ImportBillBO().getBillOfProduct(id);
+            ViewBag.importBills = new ImportBillBUS().getBillOfProduct(id);
             Product product = productDAO.find(id, true);
             if (product == null)
             {
@@ -59,11 +59,11 @@ namespace PBL3.Areas.Admin.Controllers
                         string fileName = Path.GetFileName(Image.FileName);
                         string path = Path.Combine(Server.MapPath("~/public/uploads/products"), fileName);
                         Image.SaveAs(path);
-                        ProductBO ProductBO = new ProductBO();
-                        CategoryBO CategoryBO = new CategoryBO();
+                        ProductBUS ProductBUS = new ProductBUS();
+                        CategoryBUS CategoryBUS = new CategoryBUS();
                         product.Image = $"/public/uploads/products/{fileName}";
-                        ProductBO.Add(product);
-                        product.Category = (product.CategoryID == null) ? null : CategoryBO.find((int)product.CategoryID);
+                        ProductBUS.Add(product);
+                        product.Category = (product.CategoryID == null) ? null : CategoryBUS.find((int)product.CategoryID);
                         TempData["AddStatus"] = true;
                     }
                     else
@@ -91,7 +91,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                ProductBO productDAO = new ProductBO();
+                ProductBUS productDAO = new ProductBUS();
                 if (file != null && file.ContentLength > 0)
                 {
                     string fileName = Path.GetFileName(file.FileName);
@@ -123,7 +123,7 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Find(int id)
         {
-            Product product = new ProductBO().find(id);
+            Product product = new ProductBUS().find(id);
             if (product != null)
             {
                 return new JsonResult
@@ -152,7 +152,7 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                ProductBO productDAO = new ProductBO();
+                ProductBUS productDAO = new ProductBUS();
                 if (productDAO.exist(productID) && quantity > 0 && totalPrice > 0)
                 {
                     ImportBill bill = new ImportBill
@@ -160,7 +160,7 @@ namespace PBL3.Areas.Admin.Controllers
                         TotalPrice = totalPrice,
                         ImportBillDetails = new List<ImportBillDetail> { new ImportBillDetail { ProductID = productID, Quantity = quantity } }
                     };
-                    new ImportBillBO().Add(bill);
+                    new ImportBillBUS().Add(bill);
                     return new JsonResult
                     {
                         Data = new
@@ -199,7 +199,7 @@ namespace PBL3.Areas.Admin.Controllers
 
         public ActionResult Delete(int id)
         {
-            ProductBO productDAO = new ProductBO();
+            ProductBUS productDAO = new ProductBUS();
             if (productDAO.Delete(id))
             {
                 return new JsonResult{

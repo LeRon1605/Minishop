@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Models.BLL
 {
-    public class CommentBO
+    public class CommentBUS
     {
         private ShopOnlineDbContext context;
-        public CommentBO()
+        public CommentBUS()
         {
             context = new ShopOnlineDbContext();
         }
@@ -29,8 +29,11 @@ namespace Models.BLL
         public bool add(int userID, Comment comment)
         {
             ProductOrder productOrder = context.ProductOrder.Find(comment.ID);
-            context.Entry(productOrder).Reference(p => p.Order).Load();
-            context.Entry(productOrder).Reference(p => p.Comment).Load();
+            if (productOrder != null)
+            {
+                context.Entry(productOrder).Reference(p => p.Order).Load();
+                context.Entry(productOrder).Reference(p => p.Comment).Load();
+            }    
             if (productOrder != null && productOrder.Comment == null && productOrder.Order.UserID == userID && productOrder.Order.isReceived && productOrder.isComment == false)
             {
                 productOrder.Comment = new Comment

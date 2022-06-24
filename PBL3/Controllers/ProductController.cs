@@ -16,7 +16,7 @@ namespace PBL3.Controllers
         // GET: Product
         public ActionResult Index(int id)
         {
-            Product product = new ProductBO().find(id);
+            Product product = new ProductBUS().find(id);
             if(product == null)
             {
                 return RedirectToAction("Index", new
@@ -26,10 +26,10 @@ namespace PBL3.Controllers
             }
             else
             {
-                List<Comment> comments = new CommentBO().getCommentsOfProduct(id);
+                List<Comment> comments = new CommentBUS().getCommentsOfProduct(id);
                 List<Rating> rates = new List<Rating>();
-               
-                if ( comments.Count() > 0)
+
+                if (comments.Count() > 0)
                 {
                     ViewBag.AvgRating = comments.Sum(x => x.Rate) / comments.Count();
                     for (int i = 1; i <= 5; i++)
@@ -38,7 +38,7 @@ namespace PBL3.Controllers
                         {
                             key = i,
                             quantity = comments.Where(x => x.Rate == i).Count(),
-                            percent = (Convert.ToSingle(comments.Where(x => x.Rate == i).Count() * i) / comments.Sum(x => x.Rate)) * 100,
+                            percent = comments.Where(x => x.Rate == i).Count() * 100.0 / comments.Count(),
                         });
                     }
                 }   
@@ -62,10 +62,10 @@ namespace PBL3.Controllers
         }
         public ActionResult Search(string keyword = "", bool? state = null, string categoryID = "All", string price = "All", int page = 1)
         {
-            ProductBO productDAO = new ProductBO();
+            ProductBUS productDAO = new ProductBUS();
             int totalPage = 0;
             List<Product> products = productDAO.getPage(page, 20, state, keyword, categoryID, price, out totalPage);
-            ViewBag.categories = new CategoryBO().findAll();
+            ViewBag.categories = new CategoryBUS().findAll();
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,

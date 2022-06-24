@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Models.BLL
 {
-    public class StateBO
+    public class StateBUS
     {
         public List<State> findAll()
         {

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Models.BLL
 {
-    public class UserBO
+    public class UserBUS
     { 
         public List<User> getPage(int page, int pageSize, string keyword, out int totalRow)
         {
@@ -108,10 +108,10 @@ namespace Models.BLL
                 }
                 else
                 {
-                    if (isAdmin) newUser.RoleID = new RoleBO().findByName("ADMIN").ID;
+                    if (isAdmin) newUser.RoleID = new RoleBUS().findByName("ADMIN").ID;
                     else
                     {
-                        newUser.RoleID = new RoleBO().findByName("USER").ID;
+                        newUser.RoleID = new RoleBUS().findByName("USER").ID;
                         newUser.Cart = new Cart();
                     }
                     newUser.Image = $"/public/images/Default.jpg";

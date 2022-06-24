@@ -13,6 +13,9 @@
             outline: none !important;
             border-color: #719ECE;
         }
+        input[type=checkbox] {
+            transform: scale(2);
+        }
     </style>
 }
 <div class="container" style="width: 73.7em">
@@ -25,6 +28,7 @@
                     <th class="text-center">Số lượng</th>
                     <th class="text-center">Đơn giá</th>
                     <th class="text-center">Tổng tiền</th>
+                    <th class="text-center">Trạng thái</th>
                     <th class="text-center">
                         @using(Html.BeginForm("removeAll", "Cart",FormMethod.Post))
                         {
@@ -64,6 +68,7 @@
                     </td>
                     <td class="text-center text-lg text-medium text-danger fw-bold">@String.Format("{0:0,0}", Model[i].Product.Price)<span> đ</span></td>
                     <td class="text-center text-lg text-medium text-danger fw-bold">@String.Format("{0:0,0}", (Model[i].Quantity * Model[i].Product.Price))<span> đ</span></td>
+                    <td class="text-center text-lg text-medium text-white fw-bold bg-danger">@((Model[i].Quantity > Model[i].Product.Stock) ? "Hết hàng" : "Còn hàng")</td>
                     <td class="text-center">
                         <button type="button" class="btn bg-danger rounded ms-2" title="Xóa sản phẩm khỏi giỏ hàng" data-index="@i" data-id="@Model[i].ID" onclick="deleteHandler(this)">
                             <i class="fa-solid fa-trash-can" style="color: white"></i>

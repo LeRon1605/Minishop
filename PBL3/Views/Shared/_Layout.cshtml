@@ -40,7 +40,7 @@
                         }
                         else
                         {
-                            User user = new UserBO().find((int)Session["USER"]);
+                            User user = new UserBUS().find((int)Session["USER"]);
                             <li>@Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
                             <li>@Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
                         }
@@ -58,7 +58,7 @@
                 }
                 else
                 {
-                    User user = new UserBO().find((int)Session["USER"]);
+                    User user = new UserBUS().find((int)Session["USER"]);
                     <div class="dropdown">
                         <a class="btn dropdown-toggle text-primary p-2" href="@Url.Action("Index", "User", new {area = string.Empty})" data-bs-toggle="dropdown" aria-expanded="false" style="border: none">
                             @user.Name

@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Models.BLL
 {
-    public class RoleBO
+    public class RoleBUS
     {
         private ShopOnlineDbContext context;
-        public RoleBO()
+        public RoleBUS()
         {
             context = new ShopOnlineDbContext();
         }

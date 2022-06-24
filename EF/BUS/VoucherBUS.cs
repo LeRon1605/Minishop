@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Models.BLL
 {
-    public class VoucherBO
+    public class VoucherBUS
     {
         private ShopOnlineDbContext context;
-        public VoucherBO()
+        public VoucherBUS()
         {
             context = new ShopOnlineDbContext();
         }
@@ -60,20 +60,11 @@ namespace Models.BLL
             }
             return false;
         }
-        public List<Voucher> getValid()
-        {
-            return context.Vouchers.AsNoTracking().Where(voucher => (voucher.EndDate > DateTime.Now)).ToList();
-        }
         public int Count()
         {
             return context.Vouchers.AsNoTracking().Count();
         }
-        public int countDay(int id)
-        {
-            Voucher voucher = context.Vouchers.Find(id);
-            return (int)(voucher.EndDate - voucher.StartDate).TotalDays;
-        }
-        public List<Voucher> getPage(int page, int pageSize, string keyword, string value, string state,out int totalRow)
+        public List<Voucher> getPage(int page, int pageSize, string keyword, string value, string state, out int totalRow)
         {
             totalRow = 0;
             if (page > 0)
@@ -89,7 +80,7 @@ namespace Models.BLL
                 }).Where(voucher => 
                     (voucher.Seri.Contains(keyword) || keyword == "") &&
                     (value == "All" || voucher.Value <= int.Parse(value)) &&
-                    (state == "All" || (voucher.EndDate > DateTime.Now)  ==  bool.Parse(state))
+                    (state == "All" || (DateTime.Now.Date < voucher.StartDate.Date && state.Contains("inActivated")) || (DateTime.Now.Date >= voucher.StartDate.Date && DateTime.Now.Date <= voucher.EndDate.Date && state.Contains("valid") || (DateTime.Now.Date > voucher.EndDate.Date && state.Contains("invalid"))))
                  ).ToList();    
                 totalRow = (int)Math.Ceiling((double)Vouchers.Count() / pageSize);
                 if (Vouchers.Count() <= pageSize) return Vouchers;
@@ -109,11 +100,11 @@ namespace Models.BLL
         }
         public Voucher check(string Seri)
         {
-            return context.Vouchers.FirstOrDefault(voucher => voucher.Seri == Seri && voucher.EndDate > DateTime.Now);
+            return context.Vouchers.FirstOrDefault(voucher => voucher.Seri == Seri && voucher.EndDate.Date >= DateTime.Now.Date && voucher.StartDate.Date <= DateTime.Now.Date);
         }
         public List<Voucher> getLasted(int quantity)
         {
-            return context.Vouchers.AsNoTracking().Where(voucher => voucher.EndDate > DateTime.Now).OrderByDescending(voucher => voucher.Value).Take(5).ToList();
+            return context.Vouchers.AsNoTracking().Where(voucher => voucher.EndDate.Date >= DateTime.Now.Date && voucher.StartDate.Date >= DateTime.Now.Date).OrderByDescending(voucher => voucher.Value).Take(5).ToList();
         }
 
 

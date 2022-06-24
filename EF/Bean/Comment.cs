@@ -16,7 +16,7 @@ namespace Models.DTO
         [Range(1, 5)]
         public int Rate { get; set; }
         [Display(Name = "Nội dung đánh giá")]
-        [StringLength(30, MinimumLength = 10, ErrorMessage = "Nội dung đánh giá có độ dài từ 10 - 30 kí tự.")]
+        [StringLength(50, MinimumLength = 10, ErrorMessage = "Nội dung đánh giá có độ dài từ 10 - 30 kí tự.")]
         [Required(ErrorMessage = "Nội dung đánh giá không được để trống")]
         public string Content { get; set; }
         public bool isReply { get; set; }
