@@ -116,3 +116,16 @@ window.addEventListener('load', (e) => {
     $('#price_search').val(params.Price || 'All');
     if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
 })
+
+$('#submitBtn').click(e => {
+    let ProductDate = document.getElementById('producerDate_product');
+    let validationMessage = document.getElementById('validation-message');
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    if (new Date(ProductDate.value).getTime() > now.getTime()) {
+        if (validationMessage.classList.contains('d-none')) validationMessage.classList.remove('d-none');
+        e.preventDefault();
+    } else {
+        if (!validationMessage.classList.contains('d-none')) validationMessage.classList.add('d-none');
+    }
+});
