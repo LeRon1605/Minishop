@@ -18,78 +18,65 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="product-dtl">
+            <div class="product-dtl bg-white p-4 rounded">
                 <div class="product-info">
                     <div class="row">
                         <div class="product-name col-md-9">@Model.Name</div>
-                        @if(Model.Stock == 0) {
-                        <div class="product-state col-md-3 bg-danger text-white rounded p-1 text-center" style="width: 100px">Hết hàng</div>
+                        @if (Model.Stock <= 0)
+                        {
+                            <div class="product-state col-md-3 bg-danger text-white rounded p-1 text-center">Hết hàng</div>
                         }
                     </div>
-                    
-                    <div class="reviews-counter">
+
+                    <div class="reviews-counter d-flex align-items-center">
                         <div>
 
-                            @for(int i = 1; i <= 5 ; i++)
+                            @for (int i = 1; i <= 5; i++)
                             {
-                                if(i <= ViewBag.AvgRating)
+                                if (i <= ViewBag.AvgRating)
                                 {
-                                     <span class="fa fa-star star-active"></span>
+                                    <span class="fa fa-star star-active"></span>
                                 }
-                                else{
-                                     <span class="fa fa-star star-inactive"></span>
+                                else
+                                {
+                                    <span class="fa fa-star star-inactive"></span>
                                 }
                             }
-                         
+
                         </div>
-                        <p><span id="total_review">@comments.Count()</span> Reviews</p>
+                        <p class="p-0 m-0 ms-2">@comments.Count() Đánh giá</p>
                     </div>
-                    <div class="product-price-discount">
+                    <div class="product-price-discount m-0 text-danger p-0">
                         <span>@String.Format("{0:0,0}", Model.Price) đ</span>
                     </div>
                 </div>
-
-                <div class="Product_decription" style="padding: 10px 0px">
-                    Mô tả sản phẩm
-                </div>
-                <div class="tab-pane fade show active" id="description" role="tabpanel"
+                <div class="tab-pane fade show active mt-2" id="description" role="tabpanel"
                      aria-labelledby="description-tab">
                     @Model.Description
                 </div>
-
-                <div class="information" style="padding: 15px 0;">
-                    <div class="row product_mass" style="padding: 0 15px; margin-top: 15px">
-                        <label class="col-md-4 name_spec" for="size">Khối lượng</label>
-                        <label class="col-md-8 spec" for="size">@Model.Mass</label>
+                <hr>
+                <div class="row d-flex justify-content-center">
+                    <div class="d-flex flex-column fs-6 align-items-center col-3 justify-content-center">
+                        <span>@Model.Mass kg</span>
+                        <span class="fw-bold">Khối lượng</span>
                     </div>
-                    <div class="row product_mass" style="padding: 0 15px; margin-top: 15px">
-                        <label class="col-md-4 name_spec" for="size">Số lượng sản phẩm</label>
-                        <label class="col-md-8 spec" for="size">@Model.Stock</label>
+                    <div class="d-flex flex-column align-items-center col-3 justify-content-center">
+                        <span>@Model.Power W</span>
+                        <span class="fw-bold">Công suất</span>
                     </div>
-                    <div class="row product_power" style="padding: 0 15px; margin-top: 15px">
-                        <label class="col-md-4 name_spec" for="size">Công suất</label>
-                        <label class="col-md-8 spec" for="size">@Model.Power</label>
-                    </div>
-                    <div class="row product_producer" style="padding: 0 15px; margin-top: 15px">
-                        <label class="col-md-4 name_spec" for="size">Nhà sản suất</label>
-                        <label class="col-md-8 spec" for="size">@Model.Producer</label>
-                    </div>
-                    <div class="row product_producerDate" style="padding: 0 15px; margin-top: 15px">
-                        <label class="col-md-4 name_spec" for="size">Ngày sản suất</label>
-                        <label class="col-md-8 spec" for="size">@Model.ProducerDate.ToString("dd/MM/yyyy")</label>
-                    </div>
-                    <div class="row product_maintenanceTime" style="padding: 0 15px; margin-top: 15px">
-                        <label class="col-md-4 name_spec" for="size">Thời gian bảo hành</label>
-                        <label class="col-md-8 spec" for="size">@Model.MaintenanceTime</label>
+                    <div class="d-flex flex-column align-items-center col-4 justify-content-center">
+                        <span>@Model.MaintenanceTime tháng</span>
+                        <span class="fw-bold">Thời gian bảo hành</span>
                     </div>
                 </div>
+                <hr>
                 @using (Html.BeginForm("Add", "Cart", FormMethod.Post, new { @enctype = "multipart/form-data" }))
                 {
                     <div class="row">
                         @Html.HiddenFor(model => model.ID, new { @id = "productID" })
                         <div class="col-md-6">
                             <div class="product-count">
-                                <label for="size">Số lượng</label>
+                                <p class="m-0 p-0">@Model.Stock sản phẩm có sẵn</p>
                                 <div class="d-flex p-1">
                                     <button id="qtyminus" class="qtyminus" type="button">-</button>
                                     <input type="text" name="quantity" value="1" min="1" id="qty" class="qty">
@@ -97,8 +84,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <button class="round-black-btn col-md-4 margin_width" type="submit" id="btnSubmit">
+                        <div class="col-md-6 m-0 p-0 text-end mt-auto">
+                            <button class="btn btn-dark" type="submit" id="btnSubmit">
                                 <i class="fa-solid fa-cart-plus"></i>
                                 Thêm vào giỏ hàng
                             </button>
