@@ -71,6 +71,7 @@ namespace Models.BLL
                 {
                     return false;
                 }
+                voucher.UpdatedAt = DateTime.Now;
                 context.SaveChanges();
                 return true;
             }
@@ -96,7 +97,7 @@ namespace Models.BLL
                 }).Where(voucher => 
                     (voucher.Seri.Contains(keyword) || keyword == "") &&
                     (value == "All" || voucher.Value <= int.Parse(value)) &&
-                    (state == "All" || (DateTime.Now.Date < voucher.StartDate.Date && state.Contains("inActivated")) || (DateTime.Now.Date >= voucher.StartDate.Date && DateTime.Now.Date <= voucher.EndDate.Date && state.Contains("valid") && voucher.Quantity > 0) || (DateTime.Now.Date > voucher.EndDate.Date && state.Contains("invalid")))
+                    (state == "All" || (DateTime.Now.Date < voucher.StartDate.Date && state == "inActivated") || (DateTime.Now.Date >= voucher.StartDate.Date && DateTime.Now.Date <= voucher.EndDate.Date && state == "valid" && voucher.Quantity > 0) || (DateTime.Now.Date > voucher.EndDate.Date && state == "invalid"))
                  ).ToList();    
                 totalRow = (int)Math.Ceiling((double)Vouchers.Count() / pageSize);
                 if (Vouchers.Count() <= pageSize) return Vouchers;

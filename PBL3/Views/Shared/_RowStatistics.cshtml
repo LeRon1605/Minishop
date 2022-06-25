@@ -6,7 +6,7 @@
     <tr>
         <td>@(Model.Count - i)</td>
         <td>@Model[i].Date.ToString("dd/MM/yyyy")</td>
-        <td>@Model[i].OrderCount</td>
+        <td>@(Model[i].OrderCount + Model[i].OrderInProcess + Model[i].OrderCancelCount)</td>
         <td>@((Model[i].Revenue - Model[i].Benifit == 0) ? "0" : String.Format("{0:0,0}", Model[i].Revenue - Model[i].Benifit))</td>
         <td>@(Model[i].Revenue == 0 ? "0" : String.Format("{0:0,0}", Model[i].Revenue))</td>
         <td>@(Model[i].Benifit == 0 ? "0" : String.Format("{0:0,0}", Model[i].Benifit))</td>

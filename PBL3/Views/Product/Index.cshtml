@@ -151,7 +151,7 @@
         }
         else
         {
-            <div class="d-flex flex-column justify-content-center align-items-center" >
+            <div class="d-flex flex-column justify-content-center align-items-center">
                 <script src=@("https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js")></script>
                 <lottie-player src="https://assets2.lottiefiles.com/private_files/lf30_cgfdhxgx.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
                 <h3>Chưa có đánh giá</h3>
@@ -187,6 +187,7 @@
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: true,
                 plugins: {
                     legend: {
                         position: 'top',
@@ -195,7 +196,7 @@
                         display: true,
                         text: 'Điểm đánh giá'
                     }
-                }
+                },
             },
         };
         const myChart = new Chart(

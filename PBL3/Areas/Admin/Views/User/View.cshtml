@@ -30,9 +30,9 @@
         }
     </style>
 }
-@using (Html.BeginForm("Update", "User", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "mt-4" }))
+@using (Html.BeginForm("Update", "User", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "d-flex align-items-center", @style = "height:100vh" }))
 {
-    <div class="row justify-content-center">
+    <div class="row justify-content-center col-12">
 
         <div class="col-md-3 rounded d-flex flex-column">
             <p class="card-header">Ảnh người dùng</p>
