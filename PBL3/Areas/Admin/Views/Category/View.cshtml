@@ -1,7 +1,7 @@
 ﻿@model Models.DTO.Category
 
 @{
-    ViewBag.Title = "View";
+    ViewBag.Title = Model.Name;
     bool isEdit = (bool)ViewBag.isEdit;
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }

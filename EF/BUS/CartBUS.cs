@@ -42,7 +42,12 @@ namespace Models.BLL
                     {
                         if (productInCart.Quantity + quantity <= 0)
                         {
-                            if (product.Stock >= 1) productInCart.Quantity = 1;
+                            if (product.Stock >= 1)
+                            {
+                                productInCart.Quantity = 1;
+                                productInCart.UpdatedAt = DateTime.Now;
+                                context.SaveChanges();
+                            }
                             else
                             {
                                 context.CartProduct.Remove(productInCart);
@@ -96,7 +101,7 @@ namespace Models.BLL
         }
         public bool removeAll(int cartID)
         {
-            List<CartProduct> cartProducts = context.CartProduct.Where(p => p.CartID == cartID).ToList();
+            var cartProducts = context.CartProduct.Where(p => p.CartID == cartID);
             if (cartProducts != null)
             {
                 context.CartProduct.RemoveRange(cartProducts);

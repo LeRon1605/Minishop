@@ -2,7 +2,7 @@
 @using Models.DTO
 @using PBL3.Models
 @{
-    ViewBag.Title = "Shoponline";
+    ViewBag.Title = "Tìm kiếm";
     List<Product> products = ViewBag.products as List<Product>;
     List<Product> lastedProducts = ViewBag.lastedProduct as List<Product>;
     List<Category> categories = ViewBag.categories as List<Category>;
@@ -28,7 +28,7 @@
                 </select>
             </div>
             <div class="col-sm-3 ms-3">
-                <select class="form-select" name="CategoryID">
+                <select class="form-select" name="CategoryID" id="category_search">
                     <option value="All">Loại sản phẩm</option>
                     @foreach (Category category in categories)
                     {

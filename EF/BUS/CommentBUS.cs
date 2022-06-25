@@ -76,7 +76,7 @@ namespace Models.BLL
         }
         public List<Comment> getCommentsOfProduct(int productID)
         {
-            return context.Comments.Select(comment => new Comment
+            return context.Comments.AsNoTracking().Select(comment => new Comment
             {
                 ID = comment.ID,
                 Content = comment.Content,
@@ -90,11 +90,11 @@ namespace Models.BLL
                 CreatedAt = comment.CreatedAt,
                 ProductOrder = comment.ProductOrder,
                 Rate = comment.Rate
-            }).Where(comment => comment.ProductOrder.ProductID == productID && comment.isDeleted == false).OrderBy(comment => comment.CreatedAt).ToList();
+            }).Where(comment => comment.ProductOrder.ProductID == productID && comment.isDeleted == false).ToList();
         }
         public List<Comment> getPage(int page, int pageSize, bool? isDeleted, bool? isReply, string keyword, DateTime startDate, DateTime endDate, out int totalRow)
         {
-            List<Comment> comments = context.Comments.Select(comment => new Comment { 
+            List<Comment> comments = context.Comments.AsNoTracking().Select(comment => new Comment { 
                 ID = comment.ID,
                 Content = comment.Content,
                 Rate = comment.Rate,

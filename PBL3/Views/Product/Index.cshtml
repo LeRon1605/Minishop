@@ -3,7 +3,7 @@
 @model Product
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Model.Name;
     List<Comment> comments = ViewBag.Comments as List<Comment>;
     List<Rating> rates = ViewBag.Rates;
 }
@@ -94,151 +94,69 @@
                 }
             </div>
         </div>
-        <div class="container-fluid px-1 py-5 mx-auto">
-            <div class="comments">Đánh giá sản phẩm</div>
-
-            <div class="row justify-content-center" >
-                <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center mb-5">
-                    <div class="card">
-                        <div class="row justify-content-left d-flex">
-                            <div class="col-md-4 d-flex flex-column" style="margin-top: 50px">
-                                <div class="rating-box">
-                                    <h1 class="pt-4" id="avg_rating">@ViewBag.AvgRating</h1>
-                                    <p class="">out of 5</p>
-                                </div>
-                                <div>
-                                    @for (int i = 1; i <= 5; i++)
-                                    {
-                                        if (i <= ViewBag.AvgRating)
-                                        {
-                                            <span class="fa fa-star star-active"></span>
-                                        }
-                                        else
-                                        {
-                                            <span class="fa fa-star star-inactive"></span>
-                                        }
-                                    }
-                                </div>
-                            </div>
-
-          
-                            <div class="col-md-8">
-                                <div class="rating-bar justify-content-center">
-                                    <table class="text-left mx-auto">
-                                        <tr>
-                                            <td class="rating-label" style="width: 50px">5 <i class="fa fa-star star-active"></i></td>
-                                            <td class="rating-bar">
-                                                <div class="bar-container">
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-warning" role="progressbar" id="five_star_progress" style="width: @rates[4].percent%"
-                                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div
-                                            </td>
-                                            <td class="text-right"><span id="total_five_star_review">@rates[4].quantity</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="rating-label" style="width: 50px">4 <i class="fa fa-star star-active mx-1"></i></td>
-                                            <td class="rating-bar">
-                                                <div class="bar-container">
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-warning" role="progressbar" id="four_star_progress" style="width: @rates[3].percent%"
-                                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-right"><span id="total_four_star_review">@rates[3].quantity</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="rating-label" style="width: 50px">3 <i class="fa fa-star star-active mx-1"></i></td>
-                                            <td class="rating-bar">
-                                                <div class="bar-container">
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-warning" role="progressbar" id="three_star_progress" style="width: @rates[2].percent%"
-                                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-right"><span id="total_three_star_review">@rates[2].quantity</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="rating-label" style="width: 50px">2 <i class="fa fa-star star-active mx-1"></i></td>
-                                            <td class="rating-bar">
-                                                <div class="bar-container">
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-warning" role="progressbar" id="two_star_progress" style="width: @rates[1].percent%"
-                                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-right"><span id="total_two_star_review">@rates[1].quantity</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="rating-label" style="width: 50px">1 <i class="fa fa-star star-active mx-1"></i></td>
-                                            <td class="rating-bar">
-                                                <div class="bar-container">
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-warning" role="progressbar" id="one_star_progress" style="width: @rates[0].percent%"
-                                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-right"><span id="total_one_star_review">@rates[0].quantity</span></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row justify-content-center">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center mb-5">
-                    @foreach (Comment comment in comments)
-                    {
-                    <div class="card">
-                        <div class="d-flex">
+        @if (comments.Count > 0)
+        {
+            <div class="row d-flex mt-5 justify-content-between m-0 p-0">
+                <div class="row justify-content-center">
+                    <div class="row justify-content-center col-8 m-0 p-0">
+                        @foreach (Comment comment in comments)
+                        {
                             <div class="">
-                                <img class="profile-pic mt-3"
-                                     src="@comment.User.Image">
-                            </div>
-                            <div class="d-flex flex-column" style="text-align: left; width: 100%">
-                                <h3 class="mt-2 mb-0 name_user">@comment.User.Name</h3>
-                                <div>
-                                    <p class="text-left m-0">
-                                        @for (int i = 1; i <= 5; i++)
-                                        {
-                                            if (i <= comment.Rate)
+                                <div class="d-flex bg-white p-3">
+                                    <div class="">
+                                        <img class="profile-pic mt-3"
+                                             src="@comment.User.Image">
+                                    </div>
+                                    <div class="d-flex flex-column" style="text-align: left; width: 100%">
+                                        <h3 class="mt-2 mb-0 name_user">@comment.User.Name</h3>
+                                        <div>
+                                            <p class="text-left m-0">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    if (i <= comment.Rate)
+                                                    {
+                                                        <span class="fa fa-star star-active ml-3"></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="fa fa-star star-inactive"></span>
+                                                    }
+                                                }
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p class="content">@comment.Content</p>
+                                            @if (comment.isReply)
                                             {
-                                                <span class="fa fa-star star-active ml-3"></span>
+                                                <p class="content"><i class="fa-solid fa-comment-dots"></i>Phản hồi: @comment.Reply.Content</p>
                                             }
-                                            else
-                                            {
-                                                <span class="fa fa-star star-inactive"></span>
-                                            }
-                                        }
-                                    </p>
-                                </div>
-                                <div>
-                                    <p class="content">@comment.Content</p>
-                                    @if (comment.isReply)
-                                    {
-                                        <p class="content"><i class="fa-solid fa-comment-dots"></i>Phản hồi: @comment.Reply.Content</p>
-                                    }
 
+                                        </div>
+                                    </div>
+                                    <div class="" style="text-align: right; width: 100px">
+                                        <p class="text-muted pt-5 pt-sm-3">@comment.CreatedAt.ToString("HH:mm dd/MM/yyyy")</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="" style="text-align: right; width: 100px">
-                                <p class="text-muted pt-5 pt-sm-3">@comment.CreatedAt.ToString("HH:mm dd/MM/yyyy")</p>
-                            </div>
+                        }
+                    </div>
+                    <div class="col-4">
+                        <div class="bg-white rounded">
+                            <canvas id="myChart"></canvas>
                         </div>
                     </div>
-                    }
                 </div>
-            </div>
 
-        </div>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex flex-column justify-content-center align-items-center" >
+                <script src=@("https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js")></script>
+                <lottie-player src="https://assets2.lottiefiles.com/private_files/lf30_cgfdhxgx.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+                <h3>Chưa có đánh giá</h3>
+            </div>
+        }
     </div>
 </div>
 
@@ -249,14 +167,41 @@
             <strong class="me-auto ms-1">Thông báo</strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-            <div class="toast-body text-white bg-success" id="toast_body">
+        <div class="toast-body text-white bg-success" id="toast_body">
 
-            </div>
+        </div>
     </div>
 </div>
 @section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/public/js/ProductDetail.js"></script>
     <script>
+        const config = {
+            type: 'pie',
+            data: {
+                labels: ['1 sao', '2 sao', '3 sao', '4 sao', '5 sao'],
+                datasets: [{
+                    backgroundColor: ['rgb(255, 99, 132)', '#FF9D3B', '#4BC0C0', '#36A2EB', '#FFCD56'],
+                    data: [@string.Join(", ", rates.Select(x => $"{x.quantity}"))],
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Điểm đánh giá'
+                    }
+                }
+            },
+        };
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
         let showToast = (status, message) => {
             const toastBody = document.getElementById('toast_body');
             if (status) {
@@ -287,21 +232,5 @@
                 }
             })
         });
-
-        const loadRating = (e) => {
-            $.ajax({
-                type: "POST",
-                url: `/Product/Index`,
-                data: JSON.stringify({
-                    ID: $('#productID').val(),
-                    Content: $('#content').val(),
-                    Rate: $("#rating").val()
-                }),
-                dataType: 'json',
-                success: function (res) { }
-            })
-        }
-
-        
     </script>
 }

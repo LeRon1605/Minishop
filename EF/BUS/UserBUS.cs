@@ -146,7 +146,6 @@ namespace Models.BLL
                     user.Gender = entity.Gender;
                     user.Address = entity.Address;
                     user.Image = entity.Image;
-                    user.Email = user.Email;
                     user.UpdatedAt = DateTime.Now;
                     context.SaveChanges();
                     return true;

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "View";
+    ViewBag.Title = Model.Name;
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -73,7 +73,7 @@
                 </div>
                 <div class="row d-flex m-3 border-bottom">
                     <h6 class="m-0 col-4 p-0" style="line-height: normal;">Gmail</h6>
-                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập gmail của bạn", @style = "border: none" } })
+                    @Html.EditorFor(model => model.Email, new { @readonly = true, htmlAttributes = new { @class = "col-8 m-0 p-0", @placeholder = "Nhập gmail của bạn", @style = "border: none" } })
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger p-0" })
                 </div>
                 <div class="row d-flex m-3 border-bottom">
@@ -185,17 +185,17 @@
                 <form>
                     <div class="mb-3">
                         <label class="form-label">Mật khẩu mới</label>
-                        <input type="password" class="form-control" name="newPassword">
+                        <input type="password" class="form-control" name="newPassword" placeholder="Nhập mật khẩu mới">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Xác nhận mật khẩu mới</label>
-                        <input type="password" class="form-control" name="confirmPassword">
+                        <input type="password" class="form-control" name="confirmPassword" placeholder="Xác nhận mật khẩu">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="btnSubmit">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                <button type="button" class="btn btn-primary" id="btnSubmit">Lưu</button>
             </div>
         </div>
     </div>

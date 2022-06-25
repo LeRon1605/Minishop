@@ -17,10 +17,10 @@ namespace PBL3.Areas.Admin.Controllers
         // GET: Admin/Product
         public ActionResult Index(int page = 1, bool? state = null, string keyword = "", string CategoryID = "All", string Price = "All")
         {
-            ProductBUS productDAO = new ProductBUS();
+            ProductBUS productBUS = new ProductBUS();
             int totalPage = 0;
-            ViewBag.products = productDAO.getPage(page, 10, state, keyword, CategoryID, Price, out totalPage);
-            ViewBag.Total = productDAO.Count();
+            ViewBag.products = productBUS.getPage(page, 10, state, keyword, CategoryID, Price, out totalPage);
+            ViewBag.Total = productBUS.Count();
             ViewBag.categories = new CategoryBUS().findAll();
             ViewBag.pagingData = new PagingModel
             {
@@ -33,12 +33,10 @@ namespace PBL3.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult View(int id, bool isEdit = false)
         {
-            CategoryBUS categoryBUS = new CategoryBUS();
-            ProductBUS productBUS = new ProductBUS();
             ViewBag.isEdit = isEdit;
-            ViewBag.categories = categoryBUS.findAll();
+            ViewBag.categories = new CategoryBUS().findAll();
             ViewBag.importBills = new ImportBillBUS().getBillOfProduct(id);
-            Product product = productBUS.find(id, true);
+            Product product = new ProductBUS().find(id, true);
             if (product == null)
             {
                 return HttpNotFound();
@@ -58,9 +56,8 @@ namespace PBL3.Areas.Admin.Controllers
                         string fileName = Path.GetFileName(Image.FileName);
                         string path = Path.Combine(Server.MapPath("~/public/uploads/products"), fileName);
                         Image.SaveAs(path);
-                        ProductBUS ProductBUS = new ProductBUS();
                         product.Image = $"/public/uploads/products/{fileName}";
-                        ProductBUS.Add(product);
+                        new ProductBUS().Add(product);
                         TempData["AddStatus"] = true;
                     }
                     else
@@ -88,7 +85,6 @@ namespace PBL3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                ProductBUS productDAO = new ProductBUS();
                 if (file != null && file.ContentLength > 0)
                 {
                     string fileName = Path.GetFileName(file.FileName);
@@ -96,7 +92,7 @@ namespace PBL3.Areas.Admin.Controllers
                     file.SaveAs(path);
                     product.Image = $"/public/uploads/products/{fileName}";
                 }
-                if (productDAO.Update(product))
+                if (new ProductBUS().Update(product))
                 {
                     TempData["Status"] = true;
                     TempData["Message"] = "Cập nhật sản phẩm thành công";
@@ -174,7 +170,7 @@ namespace PBL3.Areas.Admin.Controllers
                         {
                             status = false,
                             message = "Nhập hàng vào kho thất bại",
-                            detail = "Sản phẩm không tồn tại"
+                            detail = "Dữ liệu không hợp lệ"
                         }
                     };
                 }

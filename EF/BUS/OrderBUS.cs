@@ -87,15 +87,12 @@ namespace Models.BLL
                         Quantity = productOrder.Quantity,
                         isComment = productOrder.isComment
                     }).ToList(),
-                    StateOrder = order.StateOrder.Select(stateOrder => new StateOrder
+                    StateOrder = new List<StateOrder>()
                     {
-                        ID = stateOrder.ID,
-                        StateID = stateOrder.StateID,
-                        State = stateOrder.State,
-                        Date = stateOrder.Date
-                    }).ToList(),
+                        new StateOrder { State = new StateBUS().getCurrentProductState(order.ID) }
+                    },
                 }).ToList();
-                return orders.Where(order => order.UserID == userID && (stateID == 0 || order.StateOrder.Last().StateID == stateID) && order.ID.ToString().Contains(keyword)).ToList();
+                return orders.Where(order => order.UserID == userID && (stateID == 0 || order.StateOrder.First().StateID == stateID) && order.ID.ToString().Contains(keyword)).ToList();
             }
         }
         public List<Order> getPage(int page, int pageSize, string keyword, int stateID, out int totalRow, DateTime? startDate, DateTime? endDate)

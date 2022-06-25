@@ -99,7 +99,7 @@ $('#importForm').on('submit', (e) => {
             } else {
                 const notification = document.querySelector("#notification");
                 notification.innerHTML = `<div class="alert alert-danger col-12 p-2" role="alert">`
-                    + data.detail +
+                    + res.data.detail +
                 `</div>`;
             }
         })

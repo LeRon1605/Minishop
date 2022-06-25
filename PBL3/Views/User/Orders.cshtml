@@ -1,7 +1,7 @@
 ﻿@using Models.DTO
 @model List<Order>
 @{
-    ViewBag.Title = "Orders";
+    ViewBag.Title = "Danh sách đơn hàng";
     List<State> states = ViewBag.States as List<State>;
 }
 @section Styles{
@@ -38,7 +38,7 @@
                 <div class="bg-white p-3 shadow rounded mt-3">
                     <a class="col-12 d-flex justify-content-between text-decoration-none text-dark order-header" href="@Url.Action("Index", "Order", new { id = order.ID })">
                         <h6 class="p-0 m-0 fw-bold">ID đơn hàng: @order.ID</h6>
-                        <p class="p-0 m-0 fw-bold">@order.StateOrder.Last().State.Name</p>
+                        <p class="p-0 m-0 fw-bold">@order.StateOrder.First().State.Name</p>
                     </a>
                     <hr>
                     @foreach (ProductOrder productOrder in order.ProductOrder)

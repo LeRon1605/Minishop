@@ -86,7 +86,7 @@ namespace Models.BLL
                     ID = category.ID,
                     Name = category.Name,
                     Description = category.Description,
-                }).Where(category => (category.Name.Contains(keyword) || keyword == ""))
+                }).Where(category => (category.Name.Contains(keyword)))
                   .ToList();
                 totalRow = (int)Math.Ceiling((double)categories.Count() / pageSize);
                 if (categories.Count() <= pageSize) return categories;

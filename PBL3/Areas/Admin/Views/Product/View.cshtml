@@ -1,7 +1,7 @@
 ﻿@using Models.DTO
 @model Product
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = Model.Name;
     bool editable = ViewBag.isEdit;
     List<Category> categories = ViewBag.categories;
     List<ImportBillDetail> bills = ViewBag.importBills;

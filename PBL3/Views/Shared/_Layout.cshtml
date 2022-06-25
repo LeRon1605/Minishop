@@ -5,10 +5,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello, world!</title>
+    <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link type="image/png" sizes="96x96" rel="icon" href="~/favicon.png">
     <style>
         .test:hover {
             color: #0d6efd !important;
@@ -41,8 +42,11 @@
                         else
                         {
                             User user = new UserBUS().find((int)Session["USER"]);
-                            <li>@Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
-                            <li>@Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                            if (user != null)
+                            {
+                                <li>@Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                                <li>@Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                            }
                         }
                     </ul>
                 </li>
@@ -61,10 +65,11 @@
                     User user = new UserBUS().find((int)Session["USER"]);
                     <div class="dropdown">
                         <a class="btn dropdown-toggle text-primary p-2" href="@Url.Action("Index", "User", new {area = string.Empty})" data-bs-toggle="dropdown" aria-expanded="false" style="border: none">
-                            @user.Name
+                           @if (user != null)
+                            { @user.Name }
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            @if (!user.isActivated)
+                            @if (user != null && !user.isActivated)
                             {
                                 <li>
                                     <a class="dropdown-item d-flex" href="@Url.Action("ActivateAccount", "User", new {area = string.Empty})">
