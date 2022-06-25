@@ -74,6 +74,7 @@ namespace PBL3.Controllers
         {
             if (ModelState["Voucher.Seri"] != null) ModelState["Voucher.Seri"].Errors.Clear();
             if (ModelState["Voucher.StartDate"] != null) ModelState["Voucher.StartDate"].Errors.Clear();
+            if (ModelState["Voucher.Quantity"] != null) ModelState["Voucher.Quantity"].Errors.Clear();
             if (ModelState.IsValid)
             {
                 string message;

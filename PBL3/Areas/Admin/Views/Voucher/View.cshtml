@@ -57,7 +57,9 @@
                         @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "form-label" })
                         @if (isEdit == true)
                         {
-                            @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "startDate_voucher" } })
+                            @*@Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "startDate_voucher", @type = "date", @value = Model.StartDate.ToString("yyyy-MM-dd") } });*@
+                            <input class="form-control text-box single-line" data-val="true" data-val-date="The field Ngày bắt đầu must be a date." data-val-required="The Ngày bắt đầu field is required." id="startDate_voucher" name="StartDate" type="date" value="@Model.StartDate.ToString("yyyy-MM-dd")">
+                            <span id="validation-startDate-message" class="text-danger d-none">Ngày bắt đầu không được bé hơn ngày hiện tại</span>
                         }
                         else
                         {
@@ -69,14 +71,14 @@
                         @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "form-label" })
                         @if (isEdit == true)
                         {
-                            @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @id = "endDate_voucher" } })
+                            <input class="form-control text-box single-line" data-val="true" data-val-date="The field Ngày kết thúc must be a date." data-val-required="The Ngày kết thúc field is required." id="endDate_voucher" name="EndDate" type="date" value="@Model.EndDate.ToString("yyyy-MM-dd")">
+                            <span id="validation-endDate-message" class="text-danger d-none">Ngày kết thúc không được bé hơn ngày bắt đầu</span>
                         }
                         else
                         {
                             @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @id = "endDate_voucher", @disabled = "" } })
                         }
                         @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
-                        <span id="validation-message" class="text-danger d-none">Ngày kết thúc không được bé hơn ngày bắt đầu</span>
                     </div>
                     <div class="form-group mt-3">
                         @Html.LabelFor(model => model.CreatedAt, htmlAttributes: new { @class = "form-label" })
@@ -96,13 +98,13 @@
                     <div class="col-12">
                         @if (isEdit == true)
                         {
-                            <button class="btn btn-primary col-12 mt-3" id="submitBtn" type="submit">
+                            <button class="btn btn-primary col-12 mt-3" id ="submitBtn"type="submit">
                                 Xác Nhận
                             </button>
                         }
                         else
                         {
-                            <a href="@Url.Action("View","Voucher", new {id = @Model.ID, isEdit = true})" class="btn btn-primary col-12 mt-3">Cập nhật Voucher</a>
+                            <a href="@Url.Action("View","Voucher", new {id = @Model.ID, isEdit = true})" class="btn btn-primary col-12 mt-3" id="submitBtn">Cập nhật Voucher</a>
                         }
                     </div>
                 </div>
@@ -147,17 +149,17 @@
             const toast = document.getElementById('toast_body');
             if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
         })
-        $('#submitBtn').click(e => {
-            let startDate = document.getElementById('startDate_voucher');
-            let endDate = document.getElementById('endDate_voucher');
-            let validationMessage = document.getElementById('validation-message');
-            if (new Date(endDate.value).getTime() < new Date(startDate.value).getTime()) {
-                if (validationMessage.classList.contains('d-none')) validationMessage.classList.remove('d-none');
-                e.preventDefault();
-            } else {
-                if (!validationMessage.classList.contains('d-none')) validationMessage.classList.add('d-none');
-            }
-        });
+        //$('#submit').click(e => {
+        //    let startDate = document.getElementById('startDate_voucher');
+        //    let endDate = document.getElementById('endDate_voucher');
+        //    let validationMessage = document.getElementById('validation-message');
+        //    if (new Date(endDate.value).getTime() < new Date(startDate.value).getTime()) {
+        //        if (validationMessage.classList.contains('d-none')) validationMessage.classList.remove('d-none');
+        //        e.preventDefault();
+        //    } else {
+        //        if (!validationMessage.classList.contains('d-none')) validationMessage.classList.add('d-none');
+        //    }
+        //});
     </script>
     <script src="~/public/js/Voucher.js"></script>
     <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
