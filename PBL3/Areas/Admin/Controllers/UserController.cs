@@ -22,7 +22,7 @@ namespace PBL3.Areas.Admin.Controllers
             {
                 CountPages = countPages,
                 CurrentPage = page,
-                GenerateURL = (pageNum) => $"/?page={pageNum}&keyword={keyword}"
+                GenerateURL = (pageNum) => $"?page={pageNum}&keyword={keyword}"
             };
             return View(list);
         }
