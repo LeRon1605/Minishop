@@ -19,14 +19,32 @@
             <hr>
             <div class="col-12 d-flex">
                 <div class="col-2 border" style="height: 20vh">
-                    <img src="@Model.ProductOrder.Product.Image" alt="" style="width: 100%;height: 100%;object-fit:cover">
+                    @if (Model.ProductOrder.Product == null)
+                    {
+                        <img src="" alt="" style="width: 100%;height: 100%;object-fit:cover">
+                    }
+                    else
+                    {
+                        <img src="@Model.ProductOrder.Product.Image" alt="" style="width: 100%;height: 100%;object-fit:cover">
+                    }
+
                 </div>
                 <div class="col-10 d-flex justify-content-between">
                     <div class="ms-3">
-                        <p class="p-0 m-0 fw-bold">@Model.ProductOrder.Product.Name</p>
+                        @if (Model.ProductOrder.Product == null)
+                        {
+                            <p class="p-0 m-0 fw-bold">Sản phẩm đã bị xóa</p>
+                        }
+                        else
+                        {
+                            <p class="p-0 m-0 fw-bold">Model.ProductOrder.Product.Name</p>
+                        }
                     </div>
                     <div class="">
-                        <p class="p-0 m-0 fw-bold text-danger">@String.Format("{0:0,0}", Model.ProductOrder.Product.Price) đ</p>
+                        @if (Model.ProductOrder.Product != null)
+                        {
+                            <p class="p-0 m-0 fw-bold text-danger">@String.Format("{0:0,0}", Model.ProductOrder.Product.Price) đ</p>
+                        }
                     </div>
                 </div>
             </div>

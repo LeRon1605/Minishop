@@ -1,0 +1,135 @@
+﻿@using Models.DTO
+@using Models.BLL
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link type="image/png" sizes="96x96" rel="icon" href="~/favicon.png">
+    <style>
+        .test:hover {
+            color: #0d6efd !important;
+        }
+
+        body {
+            background-color: #F0F2F5;
+            position: relative;
+        }
+    </style>
+    @RenderSection("Styles", false)
+</head>
+<body>
+    <div class="p-3 m-0 row justify-content-center fw-bold" style="position: absolute; z-index: 3; width: 100%" id="header">
+        <header class="d-flex justify-content-between align-items-center" style="width: 73.7em">
+            <div class="navbar-brand">
+                @Html.ActionLink("Minishop", "Index", new { controller = "Home" }, new { @class = "text-decoration-none text-danger" })
+            </div>
+            <div class="navbar-nav p-1 d-sm-none d-flex">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item">Category</a></li>
+                        @if (Session["User"] == null)
+                        {
+                            <li>@Html.ActionLink("Đăng nhập", "Login", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                            <li>@Html.ActionLink("Đăng kí", "Register", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                        }
+                        else
+                        {
+                            User user = new UserBUS().find((int)Session["USER"]);
+                            if (user != null)
+                            {
+                                <li>@Html.ActionLink(user.Name, "Index", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                                <li>@Html.ActionLink("Đăng xuất", "Logout", new { controller = "User" }, new { @class = "p-2 text-decoration-none dropdown-item" })</li>
+                            }
+                        }
+                    </ul>
+                </li>
+            </div>
+            <div class="d-none d-sm-flex">
+                @Html.ActionLink("Trang chủ", "Index", new { controller = "Home", area = string.Empty }, new { @class = "p-2 text-decoration-none text-danger" })
+                <a href="@Url.Action("Index", "Cart")" class="p-2 text-decoration-none text-danger">Giỏ hàng</a>
+                <a href="@Url.Action("Index", "Voucher")" class="p-2 text-decoration-none text-danger">Voucher</a>
+                @if (Session["User"] == null)
+                {
+                    @Html.ActionLink("Đăng nhập", "Login", new { controller = "User", area = string.Empty }, new { @class = "p-2 text-decoration-none text-danger" })
+                    @Html.ActionLink("Đăng kí", "Register", new { controller = "User", area = string.Empty }, new { @class = "p-2 text-decoration-none text-danger" })
+                }
+                else
+                {
+                    User user = new UserBUS().find((int)Session["USER"]);
+                    <div class="dropdown">
+                        <a class="btn dropdown-toggle text-primary p-2 text-danger fw-bold" href="@Url.Action("Index", "User", new {area = string.Empty})" data-bs-toggle="dropdown" aria-expanded="false" style="border: none">
+                            @if (user != null)
+                            {@user.Name}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            @if (user != null && !user.isActivated)
+                            {
+                                <li>
+                                    <a class="dropdown-item d-flex" href="@Url.Action("ActivateAccount", "User", new {area = string.Empty})">
+                                        <div class="col-2">
+                                            <i class="fa-solid fa-user"></i>
+                                        </div>
+                                        <span>Kích hoạt tài khoản</span>
+                                    </a>
+                                </li>
+                            }
+                            <li>
+                                <a class="dropdown-item d-flex" href="@Url.Action("Index", "User", new {area = string.Empty})">
+                                    <div class="col-2">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <span>Tài khoản</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex" href="@Url.Action("Orders", "User", new {area = string.Empty})">
+                                    <div class="col-2">
+                                        <i class="fa-solid fa-clipboard-list"></i>
+                                    </div>
+                                    <span>Đơn mua</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex" href="@Url.Action("Logout", "User", new {area = string.Empty})">
+                                    <div class="col-2">
+                                        <i class="fa-solid fa-right-from-bracket"></i>
+                                    </div>
+                                    <span>Đăng xuất</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </header>
+    </div>
+
+    <div class="m-auto row" style="background-color: #F0F2F5; position: relative">
+        @RenderBody()
+    </div>
+    <script>
+        window.addEventListener('scroll', (event) => {
+            if (window.scrollY > 0) {
+                document.querySelector('#header').style.position = 'sticky';
+            } else {
+                document.querySelector('#header').style.position = 'absolute';
+            }
+            document.querySelector('#header').classList.toggle('sticky-top', window.scrollY > 0);
+            document.querySelector('#header').classList.toggle('bg-light', window.scrollY > 0);
+            document.querySelector('#header').classList.toggle('shadow', window.scrollY > 0);
+        })
+    </script>
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

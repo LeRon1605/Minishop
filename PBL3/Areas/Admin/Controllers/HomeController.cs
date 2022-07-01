@@ -17,7 +17,7 @@ namespace PBL3.Areas.Admin.Controllers
         public ActionResult Index()
         {
             StatisticsBUS statisticsBUS = new StatisticsBUS();
-            ViewBag.statistics = statisticsBUS.GetStatistics(DateTime.Now.AddDays(-4), DateTime.Now, "dd/MM");
+            ViewBag.statistics = statisticsBUS.GetStatistics(DateTime.Now.AddDays(-7), DateTime.Now, "dd/MM");
             ViewBag.statisticsInDay = statisticsBUS.GetStatisticsInDay(DateTime.Now, "dd/MM");
             ViewBag.totalOrder = new OrderBUS().Count();
             ViewBag.totalBenifit = statisticsBUS.getTotalBenifit();

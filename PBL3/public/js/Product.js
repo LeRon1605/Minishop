@@ -113,7 +113,8 @@ window.addEventListener('load', (e) => {
     $('#keyword_search').val(params.keyword || '');
     $('#state_search').val(params.state || '');
     $('#category_search').val(params.CategoryID || 'All');
-    $('#price_search').val(params.Price || 'All');
+    $('#minValue_search').val(params.minValue || '');
+    $('#maxValue_search').val(params.maxValue || '');
     if (toast.innerText.trim() != '') $("#notification_toast").toast('show');
 })
 

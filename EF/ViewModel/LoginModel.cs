@@ -8,12 +8,10 @@ namespace PBL3.Models
 {
     public class LoginModel
     {
-        [DataType(DataType.EmailAddress)]
-        [EmailAddress]
-        [Required]
+        [Required(ErrorMessage = "Email không được để trống")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Mật khẩu không được để trống")]
         public string Password { get; set; }
     }
 }

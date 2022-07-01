@@ -15,18 +15,18 @@ namespace PBL3.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         // GET: Admin/Product
-        public ActionResult Index(int page = 1, bool? state = null, string keyword = "", string CategoryID = "All", string Price = "All")
+        public ActionResult Index(string minValue, string maxValue, int page = 1, bool? state = null, string keyword = "", string CategoryID = "All")
         {
             ProductBUS productBUS = new ProductBUS();
             int totalPage = 0;
-            ViewBag.products = productBUS.getPage(page, 10, state, keyword, CategoryID, Price, out totalPage);
+            ViewBag.products = productBUS.getPage(page, 10, state, keyword, CategoryID, minValue, maxValue, out totalPage);
             ViewBag.Total = productBUS.Count();
             ViewBag.categories = new CategoryBUS().findAll();
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,
                 CurrentPage = page,
-                GenerateURL = (int pageNum) => $"?page={pageNum}&state={state}&keyword={keyword}&CategoryID={CategoryID}&Price={Price}"
+                GenerateURL = (int pageNum) => $"?page={pageNum}&state={state}&keyword={keyword}&CategoryID={CategoryID}&minValue={minValue}&maxValue={maxValue}"
             };
             return View();
         }
@@ -76,7 +76,7 @@ namespace PBL3.Areas.Admin.Controllers
             {
 
                 TempData["AddStatus"] = false;
-                TempData["AddDetail"] = "Dữ liệu không hợp lệ";
+                TempData["AddDetail"] = ModelState.Values.SelectMany(v => v.Errors).ToList()[0].ErrorMessage;
             }
             return RedirectToAction("Index");
         }

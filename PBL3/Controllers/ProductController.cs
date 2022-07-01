@@ -40,17 +40,17 @@ namespace PBL3.Controllers
                 return View(product);
             }
         }
-        public ActionResult Search(string keyword = "", bool? state = null, string categoryID = "All", string price = "All", int page = 1)
+        public ActionResult Search(string minValue, string maxValue, string keyword = "", bool? state = null, string categoryID = "All", int page = 1)
         {
             ProductBUS productBUS = new ProductBUS();
             int totalPage = 0;
-            List<Product> products = productBUS.getPage(page, 20, state, keyword, categoryID, price, out totalPage);
+            List<Product> products = productBUS.getPage(page, 20, state, keyword, categoryID, minValue, maxValue, out totalPage);
             ViewBag.categories = new CategoryBUS().findAll();
             ViewBag.pagingData = new PagingModel
             {
                 CountPages = totalPage,
                 CurrentPage = page,
-                GenerateURL = (int pageNum) => $"?page={pageNum}&state={state}&keyword={keyword}&CategoryID={categoryID}&Price={price}"
+                GenerateURL = (int pageNum) => $"?page={pageNum}&state={state}&keyword={keyword}&CategoryID={categoryID}&minValue={minValue}&maxValue={maxValue}"
             };
             return View(products);
         }
