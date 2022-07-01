@@ -121,7 +121,7 @@ namespace Models.BLL
         }
         public List<Voucher> getLasted(int quantity)
         {
-            return context.Vouchers.AsNoTracking().Where(voucher => voucher.EndDate.Date >= DateTime.Now.Date && voucher.StartDate.Date >= DateTime.Now.Date && voucher.Quantity > 0).OrderByDescending(voucher => voucher.Value).Take(quantity).ToList();
+            return context.Vouchers.AsNoTracking().Where(voucher => voucher.EndDate.Date >= DateTime.Now.Date && voucher.StartDate.Date <= DateTime.Now.Date && voucher.Quantity > 0).OrderByDescending(voucher => voucher.Value).Take(quantity).ToList();
         }
 
 

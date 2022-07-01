@@ -92,7 +92,7 @@ namespace Models.BLL
                         new StateOrder { State = new StateBUS().getCurrentProductState(order.ID) }
                     },
                 }).ToList();
-                return orders.Where(order => order.UserID == userID && (stateID == 0 || order.StateOrder.First().StateID == stateID) && order.ID.ToString().Contains(keyword)).ToList();
+                return orders.Where(order => order.UserID == userID && (stateID == 0 || order.StateOrder.First().State.ID == stateID) && order.ID.ToString().Contains(keyword)).ToList();
             }
         }
         public List<Order> getPage(int page, int pageSize, string keyword, int stateID, out int totalRow, DateTime? startDate, DateTime? endDate)

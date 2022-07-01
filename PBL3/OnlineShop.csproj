@@ -622,6 +622,7 @@
     <Content Include="Areas\Admin\Views\ImportBill\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ImportBill\View.cshtml" />
     <Content Include="Areas\Admin\Views\Comment\View.cshtml" />
+    <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -666,6 +667,7 @@
     <Content Include="Views\Order\Add.cshtml" />
     <Content Include="Views\Voucher\Index.cshtml" />
     <Content Include="Views\Shared\_RowStatistics.cshtml" />
+    <Content Include="Views\Shared\_Landing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

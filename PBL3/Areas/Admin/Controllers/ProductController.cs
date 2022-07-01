@@ -76,7 +76,7 @@ namespace PBL3.Areas.Admin.Controllers
             {
 
                 TempData["AddStatus"] = false;
-                TempData["AddDetail"] = "Dữ liệu không hợp lệ";
+                TempData["AddDetail"] = ModelState.Values.SelectMany(v => v.Errors).ToList()[0].ErrorMessage;
             }
             return RedirectToAction("Index");
         }

@@ -22,7 +22,7 @@
     @RenderSection("Styles", false)
 </head>
 <body>
-    <div class="shadow p-3 m-0 row justify-content-center bg-light sticky-top">
+    <div class="shadow bg-light p-3 m-0 row justify-content-center sticky-top">
         <header class="d-flex justify-content-between align-items-center" style="width: 73.7em">
             <div class="navbar-brand">
                 @Html.ActionLink("Minishop", "Index", new { controller = "Home" }, new { @class = "text-decoration-none" })
@@ -110,49 +110,37 @@
             </div>
         </header>
     </div>
+
     <div class="container-fluid m-auto mt-5 row" style="background-color: #F0F2F5; position: relative">
         @RenderBody()
     </div>
 
-    <footer class="bg-dark text-white pt-5 pb-4 mt-5">
-        <div class="container text-dark text-md-left">
-
-            <div class="row text-start text-md-left">
-                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                    <h5 class="mb-4 font-weight-bold text-muted">Thông tin liên hệ:</h5>
-                    <a href="#" class="text-white text-decoration-none test">86 Bà Triệu, Thành Phố Huế</a>
-                    <a href="#" class="text-white text-decoration-none test">0392579605</a>
-                    <a href="#" class="text-white text-decoration-none test">minishop.pbl3@gmail.com</a>
-                </div>
-
-                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3 d-flex flex-column">
-                    <h5 class="mb-4 font-weight-bold text-muted">Chính sách hỗ trợ:</h5>
-                    <a href="#" class="text-white text-decoration-none test">Tìm kiếm</a>
-                    <a href="#" class="text-white text-decoration-none test">Giới thiệu</a>
-                    <a href="#" class="text-white text-decoration-none test">Chính sách đổi trả</a>
-                    <a href="#" class="text-white text-decoration-none test">Chính sách bảo mật</a>
-                    <a href="#" class="text-white text-decoration-none test">Điều khoản dịch vụ</a>
-                </div>
-
-                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3 d-flex flex-column">
-                    <h5 class="mb-4 font-weight-bold text-muted">Nổi bật:</h5>
-
-                    <a href="#" class="text-white text-decoration-none test">Sản phẩm khuyến mãi</a>
-                    <a href="#" class="text-white text-decoration-none test">Sản phẩm nổi bật</a>
-                    <a href="#" class="text-white text-decoration-none test">Tất cả sản phẩm</a>
-
-                </div>
-                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3 d-flex flex-column">
-                    <h5 class="mb-4 font-weight-bold text-muted">Thông tin liên kết:</h5>
-                    <a href="#" class="text-white text-decoration-none test"><i class="fa-brands fa-facebook-square"></i> Facebook</a>
-                    <a href="#" class="text-white text-decoration-none test"><i class="fa-brands fa-instagram"></i> Instagram</a>
-                </div>
+    <footer class="text-center text-lg-start bg-light text-muted mt-3">
+        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+            <div class="me-5 d-none d-lg-block">
+                <span>Liên hệ với chúng tôi:</span>
             </div>
-        </div>
-        <hr>
-        <div class="p-3 text-center">
-            © Bản quyền thuộc về minishop 2022
-        </div>
+            <div>
+                <a class="me-4 text-reset text-decoration-none">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a class="me-4 text-reset text-decoration-none">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a class="me-4 text-reset text-decoration-none">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a class="me-4 text-reset text-decoration-none">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a class="me-4 text-reset text-decoration-none">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a class="me-4 text-reset text-decoration-none">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </section>
     </footer>
     @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/bootstrap.min.js"></script>

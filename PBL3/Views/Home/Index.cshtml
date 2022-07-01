@@ -6,6 +6,7 @@
     List<Product> lastedProducts = ViewBag.lastedProduct as List<Product>;
     List<Category> categories = ViewBag.categories as List<Category>;
     List<Voucher> lastedVoucher = ViewBag.lastedVoucher as List<Voucher>;
+    Layout = "~/Views/Shared/_Landing.cshtml";
 }
 @section Styles
 {
@@ -36,9 +37,29 @@
         }
     </style>
 }
-<div class="row m-auto p-3" style="width: 73.7em">
-    <div class="col-md-8 text-center border">
-        <h3>Sản phẩm mới</h3>
+<section class="p-0 bg-light" style="height: 100vh">
+    <div class="container text-center text-md-start">
+        <div class="row d-flex">
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4 d-flex flex-column justify-content-center align-items-center">
+                <div class="text-uppercase fw-bold text-center">
+                    <img src="~/favicon.png"><h1 class="text-danger fw-bold mt-1">Minishop</h1>
+                </div>
+                <p class="text-center">
+                    Chúng tôi ở đây với xứ mệnh đảm bảo chất lượng sản phẩm và dịch vụ để mang lại cho bạn một trải nghiệm chưa từng có trong đời.
+                </p>
+                <button class="btn btn-danger col-12 ">Khám phá ngay</button>
+            </div>
+            <div class="col-8" style="position: relative;">
+                <div style="width: 400px; height: 400px;right: 20%;top:30%;position: absolute;" class="bg-danger rounded-circle"></div>
+                <script src=@("https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js")></script>
+                <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_5ngs2ksb.json" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="row m-auto mt-5 p-3" style="width: 73.7em">
+    <div class="col-md-8 text-center" style="position:relative">
+        <div class="col-12 border d-flex align-items-center justify-content-center"><h3>Sản phẩm mới</h3></div>
         <ul id="lastedProduct" class="cs-hidden">
             @foreach (Product product in lastedProducts)
             {
@@ -103,33 +124,33 @@
 </div>
 <div class="row m-auto mt-5" style="width: 77em">
     <div class="row p-2 rounded m-auto border" style="width: 73.7em">
-        @using(Html.BeginForm("Search", "Product", FormMethod.Get, new { @class = "row" }))
+        @using (Html.BeginForm("Search", "Product", FormMethod.Get, new { @class = "row" }))
         {
-        <div class="col-sm-8 d-flex p-0 align-items-center">
-            <div class="col-sm-3">
-                <select class="form-select" name="Price" id="price_search">
-                    <option value="All">Giá sản phẩm</option>
-                    <option value="100000">Dưới 100.000</option>
-                    <option value="1000000">Dưới 1.000.000</option>
-                </select>
+            <div class="col-sm-8 d-flex p-0 align-items-center">
+                <div class="col-sm-3">
+                    <select class="form-select" name="Price" id="price_search">
+                        <option value="All">Giá sản phẩm</option>
+                        <option value="100000">Dưới 100.000</option>
+                        <option value="1000000">Dưới 1.000.000</option>
+                    </select>
+                </div>
+                <div class="col-sm-3 ms-3">
+                    <select class="form-select" name="CategoryID" id="price_search">
+                        <option value="All">Loại sản phẩm</option>
+                        @foreach (Category category in categories)
+                        {
+                            <option value="@category.ID">@category.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-sm-3 ms-3">
+                    <select class="form-select" name="state" id="state_search">
+                        <option>All</option>
+                        <option value="true">Còn hàng</option>
+                        <option value="false">Hết hàng</option>
+                    </select>
+                </div>
             </div>
-            <div class="col-sm-3 ms-3">
-                <select class="form-select" name="CategoryID" id="price_search">
-                    <option value="All">Loại sản phẩm</option>
-                    @foreach (Category category in categories)
-                    {
-                        <option value="@category.ID">@category.Name</option>
-                    }
-                </select>
-            </div>
-            <div class="col-sm-3 ms-3">
-                <select class="form-select" name="state" id="state_search">
-                    <option>All</option>
-                    <option value="true">Còn hàng</option>
-                    <option value="false">Hết hàng</option>
-                </select>
-            </div>
-        </div>
             <div class="col-sm-4 p-0 d-flex align-items-center">
                 <div class="input-group m-0">
                     <input type="text" class="form-control" id="keyword_search" name="keyword" placeholder="Nhập từ khóa tìm kiếm">
@@ -148,7 +169,7 @@
                          style="width: 100%; height: 250px;object-fit: cover;">
                 </a>
                 <figcaption class="text-start p-2 m-0">
-                    <a class="m-0 fw-bold text-dark text-decoration-none" href=""@Url.Action("Index", "Product", new { id = product.ID })"">@product.Name</a>
+                    <a class="m-0 fw-bold text-dark text-decoration-none" href="" @Url.Action("Index", "Product", new { id = product.ID }) "">@product.Name</a>
                     <p class="m-0 text-danger">@String.Format("{0:0,0}", product.Price) đ</p>
                     <div class="m-0 d-flex justify-content-between align-items-center">
                         @if (product.Stock > 0)
