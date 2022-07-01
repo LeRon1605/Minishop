@@ -61,7 +61,14 @@
                 {
                 <tr>
                     <td class="STT">@(i + 1)</td>
-                    <td>@Model[i].ProductOrder.Product.Name</td>
+                    @if (Model[i].ProductOrder.Product == null)
+                    {
+                        <td>Sản phẩm đã bị xóa</td>
+                    }
+                    else
+                    {
+                        <td>@Model[i].ProductOrder.Product.Name</td>
+                    }
                     <td>@Model[i].User.Name</td>
                     <td>@Model[i].Rate</td>
                     @if (Model[i].isDeleted)

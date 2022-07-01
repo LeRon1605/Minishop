@@ -20,12 +20,15 @@ namespace Models.BLL
         {
             return context.Products.AsNoTracking().ToList();
         }
-        public List<Product> getPage(int page, int pageSize, bool? state, string keyword, string categoryID, string price, out int totalRow)
+        public List<Product> getPage(int page, int pageSize, bool? state, string keyword, string categoryID, string minValue, string maxValue, out int totalRow)
         {
             totalRow = 0;
             if (page > 0)
             {
                 CategoryBUS categoryDAO = new CategoryBUS();
+                int min, max;
+                if (!int.TryParse(minValue, out min)) min = 0;
+                if (!int.TryParse(maxValue, out max)) max = int.MaxValue;
                 List<Product> products = context.Products.AsNoTracking().Select(product => new Product
                 {
                     ID = product.ID,
@@ -39,7 +42,7 @@ namespace Models.BLL
                 }).Where(product => (
                     (product.Name.Contains(keyword) || keyword == "") &&
                     (categoryID == "All" || categoryID == null || product.CategoryID == int.Parse(categoryID)) &&
-                    (price == "All" || product.Price <= int.Parse(price)) && (state == null || (bool)state == (product.Stock > 0))
+                    (product.Price >= min && product.Price <= max) && (state == null || (bool)state == (product.Stock > 0))
                 )).ToList();
                 totalRow = (int)Math.Ceiling((double)products.Count() / pageSize);
                 if (pageSize >= products.Count()) return products;

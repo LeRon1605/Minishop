@@ -35,26 +35,34 @@ namespace PBL3.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel data)
         {
-            if (Session["USER"] == null)
+            if (ModelState.IsValid)
             {
-                User user = new UserBUS().Login(data.Email, Encryptor.MD5Hash(data.Password));
-                if (user != null)
+                if (Session["USER"] == null)
                 {
-                    Session["USER"] = user.ID;
-                    Role role = new RoleBUS().find((int)user.RoleID);
-                    if (role.Name == "ADMIN") return RedirectToAction("Index", "Home", new { area = "Admin" });
-                    else return RedirectToAction("Index", "Home");
+                    User user = new UserBUS().Login(data.Email, Encryptor.MD5Hash(data.Password));
+                    if (user != null)
+                    {
+                        Session["USER"] = user.ID;
+                        Role role = new RoleBUS().find((int)user.RoleID);
+                        if (role.Name == "ADMIN") return RedirectToAction("Index", "Home", new { area = "Admin" });
+                        else return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Tài khoản hoặc mật khẩu không đúng";
+                        return RedirectToAction("Login");
+                    }
                 }
                 else
                 {
-                    TempData["Message"] = "Tài khoản hoặc mật khẩu không đúng";
-                    return View("Login");
+                    return RedirectToAction("Index", "Home");
                 }
             }
             else
             {
-                return RedirectToAction("Index", "Home"); 
-            }  
+                TempData["Message"] = ModelState.Values.SelectMany(v => v.Errors).ToList()[0].ErrorMessage;
+                return RedirectToAction("Login");
+            }
         }
         public ActionResult Logout()
         {

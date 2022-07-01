@@ -124,39 +124,51 @@
 </div>
 <div class="row m-auto mt-5" style="width: 77em">
     <div class="row p-2 rounded m-auto border" style="width: 73.7em">
-        @using (Html.BeginForm("Search", "Product", FormMethod.Get, new { @class = "row" }))
+        @using (Html.BeginForm("Search", "Product", FormMethod.Get, new { @class = "row d-flex justify-content-center" }))
         {
-            <div class="col-sm-8 d-flex p-0 align-items-center">
-                <div class="col-sm-3">
-                    <select class="form-select" name="Price" id="price_search">
-                        <option value="All">Giá sản phẩm</option>
-                        <option value="100000">Dưới 100.000</option>
-                        <option value="1000000">Dưới 1.000.000</option>
-                    </select>
+            <div class="row">
+                <div class="col-sm-9 row">
+                    <div class="col-sm-3">
+                        <label class="form-label">Loại sản phẩm</label>
+                        <select class="form-select" name="CategoryID" id="category_search">
+                            <option value="All">All</option>
+                            @foreach (Category category in categories)
+                            {
+                                <option value="@category.ID">@category.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-5">
+                        <label class="form-label align-items-center">Giá sản phẩm</label>
+                        <div class="d-flex align-items-center">
+                            <div class="col-6">
+                                <input name="minValue" type="number" placeholder="Nhập giá thấp nhất" class="form-control col-3" id="minValue_search" />
+                            </div>
+
+                            <span class="p-2 fw-bold">-</span>
+                            <div class="col-6">
+                                <input name="maxValue" type="number" placeholder="Nhập giá cao nhất" class="form-control col-3" id="maxValue_search" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 ms-3">
+                        <label class="form-label">Tình trạng</label>
+                        <select class="form-select" name="state" id="state_search">
+                            <option value="">All</option>
+                            <option value="true">Còn hàng</option>
+                            <option value="false">Hết hàng</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-sm-3 ms-3">
-                    <select class="form-select" name="CategoryID" id="price_search">
-                        <option value="All">Loại sản phẩm</option>
-                        @foreach (Category category in categories)
-                        {
-                            <option value="@category.ID">@category.Name</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-sm-3 ms-3">
-                    <select class="form-select" name="state" id="state_search">
-                        <option>All</option>
-                        <option value="true">Còn hàng</option>
-                        <option value="false">Hết hàng</option>
-                    </select>
+                <div class="col-sm-3 p-0 ms-auto">
+                    <label class="form-label">Tìm kiếm</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="keyword_search" name="keyword" placeholder="Nhập từ khóa tìm kiếm">
+                        <button class="btn btn-primary" type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
                 </div>
             </div>
-            <div class="col-sm-4 p-0 d-flex align-items-center">
-                <div class="input-group m-0">
-                    <input type="text" class="form-control" id="keyword_search" name="keyword" placeholder="Nhập từ khóa tìm kiếm">
-                    <button class="btn btn-primary" type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </div>
-            </div>
+
         }
     </div>
     <div class="p-0 justify-content-md-center m-auto mt-3" style="display: inline-block;width: 73.7em">

@@ -20,8 +20,7 @@ namespace Models.BLL
             {
                 using (ShopOnlineDbContext context = new ShopOnlineDbContext())
                 {
-                    totalRow = (int)Math.Ceiling(context.Users.Count() / (double)pageSize);
-                    return context.Users.Select(user => new User {
+                    List<User> list = context.Users.Select(user => new User {
                         ID = user.ID,
                         Name = user.Name,
                         Email = user.Email,
@@ -34,10 +33,9 @@ namespace Models.BLL
                         CreatedAt = user.CreatedAt,
                         Role = user.Role,
                         UpdatedAt = user.UpdatedAt
-                    })
-                        .Where(user => user.Role.Name == "USER" && (user.ID.ToString().Contains(keyword) || user.Name.Contains(keyword) || user.Email.Contains(keyword)))
-                        .Skip((page - 1) * pageSize).Take(pageSize)
-                        .ToList();
+                    }).Where(user => user.Role.Name == "USER" && (user.ID.ToString().Contains(keyword) || user.Name.Contains(keyword) || user.Email.Contains(keyword))).ToList();
+                    totalRow = (int)Math.Ceiling((double)list.Count() / pageSize);
+                    return list.Skip((page - 1) * pageSize).Take(pageSize).ToList();
                 }    
             }
             return null;

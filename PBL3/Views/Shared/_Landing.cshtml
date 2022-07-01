@@ -65,7 +65,7 @@
                 {
                     User user = new UserBUS().find((int)Session["USER"]);
                     <div class="dropdown">
-                        <a class="btn dropdown-toggle text-primary p-2" href="@Url.Action("Index", "User", new {area = string.Empty})" data-bs-toggle="dropdown" aria-expanded="false" style="border: none">
+                        <a class="btn dropdown-toggle text-primary p-2 text-danger fw-bold" href="@Url.Action("Index", "User", new {area = string.Empty})" data-bs-toggle="dropdown" aria-expanded="false" style="border: none">
                             @if (user != null)
                             {@user.Name}
                         </a>
@@ -115,34 +115,6 @@
     <div class="m-auto row" style="background-color: #F0F2F5; position: relative">
         @RenderBody()
     </div>
-
-    <footer class="text-center text-lg-start bg-light text-muted mt-3">
-        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-            <div class="me-5 d-none d-lg-block">
-                <span>Liên hệ với chúng tôi:</span>
-            </div>
-            <div>
-                <a class="me-4 text-reset text-decoration-none">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a class="me-4 text-reset text-decoration-none">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a class="me-4 text-reset text-decoration-none">
-                    <i class="fab fa-google"></i>
-                </a>
-                <a class="me-4 text-reset text-decoration-none">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a class="me-4 text-reset text-decoration-none">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                <a class="me-4 text-reset text-decoration-none">
-                    <i class="fab fa-github"></i>
-                </a>
-            </div>
-        </section>
-    </footer>
     <script>
         window.addEventListener('scroll', (event) => {
             if (window.scrollY > 0) {
