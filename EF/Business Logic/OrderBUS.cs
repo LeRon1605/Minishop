@@ -125,10 +125,10 @@ namespace Models.BLL
                                          {
                                              new StateOrder { State = StateBUS.getCurrentProductState(order.ID) }
                                          }
-                                     }).ToList();
+                                     }).AsEnumerable().Where(order => (order.UserID.ToString().Contains(keyword) || order.User.Name.Contains(keyword) || order.ID.ToString().Contains(keyword)) && (stateID == 0 || order.StateOrder.First().State.ID == stateID) && (order.CreatedAt.Date >= ((DateTime)startDate).Date && order.CreatedAt.Date <= ((DateTime)endDate).Date))
+                                       .ToList();
                 totalRow = (int)Math.Ceiling((double)orders.Count() / pageSize);
-                return orders.Where(order => (order.UserID.ToString().Contains(keyword) || order.User.Name.Contains(keyword) || order.ID.ToString().Contains(keyword)) && (stateID == 0 || order.StateOrder.First().State.ID == stateID) && (order.CreatedAt.Date >= ((DateTime)startDate).Date && order.CreatedAt.Date <= ((DateTime)endDate).Date))
-                                     .Skip(pageSize * (page - 1)).Take(pageSize).ToList();
+                return orders.Skip(pageSize * (page - 1)).Take(pageSize).ToList();
             }
         }    
 
